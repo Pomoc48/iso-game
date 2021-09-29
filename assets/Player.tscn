@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+roughness = 0.5
+emission_enabled = true
+emission = Color( 1, 0.164706, 0, 1 )
+emission_energy = 16.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="SphereMesh" id=2]
+material = SubResource( 1 )
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+params_blend_mode = 1
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, -0.287071, 0, 0, Vector2( 1, 0.220471 ), -1.7771, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3( 0, 0, 0 )
+gravity = Vector3( 0, 9.8, 0 )
+initial_velocity_random = 1.0
+linear_accel_random = 0.2
+tangential_accel = 1.1
+tangential_accel_random = 0.2
+scale = 3.08
+scale_random = 1.0
+scale_curve = SubResource( 5 )
+
+[sub_resource type="SphereMesh" id=7]
+radius = 0.2
+height = 0.4
+radial_segments = 8
+rings = 4
+
+[node name="Player" type="Spatial"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+
+[node name="Spatial" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43469, 0 )
+visible = false
+material_override = SubResource( 3 )
+amount = 200
+lifetime = 1.6
+preprocess = 2.0
+speed_scale = 1.38
+visibility_aabb = AABB( -2, -2, -2, 4, 4, 4 )
+local_coords = false
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 7 )

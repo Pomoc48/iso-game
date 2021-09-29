@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=2]
+[ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "CameraDown"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -0.00108495, 0, 0.8 ),
+"transitions": PoolRealArray( 0.450625, 1, 0 ),
+"update": 0,
+"values": [ Vector3( -8, 30, 8 ), Vector3( -8, 35, 8 ), Vector3( -8, 11, 8 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "CameraUp"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 0 ),
+"update": 0,
+"values": [ Vector3( -8, 11, 8 ), Vector3( -8, 35, 8 ) ]
+}
+
+[node name="Level" type="Spatial"]
+
+[node name="Platforms" type="Spatial" parent="."]
+
+[node name="Start" parent="Platforms" instance=ExtResource( 3 )]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3, 0 )
+script = ExtResource( 2 )
+
+[node name="Camera" type="Camera" parent="Player"]
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353553, 0.353553, -0.25, 0.25, -8, 35, 8 )
+projection = 1
+size = 36.0
+near = 0.01
+far = 646.3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Camera"]
+anims/CameraDown = SubResource( 1 )
+anims/CameraUp = SubResource( 2 )
