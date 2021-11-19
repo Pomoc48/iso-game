@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=2]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=3]
+[ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "CameraDown"
@@ -56,3 +57,6 @@ far = 646.3
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Camera"]
 anims/CameraDown = SubResource( 1 )
 anims/CameraUp = SubResource( 2 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 4 )
