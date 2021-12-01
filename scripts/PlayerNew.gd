@@ -2,6 +2,7 @@ extends Spatial
 
 
 var cameraAnimation
+var cameraRotation
 var level
 var platformI
 var platform
@@ -30,6 +31,7 @@ var prev_direction: int
 var total_platforms: int
 var session_score: int
 var speedup_counter: int
+var camera_rotation_index: int
 
 
 var prev_block: String
@@ -49,7 +51,8 @@ func _ready():
 	
 	randomize()
 
-	cameraAnimation = get_node("Camera/AnimationPlayer")
+	cameraAnimation = get_node("Camera/CameraPan")
+	cameraRotation = get_node("CameraRotation")
 	level = get_node("/root/Level/Platforms")
 	playerLight = get_node("PlayerLight")
 	
@@ -57,6 +60,7 @@ func _ready():
 	session_score = 0
 	speedup_counter = 0
 	total_platforms = 1
+	camera_rotation_index = 3
 
 	life_loss_rate_f = 0.04
 	life_gain_f = 2
@@ -88,7 +92,7 @@ func _physics_process(_delta):
 			
 		else: startStopAnim(0, false)
 
-	if playerLight.omni_range <= 0:
+	if (playerLight.omni_range <= 0) && !playerDead:
 		gameOver()
 
 
@@ -97,36 +101,65 @@ func correctScoreCalculation():
 	session_score += 1
 	speedup_counter += 1
 
+	generatePlatform()
+	giveHealth(life_gain_f)
+
 	if speedup_counter >= 10:
 
 		life_loss_rate_f += 0.01
 		life_gain_f += 0.25
 		speedup_counter = 0
 
-	generatePlatform()
-	giveHealth(life_gain_f)
+		#canMove = false
+
+		camera_rotation_index += 1
+
+		if camera_rotation_index > 3:
+			camera_rotation_index = 0
+			cameraRotation.play("RotationCW0")
+
+		if camera_rotation_index == 1:
+			cameraRotation.play("RotationCW1")
+
+		elif camera_rotation_index == 2:
+			cameraRotation.play("RotationCW2")
+
+		elif camera_rotation_index == 3:
+			cameraRotation.play("RotationCW3")
+
+		#yield(get_tree().create_timer(5.5), "timeout")
+		#canMove = true
 
 
 func startStopAnim(direction: int, start: bool):
 	
 	if start:
-		anim_direction = direction
+		anim_direction = retranslateDirection(direction)
+		print(anim_direction)
 		
-		if isMoveLegal():
-			correctScoreCalculation()
-
+		if isMoveLegal(): correctScoreCalculation()
 		else: gameOver()
 		
 		isAnimating = true
 		canMove = false
 		anim_progress = 0
 		
-	else:
-
-		if !playerDead:
+	elif !playerDead:
 
 			isAnimating = false
 			canMove = true
+
+
+func retranslateDirection(dir: int) -> int:
+
+	if camera_rotation_index != 3:
+
+		dir -= (camera_rotation_index + 1)
+
+		if dir < 0:
+			dir += 4
+
+	return dir
 
 
 func playerMove(direction: int):
