@@ -129,13 +129,27 @@ func correctScoreCalculation():
 		life_gain_f += 0.25
 		speedup_counter = 0
 
+		# Get random rotation direction
+		var clockwise: bool = randomBool()
+		
 		# Camera rotation section
-		camera_rotation_index += 1
+		if clockwise: camera_rotation_index += 1
+		else: camera_rotation_index -= 1
+
+		# camera_rotation_index = 3 -> DEFAULT
 
 		if camera_rotation_index > 3:
 			camera_rotation_index = 0
 
-		cameraRotation.play("RotationCW" + str(camera_rotation_index))
+		if camera_rotation_index < 0:
+			camera_rotation_index = 3
+
+		if clockwise:
+			cameraRotation.play("RotationCW" + str(camera_rotation_index))
+
+		else:
+			var ccwArray = ["2", "1", "0", "3"]
+			cameraRotation.play("RotationCCW" + ccwArray[camera_rotation_index])
 
 
 func giveHealth(ammount: float):
@@ -189,7 +203,7 @@ func playerMove(direction: int):
 
 
 # Get position for the new platform
-func getFuturePos():
+func getFuturePos() -> Vector3:
 	
 	var futurePos = self.translation
 	futurePos.y = -16
@@ -198,7 +212,7 @@ func getFuturePos():
 
 
 # Translate directions to vectors
-func directionCalc(dir, vect, ammo):
+func directionCalc(dir, vect, ammo) -> Vector3:
 	
 	if dir == 0: vect.x += ammo
 	elif dir == 1: vect.z += ammo
@@ -217,7 +231,7 @@ func isMoveLegal() -> bool:
 		return true
 		
 	else:
-		# Checking for wrong moves to check backtracking
+		# Checking for wrong moves
 
 		if anim_direction == 0:
 			return !checkMatch("Corner0", "Corner1", "Long1", 2)
@@ -247,8 +261,19 @@ func checkMatch(corner1, corner2, long, direction) -> bool:
 	else: return false
 
 
+func randomBool() -> bool:
+
+	# Bigger range for better randomness
+	var foo = randi() % 100
+
+	if foo < 50:
+		return false
+	else:
+		return true
+
+
 func generatePlatform():
-	
+
 	var randomNumber = randi() % 3
 
 	# Save for latter backtracking check

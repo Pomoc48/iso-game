@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=2]
@@ -9,6 +9,10 @@
 [ext_resource path="res://anim/Rotations/RotationCW0.tres" type="Animation" id=7]
 [ext_resource path="res://anim/Rotations/RotationCW3.tres" type="Animation" id=8]
 [ext_resource path="res://anim/Rotations/RotationCW2.tres" type="Animation" id=9]
+[ext_resource path="res://anim/Rotations/RotationCCW2.tres" type="Animation" id=10]
+[ext_resource path="res://anim/Rotations/RotationCCW3.tres" type="Animation" id=11]
+[ext_resource path="res://anim/Rotations/RotationCCW0.tres" type="Animation" id=12]
+[ext_resource path="res://anim/Rotations/RotationCCW1.tres" type="Animation" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "CameraDown"
@@ -68,6 +72,10 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3, 0 )
 script = ExtResource( 2 )
 
 [node name="CameraRotation" type="AnimationPlayer" parent="Player"]
+anims/RotationCCW0 = ExtResource( 12 )
+anims/RotationCCW1 = ExtResource( 13 )
+anims/RotationCCW2 = ExtResource( 10 )
+anims/RotationCCW3 = ExtResource( 11 )
 anims/RotationCW0 = ExtResource( 7 )
 anims/RotationCW1 = ExtResource( 6 )
 anims/RotationCW2 = ExtResource( 9 )
