@@ -1,10 +1,11 @@
 extends Spatial
 
 
-var camera
+var cameraAnimation
 var level
 var platformI
 var platform
+var playerLight
 
 
 const SPEED = 2
@@ -16,11 +17,18 @@ const HISTORY = 4
 var firstMove: bool
 var canMove: bool
 var isAnimating: bool
+var playerDead: bool
+
+
+var life_loss_rate_f: float
+
 
 var anim_progress: int
 var anim_direction: int
 var prev_direction: int
 var total_platforms: int
+var player_life: int
+
 
 var prev_block: String
 
@@ -38,15 +46,20 @@ var pMoves = [
 func _ready():
 	
 	randomize()
-	camera = get_node("Camera")
+
+	cameraAnimation = get_node("Camera/AnimationPlayer")
 	level = get_node("/root/Level/Platforms")
-	
+	playerLight = get_node("PlayerLight")
 	
 	firstMove = true
 	total_platforms = 1
+
+	player_life = 200
+	life_loss_rate_f = 0.04
+	playerLight.omni_range = 24
+
 	startStopAnim(0, false)
-	
-	get_node("Camera/AnimationPlayer").play("CameraDown")
+	cameraAnimation.play("CameraDown")
 
 
 func _process(_delta):
@@ -58,6 +71,8 @@ func _process(_delta):
 
 
 func _physics_process(_delta):
+
+	playerLight.omni_range -= life_loss_rate_f
 	
 	if isAnimating:
 		
@@ -74,7 +89,10 @@ func startStopAnim(direction: int, start: bool):
 	if start:
 		anim_direction = direction
 		
-		if isMoveLegal(): generatePlatform()
+		if isMoveLegal():
+			generatePlatform()
+			giveHealth(8)
+
 		else: gameOver()
 		
 		isAnimating = true
@@ -82,8 +100,11 @@ func startStopAnim(direction: int, start: bool):
 		anim_progress = 0
 		
 	else:
-		isAnimating = false
-		canMove = true
+
+		if !playerDead:
+
+			isAnimating = false
+			canMove = true
 
 
 func playerMove(direction: int):
@@ -135,6 +156,9 @@ func isMoveLegal():
 			if checkMatch("Corner0", "Corner3", "Long0", 1):
 				return false
 			
+		elif !canMove:
+			return false
+
 		return true
 
 
@@ -173,10 +197,21 @@ func generatePlatform():
 
 func gameOver():
 	
+	canMove = false
+	playerDead = true
+
 	print("Game Over!")
-	get_node("Camera/AnimationPlayer").play("CameraUp")
+	cameraAnimation.play("CameraUp")
 	
 	yield(get_tree().create_timer(1.0), "timeout")
 	# warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()
 
+
+func giveHealth(ammount: int):
+
+	if (playerLight.omni_range + ammount) > 24:
+		playerLight.omni_range = 24
+
+	else:
+		playerLight.omni_range += ammount

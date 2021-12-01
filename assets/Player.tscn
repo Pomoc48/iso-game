@@ -48,7 +48,7 @@ radial_segments = 8
 rings = 4
 
 [node name="Player" type="Spatial"]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0 )
 
 [node name="Spatial" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )

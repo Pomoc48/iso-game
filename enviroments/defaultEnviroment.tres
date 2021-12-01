@@ -2,7 +2,8 @@
 
 [resource]
 background_mode = 1
-ambient_light_color = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
+ambient_light_energy = 0.0
+ambient_light_sky_contribution = 0.0
 fog_sun_amount = 0.59
 ss_reflections_roughness = false
 dof_blur_far_distance = 53.12
