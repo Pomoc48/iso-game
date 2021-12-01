@@ -21,13 +21,15 @@ var playerDead: bool
 
 
 var life_loss_rate_f: float
+var life_gain_f: float
 
 
 var anim_progress: int
 var anim_direction: int
 var prev_direction: int
 var total_platforms: int
-var player_life: int
+var session_score: int
+var speedup_counter: int
 
 
 var prev_block: String
@@ -52,10 +54,12 @@ func _ready():
 	playerLight = get_node("PlayerLight")
 	
 	firstMove = true
+	session_score = 0
+	speedup_counter = 0
 	total_platforms = 1
 
-	player_life = 200
 	life_loss_rate_f = 0.04
+	life_gain_f = 2
 	playerLight.omni_range = 24
 
 	startStopAnim(0, false)
@@ -72,7 +76,8 @@ func _process(_delta):
 
 func _physics_process(_delta):
 
-	playerLight.omni_range -= life_loss_rate_f
+	if !firstMove:
+		playerLight.omni_range -= life_loss_rate_f
 	
 	if isAnimating:
 		
@@ -83,6 +88,24 @@ func _physics_process(_delta):
 			
 		else: startStopAnim(0, false)
 
+	if playerLight.omni_range <= 0:
+		gameOver()
+
+
+func correctScoreCalculation():
+
+	session_score += 1
+	speedup_counter += 1
+
+	if speedup_counter >= 10:
+
+		life_loss_rate_f += 0.01
+		life_gain_f += 0.25
+		speedup_counter = 0
+
+	generatePlatform()
+	giveHealth(life_gain_f)
+
 
 func startStopAnim(direction: int, start: bool):
 	
@@ -90,8 +113,7 @@ func startStopAnim(direction: int, start: bool):
 		anim_direction = direction
 		
 		if isMoveLegal():
-			generatePlatform()
-			giveHealth(8)
+			correctScoreCalculation()
 
 		else: gameOver()
 		
@@ -155,9 +177,6 @@ func isMoveLegal():
 		elif anim_direction == 3:
 			if checkMatch("Corner0", "Corner3", "Long0", 1):
 				return false
-			
-		elif !canMove:
-			return false
 
 		return true
 
@@ -197,10 +216,10 @@ func generatePlatform():
 
 func gameOver():
 	
-	canMove = false
 	playerDead = true
 
 	print("Game Over!")
+	print("Final Score:", session_score)
 	cameraAnimation.play("CameraUp")
 	
 	yield(get_tree().create_timer(1.0), "timeout")
@@ -208,7 +227,7 @@ func gameOver():
 	get_tree().reload_current_scene()
 
 
-func giveHealth(ammount: int):
+func giveHealth(ammount: float):
 
 	if (playerLight.omni_range + ammount) > 24:
 		playerLight.omni_range = 24
