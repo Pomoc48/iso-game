@@ -90,7 +90,19 @@ func _process(_delta):
 			if Input.is_action_pressed(keys[x]):
 				startStopAnim(x, true)
 
-	
+
+# Connect UI buttons
+func _on_Left_button_down():
+	startStopAnim(3, true)
+
+func _on_Right_button_down():
+	startStopAnim(1, true)
+
+func _on_Down_button_down():
+	startStopAnim(2, true)
+
+func _on_Up_button_down():
+	startStopAnim(0, true)				
 
 
 # Runs every game tick
@@ -311,20 +323,3 @@ func gameOver():
 	yield(get_tree().create_timer(1.0), "timeout")
 	# warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()
-
-
-
-func _on_Left_button_down():
-	startStopAnim(3, true)
-
-
-func _on_Right_button_down():
-	startStopAnim(1, true)
-
-
-func _on_Down_button_down():
-	startStopAnim(2, true)
-
-
-func _on_Up_button_down():
-	startStopAnim(0, true)
