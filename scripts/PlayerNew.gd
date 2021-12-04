@@ -1,16 +1,20 @@
 extends Spatial
 
 
-var cameraAnimation
-var cameraRotation
 var level
 var platformI
 var platform
 var healthBar
-var healthAnimation
 var screenSize
 var scoreText
+var intMain
+
+var cameraRotation
+var buttonsAnimLeft
+var buttonsAnimRight
 var textAnim
+var cameraAnimation
+var healthAnimation
 
 
 const SPEED = 2
@@ -69,9 +73,13 @@ func _ready():
 	cameraRotation = get_node("CameraRotation")
 	level = get_node("/root/Level/Platforms")
 
-	healthBar = get_node("/root/Level/Interface/Main/Health")
-	healthAnimation = get_node("/root/Level/Interface/Main/Health/HealthAnim")
-	scoreText = get_node("/root/Level/Interface/Label")
+	intMain = get_node("/root/Level/Interface/Main")
+	healthBar = intMain.get_node("Health")
+	healthAnimation = intMain.get_node("Health/HealthAnim")
+	buttonsAnimLeft = intMain.get_node("Left/ShowHide")
+	buttonsAnimRight = intMain.get_node("Right/ShowHide")
+
+	scoreText = get_node("/root/Level/Interface/Main/Label")
 	textAnim = scoreText.get_node("Bump")
 	
 	initialVarDeclaration()
@@ -99,14 +107,14 @@ func initialVarDeclaration():
 	player_health = FULL_HEALTH
 
 
-# # Runs every frame
-# func _process(_delta):
+# Runs every frame
+func _process(_delta):
 	
-# 	# Keyboard input collection
-# 	if canMove:
-# 		for x in range(0,4):
-# 			if Input.is_action_pressed(keys[x]):
-# 				startStopAnim(x, true)
+	# Keyboard input collection
+	if canMove:
+		for x in range(0,4):
+			if Input.is_action_pressed(keys[x]):
+				startStopAnim(x, true)
 
 
 # Prevent double inputs
@@ -411,6 +419,11 @@ func gameOver():
 	# Wait for outro anim and restart
 	cameraAnimation.play("CameraUp")
 	healthAnimation.play("HealthUp")
+	textAnim.play("Hide")
+
+	buttonsAnimRight.play("Hide")
+	buttonsAnimLeft.play("Hide")
+
 	yield(get_tree().create_timer(1.0), "timeout")
 	# warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()

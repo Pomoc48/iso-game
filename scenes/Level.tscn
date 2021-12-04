@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -20,10 +20,59 @@
 [ext_resource path="res://assets/fonts/montreal/Montreal-Bold.ttf" type="DynamicFontData" id=18]
 [ext_resource path="res://anim/TextAnim.tres" type="Animation" id=19]
 [ext_resource path="res://assets/textures/Arrow2.png" type="Texture" id=20]
+[ext_resource path="res://anim/Ui/ShowLeft.tres" type="Animation" id=21]
+[ext_resource path="res://anim/Ui/HideRight.tres" type="Animation" id=23]
+
+[sub_resource type="Animation" id=9]
+resource_name = "Hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 36.0, 90.0 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Right:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -36.0, -90.0 ]
+}
 
 [sub_resource type="DynamicFont" id=5]
 size = 80
 font_data = ExtResource( 18 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "Hide"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -180 ) ]
+}
 
 [sub_resource type="Animation" id=6]
 length = 0.001
@@ -53,7 +102,7 @@ tracks/0/keys = {
 "times": PoolRealArray( -0.00108495, 0, 0.8 ),
 "transitions": PoolRealArray( 0.450625, 1, 0 ),
 "update": 0,
-"values": [ Vector3( -8, 30, 8 ), Vector3( -8, 35, 8 ), Vector3( -8, 11, 8 ) ]
+"values": [ Vector3( -8, 30, 8 ), Vector3( -8, 40, 8 ), Vector3( -8, 11, 8 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -69,7 +118,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.8 ),
 "transitions": PoolRealArray( 1, 0 ),
 "update": 0,
-"values": [ Vector3( -8, 11, 8 ), Vector3( -8, 35, 8 ) ]
+"values": [ Vector3( -8, 11, 8 ), Vector3( -8, 40, 8 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -121,12 +170,13 @@ __meta__ = {
 [node name="Left" type="NinePatchRect" parent="Interface/Main"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 117.0
-margin_top = -378.0
-margin_right = 697.0
-margin_bottom = -128.0
+margin_left = 310.0
+margin_top = -630.0
+margin_right = 890.0
+margin_bottom = -380.0
 rect_rotation = 36.0
 rect_scale = Vector2( 0.75, 0.75 )
+rect_pivot_offset = Vector2( -500, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -158,17 +208,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/Left"]
+autoplay = "Show"
+anims/Hide = SubResource( 9 )
+anims/Show = ExtResource( 21 )
+
 [node name="Right" type="NinePatchRect" parent="Interface/Main"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -464.0
-margin_top = -117.0
-margin_right = 116.0
-margin_bottom = 133.0
-rect_rotation = -36.0
+margin_left = -887.0
+margin_top = -626.0
+margin_right = -307.0
+margin_bottom = -376.0
+rect_rotation = -90.0
 rect_scale = Vector2( 0.75, 0.75 )
+rect_pivot_offset = Vector2( 1080, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Down" type="TextureButton" parent="Interface/Main/Right"]
 anchor_top = 0.5
@@ -197,6 +256,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/Right"]
+root_node = NodePath("../../Left")
+autoplay = "Show"
+anims/Hide = SubResource( 10 )
+anims/Show = ExtResource( 23 )
+
 [node name="Health" type="Control" parent="Interface/Main"]
 anchor_right = 1.0
 margin_top = -16.0
@@ -221,12 +286,11 @@ root_node = NodePath("../Bar")
 anims/HealthDown = ExtResource( 16 )
 anims/HealthUp = ExtResource( 17 )
 
-[node name="Label" type="Label" parent="Interface"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -250.0
-margin_right = 250.0
-margin_bottom = 128.0
+[node name="Label" type="Label" parent="Interface/Main"]
+anchor_right = 1.0
+anchor_bottom = 0.178
+margin_right = -10.0
+margin_bottom = -0.160004
 custom_fonts/font = SubResource( 5 )
 align = 1
 valign = 1
@@ -234,7 +298,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Bump" type="AnimationPlayer" parent="Interface/Label"]
+[node name="Bump" type="AnimationPlayer" parent="Interface/Main/Label"]
+anims/Hide = SubResource( 8 )
 anims/RESET = SubResource( 6 )
 anims/TextAnim = ExtResource( 19 )
 
@@ -257,7 +322,7 @@ anims/RotationCW2 = ExtResource( 3 )
 anims/RotationCW3 = ExtResource( 7 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353553, 0.353553, -0.25, 0.25, -8, 35, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353553, 0.353553, -0.25, 0.25, -8, 40, 8 )
 projection = 1
 size = 36.0
 near = 0.01
@@ -268,11 +333,10 @@ anims/CameraDown = SubResource( 1 )
 anims/CameraUp = SubResource( 2 )
 
 [node name="PlayerLight" type="OmniLight" parent="Player"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 light_color = Color( 0.227451, 0.870588, 0.870588, 1 )
 light_bake_mode = 0
-omni_range = 24.0
-omni_attenuation = 3.0
+omni_range = 32.0
+omni_attenuation = 2.0
 
 [node name="LightFlicker" type="AnimationPlayer" parent="Player/PlayerLight"]
 autoplay = "PulseLight"
