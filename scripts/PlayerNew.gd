@@ -7,6 +7,8 @@ var level
 var platformI
 var platform
 var playerLight
+var healthBar
+var healthAnimation
 
 
 const SPEED = 2
@@ -60,6 +62,10 @@ func _ready():
 	cameraAnimation = get_node("Camera/CameraPan")
 	cameraRotation = get_node("CameraRotation")
 	level = get_node("/root/Level/Platforms")
+
+	healthBar = get_node("/root/Level/Interface/Main/Health")
+	healthAnimation = get_node("/root/Level/Interface/Main/Health/Bar/HealthAnim")
+
 	# Player life's representation
 	playerLight = get_node("PlayerLight")
 	
@@ -122,6 +128,7 @@ func _physics_process(_delta):
 	# Loose hp after game started
 	if !firstMove && !cameraRotating:
 		playerLight.omni_range -= life_loss_rate_f
+		calculateHealthBar()
 	
 	# Animation speed not afected by framerate
 	if isAnimating:
@@ -141,6 +148,14 @@ func _physics_process(_delta):
 	# No life gameover check
 	if (playerLight.omni_range <= 0) && !playerDead:
 		gameOver()
+
+
+func calculateHealthBar():
+	# 24 = 1280
+	var health: int = playerLight.omni_range * 53
+	var pos = Vector2(health, 16)
+
+	healthBar.set_size(pos, false)
 
 
 func correctScoreCalculation():
@@ -289,6 +304,10 @@ func isMoveLegal() -> bool:
 
 		# First move always legal
 		firstMove = false
+
+		# Show healthbar
+		healthAnimation.play("HealthDown")
+
 		return true
 		
 	else:
@@ -367,6 +386,7 @@ func gameOver():
 
 	# Wait for outro anim and restart
 	cameraAnimation.play("CameraUp")
+	healthAnimation.play("HealthUp")
 	yield(get_tree().create_timer(1.0), "timeout")
 	# warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -14,6 +14,9 @@
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://assets/Player.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/textures/square.png" type="Texture" id=15]
+[ext_resource path="res://anim/HealthDown.tres" type="Animation" id=16]
+[ext_resource path="res://anim/scenesHealthUp.tres" type="Animation" id=17]
 
 [sub_resource type="Animation" id=1]
 resource_name = "CameraDown"
@@ -165,6 +168,29 @@ texture_pressed = ExtResource( 12 )
 texture_hover = ExtResource( 12 )
 texture_disabled = ExtResource( 12 )
 texture_focused = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Control" parent="Interface/Main"]
+anchor_right = 1.0
+margin_top = -16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bar" type="TextureRect" parent="Interface/Main/Health"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 15 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthAnim" type="AnimationPlayer" parent="Interface/Main/Health/Bar"]
+anims/HealthDown = ExtResource( 16 )
+anims/HealthUp = ExtResource( 17 )
 
 [node name="Platforms" type="Spatial" parent="."]
 
