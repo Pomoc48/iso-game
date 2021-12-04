@@ -21,6 +21,7 @@ var canMove: bool
 var isAnimating: bool
 var isAnimatingRebounce: bool
 var playerDead: bool
+var cameraRotating: bool
 
 
 var life_loss_rate_f: float
@@ -119,7 +120,7 @@ func _on_Up_button_down():
 func _physics_process(_delta):
 
 	# Loose hp after game started
-	if !firstMove:
+	if !firstMove && !cameraRotating:
 		playerLight.omni_range -= life_loss_rate_f
 	
 	# Animation speed not afected by framerate
@@ -173,12 +174,23 @@ func correctScoreCalculation():
 		if camera_rotation_index < 0:
 			camera_rotation_index = 3
 
+		# Disable controls for animation duration
+		canMove = false
+		cameraRotating = true
+
+		# Play correct camera animation
 		if clockwise:
 			cameraRotation.play("RotationCW" + str(camera_rotation_index))
 
 		else:
 			var ccwArray = ["2", "1", "0", "3"]
 			cameraRotation.play("RotationCCW" + ccwArray[camera_rotation_index])
+
+
+# Reenable controls
+func _on_CameraRotation_animation_finished(_anim_name):
+	canMove = true
+	cameraRotating = false
 
 
 func giveHealth(ammount: float):
@@ -204,7 +216,7 @@ func startStopAnim(direction: int, start: bool):
 		canMove = false
 		anim_progress = 0
 		
-	elif !playerDead:
+	elif !playerDead && !cameraRotating:
 			# Resume controls
 			isAnimating = false
 			isAnimatingRebounce = false

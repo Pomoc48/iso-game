@@ -213,3 +213,4 @@ environment = ExtResource( 2 )
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Player" method="_on_Right_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Down" to="Player" method="_on_Down_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Up" to="Player" method="_on_Up_button_down"]
+[connection signal="animation_finished" from="Player/CameraRotation" to="Player" method="_on_CameraRotation_animation_finished"]
