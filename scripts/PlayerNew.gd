@@ -10,6 +10,7 @@ var healthBar
 var healthAnimation
 var screenSize
 var scoreText
+var textAnim
 
 
 const SPEED = 2
@@ -71,6 +72,7 @@ func _ready():
 	healthBar = get_node("/root/Level/Interface/Main/Health")
 	healthAnimation = get_node("/root/Level/Interface/Main/Health/HealthAnim")
 	scoreText = get_node("/root/Level/Interface/Label")
+	textAnim = scoreText.get_node("Bump")
 	
 	initialVarDeclaration()
 
@@ -84,6 +86,7 @@ func initialVarDeclaration():
 	canMove = true
 	isAnimatingRebounce = false
 	isAnimating = false
+	screenSizeCalculated = false
 
 	session_score = 0
 	speedup_counter = 0
@@ -96,14 +99,14 @@ func initialVarDeclaration():
 	player_health = FULL_HEALTH
 
 
-# Runs every frame
-func _process(_delta):
+# # Runs every frame
+# func _process(_delta):
 	
-	# Keyboard input collection
-	if canMove:
-		for x in range(0,4):
-			if Input.is_action_pressed(keys[x]):
-				startStopAnim(x, true)
+# 	# Keyboard input collection
+# 	if canMove:
+# 		for x in range(0,4):
+# 			if Input.is_action_pressed(keys[x]):
+# 				startStopAnim(x, true)
 
 
 # Prevent double inputs
@@ -180,7 +183,7 @@ func correctScoreCalculation():
 
 	session_score += 1
 	scoreText.set_text(str(session_score))
-	scoreText.get_node("Bump").play("TextAnim")
+	textAnim.play("TextAnim")
 
 	speedup_counter += 1
 

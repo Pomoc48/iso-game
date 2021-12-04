@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/PlatformsAnim.tscn" type="PackedScene" id=1]
+[ext_resource path="res://materials/platformGlow.tres" type="Material" id=2]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -11,6 +12,6 @@
 [node name="MeshInstance" type="MeshInstance" parent="Spatial"]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0 )
 mesh = SubResource( 1 )
-material/0 = null
+material/0 = ExtResource( 2 )
 
 [node name="AnimationPlayer" parent="Spatial" instance=ExtResource( 1 )]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -87,6 +87,21 @@ tracks/0/keys = {
 "values": [ 1.0 ]
 }
 
+[sub_resource type="Animation" id=7]
+resource_name = "test"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 3, 0 ), Vector3( 20, 3, 0 ) ]
+}
+
 [node name="Level" type="Spatial"]
 
 [node name="Interface" type="Control" parent="."]
@@ -107,9 +122,9 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 117.0
-margin_top = -412.0
+margin_top = -378.0
 margin_right = 697.0
-margin_bottom = -162.0
+margin_bottom = -128.0
 rect_rotation = 36.0
 rect_scale = Vector2( 0.75, 0.75 )
 __meta__ = {
@@ -149,9 +164,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -464.0
-margin_top = -155.0
+margin_top = -117.0
 margin_right = 116.0
-margin_bottom = 95.0
+margin_bottom = 133.0
 rect_rotation = -36.0
 rect_scale = Vector2( 0.75, 0.75 )
 
@@ -214,7 +229,7 @@ margin_right = 250.0
 margin_bottom = 128.0
 custom_fonts/font = SubResource( 5 )
 align = 1
-valign = 2
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -253,7 +268,9 @@ anims/CameraDown = SubResource( 1 )
 anims/CameraUp = SubResource( 2 )
 
 [node name="PlayerLight" type="OmniLight" parent="Player"]
-light_color = Color( 0.870588, 0.454902, 0.227451, 1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+light_color = Color( 0.227451, 0.870588, 0.870588, 1 )
+light_bake_mode = 0
 omni_range = 24.0
 omni_attenuation = 3.0
 
@@ -262,6 +279,9 @@ autoplay = "PulseLight"
 playback_speed = 2.0
 anims/PulseLight = ExtResource( 11 )
 anims/RESET = SubResource( 4 )
+
+[node name="MovementTest" type="AnimationPlayer" parent="Player"]
+anims/test = SubResource( 7 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 2 )
