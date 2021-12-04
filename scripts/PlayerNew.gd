@@ -84,25 +84,31 @@ func initialVarDeclaration():
 # Runs every frame
 func _process(_delta):
 	
-	# Input collection
+	# Keyboard input collection
 	if canMove:
 		for x in range(0,4):
 			if Input.is_action_pressed(keys[x]):
 				startStopAnim(x, true)
 
 
+# Prevent double inputs
+func touchControls(dir: int):
+	if canMove:
+		startStopAnim(dir, true)	
+
+
 # Connect UI buttons
 func _on_Left_button_down():
-	startStopAnim(3, true)
+	touchControls(3)
 
 func _on_Right_button_down():
-	startStopAnim(1, true)
+	touchControls(1)
 
 func _on_Down_button_down():
-	startStopAnim(2, true)
+	touchControls(2)
 
 func _on_Up_button_down():
-	startStopAnim(0, true)				
+	touchControls(0)
 
 
 # Runs every game tick
