@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -17,6 +17,28 @@
 [ext_resource path="res://assets/textures/square.png" type="Texture" id=15]
 [ext_resource path="res://anim/HealthDown.tres" type="Animation" id=16]
 [ext_resource path="res://anim/scenesHealthUp.tres" type="Animation" id=17]
+[ext_resource path="res://assets/fonts/montreal/Montreal-Bold.ttf" type="DynamicFontData" id=18]
+[ext_resource path="res://anim/TextAnim.tres" type="Animation" id=19]
+[ext_resource path="res://assets/textures/Arrow2.png" type="Texture" id=20]
+
+[sub_resource type="DynamicFont" id=5]
+size = 80
+font_data = ExtResource( 18 )
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:custom_fonts/font:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 80 ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "CameraDown"
@@ -101,10 +123,7 @@ margin_top = -125.0
 margin_right = 250.0
 margin_bottom = 125.0
 texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 12 )
-texture_hover = ExtResource( 12 )
-texture_disabled = ExtResource( 12 )
-texture_focused = ExtResource( 12 )
+texture_pressed = ExtResource( 20 )
 flip_h = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -119,10 +138,7 @@ margin_left = -250.0
 margin_top = -125.0
 margin_bottom = 125.0
 texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 12 )
-texture_hover = ExtResource( 12 )
-texture_disabled = ExtResource( 12 )
-texture_focused = ExtResource( 12 )
+texture_pressed = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -146,10 +162,7 @@ margin_top = -133.5
 margin_right = 250.0
 margin_bottom = 133.5
 texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 12 )
-texture_hover = ExtResource( 12 )
-texture_disabled = ExtResource( 12 )
-texture_focused = ExtResource( 12 )
+texture_pressed = ExtResource( 20 )
 flip_h = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -164,10 +177,7 @@ margin_left = -250.0
 margin_top = -133.5
 margin_bottom = 133.5
 texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 12 )
-texture_hover = ExtResource( 12 )
-texture_disabled = ExtResource( 12 )
-texture_focused = ExtResource( 12 )
+texture_pressed = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -196,6 +206,23 @@ root_node = NodePath("../Bar")
 anims/HealthDown = ExtResource( 16 )
 anims/HealthUp = ExtResource( 17 )
 
+[node name="Label" type="Label" parent="Interface"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -250.0
+margin_right = 250.0
+margin_bottom = 128.0
+custom_fonts/font = SubResource( 5 )
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bump" type="AnimationPlayer" parent="Interface/Label"]
+anims/RESET = SubResource( 6 )
+anims/TextAnim = ExtResource( 19 )
+
 [node name="Platforms" type="Spatial" parent="."]
 
 [node name="Start" parent="Platforms" instance=ExtResource( 14 )]
@@ -215,7 +242,7 @@ anims/RotationCW2 = ExtResource( 3 )
 anims/RotationCW3 = ExtResource( 7 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353553, 0.353553, -0.25, 0.25, -8, 14, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353553, 0.353553, -0.25, 0.25, -8, 35, 8 )
 projection = 1
 size = 36.0
 near = 0.01

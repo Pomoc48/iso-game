@@ -6,10 +6,10 @@ var cameraRotation
 var level
 var platformI
 var platform
-var playerLight
 var healthBar
 var healthAnimation
 var screenSize
+var scoreText
 
 
 const SPEED = 2
@@ -29,6 +29,7 @@ var cameraRotating: bool
 var screenSizeCalculated: bool
 
 
+var player_health: float
 var life_loss_rate_f: float
 var life_gain_f: float
 var update_health_by: float
@@ -69,9 +70,7 @@ func _ready():
 
 	healthBar = get_node("/root/Level/Interface/Main/Health")
 	healthAnimation = get_node("/root/Level/Interface/Main/Health/HealthAnim")
-
-	# Player life's representation
-	playerLight = get_node("PlayerLight")
+	scoreText = get_node("/root/Level/Interface/Label")
 	
 	initialVarDeclaration()
 
@@ -93,7 +92,8 @@ func initialVarDeclaration():
 
 	life_loss_rate_f = 0.04
 	life_gain_f = 2
-	playerLight.omni_range = FULL_HEALTH
+
+	player_health = FULL_HEALTH
 
 
 # Runs every frame
@@ -131,7 +131,7 @@ func _physics_process(_delta):
 
 	# Loose hp after game started
 	if !firstMove && !cameraRotating:
-		playerLight.omni_range -= life_loss_rate_f
+		player_health -= life_loss_rate_f
 		calculateHealthBar()
 	
 	# Animation speed not afected by framerate
@@ -150,7 +150,7 @@ func _physics_process(_delta):
 		else: startStopAnim(0, false)
 
 	# No life gameover check
-	if (playerLight.omni_range <= 0) && !playerDead:
+	if (player_health <= 0) && !playerDead:
 		gameOver()
 
 
@@ -170,7 +170,7 @@ func calculateHealthBar():
 		getScreenSize()
 
 	# Int cast for Vector2
-	var health: int = playerLight.omni_range * update_health_by
+	var health = player_health * update_health_by
 	var pos = Vector2(health, 16)
 
 	healthBar.set_size(pos, false)
@@ -179,6 +179,9 @@ func calculateHealthBar():
 func correctScoreCalculation():
 
 	session_score += 1
+	scoreText.set_text(str(session_score))
+	scoreText.get_node("Bump").play("TextAnim")
+
 	speedup_counter += 1
 
 	# Progress the game
@@ -228,12 +231,12 @@ func _on_CameraRotation_animation_finished(_anim_name):
 
 func giveHealth(ammount: float):
 
-	if (playerLight.omni_range + ammount) > FULL_HEALTH:
+	if (player_health + ammount) > FULL_HEALTH:
 		# Health cap check
-		playerLight.omni_range = FULL_HEALTH
+		player_health = FULL_HEALTH
 
 	else:
-		playerLight.omni_range += ammount
+		player_health += ammount
 
 				
 func startStopAnim(direction: int, start: bool):
@@ -258,10 +261,10 @@ func startStopAnim(direction: int, start: bool):
 
 func rebounceCheck():
 
-	playerLight.omni_range -= 8
+	player_health -= 8
 
 	# Instant game over
-	if playerLight.omni_range <= 0:
+	if player_health <= 0:
 		gameOver()
 
 	else:
