@@ -9,6 +9,7 @@ var platform
 var playerLight
 var healthBar
 var healthAnimation
+var screenSize
 
 
 const SPEED = 2
@@ -16,6 +17,7 @@ const FULL_ANIM = 10
 const HALF_ANIM = 5
 const FULL_MOVE = 20
 const HISTORY = 4
+const FULL_HEALTH = 24
 
 
 var firstMove: bool
@@ -24,10 +26,12 @@ var isAnimating: bool
 var isAnimatingRebounce: bool
 var playerDead: bool
 var cameraRotating: bool
+var screenSizeCalculated: bool
 
 
 var life_loss_rate_f: float
 var life_gain_f: float
+var update_health_by: float
 
 
 var anim_progress: int
@@ -64,7 +68,7 @@ func _ready():
 	level = get_node("/root/Level/Platforms")
 
 	healthBar = get_node("/root/Level/Interface/Main/Health")
-	healthAnimation = get_node("/root/Level/Interface/Main/Health/Bar/HealthAnim")
+	healthAnimation = get_node("/root/Level/Interface/Main/Health/HealthAnim")
 
 	# Player life's representation
 	playerLight = get_node("PlayerLight")
@@ -89,7 +93,7 @@ func initialVarDeclaration():
 
 	life_loss_rate_f = 0.04
 	life_gain_f = 2
-	playerLight.omni_range = 24
+	playerLight.omni_range = FULL_HEALTH
 
 
 # Runs every frame
@@ -150,9 +154,23 @@ func _physics_process(_delta):
 		gameOver()
 
 
+# One time screen size calculation
+func getScreenSize():
+
+	screenSize = get_viewport().get_visible_rect().size.x
+
+	update_health_by = screenSize / FULL_HEALTH
+	screenSizeCalculated = true
+
+
+# Calculate healthbar pixels
 func calculateHealthBar():
-	# 24 = 1280
-	var health: int = playerLight.omni_range * 53
+
+	if !screenSizeCalculated:
+		getScreenSize()
+
+	# Int cast for Vector2
+	var health: int = playerLight.omni_range * update_health_by
 	var pos = Vector2(health, 16)
 
 	healthBar.set_size(pos, false)
@@ -210,9 +228,9 @@ func _on_CameraRotation_animation_finished(_anim_name):
 
 func giveHealth(ammount: float):
 
-	if (playerLight.omni_range + ammount) > 24:
+	if (playerLight.omni_range + ammount) > FULL_HEALTH:
 		# Health cap check
-		playerLight.omni_range = 24
+		playerLight.omni_range = FULL_HEALTH
 
 	else:
 		playerLight.omni_range += ammount
