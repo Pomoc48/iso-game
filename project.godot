@@ -12,13 +12,25 @@ config_version=4
 
 config/name="Iso"
 run/main_scene="res://scenes/Level.tscn"
+boot_splash/image="res://assets/icon.png"
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://assets/icon.png"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/width=1280
+window/size/height=720
+window/stretch/mode="2d"
+window/stretch/aspect="expand"
 
 [physics]
 
 common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/reflections/high_quality_ggx=false
+quality/shading/force_vertex_shading.mobile=false
+quality/shading/force_lambert_over_burley=true
+quality/shading/force_blinn_over_ggx=true
+quality/subsurface_scattering/quality=0

@@ -81,11 +81,12 @@ __meta__ = {
 [node name="Left" type="NinePatchRect" parent="Interface/Main"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 179.872
-margin_top = -589.228
-margin_right = 759.872
-margin_bottom = -339.228
-rect_rotation = 45.0
+margin_left = 117.0
+margin_top = -412.0
+margin_right = 697.0
+margin_bottom = -162.0
+rect_rotation = 36.0
+rect_scale = Vector2( 0.75, 0.75 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -128,11 +129,12 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -592.047
-margin_top = -179.365
-margin_right = -12.047
-margin_bottom = 70.6348
-rect_rotation = -45.0
+margin_left = -464.0
+margin_top = -155.0
+margin_right = 116.0
+margin_bottom = 95.0
+rect_rotation = -36.0
+rect_scale = Vector2( 0.75, 0.75 )
 
 [node name="Down" type="TextureButton" parent="Interface/Main/Right"]
 anchor_top = 0.5
