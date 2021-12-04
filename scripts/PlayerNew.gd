@@ -11,6 +11,7 @@ var playerLight
 
 const SPEED = 2
 const FULL_ANIM = 10
+const HALF_ANIM = 5
 const FULL_MOVE = 20
 const HISTORY = 4
 
@@ -18,6 +19,7 @@ const HISTORY = 4
 var firstMove: bool
 var canMove: bool
 var isAnimating: bool
+var isAnimatingRebounce: bool
 var playerDead: bool
 
 
@@ -70,6 +72,8 @@ func initialVarDeclaration():
 
 	firstMove = true
 	canMove = true
+	isAnimatingRebounce = false
+	isAnimating = false
 
 	session_score = 0
 	speedup_counter = 0
@@ -121,10 +125,15 @@ func _physics_process(_delta):
 	# Animation speed not afected by framerate
 	if isAnimating:
 		anim_progress += 1
-		
+
+		# Reverse direction half way
+		if isAnimatingRebounce:
+			if anim_progress > HALF_ANIM:
+				isAnimatingRebounce = false
+
 		if anim_progress <= FULL_ANIM:
 			playerMove(anim_direction)
-			
+
 		# Stop animation
 		else: startStopAnim(0, false)
 
@@ -189,7 +198,7 @@ func startStopAnim(direction: int, start: bool):
 		anim_direction = retranslateDirection(direction)
 		
 		if isMoveLegal(): correctScoreCalculation()
-		else: gameOver()
+		else: rebounceCheck()
 		
 		isAnimating = true
 		canMove = false
@@ -198,7 +207,20 @@ func startStopAnim(direction: int, start: bool):
 	elif !playerDead:
 			# Resume controls
 			isAnimating = false
+			isAnimatingRebounce = false
 			canMove = true
+
+
+func rebounceCheck():
+
+	playerLight.omni_range -= 8
+
+	# Instant game over
+	if playerLight.omni_range <= 0:
+		gameOver()
+
+	else:
+		isAnimatingRebounce = true
 
 
 func retranslateDirection(dir: int) -> int:
@@ -218,8 +240,26 @@ func retranslateDirection(dir: int) -> int:
 func playerMove(direction: int):
 	
 	canMove = false
-	var newCalc = directionCalc(direction, self.translation, SPEED)
+	var newCalc = directionCalc(direction, self.translation, SPEED, isAnimatingRebounce)
 	self.translation = newCalc
+
+
+# Translate directions to vectors
+func directionCalc(dir: int, vect: Vector3, ammo: int, reverse: bool) -> Vector3:
+	
+	if !reverse:
+		if dir == 0: vect.x += ammo
+		elif dir == 1: vect.z += ammo
+		elif dir == 2: vect.x += -ammo
+		elif dir == 3: vect.z += -ammo
+
+	else:
+		if dir == 0: vect.x += -ammo
+		elif dir == 1: vect.z += -ammo
+		elif dir == 2: vect.x += ammo
+		elif dir == 3: vect.z += ammo
+		
+	return vect
 
 
 # Get position for the new platform
@@ -228,18 +268,7 @@ func getFuturePos() -> Vector3:
 	var futurePos = self.translation
 	futurePos.y = -16
 
-	return directionCalc(anim_direction, futurePos, FULL_MOVE)
-
-
-# Translate directions to vectors
-func directionCalc(dir, vect, ammo) -> Vector3:
-	
-	if dir == 0: vect.x += ammo
-	elif dir == 1: vect.z += ammo
-	elif dir == 2: vect.x += -ammo
-	elif dir == 3: vect.z += -ammo
-		
-	return vect
+	return directionCalc(anim_direction, futurePos, FULL_MOVE, false)
 
 
 func isMoveLegal() -> bool:
