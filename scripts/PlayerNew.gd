@@ -9,6 +9,7 @@ var screenSize
 var scoreText
 var intMain
 
+
 var cameraRotation
 var buttonsAnimLeft
 var buttonsAnimRight
@@ -29,6 +30,7 @@ var firstMove: bool
 var canMove: bool
 var isAnimating: bool
 var isAnimatingRebounce: bool
+var changeDirection: bool
 var playerDead: bool
 var cameraRotating: bool
 var screenSizeCalculated: bool
@@ -93,6 +95,7 @@ func initialVarDeclaration():
 	firstMove = true
 	canMove = true
 	isAnimatingRebounce = false
+	changeDirection = false
 	isAnimating = false
 	screenSizeCalculated = false
 
@@ -152,7 +155,7 @@ func _physics_process(_delta):
 		# Reverse direction half way
 		if isAnimatingRebounce:
 			if anim_progress > HALF_ANIM:
-				isAnimatingRebounce = false
+				changeDirection = true
 
 		if anim_progress <= FULL_ANIM:
 			playerMove(anim_direction)
@@ -267,6 +270,7 @@ func startStopAnim(direction: int, start: bool):
 			# Resume controls
 			isAnimating = false
 			isAnimatingRebounce = false
+			changeDirection = false
 			canMove = true
 
 
@@ -299,7 +303,7 @@ func retranslateDirection(dir: int) -> int:
 func playerMove(direction: int):
 	
 	canMove = false
-	var newCalc = directionCalc(direction, self.translation, SPEED, isAnimatingRebounce)
+	var newCalc = directionCalc(direction, self.translation, SPEED, changeDirection)
 	self.translation = newCalc
 
 

@@ -39,9 +39,9 @@ tracks/0/keys = {
 "values": [ 36.0, 90.0 ]
 }
 
-[sub_resource type="Animation" id=10]
-resource_name = "Hide"
-length = 0.5
+[sub_resource type="Animation" id=8]
+resource_name = "Show"
+length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath("../Right:rect_rotation")
 tracks/0/interp = 1
@@ -49,18 +49,17 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0.4, 0.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ -36.0, -90.0 ]
+"values": [ -90.0, -36.0 ]
 }
 
 [sub_resource type="DynamicFont" id=5]
 size = 80
 font_data = ExtResource( 18 )
 
-[sub_resource type="Animation" id=8]
-resource_name = "Hide"
+[sub_resource type="Animation" id=10]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
 tracks/0/interp = 1
@@ -174,7 +173,7 @@ margin_left = 310.0
 margin_top = -630.0
 margin_right = 890.0
 margin_bottom = -380.0
-rect_rotation = 36.0
+rect_rotation = 90.0
 rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( -500, 0 )
 __meta__ = {
@@ -259,8 +258,8 @@ __meta__ = {
 [node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/Right"]
 root_node = NodePath("../../Left")
 autoplay = "Show"
-anims/Hide = SubResource( 10 )
-anims/Show = ExtResource( 23 )
+anims/Hide = ExtResource( 23 )
+anims/Show = SubResource( 8 )
 
 [node name="Health" type="Control" parent="Interface/Main"]
 anchor_right = 1.0
@@ -299,7 +298,7 @@ __meta__ = {
 }
 
 [node name="Bump" type="AnimationPlayer" parent="Interface/Main/Label"]
-anims/Hide = SubResource( 8 )
+anims/Hide = SubResource( 10 )
 anims/RESET = SubResource( 6 )
 anims/TextAnim = ExtResource( 19 )
 
