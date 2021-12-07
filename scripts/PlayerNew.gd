@@ -2,12 +2,10 @@ extends Spatial
 
 
 var level
-var platformI
-var platform
 var healthBar
-var screenSize
 var scoreText
-var intMain
+var particles
+var playerTween
 
 
 var cameraRotation
@@ -18,9 +16,6 @@ var cameraAnimation
 var healthAnimation
 
 
-const SPEED = 2
-const FULL_ANIM = 10
-const HALF_ANIM = 5
 const FULL_MOVE = 20
 const HISTORY = 4
 const FULL_HEALTH = 24
@@ -28,9 +23,6 @@ const FULL_HEALTH = 24
 
 var firstMove: bool
 var canMove: bool
-var isAnimating: bool
-var isAnimatingRebounce: bool
-var changeDirection: bool
 var playerDead: bool
 var cameraRotating: bool
 var screenSizeCalculated: bool
@@ -42,7 +34,6 @@ var life_gain_f: float
 var update_health_by: float
 
 
-var anim_progress: int
 var anim_direction: int
 var prev_direction: int
 var total_platforms: int
@@ -71,11 +62,14 @@ func _ready():
 	# Randomize RNG
 	randomize()
 
+	playerTween = get_node("Tween")
+
+	particles = get_node("/root/Level/Player/Spatial/Particles")
 	cameraAnimation = get_node("Camera/CameraPan")
 	cameraRotation = get_node("CameraRotation")
 	level = get_node("/root/Level/Platforms")
 
-	intMain = get_node("/root/Level/Interface/Main")
+	var intMain = get_node("/root/Level/Interface/Main")
 	healthBar = intMain.get_node("Health")
 	healthAnimation = intMain.get_node("Health/HealthAnim")
 	buttonsAnimLeft = intMain.get_node("Left/ShowHide")
@@ -94,13 +88,7 @@ func initialVarDeclaration():
 
 	firstMove = true
 	canMove = true
-	isAnimatingRebounce = false
-	changeDirection = false
-	isAnimating = false
-	screenSizeCalculated = false
 
-	session_score = 0
-	speedup_counter = 0
 	total_platforms = 1
 	camera_rotation_index = 3
 
@@ -117,13 +105,13 @@ func _process(_delta):
 	if canMove:
 		for x in range(0,4):
 			if Input.is_action_pressed(keys[x]):
-				startStopAnim(x, true)
+				checkMove(x)
 
 
 # Prevent double inputs
 func touchControls(dir: int):
 	if canMove:
-		startStopAnim(dir, true)	
+		checkMove(dir)	
 
 
 # Connect UI buttons
@@ -147,21 +135,6 @@ func _physics_process(_delta):
 	if !firstMove && !cameraRotating:
 		player_health -= life_loss_rate_f
 		calculateHealthBar()
-	
-	# Animation speed not afected by framerate
-	if isAnimating:
-		anim_progress += 1
-
-		# Reverse direction half way
-		if isAnimatingRebounce:
-			if anim_progress > HALF_ANIM:
-				changeDirection = true
-
-		if anim_progress <= FULL_ANIM:
-			playerMove(anim_direction)
-
-		# Stop animation
-		else: startStopAnim(0, false)
 
 	# No life gameover check
 	if (player_health <= 0) && !playerDead:
@@ -171,8 +144,7 @@ func _physics_process(_delta):
 # One time screen size calculation
 func getScreenSize():
 
-	screenSize = get_viewport().get_visible_rect().size.x
-
+	var screenSize = get_viewport().get_visible_rect().size.x
 	update_health_by = screenSize / FULL_HEALTH
 	screenSizeCalculated = true
 
@@ -191,6 +163,12 @@ func calculateHealthBar():
 
 
 func correctScoreCalculation():
+
+	# Movement animation
+	playerTween.interpolate_property(self, "translation", self.translation,
+		directionCalc(anim_direction, self.translation, FULL_MOVE), 0.25,
+		Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
+	playerTween.start()
 
 	session_score += 1
 	scoreText.set_text(str(session_score))
@@ -243,6 +221,10 @@ func _on_CameraRotation_animation_finished(_anim_name):
 	cameraRotating = false
 
 
+func _on_Tween_tween_all_completed():
+	canMove = true
+
+
 func giveHealth(ammount: float):
 
 	if (player_health + ammount) > FULL_HEALTH:
@@ -253,37 +235,31 @@ func giveHealth(ammount: float):
 		player_health += ammount
 
 				
-func startStopAnim(direction: int, start: bool):
+func checkMove(direction: int):
 	
-	if start:
-		# Calculation based on camera rotation
-		anim_direction = retranslateDirection(direction)
-		
-		if isMoveLegal(): correctScoreCalculation()
-		else: rebounceCheck()
-		
-		isAnimating = true
-		canMove = false
-		anim_progress = 0
-		
-	elif !playerDead && !cameraRotating:
-			# Resume controls
-			isAnimating = false
-			isAnimatingRebounce = false
-			changeDirection = false
-			canMove = true
+	# Calculation based on camera rotation
+	anim_direction = retranslateDirection(direction)
+	
+	if isMoveLegal(): correctScoreCalculation()
+	else: rebounceCheck(direction)
+	
+	canMove = false
+	particles.set_emitting(true)
 
 
-func rebounceCheck():
+func rebounceCheck(original_dir: int):
 
+	# Wrong move penalty
 	player_health -= 8
 
 	# Instant game over
-	if player_health <= 0:
+	if player_health <= 0 && !playerDead:
 		gameOver()
 
 	else:
-		isAnimatingRebounce = true
+		# Animate player rebounce
+		cameraRotation.play("Bounce" + str(original_dir))
+		
 
 
 func retranslateDirection(dir: int) -> int:
@@ -299,28 +275,13 @@ func retranslateDirection(dir: int) -> int:
 	return dir
 
 
-# Move player bit by bit
-func playerMove(direction: int):
-	
-	canMove = false
-	var newCalc = directionCalc(direction, self.translation, SPEED, changeDirection)
-	self.translation = newCalc
-
-
 # Translate directions to vectors
-func directionCalc(dir: int, vect: Vector3, ammo: int, reverse: bool) -> Vector3:
+func directionCalc(dir: int, vect: Vector3, ammo: int) -> Vector3:
 	
-	if !reverse:
-		if dir == 0: vect.x += ammo
-		elif dir == 1: vect.z += ammo
-		elif dir == 2: vect.x += -ammo
-		elif dir == 3: vect.z += -ammo
-
-	else:
-		if dir == 0: vect.x += -ammo
-		elif dir == 1: vect.z += -ammo
-		elif dir == 2: vect.x += ammo
-		elif dir == 3: vect.z += ammo
+	if dir == 0: vect.x += ammo
+	elif dir == 1: vect.z += ammo
+	elif dir == 2: vect.x += -ammo
+	elif dir == 3: vect.z += -ammo
 		
 	return vect
 
@@ -331,7 +292,7 @@ func getFuturePos() -> Vector3:
 	var futurePos = self.translation
 	futurePos.y = -16
 
-	return directionCalc(anim_direction, futurePos, FULL_MOVE, false)
+	return directionCalc(anim_direction, futurePos, FULL_MOVE)
 
 
 func isMoveLegal() -> bool:
@@ -394,10 +355,10 @@ func generatePlatform():
 
 	# Save for latter backtracking check
 	prev_block = pMoves[anim_direction][randomNumber]
-	platform = load("res://assets/platforms/"+ prev_block +".tscn")
+	var platform = load("res://assets/platforms/"+ prev_block +".tscn")
 
 	# Load and place new platforms
-	platformI = platform.instance()
+	var platformI = platform.instance()
 	platformI.translation = getFuturePos()
 	level.add_child(platformI)
 	
