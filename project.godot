@@ -12,9 +12,9 @@ config_version=4
 
 config/name="Iso"
 run/main_scene="res://scenes/Level.tscn"
-boot_splash/image="res://assets/icon.png"
+boot_splash/image="res://assets/textures/icon.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
-config/icon="res://assets/icon.png"
+config/icon="res://assets/textures/icon.png"
 
 [display]
 

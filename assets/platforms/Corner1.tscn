@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/PlatformsAnim.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/PlatformsAnim.tscn" type="PackedScene" id=1]
 [ext_resource path="res://materials/platformGlow.tres" type="Material" id=2]
 
 [sub_resource type="CubeMesh" id=1]
