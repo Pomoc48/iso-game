@@ -1,7 +1,8 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
+[ext_resource path="res://materials/emission.tres" type="Material" id=3]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/textures/square.png" type="Texture" id=15]
@@ -154,16 +155,8 @@ tracks/0/keys = {
 "values": [ 90, 90, 85, 80 ]
 }
 
-[sub_resource type="SpatialMaterial" id=1]
-roughness = 0.5
-emission_enabled = true
-emission = Color( 0, 1, 0.878431, 1 )
-emission_energy = 8.0
-emission_operator = 0
-emission_on_uv2 = false
-
 [sub_resource type="SphereMesh" id=2]
-material = SubResource( 1 )
+material = ExtResource( 3 )
 radial_segments = 16
 rings = 8
 
@@ -179,8 +172,12 @@ emission_on_uv2 = false
 [sub_resource type="SphereMesh" id=15]
 radius = 0.2
 height = 0.4
-radial_segments = 8
-rings = 4
+radial_segments = 6
+rings = 3
+
+[sub_resource type="Curve" id=34]
+max_value = 10.0
+_data = [ Vector2( 0, 10 ), 0.0, -28.2386, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Animation" id=11]
 length = 0.8
@@ -575,7 +572,7 @@ root_node = NodePath("../Bar")
 anims/HealthDown = SubResource( 20 )
 anims/HealthUp = SubResource( 21 )
 
-[node name="Label" type="Label" parent="Interface/Main"]
+[node name="Score" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
 anchor_bottom = 0.178
 margin_right = -10.0
@@ -587,7 +584,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Bump" type="AnimationPlayer" parent="Interface/Main/Label"]
+[node name="Bump" type="AnimationPlayer" parent="Interface/Main/Score"]
 anims/Hide = SubResource( 10 )
 anims/RESET = SubResource( 6 )
 anims/TextAnim = SubResource( 19 )
@@ -608,31 +605,43 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Particles" type="CPUParticles" parent="Player/Spatial"]
+visible = false
 material_override = SubResource( 14 )
-emitting = false
+generate_lightmap = false
 amount = 800
-lifetime = 1.5
+lifetime = 10.0
+preprocess = 6.31
 fract_delta = false
 local_coords = false
 mesh = SubResource( 15 )
+emission_shape = 1
+emission_sphere_radius = 0.8
 direction = Vector3( 0, 0, 0 )
-gravity = Vector3( 0, 0, 0 )
+spread = 0.0
+gravity = Vector3( 0, -0.5, 0 )
+linear_accel = 2.18
+linear_accel_curve = SubResource( 34 )
+radial_accel = -2.0
+scale_amount = 0.5
+scale_amount_random = 0.5
 color = Color( 0.0352941, 1, 0.968627, 1 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8 )
 projection = 1
 size = 36.0
 near = 0.01
 far = 646.3
 
 [node name="CameraPan" type="AnimationPlayer" parent="Player/Camera"]
+autoplay = "CameraDown"
 anims/CameraDown = SubResource( 11 )
 anims/CameraUp = SubResource( 12 )
 
 [node name="PlayerLight" type="OmniLight" parent="Player"]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 light_color = Color( 0.227451, 0.870588, 0.870588, 1 )
+light_specular = 0.0
 light_bake_mode = 0
 omni_range = 32.0
 omni_attenuation = 2.0
@@ -660,9 +669,12 @@ anims/RotationCW3 = SubResource( 29 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 2 )
 
+[node name="Decorations" type="Spatial" parent="."]
+
 [connection signal="button_down" from="Interface/Main/Left/Left" to="Player" method="_on_Left_button_down"]
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Player" method="_on_Right_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Down" to="Player" method="_on_Down_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Up" to="Player" method="_on_Up_button_down"]
 [connection signal="tween_all_completed" from="Player/Tween" to="Player" method="_on_Tween_tween_all_completed"]
+[connection signal="animation_finished" from="Player/Camera/CameraPan" to="Player" method="_on_CameraPan_animation_finished"]
 [connection signal="animation_finished" from="Player/CameraRotation" to="Player" method="_on_CameraRotation_animation_finished"]

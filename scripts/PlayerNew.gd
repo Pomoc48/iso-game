@@ -6,6 +6,7 @@ var healthBar
 var scoreText
 var particles
 var playerTween
+var decorationsSpace
 
 
 var cameraRotation
@@ -18,6 +19,7 @@ var healthAnimation
 
 const FULL_MOVE = 20
 const HISTORY = 4
+const DECO_HISTORY = 12
 const FULL_HEALTH = 24
 
 
@@ -37,9 +39,11 @@ var update_health_by: float
 var anim_direction: int
 var prev_direction: int
 var total_platforms: int
+var total_deco: int
 var session_score: int
 var speedup_counter: int
 var camera_rotation_index: int
+var frames: int
 
 
 var prev_block: String
@@ -64,7 +68,7 @@ func _ready():
 
 	playerTween = get_node("Tween")
 
-	particles = get_node("/root/Level/Player/Spatial/Particles")
+	particles = get_node("Spatial/Particles")
 	cameraAnimation = get_node("Camera/CameraPan")
 	cameraRotation = get_node("CameraRotation")
 	level = get_node("/root/Level/Platforms")
@@ -75,13 +79,17 @@ func _ready():
 	buttonsAnimLeft = intMain.get_node("Left/ShowHide")
 	buttonsAnimRight = intMain.get_node("Right/ShowHide")
 
-	scoreText = get_node("/root/Level/Interface/Main/Label")
+	decorationsSpace = get_node("/root/Level/Decorations")
+
+	scoreText = get_node("/root/Level/Interface/Main/Score")
 	textAnim = scoreText.get_node("Bump")
-	
+
 	initialVarDeclaration()
 
-	# Intro animation
-	cameraAnimation.play("CameraDown")
+
+
+	createDecorations(false)
+	createDecorations(true)
 
 
 func initialVarDeclaration():
@@ -131,6 +139,8 @@ func _on_Up_button_down():
 # Runs every game tick
 func _physics_process(_delta):
 
+	# var fps = Engine.get_frames_per_second()
+
 	# Loose hp after game started
 	if !firstMove && !cameraRotating:
 		player_health -= life_loss_rate_f
@@ -139,6 +149,13 @@ func _physics_process(_delta):
 	# No life gameover check
 	if (player_health <= 0) && !playerDead:
 		gameOver()
+
+	if firstMove:
+		frames += 1
+		
+		if frames >= 20:
+			frames = 0
+			createDecorations(false)
 
 
 # One time screen size calculation
@@ -162,6 +179,61 @@ func calculateHealthBar():
 	healthBar.set_size(pos, false)
 
 
+# Create floating cubes decorations
+func createDecorations(duration: bool):
+
+	var blockPos
+
+	if firstMove:
+		blockPos = self.translation
+		
+	else:
+		blockPos = directionCalc(anim_direction,
+		self.translation, FULL_MOVE)
+
+	blockPos.x += decorationsCalc()
+	blockPos.z += decorationsCalc()
+
+	var tempY = randi() % 10
+	blockPos.y = -16
+	blockPos.y += tempY
+
+	var block = load("res://assets/Block.tscn")
+	var blockI = block.instance()
+	blockI.translation = blockPos
+	
+	decorationsSpace.add_child(blockI)
+
+	if duration:
+		blockI.get_node("AnimationPlayer").play("ShowLong")
+	else:
+		blockI.get_node("AnimationPlayer").play("Show")
+
+	total_deco += 1
+
+	if total_deco >= DECO_HISTORY:
+
+		var decoIndex = total_deco - DECO_HISTORY
+		var blockDeco = decorationsSpace.get_child(decoIndex)
+
+		blockDeco.get_node("AnimationPlayer").play("Hide")
+		blockDeco.get_node("CPUParticles").set_emitting(false)
+
+		yield(get_tree().create_timer(0.5), "timeout")
+		blockDeco.set_visible(false)
+
+
+func decorationsCalc() -> int:
+
+	var pos: bool = randomBool()
+
+	var temp = randi() % 13 + 7
+	if !pos:
+		temp *= -1
+
+	return temp
+
+
 func correctScoreCalculation():
 
 	# Movement animation
@@ -169,17 +241,20 @@ func correctScoreCalculation():
 		directionCalc(anim_direction, self.translation, FULL_MOVE), 0.25,
 		Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
 	playerTween.start()
-
+	
 	session_score += 1
 	scoreText.set_text(str(session_score))
 	textAnim.play("TextAnim")
-
+	
 	speedup_counter += 1
-
+	
 	# Progress the game
 	generatePlatform()
 	giveHealth(life_gain_f)
-
+	
+	createDecorations(false)
+	createDecorations(true)
+	
 	# Slowly increase difficulty
 	if speedup_counter >= 10:
 
@@ -187,32 +262,39 @@ func correctScoreCalculation():
 		life_gain_f += 0.25
 		speedup_counter = 0
 
-		# Get random rotation direction
-		var clockwise: bool = randomBool()
+		rotateCamera()
 		
-		# Camera rotation section
-		if clockwise: camera_rotation_index += 1
-		else: camera_rotation_index -= 1
 
-		# camera_rotation_index = 3 -> DEFAULT
+func rotateCamera():
+	# Get random rotation direction
+	var clockwise: bool = randomBool()
+		
+	# Camera rotation section
+	if clockwise:
+		camera_rotation_index += 1
 
-		if camera_rotation_index > 3:
-			camera_rotation_index = 0
+	else:
+		camera_rotation_index -= 1
 
-		if camera_rotation_index < 0:
-			camera_rotation_index = 3
+	# camera_rotation_index = 3 -> DEFAULT
 
-		# Disable controls for animation duration
-		canMove = false
-		cameraRotating = true
+	if camera_rotation_index > 3:
+		camera_rotation_index = 0
 
-		# Play correct camera animation
-		if clockwise:
-			cameraRotation.play("RotationCW" + str(camera_rotation_index))
+	if camera_rotation_index < 0:
+		camera_rotation_index = 3
 
-		else:
-			var ccwArray = ["2", "1", "0", "3"]
-			cameraRotation.play("RotationCCW" + ccwArray[camera_rotation_index])
+	# Disable controls for animation duration
+	canMove = false
+	cameraRotating = true
+
+	# Play correct camera animation
+	if clockwise:
+		cameraRotation.play("RotationCW" + str(camera_rotation_index))
+
+	else:
+		var ccwArray = ["2", "1", "0", "3"]
+		cameraRotation.play("RotationCCW" + ccwArray[camera_rotation_index])
 
 
 # Reenable controls
@@ -239,12 +321,15 @@ func checkMove(direction: int):
 	
 	# Calculation based on camera rotation
 	anim_direction = retranslateDirection(direction)
-	
-	if isMoveLegal(): correctScoreCalculation()
-	else: rebounceCheck(direction)
-	
 	canMove = false
-	particles.set_emitting(true)
+	
+	if isMoveLegal():
+		correctScoreCalculation()
+
+	else:
+		rebounceCheck(direction)
+	
+	#particles.set_emitting(true)
 
 
 func rebounceCheck(original_dir: int):
@@ -258,8 +343,7 @@ func rebounceCheck(original_dir: int):
 
 	else:
 		# Animate player rebounce
-		cameraRotation.play("Bounce" + str(original_dir))
-		
+		cameraRotation.play("Bounce" + str(original_dir))		
 
 
 func retranslateDirection(dir: int) -> int:
@@ -278,10 +362,17 @@ func retranslateDirection(dir: int) -> int:
 # Translate directions to vectors
 func directionCalc(dir: int, vect: Vector3, ammo: int) -> Vector3:
 	
-	if dir == 0: vect.x += ammo
-	elif dir == 1: vect.z += ammo
-	elif dir == 2: vect.x += -ammo
-	elif dir == 3: vect.z += -ammo
+	if dir == 0:
+		vect.x += ammo
+
+	elif dir == 1:
+		vect.z += ammo
+
+	elif dir == 2:
+		vect.x += -ammo
+
+	elif dir == 3:
+		vect.z += -ammo
 		
 	return vect
 
@@ -334,8 +425,10 @@ func checkMatch(corner1, corner2, long, direction) -> bool:
 		if prev_block == corners[x]:
 			return true
 		
-	if prev_direction == direction: return true
-	else: return false
+	if prev_direction == direction:
+		return true
+	else:
+		return false
 
 
 func randomBool() -> bool:
@@ -355,7 +448,18 @@ func generatePlatform():
 
 	# Save for latter backtracking check
 	prev_block = pMoves[anim_direction][randomNumber]
-	var platform = load("res://assets/platforms/"+ prev_block +".tscn")
+
+	var platform
+	var decoratePlatform = randomBool()
+
+	if decoratePlatform:
+		platform = load("res://assets/platforms/alt/"+
+		prev_block +".tscn")
+
+	else:
+		platform = load("res://assets/platforms/plain/"+
+		prev_block +".tscn")
+
 
 	# Load and place new platforms
 	var platformI = platform.instance()
@@ -369,14 +473,22 @@ func generatePlatform():
 	
 	# Animate remove old platforms
 	if total_platforms >= HISTORY:
+
 		var childIndex = total_platforms - HISTORY
-		level.get_child(childIndex).get_node("Spatial/AnimationPlayer").play("Down")
+		var child = level.get_child(childIndex)
+
+		child.get_node("Spatial/AnimationPlayer").play("Down")
+
+		# Cleanup
+		yield(get_tree().create_timer(0.2), "timeout")
+		child.set_visible(false)
 
 
 func gameOver():
 	
 	# Preventing movement after death
 	playerDead = true
+	canMove = false
 
 	# Debug
 	print("Final Score:", session_score)
@@ -389,6 +501,8 @@ func gameOver():
 	buttonsAnimRight.play("Hide")
 	buttonsAnimLeft.play("Hide")
 
-	yield(get_tree().create_timer(1.0), "timeout")
-	# warning-ignore:return_value_discarded
-	get_tree().reload_current_scene()
+
+func _on_CameraPan_animation_finished(anim_name):
+	if anim_name == "CameraUp":
+		# warning-ignore:return_value_discarded
+		get_tree().reload_current_scene()
