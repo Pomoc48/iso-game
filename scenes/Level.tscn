@@ -1,8 +1,10 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=41 format=2]
 
-[ext_resource path="res://scripts/PlayerNew.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
 [ext_resource path="res://materials/emission.tres" type="Material" id=3]
+[ext_resource path="res://scripts/Interface.gd" type="Script" id=4]
+[ext_resource path="res://scripts/Level.gd" type="Script" id=5]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/textures/square.png" type="Texture" id=15]
@@ -438,10 +440,12 @@ tracks/0/keys = {
 }
 
 [node name="Level" type="Spatial"]
+script = ExtResource( 5 )
 
 [node name="Interface" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -671,10 +675,10 @@ environment = ExtResource( 2 )
 
 [node name="Decorations" type="Spatial" parent="."]
 
-[connection signal="button_down" from="Interface/Main/Left/Left" to="Player" method="_on_Left_button_down"]
-[connection signal="button_down" from="Interface/Main/Left/Right" to="Player" method="_on_Right_button_down"]
-[connection signal="button_down" from="Interface/Main/Right/Down" to="Player" method="_on_Down_button_down"]
-[connection signal="button_down" from="Interface/Main/Right/Up" to="Player" method="_on_Up_button_down"]
+[connection signal="button_down" from="Interface/Main/Left/Left" to="Interface" method="_on_Left_button_down"]
+[connection signal="button_down" from="Interface/Main/Left/Right" to="Interface" method="_on_Right_button_down"]
+[connection signal="button_down" from="Interface/Main/Right/Down" to="Interface" method="_on_Down_button_down"]
+[connection signal="button_down" from="Interface/Main/Right/Up" to="Interface" method="_on_Up_button_down"]
 [connection signal="tween_all_completed" from="Player/Tween" to="Player" method="_on_Tween_tween_all_completed"]
 [connection signal="animation_finished" from="Player/Camera/CameraPan" to="Player" method="_on_CameraPan_animation_finished"]
 [connection signal="animation_finished" from="Player/CameraRotation" to="Player" method="_on_CameraRotation_animation_finished"]

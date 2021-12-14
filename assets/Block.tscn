@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://materials/emission.tres" type="Material" id=1]
 
@@ -55,16 +55,10 @@ tracks/0/keys = {
 
 [sub_resource type="SphereMesh" id=5]
 material = ExtResource( 1 )
-radius = 0.5
-height = 1.0
+radius = 0.1
+height = 0.2
 radial_segments = 8
 rings = 4
-
-[sub_resource type="Curve" id=6]
-_data = [ Vector2( 0, 1 ), 163.669, -2.5949, 0, 0, Vector2( 1, 0 ), 0.0, 19.2099, 0, 0 ]
-
-[sub_resource type="Curve" id=7]
-_data = [ Vector2( 0, 1 ), 163.669, -2.5949, 0, 0, Vector2( 1, 0 ), 0.0, 19.2099, 0, 0 ]
 
 [node name="Spatial" type="Spatial"]
 
@@ -83,10 +77,8 @@ amount = 32
 lifetime = 6.0
 mesh = SubResource( 5 )
 emission_shape = 2
-emission_box_extents = Vector3( 1, 1, 1 )
+emission_box_extents = Vector3( 5, 5, 5 )
+direction = Vector3( 0, 0, 0 )
+spread = 0.0
 gravity = Vector3( 0, 0, 0 )
-radial_accel = 43.7
-radial_accel_curve = SubResource( 6 )
-scale_amount = 0.5
-scale_amount_random = 0.5
-scale_amount_curve = SubResource( 7 )
+radial_accel = 10.0

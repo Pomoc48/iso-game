@@ -17,6 +17,10 @@ boot_splash/image="res://assets/textures/icon.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://assets/textures/icon.png"
 
+[autoload]
+
+Globals="*res://scripts/Globals.gd"
+
 [display]
 
 window/size/width=1280
@@ -50,6 +54,5 @@ cpu_lightmapper/quality/low_quality_ray_count=32
 cpu_lightmapper/quality/medium_quality_ray_count=64
 cpu_lightmapper/quality/high_quality_ray_count=256
 cpu_lightmapper/quality/ultra_quality_ray_count=512
-quality/filters/msaa=3
 quality/filters/use_fxaa=true
 quality/subsurface_scattering/quality=0
