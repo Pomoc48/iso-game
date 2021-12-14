@@ -3,7 +3,6 @@ extends Spatial
 
 var level
 var interface
-var particles
 var playerTween
 
 
@@ -11,7 +10,7 @@ var cameraRotation
 var cameraAnimation
 
 
-var canMove: bool = true
+var canMove: bool = false
 var playerDead: bool = false
 var cameraRotating: bool = false
 
@@ -19,7 +18,6 @@ var cameraRotating: bool = false
 var life_loss_rate_f: float = 0.04
 var life_gain_f: float = 2
 var speedup_counter: int = 0
-var frames: int = 0
 
 
 # Inputs array
@@ -37,7 +35,6 @@ func _ready():
 
 	playerTween = get_node("Tween")
 
-	particles = get_node("Spatial/Particles")
 	cameraAnimation = get_node("Camera/CameraPan")
 	cameraRotation = get_node("CameraRotation")
 
@@ -45,27 +42,25 @@ func _ready():
 	Globals.playerPosition = self.translation
 
 
-# Debug only
-# Runs every frame
-func _process(_delta):
+# # Debug only holding multiple buttons cause bugs
+# # Runs every frame
+# func _process(_delta):
 	
-	# Keyboard input collection
-	if canMove:
-		for x in range(0,4):
-			if Input.is_action_pressed(keys[x]):
-				check_move(x)
+# 	# Keyboard input collection
+# 	if canMove:
+# 		for x in range(0,4):
+# 			if Input.is_action_pressed(keys[x]):
+# 				_check_move(x)
 
 
 # Prevent double inputs
 func touch_controls(dir: int):
 	if canMove:
-		check_move(dir)	
+		_check_move(dir)	
 
 
 # Runs every game tick
 func _physics_process(_delta):
-
-	# var fps = Engine.get_frames_per_second()
 
 	# Loose hp after game started
 	if !Globals.firstMove and !cameraRotating:
@@ -77,15 +72,10 @@ func _physics_process(_delta):
 	if (Globals.player_health <= 0) and !playerDead:
 		_game_over()
 
-	if Globals.firstMove:
-		frames += 1
-		
-		if frames >= 50:
-			frames = 0
-			level.create_decorations()
+	interface.update_fps(Engine.get_frames_per_second())
 
 
-func correct_score_calculation():
+func _correct_score_calculation():
 
 	# Movement animation
 	playerTween.interpolate_property(self, "translation", self.translation,
@@ -99,9 +89,8 @@ func correct_score_calculation():
 	
 	# Progress the game
 	level.generate_platform()
-	give_health(life_gain_f)
+	_give_health(life_gain_f)
 	
-	level.create_decorations()
 	level.create_decorations()
 	
 	# Slowly increase difficulty
@@ -164,7 +153,7 @@ func _on_Tween_tween_all_completed():
 		canMove = true
 
 
-func give_health(ammount: float):
+func _give_health(ammount: float):
 
 	if (Globals.player_health + ammount) > Globals.FULL_HEALTH:
 		# Health cap check
@@ -174,22 +163,20 @@ func give_health(ammount: float):
 		Globals.player_health += ammount
 
 				
-func check_move(dir: int):
+func _check_move(dir: int):
 	
 	# Calculation based on camera rotation
 	Globals.anim_direction = Globals.retranslate_direction(dir)
 	canMove = false
 	
 	if Globals.is_move_legal():
-		correct_score_calculation()
+		_correct_score_calculation()
 
 	else:
-		rebounce_check(dir)
-	
-	#particles.set_emitting(true)
+		_rebounce_check(dir)
 
 
-func rebounce_check(original_dir: int):
+func _rebounce_check(original_dir: int):
 
 	# Wrong move penalty
 	Globals.player_health -= 8
@@ -218,6 +205,10 @@ func _game_over():
 
 
 func _on_CameraPan_animation_finished(anim_name):
+
 	if anim_name == "CameraUp":
 		# warning-ignore:return_value_discarded
 		get_tree().reload_current_scene()
+
+	else:
+		canMove = true

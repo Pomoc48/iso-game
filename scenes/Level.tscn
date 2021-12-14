@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -157,29 +157,14 @@ tracks/0/keys = {
 "values": [ 90, 90, 85, 80 ]
 }
 
+[sub_resource type="DynamicFont" id=34]
+size = 38
+font_data = ExtResource( 18 )
+
 [sub_resource type="SphereMesh" id=2]
 material = ExtResource( 3 )
 radial_segments = 16
 rings = 8
-
-[sub_resource type="SpatialMaterial" id=14]
-flags_transparent = true
-flags_vertex_lighting = true
-emission_enabled = true
-emission = Color( 0, 0.74902, 1, 1 )
-emission_energy = 1.0
-emission_operator = 0
-emission_on_uv2 = false
-
-[sub_resource type="SphereMesh" id=15]
-radius = 0.2
-height = 0.4
-radial_segments = 6
-rings = 3
-
-[sub_resource type="Curve" id=34]
-max_value = 10.0
-_data = [ Vector2( 0, 10 ), 0.0, -28.2386, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Animation" id=11]
 length = 0.8
@@ -580,7 +565,7 @@ anims/HealthUp = SubResource( 21 )
 anchor_right = 1.0
 anchor_bottom = 0.178
 margin_right = -10.0
-margin_bottom = -0.160004
+margin_bottom = 44.88
 custom_fonts/font = SubResource( 5 )
 align = 1
 valign = 1
@@ -592,6 +577,17 @@ __meta__ = {
 anims/Hide = SubResource( 10 )
 anims/RESET = SubResource( 6 )
 anims/TextAnim = SubResource( 19 )
+
+[node name="Fps" type="Label" parent="Interface/Main"]
+margin_left = 10.0
+margin_top = 16.0
+margin_right = 210.0
+margin_bottom = 76.0
+custom_fonts/font = SubResource( 34 )
+text = "60 fps"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Platforms" type="Spatial" parent="."]
 
@@ -608,30 +604,8 @@ playback_process_mode = 0
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="Particles" type="CPUParticles" parent="Player/Spatial"]
-visible = false
-material_override = SubResource( 14 )
-generate_lightmap = false
-amount = 800
-lifetime = 10.0
-preprocess = 6.31
-fract_delta = false
-local_coords = false
-mesh = SubResource( 15 )
-emission_shape = 1
-emission_sphere_radius = 0.8
-direction = Vector3( 0, 0, 0 )
-spread = 0.0
-gravity = Vector3( 0, -0.5, 0 )
-linear_accel = 2.18
-linear_accel_curve = SubResource( 34 )
-radial_accel = -2.0
-scale_amount = 0.5
-scale_amount_random = 0.5
-color = Color( 0.0352941, 1, 0.968627, 1 )
-
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )
 projection = 1
 size = 36.0
 near = 0.01

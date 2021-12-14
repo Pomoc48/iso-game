@@ -4,6 +4,7 @@ extends Control
 var player
 var healthBar
 var scoreText
+var textFps
 
 
 var healthAnimation
@@ -28,6 +29,7 @@ func _ready():
 	scoreText = get_node("Main/Score")
 	textAnim = scoreText.get_node("Bump")
 
+	textFps = get_node("Main/Fps")
 	player = get_node("/root/Level/Player")
 
 
@@ -87,3 +89,9 @@ func add_score():
 
 	scoreText.set_text(str(Globals.session_score))
 	textAnim.play("TextAnim")
+
+
+func update_fps(fps):
+
+	var fpsText: String = str(fps) + " fps"
+	textFps.set_text(fpsText)

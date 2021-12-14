@@ -7,9 +7,9 @@ var decorationsSpace
 
 var history: int = 4
 var deco_history: int = 8
-
 var total_deco: int = 0
 var total_platforms: int = 1
+var frames: int = 0
 
 
 # Array of possible moves
@@ -28,6 +28,17 @@ func _ready():
 	decorationsSpace = get_node("Decorations")
 
 	create_decorations()
+
+
+# Runs every game tick
+func _physics_process(_delta):
+
+	if Globals.firstMove:
+		frames += 1
+		
+		if frames >= 50:
+			frames = 0
+			create_decorations()
 
 
 # Create floating cubes decorations
@@ -49,7 +60,7 @@ func create_decorations():
 
 	# Always below platforms
 	var tempY = randi() % 10
-	blockPos.y = -16
+	blockPos.y = -8
 	blockPos.y += tempY
 
 	var block = load("res://assets/Block.tscn")
