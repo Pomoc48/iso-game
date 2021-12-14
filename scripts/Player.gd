@@ -82,7 +82,7 @@ func _physics_process(_delta):
 		
 		if frames >= 50:
 			frames = 0
-			level.create_decorations(false)
+			level.create_decorations()
 
 
 func correct_score_calculation():
@@ -101,8 +101,8 @@ func correct_score_calculation():
 	level.generate_platform()
 	give_health(life_gain_f)
 	
-	level.create_decorations(false)
-	level.create_decorations(true)
+	level.create_decorations()
+	level.create_decorations()
 	
 	# Slowly increase difficulty
 	if speedup_counter >= 10:
@@ -155,8 +155,13 @@ func _on_CameraRotation_animation_finished(_anim_name):
 
 
 func _on_Tween_tween_all_completed():
+
+	# Update global position at the end of animation
 	Globals.playerPosition = self.translation
-	canMove = true
+
+	# Small bug fix
+	if !cameraRotating:
+		canMove = true
 
 
 func give_health(ammount: float):

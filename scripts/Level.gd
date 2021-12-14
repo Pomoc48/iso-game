@@ -27,12 +27,11 @@ func _ready():
 	platformsSpace = get_node("Platforms")
 	decorationsSpace = get_node("Decorations")
 
-	create_decorations(false)
-	create_decorations(true)
+	create_decorations()
 
 
 # Create floating cubes decorations
-func create_decorations(duration: bool):
+func create_decorations():
 
 	var blockPos
 
@@ -59,29 +58,33 @@ func create_decorations(duration: bool):
 	
 	decorationsSpace.add_child(blockI)
 
-	# Give animation long or short duration
-	if duration:
-		blockI.get_node("AnimationPlayer").play("ShowLong")
-	else:
-		blockI.get_node("AnimationPlayer").play("Show")
+	# # Give animation long or short duration
+	# if duration:
+	# 	blockI.get_node("AnimationPlayer").play("ShowLong")
+	# else:
+	# 	blockI.get_node("AnimationPlayer").play("Show")
+
+	blockI.get_node("AnimationPlayer").play("Show")
 
 	total_deco += 1
 
 	# Remove old blocks and disable particles
 	if total_deco >= deco_history:
 
-		#var decoIndex = total_deco - DECO_HISTORY
-		var blockDeco = decorationsSpace.get_child(0)
+		var decoIndex = total_deco - deco_history
+		var blockDeco = decorationsSpace.get_child(decoIndex)
 		#print(decorationsSpace.get_child_count())
 
 		blockDeco.get_node("AnimationPlayer").play("Hide")
 		blockDeco.get_node("CPUParticles").set_emitting(false)
 
-		#yield(get_tree().create_timer(0.5), "timeout")
-		#blockDeco.set_visible(false)
-		blockDeco.free()
+		yield(get_tree().create_timer(0.25), "timeout")
+		# blockDeco.set_visible(false)
+		
+		blockDeco.queue_free()
+		total_deco -= 1
 
-
+	
 func generate_platform():
 
 	var randomNumber = randi() % 3
@@ -124,4 +127,7 @@ func generate_platform():
 
 		# Cleanup
 		yield(get_tree().create_timer(0.2), "timeout")
-		child.set_visible(false)
+		# child.set_visible(false)
+
+		child.queue_free()
+		total_platforms -= 1

@@ -6,8 +6,6 @@ const FULL_MOVE = 20
 
 
 var player_health: float = FULL_HEALTH
-
-
 var firstMove: bool = true
 
 
