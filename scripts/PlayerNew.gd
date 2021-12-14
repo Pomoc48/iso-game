@@ -19,7 +19,7 @@ var healthAnimation
 
 const FULL_MOVE = 20
 const HISTORY = 4
-const DECO_HISTORY = 12
+const DECO_HISTORY = 8
 const FULL_HEALTH = 24
 
 
@@ -56,7 +56,7 @@ var pMoves = [
 	["Long0", "Corner0", "Corner1"],
 	["Long1", "Corner1", "Corner2"],
 	["Long0", "Corner2", "Corner3"],
-	["Long1", "Corner3", "Corner0"]
+	["Long1", "Corner3", "Corner0"],
 ]
 
 
@@ -84,15 +84,13 @@ func _ready():
 	scoreText = get_node("/root/Level/Interface/Main/Score")
 	textAnim = scoreText.get_node("Bump")
 
-	initialVarDeclaration()
+	initial_declarations()
+
+	create_decorations(false)
+	create_decorations(true)
 
 
-
-	createDecorations(false)
-	createDecorations(true)
-
-
-func initialVarDeclaration():
+func initial_declarations():
 
 	firstMove = true
 	canMove = true
@@ -113,27 +111,27 @@ func _process(_delta):
 	if canMove:
 		for x in range(0,4):
 			if Input.is_action_pressed(keys[x]):
-				checkMove(x)
+				check_move(x)
 
 
 # Prevent double inputs
-func touchControls(dir: int):
+func touch_controls(dir: int):
 	if canMove:
-		checkMove(dir)	
+		check_move(dir)	
 
 
 # Connect UI buttons
 func _on_Left_button_down():
-	touchControls(3)
+	touch_controls(3)
 
 func _on_Right_button_down():
-	touchControls(1)
+	touch_controls(1)
 
 func _on_Down_button_down():
-	touchControls(2)
+	touch_controls(2)
 
 func _on_Up_button_down():
-	touchControls(0)
+	touch_controls(0)
 
 
 # Runs every game tick
@@ -142,24 +140,24 @@ func _physics_process(_delta):
 	# var fps = Engine.get_frames_per_second()
 
 	# Loose hp after game started
-	if !firstMove && !cameraRotating:
+	if !firstMove and !cameraRotating:
 		player_health -= life_loss_rate_f
-		calculateHealthBar()
+		calculate_health_bar()
 
-	# No life gameover check
-	if (player_health <= 0) && !playerDead:
-		gameOver()
+	# No life game_over check
+	if (player_health <= 0) and !playerDead:
+		_game_over()
 
 	if firstMove:
 		frames += 1
 		
-		if frames >= 20:
+		if frames >= 50:
 			frames = 0
-			createDecorations(false)
+			create_decorations(false)
 
 
 # One time screen size calculation
-func getScreenSize():
+func get_screen_size():
 
 	var screenSize = get_viewport().get_visible_rect().size.x
 	update_health_by = screenSize / FULL_HEALTH
@@ -167,10 +165,10 @@ func getScreenSize():
 
 
 # Calculate healthbar pixels
-func calculateHealthBar():
+func calculate_health_bar():
 
 	if !screenSizeCalculated:
-		getScreenSize()
+		get_screen_size()
 
 	# Int cast for Vector2
 	var health = player_health * update_health_by
@@ -180,20 +178,24 @@ func calculateHealthBar():
 
 
 # Create floating cubes decorations
-func createDecorations(duration: bool):
+func create_decorations(duration: bool):
 
 	var blockPos
 
+	# Idle animation position fix
 	if firstMove:
 		blockPos = self.translation
-		
+
 	else:
-		blockPos = directionCalc(anim_direction,
+		# Future move pos
+		blockPos = direction_calc(anim_direction,
 		self.translation, FULL_MOVE)
 
-	blockPos.x += decorationsCalc()
-	blockPos.z += decorationsCalc()
+	# Random offset
+	blockPos.x += decorations_calc()
+	blockPos.z += decorations_calc()
 
+	# Always below platforms
 	var tempY = randi() % 10
 	blockPos.y = -16
 	blockPos.y += tempY
@@ -204,6 +206,7 @@ func createDecorations(duration: bool):
 	
 	decorationsSpace.add_child(blockI)
 
+	# Give animation long or short duration
 	if duration:
 		blockI.get_node("AnimationPlayer").play("ShowLong")
 	else:
@@ -211,22 +214,26 @@ func createDecorations(duration: bool):
 
 	total_deco += 1
 
+	# Remove old blocks and disable particles
 	if total_deco >= DECO_HISTORY:
 
-		var decoIndex = total_deco - DECO_HISTORY
-		var blockDeco = decorationsSpace.get_child(decoIndex)
+		#var decoIndex = total_deco - DECO_HISTORY
+		var blockDeco = decorationsSpace.get_child_count()
+		print(blockDeco)
 
-		blockDeco.get_node("AnimationPlayer").play("Hide")
-		blockDeco.get_node("CPUParticles").set_emitting(false)
+		#blockDeco.get_node("AnimationPlayer").play("Hide")
+		#blockDeco.get_node("CPUParticles").set_emitting(false)
 
 		yield(get_tree().create_timer(0.5), "timeout")
-		blockDeco.set_visible(false)
+		#blockDeco.set_visible(false)
+		#blockDeco.queue_free()
+		
 
-
-func decorationsCalc() -> int:
-
-	var pos: bool = randomBool()
-
+func decorations_calc() -> int:
+	
+	var pos: bool = random_bool()
+	
+	# Add safe margin around the player
 	var temp = randi() % 13 + 7
 	if !pos:
 		temp *= -1
@@ -234,12 +241,12 @@ func decorationsCalc() -> int:
 	return temp
 
 
-func correctScoreCalculation():
+func correct_score_calculation():
 
 	# Movement animation
 	playerTween.interpolate_property(self, "translation", self.translation,
-		directionCalc(anim_direction, self.translation, FULL_MOVE), 0.25,
-		Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
+			direction_calc(anim_direction, self.translation, FULL_MOVE), 0.25,
+			Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
 	playerTween.start()
 	
 	session_score += 1
@@ -249,11 +256,11 @@ func correctScoreCalculation():
 	speedup_counter += 1
 	
 	# Progress the game
-	generatePlatform()
-	giveHealth(life_gain_f)
+	generate_platform()
+	give_health(life_gain_f)
 	
-	createDecorations(false)
-	createDecorations(true)
+	create_decorations(false)
+	create_decorations(true)
 	
 	# Slowly increase difficulty
 	if speedup_counter >= 10:
@@ -262,12 +269,12 @@ func correctScoreCalculation():
 		life_gain_f += 0.25
 		speedup_counter = 0
 
-		rotateCamera()
+		rotate_camera()
 		
 
-func rotateCamera():
+func rotate_camera():
 	# Get random rotation direction
-	var clockwise: bool = randomBool()
+	var clockwise: bool = random_bool()
 		
 	# Camera rotation section
 	if clockwise:
@@ -307,7 +314,7 @@ func _on_Tween_tween_all_completed():
 	canMove = true
 
 
-func giveHealth(ammount: float):
+func give_health(ammount: float):
 
 	if (player_health + ammount) > FULL_HEALTH:
 		# Health cap check
@@ -317,36 +324,36 @@ func giveHealth(ammount: float):
 		player_health += ammount
 
 				
-func checkMove(direction: int):
+func check_move(direction: int):
 	
 	# Calculation based on camera rotation
-	anim_direction = retranslateDirection(direction)
+	anim_direction = retranslate_direction(direction)
 	canMove = false
 	
-	if isMoveLegal():
-		correctScoreCalculation()
+	if is_move_legal():
+		correct_score_calculation()
 
 	else:
-		rebounceCheck(direction)
+		rebounce_check(direction)
 	
 	#particles.set_emitting(true)
 
 
-func rebounceCheck(original_dir: int):
+func rebounce_check(original_dir: int):
 
 	# Wrong move penalty
 	player_health -= 8
 
 	# Instant game over
-	if player_health <= 0 && !playerDead:
-		gameOver()
+	if player_health <= 0 and !playerDead:
+		_game_over()
 
 	else:
 		# Animate player rebounce
 		cameraRotation.play("Bounce" + str(original_dir))		
 
 
-func retranslateDirection(dir: int) -> int:
+func retranslate_direction(dir: int) -> int:
 
 	# (Clockwise)
 	if camera_rotation_index != 3:
@@ -360,7 +367,7 @@ func retranslateDirection(dir: int) -> int:
 
 
 # Translate directions to vectors
-func directionCalc(dir: int, vect: Vector3, ammo: int) -> Vector3:
+func direction_calc(dir: int, vect: Vector3, ammo: int) -> Vector3:
 	
 	if dir == 0:
 		vect.x += ammo
@@ -378,15 +385,15 @@ func directionCalc(dir: int, vect: Vector3, ammo: int) -> Vector3:
 
 
 # Get position for the new platform
-func getFuturePos() -> Vector3:
+func get_future_pos() -> Vector3:
 	
 	var futurePos = self.translation
 	futurePos.y = -16
 
-	return directionCalc(anim_direction, futurePos, FULL_MOVE)
+	return direction_calc(anim_direction, futurePos, FULL_MOVE)
 
 
-func isMoveLegal() -> bool:
+func is_move_legal() -> bool:
 	
 	if firstMove:
 
@@ -402,21 +409,21 @@ func isMoveLegal() -> bool:
 		# Checking for wrong moves
 
 		if anim_direction == 0:
-			return !checkMatch("Corner0", "Corner1", "Long1", 2)
+			return !check_match("Corner0", "Corner1", "Long1", 2)
 			
 		elif anim_direction == 1:
-			return !checkMatch("Corner1", "Corner2", "Long0", 3)
+			return !check_match("Corner1", "Corner2", "Long0", 3)
 			
 		elif anim_direction == 2:
-			return !checkMatch("Corner2", "Corner3", "Long1", 0)
+			return !check_match("Corner2", "Corner3", "Long1", 0)
 			
 		elif anim_direction == 3:
-			return !checkMatch("Corner0", "Corner3", "Long0", 1)
+			return !check_match("Corner0", "Corner3", "Long0", 1)
 
 		return true
 
 
-func checkMatch(corner1, corner2, long, direction) -> bool:
+func check_match(corner1, corner2, long, direction) -> bool:
 	
 	var corners = [corner1, corner2, long]
 		
@@ -431,7 +438,7 @@ func checkMatch(corner1, corner2, long, direction) -> bool:
 		return false
 
 
-func randomBool() -> bool:
+func random_bool() -> bool:
 
 	# Bigger range for better randomness
 	var foo = randi() % 100
@@ -442,7 +449,7 @@ func randomBool() -> bool:
 		return true
 
 
-func generatePlatform():
+func generate_platform():
 
 	var randomNumber = randi() % 3
 
@@ -450,7 +457,7 @@ func generatePlatform():
 	prev_block = pMoves[anim_direction][randomNumber]
 
 	var platform
-	var decoratePlatform = randomBool()
+	var decoratePlatform = random_bool()
 
 	if decoratePlatform:
 		platform = load("res://assets/platforms/alt/"+
@@ -463,7 +470,7 @@ func generatePlatform():
 
 	# Load and place new platforms
 	var platformI = platform.instance()
-	platformI.translation = getFuturePos()
+	platformI.translation = get_future_pos()
 	level.add_child(platformI)
 	
 	total_platforms += 1
@@ -484,7 +491,7 @@ func generatePlatform():
 		child.set_visible(false)
 
 
-func gameOver():
+func _game_over():
 	
 	# Preventing movement after death
 	playerDead = true
