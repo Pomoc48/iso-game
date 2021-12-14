@@ -1,109 +1,127 @@
 extends Spatial
 
 
+var platformsSpace
+var decorationsSpace
+
+
+var history: int = 4
+var deco_history: int = 8
+
+var total_deco: int = 0
+var total_platforms: int = 1
+
+
+# Array of possible moves
+var pMoves = [
+	["Long0", "Corner0", "Corner1"],
+	["Long1", "Corner1", "Corner2"],
+	["Long0", "Corner2", "Corner3"],
+	["Long1", "Corner3", "Corner0"],
+]
+
+
 # Init function
 func _ready():
-	randomize()
+
+	platformsSpace = get_node("Platforms")
+	decorationsSpace = get_node("Decorations")
+
+	create_decorations(false)
+	create_decorations(true)
 
 
-func random_bool() -> bool:
+# Create floating cubes decorations
+func create_decorations(duration: bool):
 
-	# Bigger range for better randomness
-	var foo = randi() % 100
+	var blockPos
 
-	if foo < 50:
-		return false
-	else:
-		return true
-
-
-# Translate directions to vectors
-func direction_calc(vect) -> Vector3:
-	
-	if Globals.anim_direction == 0:
-		vect.x += Globals.FULL_MOVE
-
-	elif Globals.anim_direction == 1:
-		vect.z += Globals.FULL_MOVE
-
-	elif Globals.anim_direction == 2:
-		vect.x += -Globals.FULL_MOVE
-
-	elif Globals.anim_direction == 3:
-		vect.z += -Globals.FULL_MOVE
-		
-	return vect
-
-
-# Get position for the new platform
-func get_future_pos(position) -> Vector3:
-	
-	var futurePos = position
-	futurePos.y = -16
-
-	return direction_calc(futurePos)
-
-
-func is_move_legal() -> bool:
-
+	# Idle animation position fix
 	if Globals.firstMove:
+		blockPos = Globals.playerPosition
 
-		Globals.firstMove = false
-		return true
-		
 	else:
-		# Checking for wrong moves
+		# Future move pos
+		blockPos = Globals.direction_calc()
 
-		if Globals.anim_direction == 0:
-			return !_check_match("Corner0", "Corner1", "Long1", 2)
-			
-		elif Globals.anim_direction == 1:
-			return !_check_match("Corner1", "Corner2", "Long0", 3)
-			
-		elif Globals.anim_direction == 2:
-			return !_check_match("Corner2", "Corner3", "Long1", 0)
-			
-		elif Globals.anim_direction == 3:
-			return !_check_match("Corner0", "Corner3", "Long0", 1)
+	# Random offset
+	blockPos.x += Globals.decorations_calc()
+	blockPos.z += Globals.decorations_calc()
 
-		return true
+	# Always below platforms
+	var tempY = randi() % 10
+	blockPos.y = -16
+	blockPos.y += tempY
 
-
-func _check_match(c1, c2, l, dir) -> bool:
-
-	var corners = [c1, c2, l]
-		
-	# Backtracking check
-	for x in range(0, corners.size()):
-		if Globals.prev_block == corners[x]:
-			return true
-		
-	if Globals.prev_direction == dir:
-		return true
-	else:
-		return false
-
-
-func retranslate_direction(direction) -> int:
-
-	# (Clockwise)
-	if Globals.camera_rotation_index != 3:
-		direction -= (Globals.camera_rotation_index + 1)
-
-		# Reverse overflow check
-		if direction < 0:
-			direction += 4
-
-	return direction
-
-
-func decorations_calc() -> int:
-
-	var pos: bool = random_bool()
+	var block = load("res://assets/Block.tscn")
+	var blockI = block.instance()
+	blockI.translation = blockPos
 	
-	# Add safe margin around the player
-	var temp = randi() % 13 + 7
-	if !pos:
-		temp *= -1
+	decorationsSpace.add_child(blockI)
 
-	return temp
+	# Give animation long or short duration
+	if duration:
+		blockI.get_node("AnimationPlayer").play("ShowLong")
+	else:
+		blockI.get_node("AnimationPlayer").play("Show")
+
+	total_deco += 1
+
+	# Remove old blocks and disable particles
+	if total_deco >= deco_history:
+
+		#var decoIndex = total_deco - DECO_HISTORY
+		var blockDeco = decorationsSpace.get_child(0)
+		#print(decorationsSpace.get_child_count())
+
+		blockDeco.get_node("AnimationPlayer").play("Hide")
+		blockDeco.get_node("CPUParticles").set_emitting(false)
+
+		#yield(get_tree().create_timer(0.5), "timeout")
+		#blockDeco.set_visible(false)
+		blockDeco.free()
+
+
+func generate_platform():
+
+	var randomNumber = randi() % 3
+
+	# Save for latter backtracking check
+	Globals.prev_block = pMoves[Globals.anim_direction][randomNumber]
+
+	var platform
+	var decoratePlatform = Globals.random_bool()
+
+	if decoratePlatform:
+		platform = load("res://assets/platforms/alt/"+
+		Globals.prev_block +".tscn")
+
+	else:
+		platform = load("res://assets/platforms/plain/"+
+		Globals.prev_block +".tscn")
+
+
+	# Load and place new platforms
+	var platformI = platform.instance()
+
+	platformI.translation = Globals.direction_calc()
+	platformI.translation.y = -16
+
+	platformsSpace.add_child(platformI)
+	
+	total_platforms += 1
+	platformI.get_node("Spatial/AnimationPlayer").play("Up")
+	
+	Globals.prev_direction = Globals.anim_direction
+	
+	# Animate remove old platforms
+	if total_platforms >= history:
+
+		var childIndex = total_platforms - history
+		var child = platformsSpace.get_child(childIndex)
+
+		child.get_node("Spatial/AnimationPlayer").play("Down")
+
+		# Cleanup
+		yield(get_tree().create_timer(0.2), "timeout")
+		child.set_visible(false)

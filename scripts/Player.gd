@@ -5,14 +5,10 @@ var level
 var interface
 var particles
 var playerTween
-var decorationsSpace
-var platformsSpace
+
+
 var cameraRotation
 var cameraAnimation
-
-
-const HISTORY = 4
-const DECO_HISTORY = 8
 
 
 var canMove: bool = true
@@ -22,26 +18,12 @@ var cameraRotating: bool = false
 
 var life_loss_rate_f: float = 0.04
 var life_gain_f: float = 2
-
-
-var total_platforms: int = 1
-var total_deco: int
-
 var speedup_counter: int = 0
-
-var frames: int
+var frames: int = 0
 
 
 # Inputs array
 var keys = ["ui_up", "ui_right", "ui_down", "ui_left"]
-
-# Array of possible moves
-var pMoves = [
-	["Long0", "Corner0", "Corner1"],
-	["Long1", "Corner1", "Corner2"],
-	["Long0", "Corner2", "Corner3"],
-	["Long1", "Corner3", "Corner0"],
-]
 
 
 # Init function
@@ -59,11 +41,8 @@ func _ready():
 	cameraAnimation = get_node("Camera/CameraPan")
 	cameraRotation = get_node("CameraRotation")
 
-	platformsSpace = level.get_node("Platforms")
-	decorationsSpace = level.get_node("Decorations")
-
-	create_decorations(false)
-	create_decorations(true)
+	Globals.reset()
+	Globals.playerPosition = self.translation
 
 
 # Debug only
@@ -103,66 +82,14 @@ func _physics_process(_delta):
 		
 		if frames >= 50:
 			frames = 0
-			create_decorations(false)
-
-
-# Create floating cubes decorations
-func create_decorations(duration: bool):
-
-	var blockPos
-
-	# Idle animation position fix
-	if Globals.firstMove:
-		blockPos = self.translation
-
-	else:
-		# Future move pos
-		blockPos = level.direction_calc(self.translation)
-
-	# Random offset
-	blockPos.x += level.decorations_calc()
-	blockPos.z += level.decorations_calc()
-
-	# Always below platforms
-	var tempY = randi() % 10
-	blockPos.y = -16
-	blockPos.y += tempY
-
-	var block = load("res://assets/Block.tscn")
-	var blockI = block.instance()
-	blockI.translation = blockPos
-	
-	decorationsSpace.add_child(blockI)
-
-	# Give animation long or short duration
-	if duration:
-		blockI.get_node("AnimationPlayer").play("ShowLong")
-	else:
-		blockI.get_node("AnimationPlayer").play("Show")
-
-	total_deco += 1
-
-	# Remove old blocks and disable particles
-	if total_deco >= DECO_HISTORY:
-
-		#var decoIndex = total_deco - DECO_HISTORY
-		var blockDeco = decorationsSpace.get_child(0)
-		#print(decorationsSpace.get_child_count())
-
-		blockDeco.get_node("AnimationPlayer").play("Hide")
-		blockDeco.get_node("CPUParticles").set_emitting(false)
-
-		#yield(get_tree().create_timer(0.5), "timeout")
-		#blockDeco.set_visible(false)
-		blockDeco.free()
+			level.create_decorations(false)
 
 
 func correct_score_calculation():
 
 	# Movement animation
 	playerTween.interpolate_property(self, "translation", self.translation,
-			level.direction_calc(self.translation), 0.25,
-			Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
+			Globals.direction_calc(), 0.25, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
 	playerTween.start()
 	
 	Globals.session_score += 1
@@ -171,11 +98,11 @@ func correct_score_calculation():
 	speedup_counter += 1
 	
 	# Progress the game
-	generate_platform()
+	level.generate_platform()
 	give_health(life_gain_f)
 	
-	create_decorations(false)
-	create_decorations(true)
+	level.create_decorations(false)
+	level.create_decorations(true)
 	
 	# Slowly increase difficulty
 	if speedup_counter >= 10:
@@ -189,7 +116,7 @@ func correct_score_calculation():
 
 func rotate_camera():
 	# Get random rotation direction
-	var clockwise: bool = level.random_bool()
+	var clockwise: bool = Globals.random_bool()
 		
 	# Camera rotation section
 	if clockwise:
@@ -212,11 +139,13 @@ func rotate_camera():
 
 	# Play correct camera animation
 	if clockwise:
-		cameraRotation.play("RotationCW" + str(Globals.camera_rotation_index))
+		cameraRotation.play("RotationCW" +
+				str(Globals.camera_rotation_index))
 
 	else:
 		var ccwArray = ["2", "1", "0", "3"]
-		cameraRotation.play("RotationCCW" + ccwArray[Globals.camera_rotation_index])
+		cameraRotation.play("RotationCCW" +
+				ccwArray[Globals.camera_rotation_index])
 
 
 # Reenable controls
@@ -226,6 +155,7 @@ func _on_CameraRotation_animation_finished(_anim_name):
 
 
 func _on_Tween_tween_all_completed():
+	Globals.playerPosition = self.translation
 	canMove = true
 
 
@@ -239,17 +169,17 @@ func give_health(ammount: float):
 		Globals.player_health += ammount
 
 				
-func check_move(direction: int):
+func check_move(dir: int):
 	
 	# Calculation based on camera rotation
-	Globals.anim_direction = level.retranslate_direction(direction)
+	Globals.anim_direction = Globals.retranslate_direction(dir)
 	canMove = false
 	
-	if level.is_move_legal():
+	if Globals.is_move_legal():
 		correct_score_calculation()
 
 	else:
-		rebounce_check(direction)
+		rebounce_check(dir)
 	
 	#particles.set_emitting(true)
 
@@ -266,48 +196,6 @@ func rebounce_check(original_dir: int):
 	else:
 		# Animate player rebounce
 		cameraRotation.play("Bounce" + str(original_dir))		
-
-
-func generate_platform():
-
-	var randomNumber = randi() % 3
-
-	# Save for latter backtracking check
-	Globals.prev_block = pMoves[Globals.anim_direction][randomNumber]
-
-	var platform
-	var decoratePlatform = level.random_bool()
-
-	if decoratePlatform:
-		platform = load("res://assets/platforms/alt/"+
-		Globals.prev_block +".tscn")
-
-	else:
-		platform = load("res://assets/platforms/plain/"+
-		Globals.prev_block +".tscn")
-
-
-	# Load and place new platforms
-	var platformI = platform.instance()
-	platformI.translation = level.get_future_pos(self.translation)
-	platformsSpace.add_child(platformI)
-	
-	total_platforms += 1
-	platformI.get_node("Spatial/AnimationPlayer").play("Up")
-	
-	Globals.prev_direction = Globals.anim_direction
-	
-	# Animate remove old platforms
-	if total_platforms >= HISTORY:
-
-		var childIndex = total_platforms - HISTORY
-		var child = platformsSpace.get_child(childIndex)
-
-		child.get_node("Spatial/AnimationPlayer").play("Down")
-
-		# Cleanup
-		yield(get_tree().create_timer(0.2), "timeout")
-		child.set_visible(false)
 
 
 func _game_over():
