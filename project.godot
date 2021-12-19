@@ -19,7 +19,7 @@ config/icon="res://assets/textures/icon.png"
 
 [autoload]
 
-Globals="*res://scripts/Globals.gd"
+PlayerVariables="*res://scripts/PlayerVariables.cs"
 
 [display]
 
@@ -31,6 +31,7 @@ window/stretch/aspect="expand"
 [global]
 
 etc=false
+c#=true
 
 [physics]
 

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "9TtNHkEJ88fFceXW+2wiNt/WxhzGgvDZ3A4hD/ZQyH55QSul/2xOK/jfxNCE2apQo2zi1PBmyg3Tr4GGUcHovw==",
+  "success": true,
+  "projectFilePath": "/home/lukawski/Documents/Game/godot/Iso.csproj",
+  "expectedPackageFiles": [
+    "/home/lukawski/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.2/microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "/home/lukawski/.nuget/packages/microsoft.netframework.referenceassemblies.net472/1.0.2/microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

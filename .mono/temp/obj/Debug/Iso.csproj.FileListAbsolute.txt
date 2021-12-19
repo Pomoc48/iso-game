@@ -1,0 +1,9 @@
+/home/lukawski/Documents/Game/godot/.mono/temp/bin/Debug/Iso.dll
+/home/lukawski/Documents/Game/godot/.mono/temp/bin/Debug/Iso.pdb
+/home/lukawski/Documents/Game/godot/.mono/temp/obj/Debug/Iso.csproj.AssemblyReference.cache
+/home/lukawski/Documents/Game/godot/.mono/temp/obj/Debug/Iso.GeneratedMSBuildEditorConfig.editorconfig
+/home/lukawski/Documents/Game/godot/.mono/temp/obj/Debug/Iso.AssemblyInfoInputs.cache
+/home/lukawski/Documents/Game/godot/.mono/temp/obj/Debug/Iso.AssemblyInfo.cs
+/home/lukawski/Documents/Game/godot/.mono/temp/obj/Debug/Iso.csproj.CoreCompileInputs.cache
+/home/lukawski/Documents/Game/godot/.mono/temp/obj/Debug/Iso.dll
+/home/lukawski/Documents/Game/godot/.mono/temp/obj/Debug/Iso.pdb

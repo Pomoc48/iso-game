@@ -1,10 +1,10 @@
 [gd_scene load_steps=39 format=2]
 
-[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
 [ext_resource path="res://materials/emission.tres" type="Material" id=3]
-[ext_resource path="res://scripts/Interface.gd" type="Script" id=4]
-[ext_resource path="res://scripts/Level.gd" type="Script" id=5]
+[ext_resource path="res://scripts/Interface.cs" type="Script" id=4]
+[ext_resource path="res://scripts/Level.cs" type="Script" id=5]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/textures/square.png" type="Texture" id=15]
