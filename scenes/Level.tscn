@@ -589,6 +589,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HighScore" type="Label" parent="Interface/Main"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -510.0
+margin_top = 16.0
+margin_right = -10.0
+margin_bottom = 76.0
+custom_fonts/font = SubResource( 34 )
+text = "HiScore: 120"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Platforms" type="Spatial" parent="."]
 
 [node name="Start" parent="Platforms" instance=ExtResource( 14 )]

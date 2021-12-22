@@ -9,6 +9,7 @@ public class Interface : Control
     private Control healthBar;
     private Label scoreText;
     private Label textFps;
+    private Label highScoreText;
 
     private AnimationPlayer healthAnimation;
     private AnimationPlayer buttonsAnimLeft;
@@ -29,6 +30,7 @@ public class Interface : Control
         buttonsAnimRight = GetNode<AnimationPlayer>("Main/Right/ShowHide");
 
         textFps = GetNode<Label>("Main/Fps");
+        highScoreText = GetNode<Label>("Main/HighScore");
         scoreText = GetNode<Label>("Main/Score");
         textAnim = scoreText.GetNode<AnimationPlayer>("Bump");
 
@@ -85,6 +87,11 @@ public class Interface : Control
 	    textAnim.Play("Hide");
 	
 	    healthAnimation.Play("HealthUp");
+    }
+
+    public void UpdateHighScore(int score)
+    {
+        highScoreText.Text = "HiScore: " + score;
     }
 
     // Connect UI buttons

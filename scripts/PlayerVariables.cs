@@ -4,6 +4,7 @@ using System;
 public class PlayerVariables : Node
 {
     private Random rnd = new Random();
+    private ConfigFile CF = new ConfigFile();
     
     public int fullHealth = 24;
     public int fullMove = 20;
@@ -15,6 +16,7 @@ public class PlayerVariables : Node
     public int sessionScore = 0;
     public int animDirection;
     public int prevDirection;
+    public int highScore;
 
     public String prevBlock;
     public Vector3 playerPosition;
@@ -25,6 +27,20 @@ public class PlayerVariables : Node
         firstMove = true;
         camRotIndex = 3;
         sessionScore = 0;
+    }
+
+    public void Save(String category, int value)
+    {
+        CF.SetValue("Main", category, value);
+        CF.Save("user://config");
+        GD.Print(OS.GetUserDataDir());
+    }
+
+    public int Load(String category)
+    {
+        if (CF.Load("user://config") != Error.Ok) Save("HighScore", 0);
+        int number = (int) CF.GetValue("Main", category, 0);
+        return number;
     }
 
     public bool RandomBool()

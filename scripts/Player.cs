@@ -42,6 +42,11 @@ public class Player : Spatial
         Globals.playerPosition = this.Translation;
 
         nextCycle = Globals.GetMaxCycle(maxCycle, 4);
+
+        // Get previous highscore
+
+        Globals.highScore = Globals.Load("HighScore");
+        interfaceMain.UpdateHighScore(Globals.highScore);
     }
 
     // Debug for now
@@ -238,6 +243,11 @@ public class Player : Spatial
         playerDead = true;
         canMove = false;
 
+        if (Globals.sessionScore > Globals.highScore)
+        {
+            Globals.Save("HighScore", Globals.sessionScore);
+            interfaceMain.UpdateHighScore(Globals.sessionScore);
+        }
         // print("Final Score:", Globals.session_score)
 
         // Wait for outro anim and restart
