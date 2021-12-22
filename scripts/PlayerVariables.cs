@@ -129,4 +129,15 @@ public class PlayerVariables : Node
 
         return temp;
     }
+
+    // Get new cycle lenght for camera rotation
+    public int GetMaxCycle(int cycle, int range)
+    {
+        int temp;
+
+        if (RandomBool()) temp = cycle + rnd.Next(range);
+        else temp = cycle - rnd.Next(range);
+
+        return temp;
+    }
 }

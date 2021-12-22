@@ -37,7 +37,7 @@ public class Level : Spatial
     // Runs every game tick
     public override void _PhysicsProcess(float delta)
     {
-        if (Globals.firstMove) frames += 1;
+        if (Globals.firstMove) frames++;
 		
 		if (frames >= 50)
         {
@@ -73,7 +73,7 @@ public class Level : Spatial
         
         decorationsSpace.AddChild(blockI);
         blockI.GetNode<AnimationPlayer>("AnimationPlayer").Play("Show");
-        totalDeco += 1;
+        totalDeco++;
 
         // Remove old blocks and disable particles
         if (totalDeco >= decoHistory)
@@ -89,7 +89,7 @@ public class Level : Spatial
             // TODO work to be done
             
             blockDeco.QueueFree();
-            totalDeco -= 1;
+            totalDeco--;
         }
     }
 
@@ -126,7 +126,7 @@ public class Level : Spatial
 
         platformsSpace.AddChild(platformI);
         
-        totalPlatforms += 1;
+        totalPlatforms++;
         platformI.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Up");
         
         Globals.prevDirection = Globals.animDirection;
@@ -142,7 +142,7 @@ public class Level : Spatial
             // yield(get_tree().create_timer(0.2), "timeout")
 
             child.QueueFree();
-            totalPlatforms -= 1;
+            totalPlatforms--;
         }
     }
 }

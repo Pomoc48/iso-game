@@ -20,6 +20,8 @@ public class Player : Spatial
     private float lifeGainRate = 2.0f;
 
     private int speedupCounter = 0;
+    private int nextCycle = 0;
+    private int maxCycle = 20;
 
     String[] keys = {"ui_up", "ui_right", "ui_down", "ui_left"};
 
@@ -38,21 +40,46 @@ public class Player : Spatial
 
         Globals.ResetVars();
         Globals.playerPosition = this.Translation;
+
+        nextCycle = Globals.GetMaxCycle(maxCycle, 4);
     }
 
-    // Debug only holding multiple buttons cause bugs
+    // Debug for now
     public override void _Process(float delta)
     {
-        if (canMove)
+        // for (int x = 0; x <= 3; x++)
+        // {
+            
+        //     // Keyboard input collection
+        //     if (Input.IsActionPressed(keys[x]))
+        //     {
+        //         GD.Print(keys[x]);
+        //         if (canMove) CheckMove(x);
+        //     }
+        // }
+
+        if (Input.IsActionPressed(keys[0]) &&
+                Input.IsActionPressed(keys[1]))
         {
-            for (int x = 0; x <= 3; x++)
-            {
-                // Keyboard input collection
-                if (Input.IsActionPressed(keys[x]))
-                {
-                    CheckMove(x);
-                }
-            }
+            if (canMove) CheckMove(0);
+        }
+
+        if (Input.IsActionPressed(keys[1]) &&
+                Input.IsActionPressed(keys[2]))
+        {
+            if (canMove) CheckMove(1);
+        }
+
+        if (Input.IsActionPressed(keys[2]) &&
+                Input.IsActionPressed(keys[3]))
+        {
+            if (canMove) CheckMove(2);
+        }
+
+        if (Input.IsActionPressed(keys[3]) &&
+                Input.IsActionPressed(keys[0]))
+        {
+            if (canMove) CheckMove(3);
         }
     }
 
@@ -60,9 +87,11 @@ public class Player : Spatial
     public override void _PhysicsProcess(float delta)
     {
         // Loose hp after game started
-        if (!Globals.firstMove && !cameraRotating)
+        if (!Globals.firstMove)
         {
-            Globals.playerHealth -= lifeLossRate;
+            // Take less life when rotating
+            if (cameraRotating) Globals.playerHealth -= lifeLossRate / 2;
+            else Globals.playerHealth -= lifeLossRate;
             interfaceMain.CalculateHealthBar();
         }
 
@@ -90,10 +119,10 @@ public class Player : Spatial
                 Tween.TransitionType.Quad, Tween.EaseType.InOut);
         playerTween.Start();
         
-        Globals.sessionScore += 1;
+        Globals.sessionScore++;
         interfaceMain.AddScore();
         
-        speedupCounter += 1;
+        speedupCounter++;
         
         // Progress the game
         Level.GeneratePlatform();
@@ -102,11 +131,21 @@ public class Player : Spatial
         Level.CreateDecorations();
         
         // Slowly increase difficulty
-        if (speedupCounter >= 10)
+        if (speedupCounter >= nextCycle)
         {
             lifeLossRate += 0.01f;
             lifeGainRate += 0.25f;
             speedupCounter = 0;
+
+            maxCycle--;
+
+            if (maxCycle < 5)
+            {
+                maxCycle = 5;
+                nextCycle = Globals.GetMaxCycle(maxCycle, 4);
+            }
+
+            else nextCycle = Globals.GetMaxCycle(maxCycle, 5);
 
             RotateCamera();
         }  
@@ -118,8 +157,8 @@ public class Player : Spatial
         bool clockwise = Globals.RandomBool();
         
         // Camera rotation section
-        if (clockwise) Globals.camRotIndex += 1;
-        else Globals.camRotIndex -= 1;
+        if (clockwise) Globals.camRotIndex++;
+        else Globals.camRotIndex--;
 
         // camera_rotation_index = 3 -> DEFAULT
         if (Globals.camRotIndex > 3) Globals.camRotIndex = 0;
@@ -185,7 +224,7 @@ public class Player : Spatial
     private void RebounceCheck(int original_dir)
     {
         // Wrong move penalty
-        Globals.playerHealth -= 8;
+        Globals.playerHealth -= 10;
         
         // Instant game over
         if ((Globals.playerHealth <= 0) && !playerDead) GameOver();
