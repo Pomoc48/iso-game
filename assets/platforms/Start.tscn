@@ -42,6 +42,7 @@ tracks/0/keys = {
 [node name="Start" type="Spatial"]
 
 [node name="Spatial" type="Spatial" parent="."]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Spatial"]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
@@ -60,40 +61,18 @@ mesh = SubResource( 1 )
 material/0 = ExtResource( 3 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="Spatial"]
-transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 7.5, 0, 10 )
+transform = Transform( 10, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 10 )
 mesh = SubResource( 1 )
 material/0 = ExtResource( 3 )
 
 [node name="MeshInstance5" type="MeshInstance" parent="Spatial"]
-transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -7.5, 0, 10 )
+transform = Transform( -4.37114e-07, 0, 0.1, 0, 0.1, 0, -10, 0, -4.37114e-09, 10, 0, 0 )
 mesh = SubResource( 1 )
 material/0 = ExtResource( 3 )
 
-[node name="Spatial" type="Spatial" parent="Spatial"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
-
-[node name="MeshInstance6" type="MeshInstance" parent="Spatial/Spatial"]
-transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 7.5, 0, -10 )
+[node name="MeshInstance6" type="MeshInstance" parent="Spatial"]
+transform = Transform( -4.37114e-07, 0, 0.1, 0, 0.1, 0, -10, 0, -4.37114e-09, -10, 0, 0 )
 mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 3 )
-
-[node name="MeshInstance7" type="MeshInstance" parent="Spatial/Spatial"]
-transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -7.5, 0, -10 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 3 )
-
-[node name="MeshInstance8" type="MeshInstance" parent="Spatial/Spatial"]
-transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 7.5, 0, 10 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 3 )
-
-[node name="MeshInstance9" type="MeshInstance" parent="Spatial/Spatial"]
-transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -7.5, 0, 10 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
 
 [node name="AnimationPlayer" parent="Spatial" instance=ExtResource( 1 )]

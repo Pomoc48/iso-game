@@ -21,6 +21,8 @@ public class PlayerVariables : Node
     public String prevBlock;
     public Vector3 playerPosition;
 
+    private int startDir;
+
     public void ResetVars()
     {
         playerHealth = fullHealth;
@@ -33,7 +35,6 @@ public class PlayerVariables : Node
     {
         CF.SetValue("Main", category, value);
         CF.Save("user://config");
-        GD.Print(OS.GetUserDataDir());
     }
 
     public int Load(String category)
@@ -83,8 +84,13 @@ public class PlayerVariables : Node
     {
         if (firstMove)
         {
-            firstMove = false;
-            return true;
+            if (animDirection == startDir)
+            {
+                firstMove = false;
+                return true;
+            }
+
+            else return false;
         }
             
         else
@@ -155,5 +161,11 @@ public class PlayerVariables : Node
         else temp = cycle - rnd.Next(range);
 
         return temp;
+    }
+
+    public int GenerateStartingPos()
+    {
+        startDir = rnd.Next(4);
+        return startDir;
     }
 }

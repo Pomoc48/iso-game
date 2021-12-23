@@ -32,17 +32,20 @@ public class Level : Spatial
         Globals = GetNode<PlayerVariables>("/root/PlayerVariables");
 
 	    CreateDecorations();
+        RotateStartingPlatform();
     }
 
     // Runs every game tick
     public override void _PhysicsProcess(float delta)
     {
-        if (Globals.firstMove) frames++;
-		
-		if (frames >= 50)
+        if (!Globals.firstMove) return;
+
+        frames++;
+
+        if (frames >= 50)
         {
-			frames = 0;
-			CreateDecorations();
+            frames = 0;
+            CreateDecorations();
         }
     }
 
@@ -101,23 +104,8 @@ public class Level : Spatial
         Globals.prevBlock = pMoves[Globals.animDirection, randomNumber];
 
         PackedScene platform;
-        var decoratePlatform = Globals.RandomBool();
 
-        // if (decoratePlatform)
-        // {
-        //     platform = (PackedScene)ResourceLoader
-        //             .Load("res://assets/platforms/alt/" +
-        //             Globals.prevBlock + ".tscn");
-        // }
-        // else
-        // {
-        //     platform = (PackedScene)ResourceLoader
-        //             .Load("res://assets/platforms/plain/" +
-        //             Globals.prevBlock + ".tscn");
-        // }
-
-        platform = (PackedScene)ResourceLoader
-                    .Load("res://assets/platforms/alt/" +
+        platform = (PackedScene)ResourceLoader.Load("res://assets/platforms/" +
                     Globals.prevBlock + ".tscn");
 
         // Load and place new platforms
@@ -148,5 +136,14 @@ public class Level : Spatial
             child.QueueFree();
             totalPlatforms--;
         }
+    }
+
+    private void RotateStartingPlatform()
+    {
+        float rotation = Globals.GenerateStartingPos();
+
+        // Convert degrees to radians
+        rotation *= -1.5707963268f;
+        platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
     }
 }

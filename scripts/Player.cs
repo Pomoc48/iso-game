@@ -229,7 +229,7 @@ public class Player : Spatial
     private void RebounceCheck(int original_dir)
     {
         // Wrong move penalty
-        Globals.playerHealth -= 10;
+        if (!Globals.firstMove) Globals.playerHealth -= 10;
         
         // Instant game over
         if ((Globals.playerHealth <= 0) && !playerDead) GameOver();
