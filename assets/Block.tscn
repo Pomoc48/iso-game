@@ -75,7 +75,8 @@ anims/Show = SubResource( 2 )
 anims/ShowLong = SubResource( 4 )
 
 [node name="CPUParticles" type="CPUParticles" parent="."]
-amount = 32
+emitting = false
+amount = 64
 lifetime = 6.0
 mesh = SubResource( 5 )
 emission_shape = 2

@@ -103,18 +103,22 @@ public class Level : Spatial
         PackedScene platform;
         var decoratePlatform = Globals.RandomBool();
 
-        if (decoratePlatform)
-        {
-            platform = (PackedScene)ResourceLoader
+        // if (decoratePlatform)
+        // {
+        //     platform = (PackedScene)ResourceLoader
+        //             .Load("res://assets/platforms/alt/" +
+        //             Globals.prevBlock + ".tscn");
+        // }
+        // else
+        // {
+        //     platform = (PackedScene)ResourceLoader
+        //             .Load("res://assets/platforms/plain/" +
+        //             Globals.prevBlock + ".tscn");
+        // }
+
+        platform = (PackedScene)ResourceLoader
                     .Load("res://assets/platforms/alt/" +
                     Globals.prevBlock + ".tscn");
-        }
-        else
-        {
-            platform = (PackedScene)ResourceLoader
-                    .Load("res://assets/platforms/plain/" +
-                    Globals.prevBlock + ".tscn");
-        }
 
         // Load and place new platforms
         Spatial platformI = (Spatial)platform.Instance();
