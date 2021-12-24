@@ -161,6 +161,64 @@ tracks/0/keys = {
 size = 38
 font_data = ExtResource( 18 )
 
+[sub_resource type="Animation" id=36]
+resource_name = "HideUI"
+length = 0.5
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 32, 32 ), Vector2( 32, -64 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../HighScore:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 748, 32 ), Vector2( 748, -64 ) ]
+}
+
+[sub_resource type="Animation" id=35]
+resource_name = "ShowUI"
+length = 0.8
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 32, -64 ), Vector2( 32, 32 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../HighScore:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 748, -64 ), Vector2( 748, 32 ) ]
+}
+
 [sub_resource type="SphereMesh" id=2]
 material = ExtResource( 3 )
 radial_segments = 32
@@ -194,38 +252,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 0 ),
 "update": 0,
 "values": [ Vector3( -8, 11, 8 ), Vector3( -8, 40, 8 ) ]
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "PulseLight"
-length = 5.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2, 3, 4, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.779, 1.126, 0.876, 1.136, 1.0 ]
-}
-
-[sub_resource type="Animation" id=4]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
 }
 
 [sub_resource type="Animation" id=30]
@@ -579,23 +605,26 @@ anims/RESET = SubResource( 6 )
 anims/TextAnim = SubResource( 19 )
 
 [node name="Fps" type="Label" parent="Interface/Main"]
-margin_left = 10.0
-margin_top = 16.0
-margin_right = 210.0
-margin_bottom = 76.0
+margin_left = 32.0
+margin_top = -64.0
+margin_right = 232.0
+margin_bottom = -4.00002
 custom_fonts/font = SubResource( 34 )
-text = "60 fps"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/Fps"]
+autoplay = "ShowUI"
+anims/HideUI = SubResource( 36 )
+anims/ShowUI = SubResource( 35 )
+
 [node name="HighScore" type="Label" parent="Interface/Main"]
-anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -510.0
-margin_top = 16.0
-margin_right = -10.0
-margin_bottom = 76.0
+margin_left = 748.0
+margin_top = -64.0
+margin_right = -32.0
+margin_bottom = -4.00002
 custom_fonts/font = SubResource( 34 )
 text = "HiScore: 120"
 align = 2
@@ -629,21 +658,6 @@ far = 646.3
 autoplay = "CameraDown"
 anims/CameraDown = SubResource( 11 )
 anims/CameraUp = SubResource( 12 )
-
-[node name="PlayerLight" type="OmniLight" parent="Player"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
-visible = false
-light_color = Color( 0.227451, 0.870588, 0.870588, 1 )
-light_specular = 0.0
-light_bake_mode = 0
-omni_range = 32.0
-omni_attenuation = 2.0
-
-[node name="LightFlicker" type="AnimationPlayer" parent="Player/PlayerLight"]
-autoplay = "PulseLight"
-playback_speed = 2.0
-anims/PulseLight = SubResource( 18 )
-anims/RESET = SubResource( 4 )
 
 [node name="CameraRotation" type="AnimationPlayer" parent="Player"]
 anims/Bounce0 = SubResource( 30 )

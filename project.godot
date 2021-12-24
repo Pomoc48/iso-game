@@ -13,7 +13,6 @@ config_version=4
 config/name="Iso"
 run/main_scene="res://scenes/Level.tscn"
 run/delta_smoothing=false
-boot_splash/image="res://assets/textures/icon.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://assets/textures/icon.png"
 
@@ -26,8 +25,8 @@ PlayerVariables="*res://scripts/PlayerVariables.cs"
 window/size/width=1280
 window/size/height=720
 window/vsync/use_vsync=false
-window/stretch/mode="2d"
-window/stretch/aspect="expand"
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_height"
 
 [global]
 
@@ -68,25 +67,39 @@ ui_down={
 
 [physics]
 
+common/physics_fps=120
 common/physics_jitter_fix=0.0
+3d/physics_engine="Bullet"
 3d/active_soft_world=false
+3d/godot_physics/use_bvh=false
 2d/thread_model=2
+3d/default_gravity=0.0
 common/enable_object_picking=false
 
 [rendering]
 
 quality/driver/driver_name="GLES2"
 quality/intended_usage/framebuffer_allocation=3
+threads/thread_model=2
 vram_compression/import_etc=true
+quality/directional_shadow/size=256
+quality/directional_shadow/size.mobile=256
+quality/shadow_atlas/size=256
+quality/shadow_atlas/size.mobile=256
 quality/shadows/filter_mode=0
 quality/reflections/texture_array_reflections=false
 quality/reflections/high_quality_ggx=false
 quality/shading/force_vertex_shading.mobile=false
 quality/shading/force_lambert_over_burley=true
 quality/shading/force_blinn_over_ggx=true
+quality/filters/anisotropic_filter_level=2
+gles2/compatibility/disable_half_float=true
 cpu_lightmapper/quality/low_quality_ray_count=32
 cpu_lightmapper/quality/medium_quality_ray_count=64
 cpu_lightmapper/quality/high_quality_ray_count=256
 cpu_lightmapper/quality/ultra_quality_ray_count=512
-quality/filters/use_fxaa=true
+quality/reflections/atlas_size=2
+quality/reflections/atlas_subdiv=4
+quality/filters/msaa=1
+quality/dynamic_fonts/use_oversampling=false
 quality/subsurface_scattering/quality=0

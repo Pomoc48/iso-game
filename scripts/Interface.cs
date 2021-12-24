@@ -15,6 +15,7 @@ public class Interface : Control
     private AnimationPlayer buttonsAnimLeft;
     private AnimationPlayer buttonsAnimRight;
     private AnimationPlayer textAnim;
+    private AnimationPlayer textUI;
 
     private bool screenSizeCalculated;
     private bool healthBarShow = true;
@@ -33,9 +34,12 @@ public class Interface : Control
         highScoreText = GetNode<Label>("Main/HighScore");
         scoreText = GetNode<Label>("Main/Score");
         textAnim = scoreText.GetNode<AnimationPlayer>("Bump");
+        textUI = GetNode<AnimationPlayer>("Main/Fps/ShowHide");
 
         Globals = GetNode<PlayerVariables>("/root/PlayerVariables");
         Player = GetNode<Player>("/root/Level/Player");
+
+        if (!screenSizeCalculated) GetScreenSize();
     }
 
     // One time screen size calculation
@@ -53,11 +57,6 @@ public class Interface : Control
         {
             healthAnimation.Play("HealthDown");
 		    healthBarShow = false;
-        }
-
-        if (!screenSizeCalculated)
-        {
-            GetScreenSize();
         }
 		
         float health = Globals.playerHealth * updateHealthBy;
@@ -85,6 +84,7 @@ public class Interface : Control
         buttonsAnimRight.Play("Hide");
 	    buttonsAnimLeft.Play("Hide");
 	    textAnim.Play("Hide");
+        textUI.Play("HideUI");
 	
 	    healthAnimation.Play("HealthUp");
     }
@@ -97,21 +97,21 @@ public class Interface : Control
     // Connect UI buttons
     private void _on_Left_button_down()
     {
-        Player.TouchControls(3);
+        Player.CheckMove(3);
     }
 
     private void _on_Right_button_down()
     {
-        Player.TouchControls(1);
+        Player.CheckMove(1);
     }
 
     private void _on_Up_button_down()
     {
-        Player.TouchControls(0);
+        Player.CheckMove(0);
     }
 
     private void _on_Down_button_down()
     {
-        Player.TouchControls(2);
+        Player.CheckMove(2);
     }
 }

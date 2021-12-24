@@ -10,10 +10,9 @@ public class Level : Spatial
     private Spatial decorationsSpace;
 
     private int history = 4;
-    private int decoHistory = 8;
+    private int decoHistory = 12;
     private int totalDeco = 0;
     private int totalPlatforms = 1;
-    private int frames = 0;
 
     // Array of possible moves
     String[,] pMoves = {
@@ -33,20 +32,6 @@ public class Level : Spatial
 
 	    CreateDecorations();
         RotateStartingPlatform();
-    }
-
-    // Runs every game tick
-    public override void _PhysicsProcess(float delta)
-    {
-        if (!Globals.firstMove) return;
-
-        frames++;
-
-        if (frames >= 50)
-        {
-            frames = 0;
-            CreateDecorations();
-        }
     }
 
     // Create floating cubes decorations
@@ -75,7 +60,6 @@ public class Level : Spatial
         blockI.Translation = blockPos;
         
         decorationsSpace.AddChild(blockI);
-        blockI.GetNode<AnimationPlayer>("AnimationPlayer").Play("Show");
         totalDeco++;
 
         // Remove old blocks and disable particles
@@ -85,7 +69,7 @@ public class Level : Spatial
             Spatial blockDeco = decorationsSpace.GetChild<Spatial>(decoIndex);
 
             blockDeco.GetNode<AnimationPlayer>("AnimationPlayer").Play("Hide");
-            blockDeco.GetNode<CPUParticles>("CPUParticles").Emitting = false;
+            //blockDeco.GetNode<CPUParticles>("CPUParticles").Emitting = false;
 
             // yield(get_tree().create_timer(0.25), "timeout")
             // # blockDeco.set_visible(false)

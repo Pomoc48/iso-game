@@ -22,6 +22,7 @@ public class Player : Spatial
     private int speedupCounter = 0;
     private int nextCycle = 0;
     private int maxCycle = 20;
+    private int frames = 0;
 
     String[] keys = {"ui_up", "ui_right", "ui_down", "ui_left"};
 
@@ -95,8 +96,9 @@ public class Player : Spatial
         if (!Globals.firstMove)
         {
             // Take less life when rotating
-            if (cameraRotating) Globals.playerHealth -= lifeLossRate / 2;
-            else Globals.playerHealth -= lifeLossRate;
+            if (cameraRotating) Globals.playerHealth -= lifeLossRate / 4;
+            else Globals.playerHealth -= lifeLossRate / 2;
+
             interfaceMain.CalculateHealthBar();
         }
 
@@ -106,14 +108,30 @@ public class Player : Spatial
             GameOver();
         }
 
-        // Debug only
-        interfaceMain.UpdateFps(Engine.GetFramesPerSecond().ToString());
+        // if (!Globals.firstMove) return;
+
+        frames++;
+
+        if (frames >= 120)
+        {
+            frames = 0;
+            Level.CreateDecorations();
+
+            // Debug only
+            interfaceMain.UpdateFps(Engine.GetFramesPerSecond().ToString());
+        }
     }
 
-    public void TouchControls(int dir)
+    public void CheckMove(int dir)
     {
-        // Prevent double inputs
-        if (canMove) CheckMove(dir);
+        if (!canMove) return;
+
+        // Calculation based on camera rotation
+        Globals.animDirection = Globals.RetranslateDirection(dir);
+        canMove = false;
+        
+        if (Globals.IsMoveLegal()) CorrectScoreCalculation();
+        else RebounceCheck(dir);
     }
 
     private void CorrectScoreCalculation()
@@ -214,16 +232,6 @@ public class Player : Spatial
         }
 
         else Globals.playerHealth += ammount;
-    }
-                    
-    private void CheckMove(int dir)
-    {
-        // Calculation based on camera rotation
-        Globals.animDirection = Globals.RetranslateDirection(dir);
-        canMove = false;
-        
-        if (Globals.IsMoveLegal()) CorrectScoreCalculation();
-        else RebounceCheck(dir);
     }
         
     private void RebounceCheck(int original_dir)
