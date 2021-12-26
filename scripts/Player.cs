@@ -112,7 +112,7 @@ public class Player : Spatial
 
         frames++;
 
-        if (frames >= 120)
+        if (frames >= 60)
         {
             frames = 0;
             Level.CreateDecorations();
@@ -150,8 +150,6 @@ public class Player : Spatial
         // Progress the game
         Level.GeneratePlatform();
         GiveHealth(lifeGainRate);
-        
-        Level.CreateDecorations();
         
         // Slowly increase difficulty
         if (speedupCounter >= nextCycle)

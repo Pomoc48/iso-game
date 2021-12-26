@@ -9,8 +9,8 @@ public class Level : Spatial
     private Spatial platformsSpace;
     private Spatial decorationsSpace;
 
-    private int history = 4;
-    private int decoHistory = 12;
+    private int history = 3;
+    private int decoHistory = 8;
     private int totalDeco = 0;
     private int totalPlatforms = 1;
 
@@ -29,8 +29,6 @@ public class Level : Spatial
 	    decorationsSpace = GetNode<Spatial>("Decorations");
 
         Globals = GetNode<PlayerVariables>("/root/PlayerVariables");
-
-	    CreateDecorations();
         RotateStartingPlatform();
     }
 
@@ -68,15 +66,8 @@ public class Level : Spatial
             int decoIndex = totalDeco - decoHistory;
             Spatial blockDeco = decorationsSpace.GetChild<Spatial>(decoIndex);
 
-            blockDeco.GetNode<AnimationPlayer>("AnimationPlayer").Play("Hide");
-            //blockDeco.GetNode<CPUParticles>("CPUParticles").Emitting = false;
-
-            // yield(get_tree().create_timer(0.25), "timeout")
-            // # blockDeco.set_visible(false)
-            // TODO work to be done
-            
-            blockDeco.QueueFree();
             totalDeco--;
+            blockDeco.GetNode<AnimationPlayer>("AnimationPlayer").Play("Hide");
         }
     }
 
@@ -113,12 +104,8 @@ public class Level : Spatial
             int childIndex = totalPlatforms - history;
             Spatial child = platformsSpace.GetChild<Spatial>(childIndex);
 
-            child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Down");
-
-            // yield(get_tree().create_timer(0.2), "timeout")
-
-            child.QueueFree();
             totalPlatforms--;
+            child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Down");
         }
     }
 
