@@ -1,10 +1,11 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
 [ext_resource path="res://materials/emission.tres" type="Material" id=3]
 [ext_resource path="res://scripts/Interface.cs" type="Script" id=4]
 [ext_resource path="res://scripts/Level.cs" type="Script" id=5]
+[ext_resource path="res://materials/emission2.tres" type="Material" id=6]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/textures/square.png" type="Texture" id=15]
@@ -219,6 +220,16 @@ tracks/1/keys = {
 "values": [ Vector2( 748, -64 ), Vector2( 748, 32 ) ]
 }
 
+[sub_resource type="SphereMesh" id=37]
+material = ExtResource( 6 )
+radius = 0.1
+height = 0.2
+radial_segments = 8
+rings = 4
+
+[sub_resource type="Curve" id=38]
+_data = [ Vector2( 0, 1 ), 0.0, -0.0895879, 0, 0, Vector2( 0.365782, 1 ), 0.0, -0.128409, 0, 0, Vector2( 1, 0 ), -4.54568, 0.0, 0, 0 ]
+
 [sub_resource type="SphereMesh" id=2]
 radial_segments = 32
 rings = 16
@@ -239,7 +250,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=12]
-length = 0.8
+length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:translation")
 tracks/0/interp = 1
@@ -247,10 +258,34 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.8 ),
+"times": PoolRealArray( 0.7, 1.5 ),
 "transitions": PoolRealArray( 1, 0 ),
 "update": 0,
 "values": [ Vector3( -8, 11, 8 ), Vector3( -8, 40, 8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../Spatial/CPUParticles2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Spatial/Spatial2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=30]
@@ -269,6 +304,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 4, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=31]
 resource_name = "Bounce1"
@@ -285,6 +332,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 2, 0.5, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 4 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=32]
@@ -303,6 +362,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( -4, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=33]
 resource_name = "Bounce3"
@@ -319,6 +390,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 2, 0.5, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -4 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=22]
@@ -642,8 +725,42 @@ script = ExtResource( 1 )
 [node name="Tween" type="Tween" parent="Player"]
 playback_process_mode = 0
 
-[node name="Spatial" type="MeshInstance" parent="Player"]
+[node name="Spatial" type="Spatial" parent="Player"]
+
+[node name="CPUParticles" type="CPUParticles" parent="Player/Spatial"]
+emitting = false
+amount = 20
+lifetime = 0.4
+explosiveness = 1.0
+local_coords = false
+mesh = SubResource( 37 )
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+initial_velocity_random = 0.2
+radial_accel = -5.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 38 )
+
+[node name="CPUParticles2" type="CPUParticles" parent="Player/Spatial"]
+emitting = false
+amount = 80
+explosiveness = 1.0
+local_coords = false
+mesh = SubResource( 37 )
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+initial_velocity_random = 0.2
+radial_accel = -5.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 38 )
+
+[node name="Spatial2" type="MeshInstance" parent="Player/Spatial"]
 mesh = SubResource( 2 )
+skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="Player"]

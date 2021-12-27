@@ -36,7 +36,7 @@ public class Player : Spatial
         interfaceMain = GetNode<Interface>("/root/Level/Interface");
 
         playerTween = GetNode<Tween>("Tween");
-        playerMesh = this.GetNode<MeshInstance>("Spatial");
+        playerMesh = this.GetNode<MeshInstance>("Spatial/Spatial2");
 
         cameraAnimation = GetNode<AnimationPlayer>("Camera/CameraPan");
         cameraRotation = GetNode<AnimationPlayer>("CameraRotation");
@@ -102,7 +102,7 @@ public class Player : Spatial
 
         frames++;
 
-        if (frames >= 240)
+        if (frames >= 120)
         {
             frames = 0;
             Level.CreateDecorations();
@@ -249,7 +249,7 @@ public class Player : Spatial
             interfaceMain.UpdateHighScore(Globals.sessionScore);
         }
 
-        // Wait for outro anim and restart
+        // Outro animations
         cameraAnimation.Play("CameraUp");
         interfaceMain.HideUiAnimations();
     }
@@ -259,8 +259,9 @@ public class Player : Spatial
         if (enable)
         {
             canMove = true;
-            playerMesh.SetSurfaceMaterial(0, Globals.emissionBlue);
 
+            if (playerMesh.GetSurfaceMaterial(0) == Globals.emissionBlue) return;
+            playerMesh.SetSurfaceMaterial(0, Globals.emissionBlue);
             return;
         }
 
