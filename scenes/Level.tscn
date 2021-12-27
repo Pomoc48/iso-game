@@ -220,7 +220,6 @@ tracks/1/keys = {
 }
 
 [sub_resource type="SphereMesh" id=2]
-material = ExtResource( 3 )
 radial_segments = 32
 rings = 16
 
@@ -645,7 +644,7 @@ playback_process_mode = 0
 
 [node name="Spatial" type="MeshInstance" parent="Player"]
 mesh = SubResource( 2 )
-material/0 = null
+material/0 = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="Player"]
 transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )

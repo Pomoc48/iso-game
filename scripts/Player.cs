@@ -8,6 +8,7 @@ public class Player : Spatial
 
     private Interface interfaceMain;
     private Tween playerTween;
+    private MeshInstance playerMesh;
 
     private AnimationPlayer cameraRotation;
     private AnimationPlayer cameraAnimation;
@@ -35,6 +36,7 @@ public class Player : Spatial
         interfaceMain = GetNode<Interface>("/root/Level/Interface");
 
         playerTween = GetNode<Tween>("Tween");
+        playerMesh = this.GetNode<MeshInstance>("Spatial");
 
         cameraAnimation = GetNode<AnimationPlayer>("Camera/CameraPan");
         cameraRotation = GetNode<AnimationPlayer>("CameraRotation");
@@ -116,14 +118,16 @@ public class Player : Spatial
 
         // Calculation based on camera rotation
         Globals.animDirection = Globals.RetranslateDirection(dir);
-        canMove = false;
         
         if (Globals.IsMoveLegal()) CorrectScoreCalculation();
         else RebounceCheck(dir);
+
     }
 
     private void CorrectScoreCalculation()
     {
+        EnableControls(false, false);
+
         // Movement animation
         playerTween.InterpolateProperty(this, "translation",
                 this.Translation, Globals.DirectionCalc(), 0.25f,
@@ -174,7 +178,7 @@ public class Player : Spatial
         if (Globals.camRotIndex < 0) Globals.camRotIndex= 3;
 
         // Disable controls for animation duration
-        canMove = false;
+        EnableControls(false, false);
         cameraRotating = true;
 
         // Play correct camera animation
@@ -195,7 +199,7 @@ public class Player : Spatial
     // Reenable controls
     private void _on_CameraRotation_animation_finished(String _anim_name)
     {
-        canMove = true;
+        EnableControls(true, false);
         cameraRotating = false;
     }
 
@@ -206,7 +210,7 @@ public class Player : Spatial
 
         // Small bug fix
         if (cameraRotating) return;
-        canMove = true;
+        EnableControls(true, false);
     }
 
     private void GiveHealth(float ammount)
@@ -222,6 +226,8 @@ public class Player : Spatial
         
     private void RebounceCheck(int original_dir)
     {
+        EnableControls(false, true);
+
         // Wrong move penalty
         if (!Globals.firstMove) Globals.playerHealth -= 10;
         
@@ -235,23 +241,36 @@ public class Player : Spatial
     {
         // Preventing movement after death
         playerDead = true;
-        canMove = false;
+        EnableControls(false, true);
 
         if (Globals.sessionScore > Globals.highScore)
         {
             Globals.Save("HighScore", Globals.sessionScore);
             interfaceMain.UpdateHighScore(Globals.sessionScore);
         }
-        // print("Final Score:", Globals.session_score)
 
         // Wait for outro anim and restart
         cameraAnimation.Play("CameraUp");
         interfaceMain.HideUiAnimations();
     }
+
+    private void EnableControls(bool enable, bool red)
+    {
+        if (enable)
+        {
+            canMove = true;
+            playerMesh.SetSurfaceMaterial(0, Globals.emissionBlue);
+
+            return;
+        }
+
+        canMove = false;
+        if (red) playerMesh.SetSurfaceMaterial(0, Globals.emissionRed);
+    }
         
     private void _on_CameraPan_animation_finished(String anim_name)
     {
         if (anim_name == "CameraUp") GetTree().ReloadCurrentScene();
-        else canMove = true;
+        else EnableControls(true, false);
     }
 }

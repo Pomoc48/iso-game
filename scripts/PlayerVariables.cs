@@ -21,7 +21,18 @@ public class PlayerVariables : Node
     public String prevBlock;
     public Vector3 playerPosition;
 
+    public SpatialMaterial emissionRed;
+    public SpatialMaterial emissionBlue;
+    public SpatialMaterial emissionWhite;
+
     private int startDir;
+
+    public override void _Ready()
+    {
+        emissionRed = (SpatialMaterial)GD.Load("res://materials/emission2.tres");
+        emissionBlue = (SpatialMaterial)GD.Load("res://materials/emission.tres");
+        emissionWhite = (SpatialMaterial)GD.Load("res://materials/emission3.tres");
+    }
 
     public void ResetVars()
     {
