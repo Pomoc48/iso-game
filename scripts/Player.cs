@@ -53,16 +53,6 @@ public class Player : Spatial
     // Debug for now
     public override void _Process(float delta)
     {
-        // for (int x = 0; x <= 3; x++)
-        // {
-            
-        //     // Keyboard input collection
-        //     if (Input.IsActionPressed(keys[x]))
-        //     {
-        //         GD.Print(keys[x]);
-        //         if (canMove) CheckMove(x);
-        //     }
-        // }
 
         if (Input.IsActionPressed(keys[0]) &&
                 Input.IsActionPressed(keys[1]))
@@ -108,11 +98,9 @@ public class Player : Spatial
             GameOver();
         }
 
-        // if (!Globals.firstMove) return;
-
         frames++;
 
-        if (frames >= 60)
+        if (frames >= 240)
         {
             frames = 0;
             Level.CreateDecorations();

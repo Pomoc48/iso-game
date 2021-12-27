@@ -141,15 +141,29 @@ public class PlayerVariables : Node
 	    return direction;
     }
 
-	public int DecorationsCalc()
+	public Vector3 DecorationsCalc(Vector3 centerPos)
     {
-        bool pos = RandomBool();
-        
-        // Add safe margin around the player
-        int temp = rnd.Next(7, 18);
-        if (!pos) temp *= -1;
+        int rangeS;
+        int rangeS2;
 
-        return temp;
+        if (RandomBool())
+        {
+            rangeS = rnd.Next(16, 24);
+            rangeS2 = rnd.Next(24);
+        }
+        else
+        {
+            rangeS2 = rnd.Next(16, 24);
+            rangeS = rnd.Next(24);
+        }
+
+        if (RandomBool()) centerPos.x += rangeS;
+        else centerPos.x -= rangeS;
+
+        if (RandomBool()) centerPos.z += rangeS2;
+        else centerPos.z -= rangeS2;
+
+        return centerPos;
     }
 
     // Get new cycle lenght for camera rotation

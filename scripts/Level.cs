@@ -43,13 +43,11 @@ public class Level : Spatial
         else blockPos = Globals.DirectionCalc();
 
         // Random offset
-        blockPos.x += Globals.DecorationsCalc();
-        blockPos.z += Globals.DecorationsCalc();
+
+        blockPos = Globals.DecorationsCalc(blockPos);
 
         // Always below platforms
-        int tempY = rnd.Next(10);
-        blockPos.y = -8;
-        blockPos.y += tempY;
+        blockPos.y = 2;
 
         PackedScene block = (PackedScene)ResourceLoader
                 .Load("res://assets/Block.tscn");
@@ -59,16 +57,6 @@ public class Level : Spatial
         
         decorationsSpace.AddChild(blockI);
         totalDeco++;
-
-        // Remove old blocks and disable particles
-        if (totalDeco >= decoHistory)
-        {
-            int decoIndex = totalDeco - decoHistory;
-            Spatial blockDeco = decorationsSpace.GetChild<Spatial>(decoIndex);
-
-            totalDeco--;
-            blockDeco.GetNode<AnimationPlayer>("AnimationPlayer").Play("Hide");
-        }
     }
 
     public void GeneratePlatform()
