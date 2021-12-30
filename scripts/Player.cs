@@ -51,7 +51,7 @@ public class Player : Spatial
         // Get previous highscore
 
         Globals.highScore = Globals.Load("HighScore");
-        interfaceMain.UpdateHighScore(Globals.highScore);
+        interfaceMain.UpdateHighScore(Globals.highScore, true);
     }
 
     // Debug for now
@@ -248,12 +248,18 @@ public class Player : Spatial
         if (Globals.sessionScore > Globals.highScore)
         {
             Globals.Save("HighScore", Globals.sessionScore);
-            interfaceMain.UpdateHighScore(Globals.sessionScore);
-        }
+            interfaceMain.UpdateHighScore(Globals.sessionScore, false);
 
-        // Outro animations
-        cameraAnimation.Play("CameraUp");
-        interfaceMain.HideUiAnimations();
+            // Give more time for the new highscore animation
+            cameraAnimation.Play("CameraUpLong");
+            interfaceMain.HideUiAnimations(true);
+        }
+        else
+        {
+            // Outro animations
+            cameraAnimation.Play("CameraUp");
+            interfaceMain.HideUiAnimations(false);
+        }
     }
 
     private void EnableControls(bool enable, bool red)
@@ -279,7 +285,11 @@ public class Player : Spatial
         
     private void _on_CameraPan_animation_finished(String anim_name)
     {
-        if (anim_name == "CameraUp") GetTree().ReloadCurrentScene();
+        if (anim_name == "CameraUp" || anim_name == "CameraUpLong")
+        {
+            GetTree().ReloadCurrentScene();
+        }
+
         else EnableControls(true, false);
     }
 }

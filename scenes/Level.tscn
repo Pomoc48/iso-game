@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -124,6 +124,34 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, -180 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "Highscore"
+length = 2.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.1, 1.9, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -180 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "New Highscore!" ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -259,6 +287,46 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0.7, 1.5 ),
+"transitions": PoolRealArray( 1, 0 ),
+"update": 0,
+"values": [ Vector3( -8, 11, 8 ), Vector3( -8, 40, 8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../Spatial/CPUParticles2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Spatial/Spatial2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=39]
+resource_name = "CameraUpLong"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 2.2, 3 ),
 "transitions": PoolRealArray( 1, 0 ),
 "update": 0,
 "values": [ Vector3( -8, 11, 8 ), Vector3( -8, 40, 8 ) ]
@@ -683,6 +751,7 @@ __meta__ = {
 
 [node name="Bump" type="AnimationPlayer" parent="Interface/Main/Score"]
 anims/Hide = SubResource( 10 )
+anims/Highscore = SubResource( 40 )
 anims/RESET = SubResource( 6 )
 anims/TextAnim = SubResource( 19 )
 
@@ -690,7 +759,7 @@ anims/TextAnim = SubResource( 19 )
 margin_left = 32.0
 margin_top = -64.0
 margin_right = 232.0
-margin_bottom = -4.00002
+margin_bottom = -3.99998
 custom_fonts/font = SubResource( 34 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -706,7 +775,7 @@ anchor_right = 1.0
 margin_left = 748.0
 margin_top = -64.0
 margin_right = -32.0
-margin_bottom = -4.00002
+margin_bottom = -3.99998
 custom_fonts/font = SubResource( 34 )
 text = "HiScore: 120"
 align = 2
@@ -764,7 +833,7 @@ skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8 )
 projection = 1
 size = 36.0
 near = 0.01
@@ -774,6 +843,7 @@ far = 646.3
 autoplay = "CameraDown"
 anims/CameraDown = SubResource( 11 )
 anims/CameraUp = SubResource( 12 )
+anims/CameraUpLong = SubResource( 39 )
 
 [node name="CameraRotation" type="AnimationPlayer" parent="Player"]
 anims/Bounce0 = SubResource( 30 )

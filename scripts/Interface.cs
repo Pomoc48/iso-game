@@ -79,19 +79,25 @@ public class Interface : Control
     }
 
     // Gameover call
-    public void HideUiAnimations()
+    public void HideUiAnimations(bool highscore)
     {
         buttonsAnimRight.Play("Hide");
 	    buttonsAnimLeft.Play("Hide");
-	    textAnim.Play("Hide");
+
+        // Omit only when new highscore
+	    if (!highscore) textAnim.Play("Hide");
+
         textUI.Play("HideUI");
-	
 	    healthAnimation.Play("HealthUp");
     }
 
-    public void UpdateHighScore(int score)
+    public void UpdateHighScore(int score, bool start)
     {
         highScoreText.Text = "HiScore: " + score;
+        if (start) return;
+
+        // Ignore on start
+        textAnim.Play("Highscore");
     }
 
     // Connect UI buttons
