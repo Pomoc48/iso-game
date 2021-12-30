@@ -57,30 +57,21 @@ public class Player : Spatial
     // Debug for now
     public override void _Process(float delta)
     {
-
         if (Input.IsActionPressed(keys[0]) &&
                 Input.IsActionPressed(keys[1]))
-        {
             if (canMove) CheckMove(0);
-        }
 
         if (Input.IsActionPressed(keys[1]) &&
                 Input.IsActionPressed(keys[2]))
-        {
             if (canMove) CheckMove(1);
-        }
 
         if (Input.IsActionPressed(keys[2]) &&
                 Input.IsActionPressed(keys[3]))
-        {
             if (canMove) CheckMove(2);
-        }
 
         if (Input.IsActionPressed(keys[3]) &&
                 Input.IsActionPressed(keys[0]))
-        {
             if (canMove) CheckMove(3);
-        }
     }
 
     // Runs every game tick
@@ -90,17 +81,17 @@ public class Player : Spatial
         if (!Globals.firstMove)
         {
             // Take less life when rotating
-            if (cameraRotating) Globals.playerHealth -= lifeLossRate / 4;
-            else Globals.playerHealth -= lifeLossRate / 2;
+            if (cameraRotating)
+                Globals.playerHealth -= lifeLossRate / 4;
+            else
+                Globals.playerHealth -= lifeLossRate / 2;
 
             interfaceMain.CalculateHealthBar();
         }
 
         // No life game_over check
         if ((Globals.playerHealth <= 0) && !playerDead)
-        {
             GameOver();
-        }
 
         frames++;
 
@@ -116,12 +107,15 @@ public class Player : Spatial
 
     public void CheckMove(int dir)
     {
-        if (!canMove) return;
+        if (!canMove)
+            return;
 
         // Calculation based on camera rotation
         Globals.animDirection = Globals.RetranslateDirection(dir);
         
-        if (Globals.IsMoveLegal()) CorrectScoreCalculation();
+        if (Globals.IsMoveLegal())
+            CorrectScoreCalculation();
+
         else RebounceCheck(dir);
 
     }
@@ -144,8 +138,11 @@ public class Player : Spatial
         // Progress the game
         Level.GeneratePlatform();
         GiveHealth(lifeGainRate);
-        
-        // Slowly increase difficulty
+        DifficultyIncrease();
+    }
+
+    private void DifficultyIncrease()
+    {
         if (speedupCounter >= nextCycle)
         {
             lifeLossRate += 0.01f;
@@ -163,7 +160,7 @@ public class Player : Spatial
             else nextCycle = Globals.GetMaxCycle(maxCycle, 5);
 
             RotateCamera();
-        }  
+        } 
     }
 
     private void RotateCamera()
@@ -172,12 +169,17 @@ public class Player : Spatial
         bool clockwise = Globals.RandomBool();
         
         // Camera rotation section
-        if (clockwise) Globals.camRotIndex++;
-        else Globals.camRotIndex--;
+        if (clockwise)
+            Globals.camRotIndex++;
+        else
+            Globals.camRotIndex--;
 
         // camera_rotation_index = 3 -> DEFAULT
-        if (Globals.camRotIndex > 3) Globals.camRotIndex = 0;
-        if (Globals.camRotIndex < 0) Globals.camRotIndex= 3;
+        if (Globals.camRotIndex > 3)
+            Globals.camRotIndex = 0;
+
+        if (Globals.camRotIndex < 0)
+            Globals.camRotIndex = 3;
 
         // Disable controls for animation duration
         EnableControls(false, false);
@@ -217,11 +219,9 @@ public class Player : Spatial
 
     private void GiveHealth(float ammount)
     {
+        // Health cap check
         if ((Globals.playerHealth + ammount) > Globals.fullHealth)
-        {
-            // Health cap check
             Globals.playerHealth = Globals.fullHealth;
-        }
 
         else Globals.playerHealth += ammount;
     }
@@ -268,7 +268,9 @@ public class Player : Spatial
         {
             canMove = true;
 
-            if (playerMesh.GetSurfaceMaterial(0) == Globals.emissionBlue) return;
+            if (playerMesh.GetSurfaceMaterial(0) == Globals.emissionBlue)
+                return;
+
             playerMesh.SetSurfaceMaterial(0, Globals.emissionBlue);
             return;
         }
@@ -279,16 +281,16 @@ public class Player : Spatial
 
     private void EnableCameraPerspective(bool perspective)
     {
-        if (perspective) playerCamera.Projection = Camera.ProjectionEnum.Perspective;
+        if (perspective)
+            playerCamera.Projection = Camera.ProjectionEnum.Perspective;
+
         else playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
     }
         
     private void _on_CameraPan_animation_finished(String anim_name)
     {
         if (anim_name == "CameraUp" || anim_name == "CameraUpLong")
-        {
             GetTree().ReloadCurrentScene();
-        }
 
         else EnableControls(true, false);
     }
