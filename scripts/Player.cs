@@ -9,6 +9,7 @@ public class Player : Spatial
     private Interface interfaceMain;
     private Tween playerTween;
     private MeshInstance playerMesh;
+    private Camera playerCamera;
 
     private AnimationPlayer cameraRotation;
     private AnimationPlayer cameraAnimation;
@@ -37,8 +38,9 @@ public class Player : Spatial
 
         playerTween = GetNode<Tween>("Tween");
         playerMesh = this.GetNode<MeshInstance>("Spatial/Spatial2");
+        playerCamera = this.GetNode<Camera>("Camera");
 
-        cameraAnimation = GetNode<AnimationPlayer>("Camera/CameraPan");
+        cameraAnimation = playerCamera.GetNode<AnimationPlayer>("CameraPan");
         cameraRotation = GetNode<AnimationPlayer>("CameraRotation");
 
         Globals.ResetVars();
@@ -267,6 +269,12 @@ public class Player : Spatial
 
         canMove = false;
         if (red) playerMesh.SetSurfaceMaterial(0, Globals.emissionRed);
+    }
+
+    private void EnableCameraPerspective(bool perspective)
+    {
+        if (perspective) playerCamera.Projection = Camera.ProjectionEnum.Perspective;
+        else playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
     }
         
     private void _on_CameraPan_animation_finished(String anim_name)
