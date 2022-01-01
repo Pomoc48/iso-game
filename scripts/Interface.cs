@@ -3,7 +3,7 @@ using System;
 
 public class Interface : Control
 {
-    private PlayerVariables Globals;
+    private PlayerVariables G;
     private Player Player;
 
     private Control healthBar;
@@ -36,7 +36,7 @@ public class Interface : Control
         textAnim = scoreText.GetNode<AnimationPlayer>("Bump");
         textUI = GetNode<AnimationPlayer>("Main/Fps/ShowHide");
 
-        Globals = GetNode<PlayerVariables>("/root/PlayerVariables");
+        G = GetNode<PlayerVariables>("/root/PlayerVariables");
         Player = GetNode<Player>("/root/Level/Player");
 
         if (!screenSizeCalculated) GetScreenSize();
@@ -46,7 +46,7 @@ public class Interface : Control
     private void GetScreenSize()
     {
         float screenSize = GetViewport().Size.x;
-	    updateHealthBy = screenSize / Globals.fullHealth;
+	    updateHealthBy = screenSize / G.fullHealth;
 	    screenSizeCalculated = true;
     }
 
@@ -59,7 +59,7 @@ public class Interface : Control
 		    healthBarShow = false;
         }
 		
-        float health = Globals.playerHealth * updateHealthBy;
+        float health = G.playerHealth * updateHealthBy;
         Vector2 pos = new Vector2(health, 16);
 
         healthBar.SetSize(pos, false);
@@ -68,7 +68,7 @@ public class Interface : Control
     // Update text and play animation
     public void AddScore()
     {
-        scoreText.Text = Globals.sessionScore.ToString();
+        scoreText.Text = G.sessionScore.ToString();
 	    textAnim.Play("TextAnim");
     }
 

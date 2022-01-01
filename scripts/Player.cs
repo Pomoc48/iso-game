@@ -3,7 +3,7 @@ using System;
 
 public class Player : Spatial
 {
-    private PlayerVariables Globals;
+    private PlayerVariables G;
     private Level Level;
 
     private Interface interfaceMain;
@@ -31,7 +31,7 @@ public class Player : Spatial
     // Init function
     public override void _Ready()
     {
-        Globals = GetNode<PlayerVariables>("/root/PlayerVariables");
+        G = GetNode<PlayerVariables>("/root/PlayerVariables");
 
         Level = GetNode<Level>("/root/Level");
         interfaceMain = GetNode<Interface>("/root/Level/Interface");
@@ -43,15 +43,15 @@ public class Player : Spatial
         cameraAnimation = playerCamera.GetNode<AnimationPlayer>("CameraPan");
         cameraRotation = GetNode<AnimationPlayer>("CameraRotation");
 
-        Globals.ResetVars();
-        Globals.playerPosition = this.Translation;
+        G.ResetVars();
+        G.playerPosition = this.Translation;
 
-        nextCycle = Globals.GetMaxCycle(maxCycle, 4);
+        nextCycle = G.GetMaxCycle(maxCycle, 4);
 
         // Get previous highscore
 
-        Globals.highScore = Globals.Load("HighScore");
-        interfaceMain.UpdateHighScore(Globals.highScore, true);
+        G.highScore = G.Load("HighScore");
+        interfaceMain.UpdateHighScore(G.highScore, true);
     }
 
     // Debug for now
@@ -77,47 +77,52 @@ public class Player : Spatial
     // Runs every game tick
     public override void _PhysicsProcess(float delta)
     {
-        // Loose hp after game started
-        if (!Globals.firstMove)
-        {
-            // Take less life when rotating
-            if (cameraRotating)
-                Globals.playerHealth -= lifeLossRate / 4;
-            else
-                Globals.playerHealth -= lifeLossRate / 2;
-
-            interfaceMain.CalculateHealthBar();
-        }
+        LooseHealth();
 
         // No life game_over check
-        if ((Globals.playerHealth <= 0) && !playerDead)
-            GameOver();
+        if ((G.playerHealth <= 0) && !playerDead) GameOver();
 
-        frames++;
-
-        if (frames >= 120)
-        {
-            frames = 0;
-            Level.CreateDecorations();
-
-            // Debug only
-            interfaceMain.UpdateFps(Engine.GetFramesPerSecond().ToString());
-        }
+        FramesCalculation();
     }
 
     public void CheckMove(int dir)
     {
-        if (!canMove)
-            return;
+        if (!canMove) return;
 
         // Calculation based on camera rotation
-        Globals.animDirection = Globals.RetranslateDirection(dir);
+        G.animDirection = G.RetranslateDirection(dir);
         
-        if (Globals.IsMoveLegal())
+        if (G.IsMoveLegal())
+        {
             CorrectScoreCalculation();
+            return;
+        }
 
-        else RebounceCheck(dir);
+        RebounceCheck(dir);
+    }
 
+    private void LooseHealth()
+    {
+        if (G.firstMove) return;
+
+        // Take less life when rotating
+        if (cameraRotating) G.playerHealth -= lifeLossRate / 4;
+        else G.playerHealth -= lifeLossRate / 2;
+
+        interfaceMain.CalculateHealthBar();
+    }
+
+    private void FramesCalculation()
+    {
+        frames++;
+        if (frames < 120) return;
+
+        frames = 0;
+        Level.CreateDecorations();
+
+        // Debug only
+        String fps = Engine.GetFramesPerSecond().ToString();
+        interfaceMain.UpdateFps(fps);
     }
 
     private void CorrectScoreCalculation()
@@ -126,14 +131,12 @@ public class Player : Spatial
 
         // Movement animation
         playerTween.InterpolateProperty(this, "translation",
-                this.Translation, Globals.DirectionCalc(), 0.25f,
+                this.Translation, G.DirectionCalc(), 0.25f,
                 Tween.TransitionType.Quad, Tween.EaseType.InOut);
         playerTween.Start();
         
-        Globals.sessionScore++;
+        G.sessionScore++;
         interfaceMain.AddScore();
-        
-        speedupCounter++;
         
         // Progress the game
         Level.GeneratePlatform();
@@ -143,65 +146,78 @@ public class Player : Spatial
 
     private void DifficultyIncrease()
     {
-        if (speedupCounter >= nextCycle)
+        speedupCounter++;
+        if (speedupCounter < nextCycle) return;
+
+        lifeLossRate += 0.01f;
+        lifeGainRate += 0.25f;
+        speedupCounter = 0;
+
+        CheckAndGenerateNewCycle();
+        RotateCamera();
+    }
+
+    private void CheckAndGenerateNewCycle()
+    {
+        maxCycle--;
+
+        if (maxCycle < 5)
         {
-            lifeLossRate += 0.01f;
-            lifeGainRate += 0.25f;
-            speedupCounter = 0;
+            maxCycle = 5;
+            nextCycle = G.GetMaxCycle(maxCycle, 4);
+            return;
+        }
 
-            maxCycle--;
-
-            if (maxCycle < 5)
-            {
-                maxCycle = 5;
-                nextCycle = Globals.GetMaxCycle(maxCycle, 4);
-            }
-
-            else nextCycle = Globals.GetMaxCycle(maxCycle, 5);
-
-            RotateCamera();
-        } 
+        nextCycle = G.GetMaxCycle(maxCycle, 5);
     }
 
     private void RotateCamera()
     {
         // Get random rotation direction
-        bool clockwise = Globals.RandomBool();
+        bool clockwise = G.RandomBool();
         
         // Camera rotation section
-        if (clockwise)
-            Globals.camRotIndex++;
-        else
-            Globals.camRotIndex--;
+        if (clockwise) G.camRotIndex++;
+        else G.camRotIndex--;
 
         // camera_rotation_index = 3 -> DEFAULT
-        if (Globals.camRotIndex > 3)
-            Globals.camRotIndex = 0;
-
-        if (Globals.camRotIndex < 0)
-            Globals.camRotIndex = 3;
+        if (G.camRotIndex > 3) G.camRotIndex = 0;
+        if (G.camRotIndex < 0) G.camRotIndex = 3;
 
         // Disable controls for animation duration
         EnableControls(false, false);
         cameraRotating = true;
 
+        float deg90 = 90 * G.degreeInRad;
+
         // Play correct camera animation
         if (clockwise)
         {
             cameraRotation.Play("RotationCW" +
-                    Globals.camRotIndex.ToString());
+                    G.camRotIndex.ToString());
+
+            // this.RotateY(this.Rotation.y + deg90);
+
+            // todo change this to tween
+            // enable controls after
+
+            // playerTween.InterpolateProperty(this, "translation",
+            //     this.Translation, G.DirectionCalc(), 0.25f,
+            //     Tween.TransitionType.Quad, Tween.EaseType.InOut);
         }
 
         else
         {
             String[] ccwArray = {"2", "1", "0", "3"};
             cameraRotation.Play("RotationCCW" +
-                    ccwArray[Globals.camRotIndex]);
+                    ccwArray[G.camRotIndex]);
+
+            // this.RotateY(this.Rotation.y - deg90);
         }
     }
 	
     // Reenable controls
-    private void _on_CameraRotation_animation_finished(String _anim_name)
+    private void _on_CameraRotation_animation_finished(String anim_name)
     {
         EnableControls(true, false);
         cameraRotating = false;
@@ -210,20 +226,22 @@ public class Player : Spatial
     private void _on_Tween_tween_all_completed()
     {
         // Update global position at the end of animation
-        Globals.playerPosition = this.Translation;
+        G.playerPosition = this.Translation;
 
         // Small bug fix
-        if (cameraRotating) return;
-        EnableControls(true, false);
+        if (!cameraRotating) EnableControls(true, false);
     }
 
     private void GiveHealth(float ammount)
     {
         // Health cap check
-        if ((Globals.playerHealth + ammount) > Globals.fullHealth)
-            Globals.playerHealth = Globals.fullHealth;
+        if ((G.playerHealth + ammount) > G.fullHealth)
+        {
+            G.playerHealth = G.fullHealth;
+            return;
+        }
 
-        else Globals.playerHealth += ammount;
+        G.playerHealth += ammount;
     }
         
     private void RebounceCheck(int original_dir)
@@ -231,12 +249,17 @@ public class Player : Spatial
         EnableControls(false, true);
 
         // Wrong move penalty
-        if (!Globals.firstMove) Globals.playerHealth -= 10;
+        if (!G.firstMove) G.playerHealth -= 10;
         
         // Instant game over
-        if ((Globals.playerHealth <= 0) && !playerDead) GameOver();
+        if ((G.playerHealth <= 0) && !playerDead)
+        {
+            GameOver();
+            return;
+        }
+
         // Animate player rebounce
-        else cameraRotation.Play("Bounce" + original_dir.ToString());	
+        cameraRotation.Play("Bounce" + original_dir.ToString());	
     }
 
     private void GameOver()
@@ -245,21 +268,21 @@ public class Player : Spatial
         playerDead = true;
         EnableControls(false, true);
 
-        if (Globals.sessionScore > Globals.highScore)
+        if (G.sessionScore > G.highScore)
         {
-            Globals.Save("HighScore", Globals.sessionScore);
-            interfaceMain.UpdateHighScore(Globals.sessionScore, false);
+            G.Save("HighScore", G.sessionScore);
+            interfaceMain.UpdateHighScore(G.sessionScore, false);
 
             // Give more time for the new highscore animation
             cameraAnimation.Play("CameraUpLong");
             interfaceMain.HideUiAnimations(true);
+            return;
         }
-        else
-        {
-            // Outro animations
-            cameraAnimation.Play("CameraUp");
-            interfaceMain.HideUiAnimations(false);
-        }
+
+        // Outro animations
+        cameraAnimation.Play("CameraUp");
+        interfaceMain.HideUiAnimations(false);
+
     }
 
     private void EnableControls(bool enable, bool red)
@@ -268,30 +291,34 @@ public class Player : Spatial
         {
             canMove = true;
 
-            if (playerMesh.GetSurfaceMaterial(0) == Globals.emissionBlue)
-                return;
-
-            playerMesh.SetSurfaceMaterial(0, Globals.emissionBlue);
+            if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue) return;
+            playerMesh.SetSurfaceMaterial(0, G.emissionBlue);
             return;
         }
 
         canMove = false;
-        if (red) playerMesh.SetSurfaceMaterial(0, Globals.emissionRed);
+        if (red) playerMesh.SetSurfaceMaterial(0, G.emissionRed);
     }
 
     private void EnableCameraPerspective(bool perspective)
     {
         if (perspective)
+        {
             playerCamera.Projection = Camera.ProjectionEnum.Perspective;
+            return;
+        }
 
-        else playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
+        playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
     }
         
     private void _on_CameraPan_animation_finished(String anim_name)
     {
         if (anim_name == "CameraUp" || anim_name == "CameraUpLong")
+        {
             GetTree().ReloadCurrentScene();
-
-        else EnableControls(true, false);
+            return;
+        }
+            
+        EnableControls(true, false);
     }
 }

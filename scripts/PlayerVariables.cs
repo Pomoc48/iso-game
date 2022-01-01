@@ -10,6 +10,7 @@ public class PlayerVariables : Node
     public int fullMove = 20;
 
     public float playerHealth = 24.0f;
+    public float degreeInRad = 1.5707963268f;
     public bool firstMove = true;
 
     public int camRotIndex = 3;
@@ -61,7 +62,7 @@ public class PlayerVariables : Node
 	    var foo = rnd.Next(100);
 
         if (foo < 50) return false;
-        else return true;
+        return true;
     }
 
     // Translate directions to vectors
@@ -101,26 +102,23 @@ public class PlayerVariables : Node
                 return true;
             }
 
-            else return false;
+            return false;
         }
             
-        else
+        // Checking for wrong moves
+        switch (animDirection)
         {
-            // Checking for wrong moves
-            switch (animDirection)
-            {
-                case 1:
-                    return !CheckMatch("Corner1", "Corner2", "Long0", 3);
+            case 1:
+                return !CheckMatch("Corner1", "Corner2", "Long0", 3);
 
-                case 2:
-                    return !CheckMatch("Corner2", "Corner3", "Long1", 0);
+            case 2:
+                return !CheckMatch("Corner2", "Corner3", "Long1", 0);
 
-                case 3:
-                    return !CheckMatch("Corner0", "Corner3", "Long0", 1);
+            case 3:
+                return !CheckMatch("Corner0", "Corner3", "Long0", 1);
 
-                default:
-                    return !CheckMatch("Corner0", "Corner1", "Long1", 2);
-            }
+            default:
+                return !CheckMatch("Corner0", "Corner1", "Long1", 2);
         }
     }
 
@@ -135,16 +133,13 @@ public class PlayerVariables : Node
         }
             
         if (prevDirection == dir) return true;
-        else return false;
+        return false;
     }
 
     public int RetranslateDirection(int direction)
     {
         // (Clockwise)
-        if (camRotIndex != 3)
-        {
-		    direction -= (camRotIndex + 1);
-        }
+        if (camRotIndex != 3) direction -= (camRotIndex + 1);
 
         // Reverse overflow check
 		if (direction < 0) direction += 4;
@@ -174,6 +169,7 @@ public class PlayerVariables : Node
         if (RandomBool()) centerPos.z += rangeS2;
         else centerPos.z -= rangeS2;
 
+        centerPos.y = 2;
         return centerPos;
     }
 

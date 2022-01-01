@@ -4,7 +4,7 @@ using System;
 public class Level : Spatial
 {
     private Random rnd = new Random();
-    private PlayerVariables Globals;
+    private PlayerVariables G;
 
     private Spatial platformsSpace;
     private Spatial decorationsSpace;
@@ -27,9 +27,13 @@ public class Level : Spatial
     {
         platformsSpace = GetNode<Spatial>("Platforms");
 	    decorationsSpace = GetNode<Spatial>("Decorations");
+        G = GetNode<PlayerVariables>("/root/PlayerVariables");
+        
+        // Rotate starting platform
+        float rotation = G.GenerateStartingPos();
 
-        Globals = GetNode<PlayerVariables>("/root/PlayerVariables");
-        RotateStartingPlatform();
+        rotation *= -G.degreeInRad;
+        platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
     }
 
     // Create floating cubes decorations
@@ -38,17 +42,18 @@ public class Level : Spatial
         Vector3 blockPos = new Vector3();
 
         // Idle animation position fix
-        if (Globals.firstMove) blockPos = Globals.playerPosition;
+        if (G.firstMove) blockPos = G.playerPosition;
         // Future move pos
-        else blockPos = Globals.DirectionCalc();
+        else blockPos = G.DirectionCalc();
 
         // Random offset
+        blockPos = G.DecorationsCalc(blockPos);
 
-        blockPos = Globals.DecorationsCalc(blockPos);
+        LoadDecoration(blockPos);
+    }
 
-        // Always below platforms
-        blockPos.y = 2;
-
+    private void LoadDecoration(Vector3 blockPos)
+    {
         PackedScene block = (PackedScene)ResourceLoader
                 .Load("res://assets/Block.tscn");
                 
@@ -64,45 +69,38 @@ public class Level : Spatial
         int randomNumber = rnd.Next(3);
 
         // Save for latter backtracking check
-        Globals.prevBlock = pMoves[Globals.animDirection, randomNumber];
+        G.prevBlock = pMoves[G.animDirection, randomNumber];
 
-        PackedScene platform;
-
-        platform = (PackedScene)ResourceLoader.Load("res://assets/platforms/" +
-                    Globals.prevBlock + ".tscn");
+        PackedScene platform = (PackedScene)ResourceLoader
+                .Load("res://assets/platforms/" + G.prevBlock + ".tscn");
 
         // Load and place new platforms
         Spatial platformI = (Spatial)platform.Instance();
 
-        platformI.Translation = Globals.DirectionCalc();
+        platformI.Translation = G.DirectionCalc();
         Vector3 temp = platformI.Translation;
-        temp.y = -16; 
+        temp.y = -16;
         platformI.Translation = temp;
 
         platformsSpace.AddChild(platformI);
-        
+
         totalPlatforms++;
         platformI.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Up");
-        
-        Globals.prevDirection = Globals.animDirection;
-        
-        // Animate remove old platforms
-        if (totalPlatforms >= history)
-        {
-            int childIndex = totalPlatforms - history;
-            Spatial child = platformsSpace.GetChild<Spatial>(childIndex);
 
-            totalPlatforms--;
-            child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Down");
-        }
+        G.prevDirection = G.animDirection;
+
+        // Animate remove old platforms
+        if (totalPlatforms < history) return;
+
+        RemoveOldPlatforms();
     }
 
-    private void RotateStartingPlatform()
+    private void RemoveOldPlatforms()
     {
-        float rotation = Globals.GenerateStartingPos();
+        int childIndex = totalPlatforms - history;
+        Spatial child = platformsSpace.GetChild<Spatial>(childIndex);
 
-        // Convert degrees to radians
-        rotation *= -1.5707963268f;
-        platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
+        totalPlatforms--;
+        child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Down");
     }
 }
