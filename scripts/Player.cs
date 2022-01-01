@@ -49,7 +49,6 @@ public class Player : Spatial
         nextCycle = G.GetMaxCycle(maxCycle, 4);
 
         // Get previous highscore
-
         G.highScore = G.Load("HighScore");
         interfaceMain.UpdateHighScore(G.highScore, true);
     }
@@ -154,7 +153,7 @@ public class Player : Spatial
         speedupCounter = 0;
 
         CheckAndGenerateNewCycle();
-        RotateCamera();
+        RotateCameraBy(G.DetermineRotationAmmount());
     }
 
     private void CheckAndGenerateNewCycle()
@@ -171,31 +170,33 @@ public class Player : Spatial
         nextCycle = G.GetMaxCycle(maxCycle, 5);
     }
 
-    private void RotateCamera()
+    private void RotateCameraBy(int ammount)
     {
         // Get random rotation direction
         bool clockwise = G.RandomBool();
 
         // Camera rotation section
-        if (clockwise) G.camRotIndex++;
-        else G.camRotIndex--;
+        if (clockwise) G.camRotIndex += ammount;
+        else G.camRotIndex -= ammount;
 
         // camRotIndex = 3 -> DEFAULT
-        if (G.camRotIndex > 3) G.camRotIndex = 0;
-        if (G.camRotIndex < 0) G.camRotIndex = 3;
+        if (G.camRotIndex > 3) G.camRotIndex -= 4;
+        if (G.camRotIndex < 0) G.camRotIndex += 4;
 
         // Disable controls for animation duration
         EnableControls(false, false);
-        PlayCorrectAnimation(clockwise);
+        PlayCorrectAnimation(clockwise, ammount);
     }
 
-    private void PlayCorrectAnimation(bool clockwise)
+    private void PlayCorrectAnimation(bool clockwise, int rotations)
     {
+        int rotateBy = 90 * rotations;
+
         Vector3 oldRotRad = this.RotationDegrees;
         Vector3 newRot = oldRotRad;
 
-        if (clockwise) newRot.y += 90;
-        else newRot.y -= 90;
+        if (clockwise) newRot.y += rotateBy;
+        else newRot.y -= rotateBy;
 
         playerTween.InterpolateProperty(this, "rotation_degrees",
                 oldRotRad, newRot, 0.5f, Tween.TransitionType.Quad,
@@ -269,7 +270,6 @@ public class Player : Spatial
         // Outro animations
         cameraAnimation.Play("CameraUp");
         interfaceMain.HideUiAnimations(false);
-
     }
 
     private void EnableControls(bool enable, bool red)

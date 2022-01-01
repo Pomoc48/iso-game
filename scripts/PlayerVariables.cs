@@ -188,4 +188,16 @@ public class PlayerVariables : Node
         startDir = rnd.Next(4);
         return startDir;
     }
+
+    public int DetermineRotationAmmount()
+    {
+        var foo = rnd.Next(100);
+
+        if (foo < 25)
+        {
+            if (foo < 12) return 3;
+            return 2;
+        }
+        return 1;
+    }
 }

@@ -629,9 +629,9 @@ anims/TextAnim = SubResource( 19 )
 
 [node name="Fps" type="Label" parent="Interface/Main"]
 margin_left = 32.0
-margin_top = 32.0
+margin_top = -64.0
 margin_right = 232.0
-margin_bottom = 92.0
+margin_bottom = -3.99998
 custom_fonts/font = SubResource( 34 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -645,9 +645,9 @@ anims/ShowUI = SubResource( 35 )
 [node name="HighScore" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
 margin_left = 748.0
-margin_top = 32.0
+margin_top = -64.0
 margin_right = -32.0
-margin_bottom = 92.0
+margin_bottom = -3.99998
 custom_fonts/font = SubResource( 34 )
 text = "HiScore: 120"
 align = 2
