@@ -14,6 +14,8 @@ public class Level : Spatial
     private int totalDeco = 0;
     private int totalPlatforms = 1;
 
+    private float degreeInRad = 1.5707963268f;
+
     // Array of possible moves
     String[,] pMoves = {
         {"Long0", "Corner0", "Corner1"},
@@ -32,7 +34,7 @@ public class Level : Spatial
         // Rotate starting platform
         float rotation = G.GenerateStartingPos();
 
-        rotation *= -G.degreeInRad;
+        rotation *= -degreeInRad;
         platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
     }
 

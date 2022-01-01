@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -292,7 +292,7 @@ tracks/0/keys = {
 "values": [ Vector3( -8, 11, 8 ), Vector3( -8, 40, 8 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../Spatial/CPUParticles2:emitting")
+tracks/1/path = NodePath("../Spatial/GameOver:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -304,7 +304,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../Spatial/Spatial2:scale")
+tracks/2/path = NodePath("../Spatial/Mesh:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -332,7 +332,7 @@ tracks/0/keys = {
 "values": [ Vector3( -8, 11, 8 ), Vector3( -8, 40, 8 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../Spatial/CPUParticles2:emitting")
+tracks/1/path = NodePath("../Spatial/GameOver:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -344,7 +344,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../Spatial/Spatial2:scale")
+tracks/2/path = NodePath("../Spatial/Mesh:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -373,7 +373,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 4, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/path = NodePath("Spatial/Bounce:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -402,7 +402,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 4 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/path = NodePath("Spatial/Bounce:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -431,7 +431,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( -4, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/path = NodePath("Spatial/Bounce:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -460,7 +460,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -4 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Spatial/CPUParticles:emitting")
+tracks/1/path = NodePath("Spatial/Bounce:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -470,134 +470,6 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=22]
-resource_name = "RotationCCW0"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 0, -90, 0 ) ]
-}
-
-[sub_resource type="Animation" id=23]
-resource_name = "RotationCCW1"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, -90, 0 ), Vector3( 0, -180, 0 ) ]
-}
-
-[sub_resource type="Animation" id=24]
-resource_name = "RotationCCW2"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, -180, 0 ), Vector3( 0, -270, 0 ) ]
-}
-
-[sub_resource type="Animation" id=25]
-resource_name = "RotationCCW3"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, -270, 0 ), Vector3( 0, -360, 0 ) ]
-}
-
-[sub_resource type="Animation" id=26]
-resource_name = "RotationCW0"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 90, 0 ) ]
-}
-
-[sub_resource type="Animation" id=27]
-resource_name = "RotationCW1"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 90, 0 ), Vector3( 0, 180, 0 ) ]
-}
-
-[sub_resource type="Animation" id=28]
-resource_name = "RotationCW2"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 180, 0 ), Vector3( 0, 270, 0 ) ]
-}
-
-[sub_resource type="Animation" id=29]
-resource_name = "RotationCW3"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 270, 0 ), Vector3( 0, 360, 0 ) ]
 }
 
 [node name="Level" type="Spatial"]
@@ -757,9 +629,9 @@ anims/TextAnim = SubResource( 19 )
 
 [node name="Fps" type="Label" parent="Interface/Main"]
 margin_left = 32.0
-margin_top = -64.0
+margin_top = 32.0
 margin_right = 232.0
-margin_bottom = -3.99998
+margin_bottom = 92.0
 custom_fonts/font = SubResource( 34 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -773,9 +645,9 @@ anims/ShowUI = SubResource( 35 )
 [node name="HighScore" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
 margin_left = 748.0
-margin_top = -64.0
+margin_top = 32.0
 margin_right = -32.0
-margin_bottom = -3.99998
+margin_bottom = 92.0
 custom_fonts/font = SubResource( 34 )
 text = "HiScore: 120"
 align = 2
@@ -796,7 +668,7 @@ playback_process_mode = 0
 
 [node name="Spatial" type="Spatial" parent="Player"]
 
-[node name="CPUParticles" type="CPUParticles" parent="Player/Spatial"]
+[node name="Bounce" type="CPUParticles" parent="Player/Spatial"]
 emitting = false
 amount = 20
 lifetime = 0.4
@@ -812,7 +684,7 @@ radial_accel = -5.0
 scale_amount = 2.0
 scale_amount_curve = SubResource( 38 )
 
-[node name="CPUParticles2" type="CPUParticles" parent="Player/Spatial"]
+[node name="GameOver" type="CPUParticles" parent="Player/Spatial"]
 emitting = false
 amount = 80
 explosiveness = 1.0
@@ -827,13 +699,13 @@ radial_accel = -5.0
 scale_amount = 2.0
 scale_amount_curve = SubResource( 38 )
 
-[node name="Spatial2" type="MeshInstance" parent="Player/Spatial"]
+[node name="Mesh" type="MeshInstance" parent="Player/Spatial"]
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )
 projection = 1
 size = 36.0
 near = 0.01
@@ -845,19 +717,11 @@ anims/CameraDown = SubResource( 11 )
 anims/CameraUp = SubResource( 12 )
 anims/CameraUpLong = SubResource( 39 )
 
-[node name="CameraRotation" type="AnimationPlayer" parent="Player"]
+[node name="CameraBounce" type="AnimationPlayer" parent="Player"]
 anims/Bounce0 = SubResource( 30 )
 anims/Bounce1 = SubResource( 31 )
 anims/Bounce2 = SubResource( 32 )
 anims/Bounce3 = SubResource( 33 )
-anims/RotationCCW0 = SubResource( 22 )
-anims/RotationCCW1 = SubResource( 23 )
-anims/RotationCCW2 = SubResource( 24 )
-anims/RotationCCW3 = SubResource( 25 )
-anims/RotationCW0 = SubResource( 26 )
-anims/RotationCW1 = SubResource( 27 )
-anims/RotationCW2 = SubResource( 28 )
-anims/RotationCW3 = SubResource( 29 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 2 )
@@ -870,4 +734,4 @@ environment = ExtResource( 2 )
 [connection signal="button_down" from="Interface/Main/Right/Up" to="Interface" method="_on_Up_button_down"]
 [connection signal="tween_all_completed" from="Player/Tween" to="Player" method="_on_Tween_tween_all_completed"]
 [connection signal="animation_finished" from="Player/Camera/CameraPan" to="Player" method="_on_CameraPan_animation_finished"]
-[connection signal="animation_finished" from="Player/CameraRotation" to="Player" method="_on_CameraRotation_animation_finished"]
+[connection signal="animation_finished" from="Player/CameraBounce" to="Player" method="_on_CameraRotation_animation_finished"]

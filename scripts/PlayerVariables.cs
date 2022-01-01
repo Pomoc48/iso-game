@@ -10,7 +10,6 @@ public class PlayerVariables : Node
     public int fullMove = 20;
 
     public float playerHealth = 24.0f;
-    public float degreeInRad = 1.5707963268f;
     public bool firstMove = true;
 
     public int camRotIndex = 3;
@@ -32,7 +31,7 @@ public class PlayerVariables : Node
     {
         emissionRed = (SpatialMaterial)GD.Load("res://materials/emission2.tres");
         emissionBlue = (SpatialMaterial)GD.Load("res://materials/emission.tres");
-        emissionWhite = (SpatialMaterial)GD.Load("res://materials/emission3.tres");
+        // emissionWhite = (SpatialMaterial)GD.Load("res://materials/emission3.tres");
     }
 
     public void ResetVars()

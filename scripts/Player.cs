@@ -11,7 +11,7 @@ public class Player : Spatial
     private MeshInstance playerMesh;
     private Camera playerCamera;
 
-    private AnimationPlayer cameraRotation;
+    private AnimationPlayer cameraBounce;
     private AnimationPlayer cameraAnimation;
 
     private bool canMove = false;
@@ -37,11 +37,11 @@ public class Player : Spatial
         interfaceMain = GetNode<Interface>("/root/Level/Interface");
 
         playerTween = GetNode<Tween>("Tween");
-        playerMesh = this.GetNode<MeshInstance>("Spatial/Spatial2");
+        playerMesh = this.GetNode<MeshInstance>("Spatial/Mesh");
         playerCamera = this.GetNode<Camera>("Camera");
 
         cameraAnimation = playerCamera.GetNode<AnimationPlayer>("CameraPan");
-        cameraRotation = GetNode<AnimationPlayer>("CameraRotation");
+        cameraBounce = GetNode<AnimationPlayer>("CameraBounce");
 
         G.ResetVars();
         G.playerPosition = this.Translation;
@@ -175,45 +175,32 @@ public class Player : Spatial
     {
         // Get random rotation direction
         bool clockwise = G.RandomBool();
-        
+
         // Camera rotation section
         if (clockwise) G.camRotIndex++;
         else G.camRotIndex--;
 
-        // camera_rotation_index = 3 -> DEFAULT
+        // camRotIndex = 3 -> DEFAULT
         if (G.camRotIndex > 3) G.camRotIndex = 0;
         if (G.camRotIndex < 0) G.camRotIndex = 3;
 
         // Disable controls for animation duration
         EnableControls(false, false);
-        cameraRotating = true;
+        PlayCorrectAnimation(clockwise);
+    }
 
-        float deg90 = 90 * G.degreeInRad;
+    private void PlayCorrectAnimation(bool clockwise)
+    {
+        Vector3 oldRotRad = this.RotationDegrees;
+        Vector3 newRot = oldRotRad;
 
-        // Play correct camera animation
-        if (clockwise)
-        {
-            cameraRotation.Play("RotationCW" +
-                    G.camRotIndex.ToString());
+        if (clockwise) newRot.y += 90;
+        else newRot.y -= 90;
 
-            // this.RotateY(this.Rotation.y + deg90);
-
-            // todo change this to tween
-            // enable controls after
-
-            // playerTween.InterpolateProperty(this, "translation",
-            //     this.Translation, G.DirectionCalc(), 0.25f,
-            //     Tween.TransitionType.Quad, Tween.EaseType.InOut);
-        }
-
-        else
-        {
-            String[] ccwArray = {"2", "1", "0", "3"};
-            cameraRotation.Play("RotationCCW" +
-                    ccwArray[G.camRotIndex]);
-
-            // this.RotateY(this.Rotation.y - deg90);
-        }
+        playerTween.InterpolateProperty(this, "rotation_degrees",
+                oldRotRad, newRot, 0.5f, Tween.TransitionType.Quad,
+                Tween.EaseType.InOut);
+        playerTween.Start();
     }
 	
     // Reenable controls
@@ -259,7 +246,7 @@ public class Player : Spatial
         }
 
         // Animate player rebounce
-        cameraRotation.Play("Bounce" + original_dir.ToString());	
+        cameraBounce.Play("Bounce" + original_dir.ToString());	
     }
 
     private void GameOver()
