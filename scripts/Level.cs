@@ -4,7 +4,7 @@ using System;
 public class Level : Spatial
 {
     private Random rnd = new Random();
-    private PlayerVariables G;
+    private Globals G;
 
     private Spatial platformsSpace;
     private Spatial decorationsSpace;
@@ -29,7 +29,7 @@ public class Level : Spatial
     {
         platformsSpace = GetNode<Spatial>("Platforms");
 	    decorationsSpace = GetNode<Spatial>("Decorations");
-        G = GetNode<PlayerVariables>("/root/PlayerVariables");
+        G = GetNode<Globals>("/root/Globals");
         
         // Rotate starting platform
         float rotation = G.GenerateStartingPos();

@@ -281,7 +281,7 @@ tracks/1/path = NodePath(".:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -741,7 +741,8 @@ skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0, -0.353554, 0, 0.5, 0, 0.353553, 0, 0.353554, -8, 40, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )
+projection = 1
 current = true
 size = 36.0
 near = 0.01

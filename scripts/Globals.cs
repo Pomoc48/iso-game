@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PlayerVariables : Node
+public class Globals : Node
 {
     private Random rnd = new Random();
     private ConfigFile CF = new ConfigFile();

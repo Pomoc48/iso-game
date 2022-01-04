@@ -3,7 +3,7 @@ using System;
 
 public class Player : Spatial
 {
-    private PlayerVariables G;
+    private Globals G;
     private Level Level;
 
     private Interface interfaceMain;
@@ -35,7 +35,7 @@ public class Player : Spatial
     // Init function
     public override void _Ready()
     {
-        G = GetNode<PlayerVariables>("/root/PlayerVariables");
+        G = GetNode<Globals>("/root/Globals");
 
         Level = GetNode<Level>("/root/Level");
         interfaceMain = GetNode<Interface>("/root/Level/Interface");

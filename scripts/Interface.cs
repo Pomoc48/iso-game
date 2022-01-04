@@ -3,7 +3,7 @@ using System;
 
 public class Interface : Control
 {
-    private PlayerVariables G;
+    private Globals G;
     private Player Player;
 
     private Control healthBar;
@@ -36,7 +36,7 @@ public class Interface : Control
         textAnim = scoreText.GetNode<AnimationPlayer>("Bump");
         textUI = GetNode<AnimationPlayer>("Main/Fps/ShowHide");
 
-        G = GetNode<PlayerVariables>("/root/PlayerVariables");
+        G = GetNode<Globals>("/root/Globals");
         Player = GetNode<Player>("/root/Level/Player");
 
         if (!screenSizeCalculated) GetScreenSize();
