@@ -20,11 +20,15 @@ public class Player : Spatial
 
     private float lifeLossRate = 0.04f;
     private float lifeGainRate = 2.0f;
+    private float animSpeed = 0.25f;
 
     private int speedupCounter = 0;
     private int nextCycle = 0;
     private int maxCycle = 20;
     private int frames = 0;
+
+    private Tween.TransitionType trans = Tween.TransitionType.Quad;
+    private Tween.EaseType ease = Tween.EaseType.InOut;
 
     String[] keys = {"ui_up", "ui_right", "ui_down", "ui_left"};
 
@@ -128,10 +132,12 @@ public class Player : Spatial
     {
         EnableControls(false, false);
 
+        Vector3 oldPos = this.Translation;
+        Vector3 newPos = G.DirectionCalc();
+
         // Movement animation
         playerTween.InterpolateProperty(this, "translation",
-                this.Translation, G.DirectionCalc(), 0.25f,
-                Tween.TransitionType.Quad, Tween.EaseType.InOut);
+                oldPos, newPos, animSpeed, trans, ease);
         playerTween.Start();
         
         G.sessionScore++;
@@ -150,6 +156,10 @@ public class Player : Spatial
 
         lifeLossRate += 0.01f;
         lifeGainRate += 0.25f;
+
+        // Cap player speed at 0.15f
+        if (animSpeed > 0.15f) animSpeed -= 0.005f;
+
         speedupCounter = 0;
 
         CheckAndGenerateNewCycle();
@@ -191,6 +201,8 @@ public class Player : Spatial
     private void PlayCorrectAnimation(bool clockwise, int rotations)
     {
         int rotateBy = 90 * rotations;
+        // More rotations take longer
+        float time = rotations * animSpeed * 2;
 
         Vector3 oldRotRad = this.RotationDegrees;
         Vector3 newRot = oldRotRad;
@@ -199,8 +211,7 @@ public class Player : Spatial
         else newRot.y -= rotateBy;
 
         playerTween.InterpolateProperty(this, "rotation_degrees",
-                oldRotRad, newRot, 0.5f, Tween.TransitionType.Quad,
-                Tween.EaseType.InOut);
+                oldRotRad, newRot, time, trans, ease);
         playerTween.Start();
     }
 	
