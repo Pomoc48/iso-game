@@ -3,7 +3,6 @@ using System;
 
 public class Level : Spatial
 {
-    private Random rnd = new Random();
     private Globals G;
 
     private Spatial platformsSpace;
@@ -28,6 +27,13 @@ public class Level : Spatial
         {1, 0, 2},
         {3, 1, 2},
         {3, 0, 2},
+    };
+
+    int[,,] twowayMoves = {
+        {{1, 3}, {0, 1}, {0, 3}},
+        {{0, 2}, {2, 1}, {0, 1}},
+        {{1, 3}, {3, 2}, {1, 2}},
+        {{2, 0}, {0, 3}, {3, 2}},
     };
 
     // Init function
@@ -75,9 +81,7 @@ public class Level : Spatial
     public void GeneratePlatform()
     {
         Spatial platformBlockI;
-
         int platformType = G.GetPlatformType();
-        int reverse = 0;
 
         switch (platformType)
         {
@@ -98,6 +102,8 @@ public class Level : Spatial
 
                 platformBlockI = PlacePlatform("Corner");
                 bool doReverse = G.RandomBool();
+
+                int reverse = 0;
 
                 if (doReverse) reverse++;
                 float yRot = (G.animDirection + reverse) * -90;
@@ -122,6 +128,31 @@ public class Level : Spatial
                 for (int i = 0; i < 3; i++)
                 {
                     G.pMoves[i] = crossMoves[G.animDirection, i];
+                }
+
+                break;
+            
+            case 4:
+
+                platformBlockI = PlacePlatform("TwoWay");
+
+                Random rnd = new Random();
+                int side = rnd.Next(3);
+                GD.Print("side: "+side);
+
+                float yRotT = G.animDirection * -90;
+
+                if (side == 1) yRotT += 90;
+                if (side == 2) yRotT += -90;
+
+                Vector3 rotationT = new Vector3(0, yRotT, 0);
+                platformBlockI.RotationDegrees =  rotationT;
+
+                G.pMoves = new int[2];
+                for (int i = 0; i < 2; i++)
+                {
+                    G.pMoves[i] = twowayMoves[G.animDirection, side, i];
+                    GD.Print(G.pMoves[i]);
                 }
 
                 break;

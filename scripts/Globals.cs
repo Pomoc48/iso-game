@@ -120,12 +120,22 @@ public class Globals : Node
     {
         var foo = rnd.Next(100);
 
-        if (foo < 50)
-        {
-            if (foo < 12) return 3; // (12%)
-            return 2; // (38%)
-        }
-        return 1; // (50%)
+        if (foo < 10) return 3;
+        if (foo >= 10 && foo < 40) return 4;
+        if (foo >= 40 && foo < 75) return 1;
+        return 2;
+
+        // diff 1
+        // cs / tw / ll / cc
+        // 10 / 30 / 35 / 25
+
+        // diff 2
+        // cs / tw / ll / cc
+        // 5  / 30 / 25 / 40
+
+        // diff 3
+        // cs / tw / ll / cc
+        // 2  / 20 / 18 / 60
     }
 
     public int RetranslateDirection(int direction)
