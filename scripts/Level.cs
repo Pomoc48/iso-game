@@ -17,12 +17,12 @@ public class Level : Spatial
     private float degreeInRad = 1.5707963268f;
 
     // Array of possible moves
-    String[,] pMoves = {
-        {"Long0", "Corner0", "Corner1"},
-        {"Long1", "Corner1", "Corner2"},
-        {"Long0", "Corner2", "Corner3"},
-        {"Long1", "Corner3", "Corner0"}
-    };
+    // String[,] pMoves = {
+    //     {"Long0", "Corner0", "Corner1"},
+    //     {"Long1", "Corner1", "Corner2"},
+    //     {"Long0", "Corner2", "Corner3"},
+    //     {"Long1", "Corner3", "Corner0"}
+    // };
 
     // Init function
     public override void _Ready()
@@ -79,56 +79,108 @@ public class Level : Spatial
 
                 platformBlockI = PlacePlatform("Long");
 
-                if (G.animDirection % 2 == 0)
+                if (G.animDirection % 2 != 0)
                 {
-                    platformBlockI.RotateY(90 * degreeInRad);
+                    Vector3 rotationL = new Vector3(0, 90, 0);
+                    platformBlockI.RotationDegrees =  rotationL;
                 }
+
+                G.pMoves = new int[1]{G.animDirection};
                 break;
 
             case 2:
 
                 platformBlockI = PlacePlatform("Corner");
+                bool doReverse = G.RandomBool();
 
-                if (G.RandomBool()) reverse++;
+                if (doReverse) reverse++;
                 float yRot = (G.animDirection + reverse) * -90;
 
                 Vector3 rotationV = new Vector3(0, yRot, 0);
                 platformBlockI.RotationDegrees =  rotationV;
+
+                G.pMoves = new int[1]{CornerPossibleMoves(doReverse)};
+
                 break;
 
             case 3:
 
                 platformBlockI = PlacePlatform("Cross");
+                G.pMoves = CrossPossibleMoves();
                 break;
         }
 
-        int randomNumber = rnd.Next(3);
-
-        // Save for latter backtracking check
-        G.prevBlock = pMoves[G.animDirection, randomNumber];
-
-        PackedScene platform = (PackedScene)ResourceLoader
-                .Load("res://assets/platforms/" + G.prevBlock + ".tscn");
-
-        // Load and place new platforms
-        Spatial platformI = (Spatial)platform.Instance();
-
-        platformI.Translation = G.DirectionCalc();
-        Vector3 temp = platformI.Translation;
-        temp.y = -16;
-        platformI.Translation = temp;
-
-        platformsSpace.AddChild(platformI);
+        foreach (int n in G.pMoves)
+        {
+            GD.Print(n);
+        }
 
         totalPlatforms++;
-        platformI.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Up");
+
+        // int randomNumber = rnd.Next(3);
+
+        // // Save for latter backtracking check
+        // G.prevBlock = pMoves[G.animDirection, randomNumber];
+
+        // PackedScene platform = (PackedScene)ResourceLoader
+        //         .Load("res://assets/platforms/" + G.prevBlock + ".tscn");
+
+        // // Load and place new platforms
+        // Spatial platformI = (Spatial)platform.Instance();
+
+        // platformI.Translation = G.DirectionCalc();
+        // Vector3 temp = platformI.Translation;
+        // temp.y = -16;
+        // platformI.Translation = temp;
+
+        // platformsSpace.AddChild(platformI);
+
+        // platformI.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Up");
 
         G.prevDirection = G.animDirection;
 
-        // Animate remove old platforms
         if (totalPlatforms < history) return;
-
         RemoveOldPlatforms();
+    }
+
+    private int CornerPossibleMoves(bool doReverse)
+    {
+        switch (G.animDirection)
+        {
+            case 3:
+                if (doReverse) return 2;
+                return 0;
+
+            case 2:
+                if (doReverse) return 1;
+                return 3;
+
+            case 1:
+                if (doReverse) return 0;
+                return 2;
+
+            default:
+                if (doReverse) return 3;
+                return 1;
+        }
+    }
+
+    private int[] CrossPossibleMoves()
+    {
+       switch (G.animDirection)
+        {
+            case 3:
+                return new int[3] {3, 0, 2};
+                
+            case 2:
+                return new int[3] {3, 1, 2};
+                
+            case 1:
+                return new int[3] {1, 0, 2};
+                
+            default:
+                return new int[3] {3, 0, 1};
+        } 
     }
 
     private Spatial PlacePlatform(String type)

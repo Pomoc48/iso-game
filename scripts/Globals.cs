@@ -25,6 +25,8 @@ public class Globals : Node
     public SpatialMaterial emissionBlue;
     public SpatialMaterial emissionWhite;
 
+    public int[] pMoves;
+
     private int startDir;
 
     public override void _Ready()
