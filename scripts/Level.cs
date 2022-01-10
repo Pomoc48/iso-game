@@ -80,81 +80,24 @@ public class Level : Spatial
 
     public void GeneratePlatform()
     {
-        Spatial platformBlockI;
         int platformType = G.GetPlatformType();
 
         switch (platformType)
         {
             case 1:
-
-                platformBlockI = PlacePlatform("Long");
-
-                if (G.animDirection % 2 != 0)
-                {
-                    Vector3 rotationL = new Vector3(0, 90, 0);
-                    platformBlockI.RotationDegrees =  rotationL;
-                }
-
-                G.pMoves = new int[1]{G.animDirection};
+                PlatformLong();
                 break;
 
             case 2:
-
-                platformBlockI = PlacePlatform("Corner");
-                bool doReverse = G.RandomBool();
-
-                int reverse = 0;
-
-                if (doReverse) reverse++;
-                float yRot = (G.animDirection + reverse) * -90;
-
-                Vector3 rotationV = new Vector3(0, yRot, 0);
-                platformBlockI.RotationDegrees =  rotationV;
-
-                if (doReverse)
-                {
-                    G.pMoves = new int[1]{cornerMoves[G.animDirection, 0]};
-                    break;
-                }
-
-                G.pMoves = new int[1]{cornerMoves[G.animDirection, 1]};
+                platformCorner();
                 break;
 
             case 3:
-
-                platformBlockI = PlacePlatform("Cross");
-
-                G.pMoves = new int[3];
-                for (int i = 0; i < 3; i++)
-                {
-                    G.pMoves[i] = crossMoves[G.animDirection, i];
-                }
-
+                PlatformCross();
                 break;
             
             case 4:
-
-                platformBlockI = PlacePlatform("TwoWay");
-
-                Random rnd = new Random();
-                int side = rnd.Next(3);
-                GD.Print("side: "+side);
-
-                float yRotT = G.animDirection * -90;
-
-                if (side == 1) yRotT += 90;
-                if (side == 2) yRotT += -90;
-
-                Vector3 rotationT = new Vector3(0, yRotT, 0);
-                platformBlockI.RotationDegrees =  rotationT;
-
-                G.pMoves = new int[2];
-                for (int i = 0; i < 2; i++)
-                {
-                    G.pMoves[i] = twowayMoves[G.animDirection, side, i];
-                    GD.Print(G.pMoves[i]);
-                }
-
+                PlatformTwoWay();
                 break;
         }
 
@@ -162,6 +105,79 @@ public class Level : Spatial
 
         if (totalPlatforms < history) return;
         RemoveOldPlatforms();
+    }
+
+    private void PlatformLong()
+    {
+        Spatial platformBlockI;
+        platformBlockI = PlacePlatform("Long");
+
+        // Rotate by 90 when animDirection uneven
+        if (G.animDirection % 2 != 0)
+        {
+            Vector3 rotationL = new Vector3(0, 90, 0);
+            platformBlockI.RotationDegrees =  rotationL;
+        }
+
+        G.pMoves = new int[1]{G.animDirection};
+    }
+
+    private void platformCorner()
+    {
+        Spatial platformBlockI;
+        platformBlockI = PlacePlatform("Corner");
+
+        bool doReverse = G.RandomBool();
+        int reverse = 0;
+
+        // Change direction of the corner to the other side
+        if (doReverse) reverse++;
+        float yRot = (G.animDirection + reverse) * -90;
+
+        Vector3 rotationV = new Vector3(0, yRot, 0);
+        platformBlockI.RotationDegrees =  rotationV;
+
+        // Check direction change
+        int foo = doReverse ? 0 : 1;
+        G.pMoves = new int[1]{cornerMoves[G.animDirection, foo]};
+    }
+
+    private void PlatformCross()
+    {
+        Spatial platformBlockI;
+        platformBlockI = PlacePlatform("Cross");
+
+        // Only opposite direction is removed from the array
+        G.pMoves = new int[3];
+        for (int i = 0; i < 3; i++)
+        {
+            G.pMoves[i] = crossMoves[G.animDirection, i];
+        }
+    }
+
+    private void PlatformTwoWay()
+    {
+        Spatial platformBlockI;
+        platformBlockI = PlacePlatform("TwoWay");
+
+        // Get new random orientation of the platform
+        Random rnd = new Random();
+        int side = rnd.Next(3);
+
+        float yRotT = G.animDirection * -90;
+
+        if (side == 1) yRotT += 90;
+        if (side == 2) yRotT += -90;
+
+        Vector3 rotationT = new Vector3(0, yRotT, 0);
+        platformBlockI.RotationDegrees =  rotationT;
+
+        // Get valid moves based on new rotation
+        G.pMoves = new int[2];
+        for (int i = 0; i < 2; i++)
+        {
+            G.pMoves[i] = twowayMoves[G.animDirection, side, i];
+        }
     }
 
     private Spatial PlacePlatform(String type)
@@ -174,13 +190,15 @@ public class Level : Spatial
 
         platformBlockI = (Spatial)platformBlock.Instance();
 
+        // Get platform future pos
         platformBlockI.Translation = G.DirectionCalc();
+
+        // Starting animation fix
         Vector3 temp = platformBlockI.Translation;
         temp.y = -16;
         platformBlockI.Translation = temp;
 
         platformsSpace.AddChild(platformBlockI);
-
         return platformBlockI;
     }
 
