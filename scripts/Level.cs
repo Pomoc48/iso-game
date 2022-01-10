@@ -68,6 +68,40 @@ public class Level : Spatial
 
     public void GeneratePlatform()
     {
+        Spatial platformBlockI;
+
+        int platformType = G.GetPlatformType();
+        int reverse = 0;
+
+        switch (platformType)
+        {
+            case 1:
+
+                platformBlockI = PlacePlatform("Long");
+
+                if (G.animDirection % 2 == 0)
+                {
+                    platformBlockI.RotateY(90 * degreeInRad);
+                }
+                break;
+
+            case 2:
+
+                platformBlockI = PlacePlatform("Corner");
+
+                if (G.RandomBool()) reverse++;
+                float yRot = (G.animDirection + reverse) * -90;
+
+                Vector3 rotationV = new Vector3(0, yRot, 0);
+                platformBlockI.RotationDegrees =  rotationV;
+                break;
+
+            case 3:
+
+                platformBlockI = PlacePlatform("Cross");
+                break;
+        }
+
         int randomNumber = rnd.Next(3);
 
         // Save for latter backtracking check
@@ -95,6 +129,20 @@ public class Level : Spatial
         if (totalPlatforms < history) return;
 
         RemoveOldPlatforms();
+    }
+
+    private Spatial PlacePlatform(String type)
+    {
+        PackedScene platformBlock;
+        Spatial platformBlockI;
+
+        platformBlock = (PackedScene)ResourceLoader
+                .Load("res://assets/platforms/" + type + ".tscn");
+
+        platformBlockI = (Spatial)platformBlock.Instance();
+        platformsSpace.AddChild(platformBlockI);
+
+        return platformBlockI;
     }
 
     private void RemoveOldPlatforms()

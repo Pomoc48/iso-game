@@ -135,6 +135,18 @@ public class Globals : Node
         return false;
     }
 
+    public int GetPlatformType()
+    {
+        var foo = rnd.Next(100);
+
+        if (foo < 50)
+        {
+            if (foo < 12) return 3; // (12%)
+            return 2; // (38%)
+        }
+        return 1; // (50%)
+    }
+
     public int RetranslateDirection(int direction)
     {
         // (Clockwise)
