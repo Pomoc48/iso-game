@@ -15,7 +15,6 @@ public class Globals : Node
     public int camRotIndex = 3;
     public int sessionScore = 0;
     public int animDirection;
-    public int prevDirection;
     public int highScore;
 
     public String prevBlock;
@@ -105,35 +104,15 @@ public class Globals : Node
 
             return false;
         }
-            
-        // Checking for wrong moves
-        switch (animDirection)
+
+        foreach (int n in pMoves)
         {
-            case 1:
-                return !CheckMatch("Corner1", "Corner2", "Long0", 3);
-
-            case 2:
-                return !CheckMatch("Corner2", "Corner3", "Long1", 0);
-
-            case 3:
-                return !CheckMatch("Corner0", "Corner3", "Long0", 1);
-
-            default:
-                return !CheckMatch("Corner0", "Corner1", "Long1", 2);
+            if (animDirection == n)
+            {
+                return true;
+            }
         }
-    }
 
-    private bool CheckMatch(String c1, String c2, String l, int dir)
-    {
-        String[] corners = {c1, c2, l};
-
-        // Backtracking check
-        foreach (String i in corners)
-        {
-            if (prevBlock == i) return true;
-        }
-            
-        if (prevDirection == dir) return true;
         return false;
     }
 
