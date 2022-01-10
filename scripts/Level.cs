@@ -140,6 +140,12 @@ public class Level : Spatial
                 .Load("res://assets/platforms/" + type + ".tscn");
 
         platformBlockI = (Spatial)platformBlock.Instance();
+
+        platformBlockI.Translation = G.DirectionCalc();
+        Vector3 temp = platformBlockI.Translation;
+        temp.y = -16;
+        platformBlockI.Translation = temp;
+
         platformsSpace.AddChild(platformBlockI);
 
         return platformBlockI;
