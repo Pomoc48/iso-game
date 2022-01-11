@@ -198,7 +198,7 @@ public class Globals : Node
 
         if (foo < 25)
         {
-            if (foo < 12) return 3;
+            if (foo < 5) return 3;
             return 2;
         }
         return 1;
