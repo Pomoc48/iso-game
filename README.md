@@ -1,4 +1,5 @@
-# Simple mobile game project using the Godot Engine
+# Game project using the Godot Engine
+Simple mobile game with orthogonal camera projection written in C#<br>
 *(Name yet to be decided)*
 
 ## Gameplay
@@ -12,7 +13,7 @@ As the game goes on the difficulty will increase:
 * Camera rotations will be more common
 * Newly generated platforms with have less exits
 
-**Full depletion of the health bar results in a game over.**
+**Full depletion of the health bar results in a game over**
 
 ## Controls
 Player has four possible moves accessible as buttons visible on the screen.
