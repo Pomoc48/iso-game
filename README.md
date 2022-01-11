@@ -35,3 +35,7 @@ For gamepad controls just point the left stick in the diagonal directions.
   <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game3.png">
   <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game5.png">
 </div>
+
+
+## Licence
+This work is licensed under [Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/legalcode). Please see [the licence file](LICENCE.md) for more information.
