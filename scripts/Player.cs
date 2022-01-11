@@ -159,9 +159,9 @@ public class Player : Spatial
 
         interfaceMain.AddScore();
         
-        // 2% chance to activate special mode
+        // 1% chance to activate special mode
         int side = rnd.Next(100);
-        if (side < 2) EnablePerspectiveMode(true);
+        if (side < 1) EnablePerspectiveMode(true);
 
         // Progress the game
         Level.GeneratePlatform();
@@ -317,7 +317,7 @@ public class Player : Spatial
 
             if (G.perspectiveMode) return;
             ChangePlayerColor(false);
-            
+
             return;
         }
 
