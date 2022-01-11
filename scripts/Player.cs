@@ -333,8 +333,9 @@ public class Player : Spatial
         {
             // Replenish full health
             GiveHealth(G.fullHealth);
+            interfaceMain.CalculateHealthBar();
+
             playerCamera.Projection = Camera.ProjectionEnum.Perspective;
-            
             ChangePlayerColor(true);
             return;
         }

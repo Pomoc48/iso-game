@@ -220,7 +220,7 @@ public class Globals : Node
     {
         var foo = rnd.Next(100);
 
-        if (foo < 25)
+        if (foo < 30)
         {
             if (foo < 5) return 3;
             return 2;
