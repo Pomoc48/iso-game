@@ -1,13 +1,6 @@
 # Simple mobile game project using the Godot Engine
 *(Name yet to be decided)*
 
-## Screenshots
-<img src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game4.png">
-<div style="display: flex;">
-  <img width="502" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game3.png">
-  <img width="502" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game2.png">
-</div>
-
 ## Gameplay
 Each move generates a platform with one or more valid moves. (backtracking moves count as wrong moves)
 Once the game has been started, white bar at the top will slowly start to deplete.
@@ -27,3 +20,10 @@ Player has four possible moves accessible as buttons visible on the screen.
 Alternatively, the arrow keys on the keyboard and the gamepad are supported for testing purposes.
 Since the game uses diagonal directions to move, two buttons on the keyboard must be pressed simultaneously to indicate the diagonal direction.
 For gamepad controls just point the left stick in the diagonal directions.
+
+## Screenshots
+<img src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game4.png">
+<div style="display: flex;">
+  <img width="49.5%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game3.png">
+  <img width="49.5%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game2.png">
+</div>
