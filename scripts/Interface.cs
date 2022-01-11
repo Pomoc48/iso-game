@@ -6,7 +6,11 @@ public class Interface : Control
     private Globals G;
     private Player Player;
 
+    private Texture whiteTexture;
+    private Texture redTexture;
+
     private Control healthBar;
+    private TextureRect healthBarTR;
     private Label scoreText;
     private Label textFps;
     private Label highScoreText;
@@ -26,6 +30,7 @@ public class Interface : Control
     public override void _Ready()
     {
         healthBar = GetNode<Control>("Main/Health");
+        healthBarTR = GetNode<TextureRect>("Main/Health/Bar");
         healthAnimation = GetNode<AnimationPlayer>("Main/Health/HealthAnim");
         buttonsAnimLeft = GetNode<AnimationPlayer>("Main/Left/ShowHide");
         buttonsAnimRight = GetNode<AnimationPlayer>("Main/Right/ShowHide");
@@ -38,6 +43,9 @@ public class Interface : Control
 
         G = GetNode<Globals>("/root/Globals");
         Player = GetNode<Player>("/root/Level/Player");
+
+        whiteTexture = (Texture)GD.Load("res://assets/textures/square.png");
+        redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
 
         if (!screenSizeCalculated) GetScreenSize();
     }
@@ -98,6 +106,22 @@ public class Interface : Control
 
         // Ignore on start
         textAnim.Play("Highscore");
+    }
+
+    public void ColorHealthbarRed(bool red)
+    {
+        if (red)
+        {
+            if (healthBarTR.Texture == redTexture) return;
+
+            healthBarTR.Texture = redTexture;
+            return;
+        }
+        
+        if (healthBarTR.Texture != whiteTexture)
+        {
+            healthBarTR.Texture = whiteTexture;
+        }
     }
 
     // Connect UI buttons

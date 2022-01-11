@@ -334,6 +334,7 @@ public class Player : Spatial
             // Replenish full health
             GiveHealth(G.fullHealth);
             interfaceMain.CalculateHealthBar();
+            interfaceMain.ColorHealthbarRed(true);
 
             playerCamera.Projection = Camera.ProjectionEnum.Perspective;
             ChangePlayerColor(true);
@@ -341,6 +342,7 @@ public class Player : Spatial
         }
 
         playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
+        interfaceMain.ColorHealthbarRed(false);
         ChangePlayerColor(false);
     }
 
