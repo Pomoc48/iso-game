@@ -15,6 +15,7 @@ public class Globals : Node
 
     public int camRotIndex = 3;
     public int sessionScore = 0;
+    public int platformDifficulty = 0;
     public int animDirection;
     public int highScore;
 
@@ -30,8 +31,9 @@ public class Globals : Node
 
     public override void _Ready()
     {
-        emissionRed = (SpatialMaterial)GD.Load("res://materials/emission2.tres");
-        emissionBlue = (SpatialMaterial)GD.Load("res://materials/emission.tres");
+        String matPath = "res://materials/emission";
+        emissionRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
+        emissionBlue = (SpatialMaterial)GD.Load(matPath + ".tres");
     }
 
     public void ResetVars()
@@ -51,7 +53,9 @@ public class Globals : Node
 
     public int Load(String category)
     {
-        if (CF.Load("user://config") != Error.Ok) Save("HighScore", 0);
+        if (CF.Load("user://config") != Error.Ok)
+            Save("HighScore", 0);
+
         int number = (int) CF.GetValue("Main", category, 0);
         return number;
     }
@@ -120,22 +124,30 @@ public class Globals : Node
     {
         var foo = rnd.Next(100);
 
-        if (foo < 10) return 3;
-        if (foo >= 10 && foo < 40) return 4;
-        if (foo >= 40 && foo < 75) return 1;
-        return 2;
+        // cs / tw /  l /  c
+        switch (platformDifficulty)
+        {
+            case 2:
+                // 2  / 20 / 18 / 60
+                if (foo < 2) return 3;
+                if (foo >= 2 && foo < 22) return 4;
+                if (foo >= 22 && foo < 40) return 1;
+                return 2;
 
-        // diff 1
-        // cs / tw / ll / cc
-        // 10 / 30 / 35 / 25
+            case 1:
+                // 5  / 30 / 25 / 40
+                if (foo < 5) return 3;
+                if (foo >= 5 && foo < 35) return 4;
+                if (foo >= 35 && foo < 60) return 1;
+                return 2;
 
-        // diff 2
-        // cs / tw / ll / cc
-        // 5  / 30 / 25 / 40
-
-        // diff 3
-        // cs / tw / ll / cc
-        // 2  / 20 / 18 / 60
+            default:
+                // 10 / 30 / 35 / 25
+                if (foo < 10) return 3;
+                if (foo >= 10 && foo < 40) return 4;
+                if (foo >= 40 && foo < 75) return 1;
+                return 2;
+        }
     }
 
     public int RetranslateDirection(int direction)
