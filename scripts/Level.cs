@@ -68,8 +68,12 @@ public class Level : Spatial
 
     private void LoadDecoration(Vector3 blockPos)
     {
-        PackedScene block = (PackedScene)ResourceLoader
-                .Load("res://assets/Block.tscn");
+        String blockPath;
+
+        if (G.perspectiveMode) blockPath = "res://assets/BlockM.tscn";
+        else blockPath = "res://assets/Block.tscn";
+
+        PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
                 
         Spatial blockI = (Spatial)block.Instance();
         blockI.Translation = blockPos;
@@ -184,9 +188,13 @@ public class Level : Spatial
     {
         PackedScene platformBlock;
         Spatial platformBlockI;
+        String platformPath;
 
-        platformBlock = (PackedScene)ResourceLoader
-                .Load("res://assets/platforms/" + type + ".tscn");
+        if (G.perspectiveMode)
+            platformPath = "res://assets/platformsM/"+type+"M.tscn";
+        else platformPath = "res://assets/platforms/"+type+".tscn";
+
+        platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
 
         platformBlockI = (Spatial)platformBlock.Instance();
 

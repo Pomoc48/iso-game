@@ -11,6 +11,7 @@ public class Globals : Node
 
     public float playerHealth = 24.0f;
     public bool firstMove = true;
+    public bool perspectiveMode = false;
 
     public int camRotIndex = 3;
     public int sessionScore = 0;
@@ -22,7 +23,7 @@ public class Globals : Node
 
     public SpatialMaterial emissionRed;
     public SpatialMaterial emissionBlue;
-    public SpatialMaterial emissionWhite;
+    public SpatialMaterial emissionYellow;
 
     public int[] pMoves;
 
@@ -32,13 +33,14 @@ public class Globals : Node
     {
         emissionRed = (SpatialMaterial)GD.Load("res://materials/emission2.tres");
         emissionBlue = (SpatialMaterial)GD.Load("res://materials/emission.tres");
-        // emissionWhite = (SpatialMaterial)GD.Load("res://materials/emission3.tres");
+        emissionYellow = (SpatialMaterial)GD.Load("res://materials/emission3.tres");
     }
 
     public void ResetVars()
     {
         playerHealth = fullHealth;
         firstMove = true;
+        perspectiveMode = false;
         camRotIndex = 3;
         sessionScore = 0;
     }

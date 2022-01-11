@@ -5,6 +5,7 @@ public class Player : Spatial
 {
     private Globals G;
     private Level Level;
+    private Random rnd = new Random();
 
     private Interface interfaceMain;
     private Tween playerTween;
@@ -26,6 +27,7 @@ public class Player : Spatial
     private int nextCycle = 0;
     private int maxCycle = 20;
     private int frames = 0;
+    private int framesMode = 0;
 
     private Tween.TransitionType trans = Tween.TransitionType.Quad;
     private Tween.EaseType ease = Tween.EaseType.InOut;
@@ -80,7 +82,7 @@ public class Player : Spatial
     // Runs every game tick
     public override void _PhysicsProcess(float delta)
     {
-        LooseHealth();
+        if (!G.perspectiveMode) LooseHealth();
 
         // No life game_over check
         if ((G.playerHealth <= 0) && !playerDead) GameOver();
@@ -118,14 +120,25 @@ public class Player : Spatial
     private void FramesCalculation()
     {
         frames++;
-        if (frames < 120) return;
+        if (frames >= 120)
+        {
+            frames = 0;
+            Level.CreateDecorations();
 
-        frames = 0;
-        Level.CreateDecorations();
+            // Debug only
+            String fps = Engine.GetFramesPerSecond().ToString();
+            interfaceMain.UpdateFps(fps);
+        }
 
-        // Debug only
-        String fps = Engine.GetFramesPerSecond().ToString();
-        interfaceMain.UpdateFps(fps);
+        // Disable after 5s
+        if (!G.perspectiveMode) return;
+
+        framesMode++;
+        if (framesMode >= 600)
+        {
+            framesMode = 0;
+            EnablePerspectiveMode(false);
+        }
     }
 
     private void CorrectScoreCalculation()
@@ -140,9 +153,16 @@ public class Player : Spatial
                 oldPos, newPos, animSpeed, trans, ease);
         playerTween.Start();
         
-        G.sessionScore++;
+        // Double score when in perspective mode
+        if (G.perspectiveMode) G.sessionScore += 2;
+        else G.sessionScore++;
+
         interfaceMain.AddScore();
         
+        // 2% chance to activate special mode
+        int side = rnd.Next(100);
+        if (side < 2) EnablePerspectiveMode(true);
+
         // Progress the game
         Level.GeneratePlatform();
         GiveHealth(lifeGainRate);
@@ -245,20 +265,26 @@ public class Player : Spatial
         
     private void RebounceCheck(int original_dir)
     {
-        EnableControls(false, true);
-
-        // Wrong move penalty
-        if (!G.firstMove) G.playerHealth -= 10;
-        
-        // Instant game over
-        if ((G.playerHealth <= 0) && !playerDead)
+        // No penalties during perspective mode
+        if (!G.perspectiveMode)
         {
-            GameOver();
-            return;
+            EnableControls(false, true);
+
+            // Wrong move penalty
+            if (!G.firstMove) G.playerHealth -= 10;
+
+            // Instant game over
+            if ((G.playerHealth <= 0) && !playerDead)
+            {
+                GameOver();
+                return;
+            }
         }
 
+        else EnableControls(false, false);
+
         // Animate player rebounce
-        cameraBounce.Play("Bounce" + original_dir.ToString());	
+        cameraBounce.Play("Bounce" + original_dir.ToString());
     }
 
     private void GameOver()
@@ -289,7 +315,10 @@ public class Player : Spatial
         {
             canMove = true;
 
-            if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue) return;
+            if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue ||
+                    playerMesh.GetSurfaceMaterial(0) == G.emissionYellow)
+                return;
+
             playerMesh.SetSurfaceMaterial(0, G.emissionBlue);
             return;
         }
@@ -298,15 +327,25 @@ public class Player : Spatial
         if (red) playerMesh.SetSurfaceMaterial(0, G.emissionRed);
     }
 
-    private void EnableCameraPerspective(bool perspective)
+    private void EnablePerspectiveMode(bool perspective)
     {
+        G.perspectiveMode = perspective;
+
         if (perspective)
         {
+            // Replenish full health
+            GiveHealth(G.fullHealth);
             playerCamera.Projection = Camera.ProjectionEnum.Perspective;
+            
+            if (playerMesh.GetSurfaceMaterial(0) == G.emissionYellow) return;
+            playerMesh.SetSurfaceMaterial(0, G.emissionYellow);
             return;
         }
 
         playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
+
+        if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue) return;
+        playerMesh.SetSurfaceMaterial(0, G.emissionBlue);
     }
         
     private void _on_CameraPan_animation_finished(String anim_name)
