@@ -315,16 +315,14 @@ public class Player : Spatial
         {
             canMove = true;
 
-            if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue ||
-                    playerMesh.GetSurfaceMaterial(0) == G.emissionYellow)
-                return;
-
-            playerMesh.SetSurfaceMaterial(0, G.emissionBlue);
+            if (G.perspectiveMode) return;
+            ChangePlayerColor(false);
+            
             return;
         }
 
         canMove = false;
-        if (red) playerMesh.SetSurfaceMaterial(0, G.emissionRed);
+        if (red) ChangePlayerColor(true);
     }
 
     private void EnablePerspectiveMode(bool perspective)
@@ -337,12 +335,22 @@ public class Player : Spatial
             GiveHealth(G.fullHealth);
             playerCamera.Projection = Camera.ProjectionEnum.Perspective;
             
-            if (playerMesh.GetSurfaceMaterial(0) == G.emissionYellow) return;
-            playerMesh.SetSurfaceMaterial(0, G.emissionYellow);
+            ChangePlayerColor(true);
             return;
         }
 
         playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
+        ChangePlayerColor(false);
+    }
+
+    private void ChangePlayerColor(bool red)
+    {
+        if (red)
+        {
+            if (playerMesh.GetSurfaceMaterial(0) == G.emissionRed) return;
+            playerMesh.SetSurfaceMaterial(0, G.emissionRed);
+            return;
+        }
 
         if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue) return;
         playerMesh.SetSurfaceMaterial(0, G.emissionBlue);

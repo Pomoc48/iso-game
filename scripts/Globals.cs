@@ -23,7 +23,6 @@ public class Globals : Node
 
     public SpatialMaterial emissionRed;
     public SpatialMaterial emissionBlue;
-    public SpatialMaterial emissionYellow;
 
     public int[] pMoves;
 
@@ -33,7 +32,6 @@ public class Globals : Node
     {
         emissionRed = (SpatialMaterial)GD.Load("res://materials/emission2.tres");
         emissionBlue = (SpatialMaterial)GD.Load("res://materials/emission.tres");
-        emissionYellow = (SpatialMaterial)GD.Load("res://materials/emission3.tres");
     }
 
     public void ResetVars()
