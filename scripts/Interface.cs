@@ -113,15 +113,14 @@ public class Interface : Control
         if (red)
         {
             if (healthBarTR.Texture == redTexture) return;
-
             healthBarTR.Texture = redTexture;
+
+
             return;
         }
         
-        if (healthBarTR.Texture != whiteTexture)
-        {
-            healthBarTR.Texture = whiteTexture;
-        }
+        if (healthBarTR.Texture == whiteTexture) return;
+        healthBarTR.Texture = whiteTexture;
     }
 
     // Connect UI buttons

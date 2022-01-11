@@ -159,9 +159,13 @@ public class Player : Spatial
 
         interfaceMain.AddScore();
         
-        // 1% chance to activate special mode
-        int side = rnd.Next(100);
-        if (side < 1) EnablePerspectiveMode(true);
+        // Don't active it twice by a small chance
+        if (!G.perspectiveMode)
+        {
+            // 1% chance to activate special mode
+            int side = rnd.Next(100);
+            if (side < 1) EnablePerspectiveMode(true);
+        }
 
         // Progress the game
         Level.GeneratePlatform();
