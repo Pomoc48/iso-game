@@ -24,6 +24,6 @@ For gamepad controls just point the left stick in the diagonal directions.
 ## Screenshots
 <img src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game4.png">
 <div style="display: flex;">
-  <img width="49.5%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game3.png">
-  <img width="49.5%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game2.png">
+  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game3.png">
+  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game2.png">
 </div>
