@@ -15,7 +15,6 @@ public class Globals : Node
 
     public int camRotIndex = 3;
     public int sessionScore = 0;
-    public int platformDifficulty = 0;
     public int animDirection;
     public int highScore;
 
@@ -28,6 +27,8 @@ public class Globals : Node
     public int[] pMoves;
 
     private int startDir;
+    private int cyclesCount;
+    private int platformDifficulty;
 
     public override void _Ready()
     {
@@ -43,6 +44,8 @@ public class Globals : Node
         perspectiveMode = false;
         camRotIndex = 3;
         sessionScore = 0;
+        platformDifficulty = 0;
+        cyclesCount = 0;
     }
 
     public void Save(String category, int value)
@@ -190,6 +193,15 @@ public class Globals : Node
     // Get new cycle lenght for camera rotation
     public int GetMaxCycle(int cycle, int range)
     {
+        cyclesCount++;
+
+        // Increase platform difficulty every ~100 points 
+        if (cyclesCount > 5)
+        {
+            cyclesCount = 0;
+            if (platformDifficulty < 2) platformDifficulty++;
+        }
+
         int temp;
 
         if (RandomBool()) temp = cycle + rnd.Next(range);
