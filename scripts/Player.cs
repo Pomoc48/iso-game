@@ -31,9 +31,6 @@ public class Player : Spatial
 
     private int addScoreBy = 1;
 
-    private Tween.TransitionType trans = Tween.TransitionType.Quad;
-    private Tween.EaseType ease = Tween.EaseType.InOut;
-
     String[] keys = {"ui_up", "ui_right", "ui_down", "ui_left"};
 
     // Init function
@@ -159,9 +156,7 @@ public class Player : Spatial
         Vector3 newPos = G.DirectionCalc();
 
         // Movement animation
-        playerTween.InterpolateProperty(this, "translation",
-                oldPos, newPos, animSpeed, trans, ease);
-        playerTween.Start();
+        PlayTweenAnim("translation", oldPos, newPos, animSpeed);
         
         G.sessionScore += addScoreBy;
         interfaceMain.AddScore();
@@ -241,8 +236,16 @@ public class Player : Spatial
         if (clockwise) newRot.y += rotateBy;
         else newRot.y -= rotateBy;
 
-        playerTween.InterpolateProperty(this, "rotation_degrees",
-                oldRotRad, newRot, time, trans, ease);
+        PlayTweenAnim("rotation_degrees", oldRotRad, newRot, time);
+    }
+
+    // Player movement and camera rotations
+    public void PlayTweenAnim(String type, Vector3 oldV, Vector3 newV, float time)
+    {
+        Tween.TransitionType trans = Tween.TransitionType.Quad;
+        Tween.EaseType ease = Tween.EaseType.InOut;
+
+        playerTween.InterpolateProperty(this, type, oldV, newV, time, trans, ease);
         playerTween.Start();
     }
 	
