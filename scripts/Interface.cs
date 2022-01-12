@@ -6,7 +6,7 @@ public class Interface : Control
     private Globals G;
     private Player Player;
 
-    private Texture whiteTexture;
+    private Texture blueTexture;
     private Texture redTexture;
 
     private Control healthBar;
@@ -45,7 +45,7 @@ public class Interface : Control
         G = GetNode<Globals>("/root/Globals");
         Player = GetNode<Player>("/root/Level/Player");
 
-        whiteTexture = (Texture)GD.Load("res://assets/textures/square.png");
+        blueTexture = (Texture)GD.Load("res://assets/textures/squareBlue.png");
         redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
 
         if (!screenSizeCalculated) GetScreenSize();
@@ -95,7 +95,7 @@ public class Interface : Control
 
     public void UpdateFps(String fps)
     {
-        String fpsText = fps + " fps";
+        String fpsText = fps + " FPS";
 	    textFps.Text = fpsText;
     }
 
@@ -128,12 +128,11 @@ public class Interface : Control
             if (healthBarTR.Texture == redTexture) return;
             healthBarTR.Texture = redTexture;
 
-
             return;
         }
         
-        if (healthBarTR.Texture == whiteTexture) return;
-        healthBarTR.Texture = whiteTexture;
+        if (healthBarTR.Texture == blueTexture) return;
+        healthBarTR.Texture = blueTexture;
     }
 
     // Connect UI buttons
