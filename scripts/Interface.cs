@@ -24,6 +24,7 @@ public class Interface : Control
     private bool screenSizeCalculated;
     private bool healthBarShow = true;
 
+    private float screenSize;
     private float updateHealthBy;
 
     // Init function
@@ -53,7 +54,7 @@ public class Interface : Control
     // One time screen size calculation
     private void GetScreenSize()
     {
-        float screenSize = GetViewport().Size.x;
+        screenSize = GetViewport().Size.x;
 	    updateHealthBy = screenSize / G.fullHealth;
 	    screenSizeCalculated = true;
     }
@@ -68,8 +69,20 @@ public class Interface : Control
         }
 		
         float health = G.playerHealth * updateHealthBy;
-        Vector2 pos = new Vector2(health, 16);
 
+        Vector2 pos = new Vector2(health, 16);
+        healthBar.SetSize(pos, false);
+    }
+
+    public void CalculatePerspectiveBar(float frames)
+    {
+        // Reverse percentage
+        frames /= -600;
+        frames += 1;
+
+        float newSize = screenSize * frames;
+
+        Vector2 pos = new Vector2(newSize, 16);
         healthBar.SetSize(pos, false);
     }
 

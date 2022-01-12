@@ -82,12 +82,14 @@ public class Player : Spatial
     // Runs every game tick
     public override void _PhysicsProcess(float delta)
     {
-        if (!G.perspectiveMode) LooseHealth();
-
         // No life game_over check
-        if ((G.playerHealth <= 0) && !playerDead) GameOver();
+        if ((G.playerHealth <= 0) && !playerDead)
+            GameOver();
 
         FramesCalculation();
+
+        if (!G.perspectiveMode && (framesMode % 2) == 0)
+            LooseHealth();
     }
 
     public void CheckMove(int dir)
@@ -134,6 +136,12 @@ public class Player : Spatial
         if (!G.perspectiveMode) return;
 
         framesMode++;
+
+        if ((framesMode % 2) == 0)
+        {
+            interfaceMain.CalculatePerspectiveBar(framesMode);
+        }
+
         if (framesMode >= 600)
         {
             framesMode = 0;
@@ -164,7 +172,7 @@ public class Player : Spatial
         {
             // 1% chance to activate special mode
             int side = rnd.Next(100);
-            if (side < 1) EnablePerspectiveMode(true);
+            if (side < 10) EnablePerspectiveMode(true);
         }
 
         // Progress the game
