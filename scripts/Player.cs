@@ -29,6 +29,8 @@ public class Player : Spatial
     private int frames = 0;
     private int framesMode = 0;
 
+    private int addScoreBy = 1;
+
     private Tween.TransitionType trans = Tween.TransitionType.Quad;
     private Tween.EaseType ease = Tween.EaseType.InOut;
 
@@ -161,10 +163,7 @@ public class Player : Spatial
                 oldPos, newPos, animSpeed, trans, ease);
         playerTween.Start();
         
-        // Double score when in perspective mode
-        if (G.perspectiveMode) G.sessionScore += 2;
-        else G.sessionScore++;
-
+        G.sessionScore += addScoreBy;
         interfaceMain.AddScore();
         
         // Don't active it twice by a small chance
@@ -350,10 +349,15 @@ public class Player : Spatial
 
             playerCamera.Projection = Camera.ProjectionEnum.Perspective;
             ChangePlayerColor(true);
+
+            // Double score when in perspective mode
+            addScoreBy = 2;
             return;
         }
 
         playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
+        addScoreBy = 1;
+
         interfaceMain.ColorHealthbarRed(false);
         ChangePlayerColor(false);
     }
