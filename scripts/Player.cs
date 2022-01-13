@@ -4,6 +4,7 @@ using System;
 public class Player : Spatial
 {
     private Globals G;
+    private Statistics S;
     private Level Level;
     private Random rnd = new Random();
 
@@ -38,6 +39,7 @@ public class Player : Spatial
     public override void _Ready()
     {
         G = GetNode<Globals>("/root/Globals");
+        S = GetNode<Statistics>("/root/Level/Interface/Main/StatsButton");
 
         Level = GetNode<Level>("/root/Level");
         interfaceMain = GetNode<Interface>("/root/Level/Interface");
@@ -326,18 +328,21 @@ public class Player : Spatial
 
         if (G.sessionScore > G.highScore)
         {
-            G.Save("HighScore", G.sessionScore);
             interfaceMain.UpdateHighScore(G.sessionScore, false);
 
             // Give more time for the new highscore animation
             cameraAnimation.Play("CameraUpLong");
             interfaceMain.HideUiAnimations(true);
-            return;
         }
 
-        // Outro animations
-        cameraAnimation.Play("CameraUp");
-        interfaceMain.HideUiAnimations(false);
+        else
+        {
+            // Outro animations
+            cameraAnimation.Play("CameraUp");
+            interfaceMain.HideUiAnimations(false);
+        }
+
+        S.UploadStatistics();
     }
 
     private void EnableControls(bool enable, bool red)

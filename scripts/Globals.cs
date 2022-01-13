@@ -18,6 +18,9 @@ public class Globals : Node
     public int animDirection;
     public int highScore;
 
+    public int correctMoves;
+    public int totalMoves;
+
     public String prevBlock;
     public Vector3 playerPosition;
 
@@ -25,6 +28,14 @@ public class Globals : Node
     public SpatialMaterial emissionBlue;
 
     public int[] pMoves;
+
+    public String[] categoriesP = {
+        "HighScore",
+        "NumberOfGames", 
+        "CombinedScore",
+        "CorrectMoves",
+        "TotalMoves"
+    };
 
     private int startDir;
     private int cyclesCount;
@@ -48,16 +59,23 @@ public class Globals : Node
         cyclesCount = 0;
     }
 
-    public void Save(String category, int value)
+    public void Save(String[] categories, int[] values)
     {
-        CF.SetValue("Main", category, value);
+        for (int n = 0; n < categories.Length; n++)
+        {
+            CF.SetValue("Main", categories[n], values[n]);
+        }
+        
         CF.Save("user://config");
     }
 
     public int Load(String category)
     {
         if (CF.Load("user://config") != Error.Ok)
-            Save("HighScore", 0);
+        {
+            int[] values = {0, 0, 0, 0, 0};
+            Save(categoriesP, values);
+        }
 
         int number = (int) CF.GetValue("Main", category, 0);
         return number;
@@ -101,11 +119,14 @@ public class Globals : Node
 
     public bool IsMoveLegal()
     {
+        totalMoves++;
+
         if (firstMove)
         {
             if (animDirection == startDir)
             {
                 firstMove = false;
+                correctMoves++;
                 return true;
             }
 
@@ -116,6 +137,7 @@ public class Globals : Node
         {
             if (animDirection == n)
             {
+                correctMoves++;
                 return true;
             }
         }
