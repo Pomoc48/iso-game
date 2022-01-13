@@ -12,7 +12,6 @@ public class Interface : Control
     private Control healthBar;
     private TextureRect healthBarTR;
     private Label scoreText;
-    // private Label textFps;
     private Label highScoreText;
 
     private AnimationPlayer healthAnimation;
@@ -94,12 +93,6 @@ public class Interface : Control
         scoreText.Text = G.sessionScore.ToString();
 	    textAnim.Play("TextAnim");
     }
-
-    // public void UpdateFps(String fps)
-    // {
-    //     String fpsText = fps + " FPS";
-	//     textFps.Text = fpsText;
-    // }
 
     // Gameover call
     public void HideUiAnimations(bool highscore)

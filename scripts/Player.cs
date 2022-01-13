@@ -128,10 +128,6 @@ public class Player : Spatial
         {
             frames = 0;
             Level.CreateDecorations();
-
-            // Debug only
-            // String fps = Engine.GetFramesPerSecond().ToString();
-            // interfaceMain.UpdateFps(fps);
         }
 
         // Disable after 5s

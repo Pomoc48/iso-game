@@ -57,6 +57,8 @@ public class Globals : Node
         sessionScore = 0;
         platformDifficulty = 0;
         cyclesCount = 0;
+        correctMoves = 0;
+        totalMoves = 0;
     }
 
     public void Save(String[] categories, int[] values)
@@ -119,19 +121,22 @@ public class Globals : Node
 
     public bool IsMoveLegal()
     {
-        totalMoves++;
-
         if (firstMove)
         {
             if (animDirection == startDir)
             {
                 firstMove = false;
+
                 correctMoves++;
+                totalMoves++;
+
                 return true;
             }
 
             return false;
         }
+
+        totalMoves++;
 
         foreach (int n in pMoves)
         {
