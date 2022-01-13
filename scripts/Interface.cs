@@ -12,7 +12,7 @@ public class Interface : Control
     private Control healthBar;
     private TextureRect healthBarTR;
     private Label scoreText;
-    private Label textFps;
+    // private Label textFps;
     private Label highScoreText;
 
     private AnimationPlayer healthAnimation;
@@ -38,11 +38,11 @@ public class Interface : Control
         buttonsAnimRight = GetNode<AnimationPlayer>("Main/Right/ShowHide");
         blindAnim = GetNode<AnimationPlayer>("Main/Blind/BlindAnim");
 
-        textFps = GetNode<Label>("Main/Fps");
+        // textFps = GetNode<Label>("Main/Fps");
         highScoreText = GetNode<Label>("Main/HighScore");
         scoreText = GetNode<Label>("Main/Score");
         textAnim = scoreText.GetNode<AnimationPlayer>("Bump");
-        textUI = GetNode<AnimationPlayer>("Main/Fps/ShowHide");
+        textUI = GetNode<AnimationPlayer>("Main/StatsButton/ShowHide");
 
         G = GetNode<Globals>("/root/Globals");
         Player = GetNode<Player>("/root/Level/Player");
@@ -95,11 +95,11 @@ public class Interface : Control
 	    textAnim.Play("TextAnim");
     }
 
-    public void UpdateFps(String fps)
-    {
-        String fpsText = fps + " FPS";
-	    textFps.Text = fpsText;
-    }
+    // public void UpdateFps(String fps)
+    // {
+    //     String fpsText = fps + " FPS";
+	//     textFps.Text = fpsText;
+    // }
 
     // Gameover call
     public void HideUiAnimations(bool highscore)

@@ -128,8 +128,8 @@ public class Player : Spatial
             Level.CreateDecorations();
 
             // Debug only
-            String fps = Engine.GetFramesPerSecond().ToString();
-            interfaceMain.UpdateFps(fps);
+            // String fps = Engine.GetFramesPerSecond().ToString();
+            // interfaceMain.UpdateFps(fps);
         }
 
         // Disable after 5s

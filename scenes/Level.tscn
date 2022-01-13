@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/textures/squareBlue.png" type="Texture" id=7]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://assets/textures/Stats.png" type="Texture" id=9]
+[ext_resource path="res://scenes/Statistics.cs" type="Script" id=10]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Bold.ttf" type="DynamicFontData" id=18]
@@ -244,6 +245,147 @@ tracks/0/keys = {
 "values": [ 90, 90, 85, 80 ]
 }
 
+[sub_resource type="DynamicFont" id=34]
+size = 38
+font_data = ExtResource( 18 )
+
+[sub_resource type="DynamicFont" id=45]
+size = 42
+font_data = ExtResource( 18 )
+
+[sub_resource type="DynamicFont" id=46]
+size = 32
+extra_spacing_top = 11
+font_data = ExtResource( 8 )
+
+[sub_resource type="Animation" id=43]
+resource_name = "Hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0431373, 0.0431373, 0.0431373, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Title:custom_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Stats:custom_colors/font_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:mouse_filter")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../StatsButton:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=47]
+resource_name = "Show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0.0431373, 0.0431373, 0.0431373, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Title:custom_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Stats:custom_colors/font_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:mouse_filter")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../StatsButton:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [sub_resource type="Animation" id=36]
 resource_name = "HideUI"
 length = 0.5
@@ -324,123 +466,6 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 32, -64 ), Vector2( 32, 32 ) ]
-}
-
-[sub_resource type="DynamicFont" id=34]
-size = 38
-font_data = ExtResource( 18 )
-
-[sub_resource type="DynamicFont" id=45]
-size = 42
-font_data = ExtResource( 18 )
-
-[sub_resource type="DynamicFont" id=46]
-size = 32
-extra_spacing_top = 11
-font_data = ExtResource( 8 )
-
-[sub_resource type="Animation" id=43]
-resource_name = "Hide"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0.0431373, 0.0431373, 0.0431373, 1 ), Color( 0, 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Title:custom_colors/font_color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Stats:custom_colors/font_color")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath(".:mouse_filter")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 2 ]
-}
-
-[sub_resource type="Animation" id=47]
-resource_name = "Show"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0.0431373, 0.0431373, 0.0431373, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Title:custom_colors/font_color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Stats:custom_colors/font_color")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath(".:mouse_filter")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
 }
 
 [sub_resource type="SphereMesh" id=37]
@@ -870,23 +895,6 @@ anims/Highscore = SubResource( 40 )
 anims/RESET = SubResource( 6 )
 anims/TextAnim = SubResource( 19 )
 
-[node name="StatsButton" type="TextureButton" parent="Interface/Main"]
-margin_left = 32.0
-margin_top = -64.0
-margin_right = 160.0
-margin_bottom = 64.0
-rect_scale = Vector2( 0.4, 0.4 )
-texture_normal = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/StatsButton"]
-root_node = NodePath("../../Fps")
-autoplay = "ShowUI"
-anims/HideUI = SubResource( 36 )
-anims/ShowUI = SubResource( 35 )
-
 [node name="Fps" type="Label" parent="Interface/Main"]
 visible = false
 margin_left = 32.0
@@ -955,6 +963,24 @@ __meta__ = {
 [node name="BlindAnim" type="AnimationPlayer" parent="Interface/Main/Stats"]
 anims/Hide = SubResource( 43 )
 anims/Show = SubResource( 47 )
+
+[node name="StatsButton" type="TextureButton" parent="Interface/Main"]
+margin_left = 32.0
+margin_top = -64.0
+margin_right = 160.0
+margin_bottom = 64.0
+rect_scale = Vector2( 0.4, 0.4 )
+texture_normal = ExtResource( 9 )
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/StatsButton"]
+root_node = NodePath("../../Fps")
+autoplay = "ShowUI"
+anims/HideUI = SubResource( 36 )
+anims/ShowUI = SubResource( 35 )
 
 [node name="Platforms" type="Spatial" parent="."]
 
@@ -1034,6 +1060,7 @@ environment = ExtResource( 2 )
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Interface" method="_on_Right_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Down" to="Interface" method="_on_Down_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Up" to="Interface" method="_on_Up_button_down"]
+[connection signal="button_down" from="Interface/Main/StatsButton" to="Interface/Main/StatsButton" method="_on_StatsButton_button_down"]
 [connection signal="tween_all_completed" from="Player/Tween" to="Player" method="_on_Tween_tween_all_completed"]
 [connection signal="animation_finished" from="Player/Camera/CameraPan" to="Player" method="_on_CameraPan_animation_finished"]
 [connection signal="animation_finished" from="Player/CameraBounce" to="Player" method="_on_CameraRotation_animation_finished"]
