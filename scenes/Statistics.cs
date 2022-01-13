@@ -3,11 +3,15 @@ using System;
 
 public class Statistics : TextureButton
 {
+    private Globals G;
     private AnimationPlayer statsAnimation;
+    
     private bool statsOpened = false;
 
     public override void _Ready()
     {
+        G = GetNode<Globals>("/root/Globals");
+
         String path = "/root/Level/Interface/Main/Stats/BlindAnim";
         statsAnimation = GetNode<AnimationPlayer>(path);
     }

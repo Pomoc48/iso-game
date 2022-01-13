@@ -150,6 +150,30 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, -16 ), Vector2( 0, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../StatsButton:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../StatsButton:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 32, 32 ), Vector2( 32, -64 ) ]
+}
 
 [sub_resource type="Animation" id=21]
 resource_name = "HealthUp"
@@ -419,7 +443,7 @@ tracks/2/path = NodePath("../StatsButton:rect_position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = true
+tracks/2/enabled = false
 tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -912,7 +936,7 @@ anchor_right = 1.0
 margin_left = 748.0
 margin_top = -64.0
 margin_right = -32.0
-margin_bottom = -4.00002
+margin_bottom = -4.00003
 custom_fonts/font = SubResource( 34 )
 text = "HiScore: 120"
 align = 2
