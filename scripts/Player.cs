@@ -28,6 +28,7 @@ public class Player : Spatial
     private int maxCycle = 20;
     private int frames = 0;
     private int framesMode = 0;
+    private int faliedPM = 0;
 
     private int addScoreBy = 1;
 
@@ -162,17 +163,33 @@ public class Player : Spatial
         interfaceMain.AddScore();
         
         // Don't active it twice by a small chance
-        if (!G.perspectiveMode)
-        {
-            // 1% chance to activate special mode
-            int side = rnd.Next(100);
-            if (side < 1) EnablePerspectiveMode(true);
-        }
+        if (!G.perspectiveMode) RollPerspectiveMode();
 
         // Progress the game
         Level.GeneratePlatform();
         GiveHealth(lifeGainRate);
         DifficultyIncrease();
+    }
+
+    private void RollPerspectiveMode()
+    {
+        // 1% chance to activate special mode after 20 moves
+        int side = rnd.Next(100);
+        if (side < 1 && faliedPM >= 20)
+        {
+            EnablePerspectiveMode(true);
+            faliedPM = 0;
+            return;
+        }
+
+        faliedPM++;
+
+        // Quadruple the chances after unlucky 100 moves
+        if (side < 4 && faliedPM >= 100)
+        {
+            EnablePerspectiveMode(true);
+            faliedPM = 0;
+        }
     }
 
     private void DifficultyIncrease()
