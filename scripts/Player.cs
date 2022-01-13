@@ -328,6 +328,7 @@ public class Player : Spatial
 
         if (G.sessionScore > G.highScore)
         {
+            G.highScore = G.sessionScore;
             interfaceMain.UpdateHighScore(G.sessionScore, false);
 
             // Give more time for the new highscore animation
