@@ -342,27 +342,26 @@ public class Player : Spatial
     private void EnablePerspectiveMode(bool perspective)
     {
         G.perspectiveMode = perspective;
+        interfaceMain.PlayBlindAnim(perspective);
 
         if (perspective)
         {
             // Replenish full health
             GiveHealth(G.fullHealth);
             interfaceMain.CalculateHealthBar();
-            interfaceMain.ColorHealthbarRed(true);
 
-            playerCamera.Projection = Camera.ProjectionEnum.Perspective;
             ChangePlayerColor(true);
+            interfaceMain.ColorHealthbarRed(true);
 
             // Double score when in perspective mode
             addScoreBy = 2;
             return;
         }
 
-        playerCamera.Projection = Camera.ProjectionEnum.Orthogonal;
         addScoreBy = 1;
 
-        interfaceMain.ColorHealthbarRed(false);
         ChangePlayerColor(false);
+        interfaceMain.ColorHealthbarRed(false);
     }
 
     private void ChangePlayerColor(bool red)

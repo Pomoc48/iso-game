@@ -20,6 +20,7 @@ public class Interface : Control
     private AnimationPlayer buttonsAnimRight;
     private AnimationPlayer textAnim;
     private AnimationPlayer textUI;
+    private AnimationPlayer blindAnim;
 
     private bool screenSizeCalculated;
     private bool healthBarShow = true;
@@ -35,6 +36,7 @@ public class Interface : Control
         healthAnimation = GetNode<AnimationPlayer>("Main/Health/HealthAnim");
         buttonsAnimLeft = GetNode<AnimationPlayer>("Main/Left/ShowHide");
         buttonsAnimRight = GetNode<AnimationPlayer>("Main/Right/ShowHide");
+        blindAnim = GetNode<AnimationPlayer>("Main/Blind/BlindAnim");
 
         textFps = GetNode<Label>("Main/Fps");
         highScoreText = GetNode<Label>("Main/HighScore");
@@ -133,6 +135,18 @@ public class Interface : Control
         
         if (healthBarTR.Texture == blueTexture) return;
         healthBarTR.Texture = blueTexture;
+    }
+
+    // Animating transition between projections
+    public void PlayBlindAnim(bool perspective)
+    {
+        GD.Print(perspective);
+        if (perspective)
+        {
+            blindAnim.Play("Perspective");
+            return;
+        }
+        blindAnim.Play("Orthogonal");
     }
 
     // Connect UI buttons

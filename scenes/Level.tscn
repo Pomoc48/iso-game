@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -11,6 +11,62 @@
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Bold.ttf" type="DynamicFontData" id=18]
 [ext_resource path="res://assets/textures/Arrow2.png" type="Texture" id=20]
+
+[sub_resource type="Animation" id=42]
+resource_name = "Orthogonal"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0431373, 0.0431373, 0.0431373, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../../Player/Camera:projection")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=41]
+resource_name = "Perspective"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0431373, 0.0431373, 0.0431373, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../../Player/Camera:projection")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "Hide"
@@ -525,6 +581,18 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Blind" type="ColorRect" parent="Interface/Main"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlindAnim" type="AnimationPlayer" parent="Interface/Main/Blind"]
+anims/Orthogonal = SubResource( 42 )
+anims/Perspective = SubResource( 41 )
 
 [node name="Left" type="NinePatchRect" parent="Interface/Main"]
 anchor_top = 1.0
