@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://materials/emission2.tres" type="Material" id=6]
 [ext_resource path="res://assets/textures/squareBlue.png" type="Texture" id=7]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://assets/textures/Stats.png" type="Texture" id=9]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Bold.ttf" type="DynamicFontData" id=18]
@@ -243,10 +244,6 @@ tracks/0/keys = {
 "values": [ 90, 90, 85, 80 ]
 }
 
-[sub_resource type="DynamicFont" id=34]
-size = 38
-font_data = ExtResource( 18 )
-
 [sub_resource type="Animation" id=36]
 resource_name = "HideUI"
 length = 0.5
@@ -256,7 +253,7 @@ tracks/0/path = NodePath(".:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -275,6 +272,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 748, 32 ), Vector2( 748, -64 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("../StatsButton:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 32, 32 ), Vector2( 32, -64 ) ]
+}
 
 [sub_resource type="Animation" id=35]
 resource_name = "ShowUI"
@@ -285,7 +294,7 @@ tracks/0/path = NodePath(".:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0.3, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -304,6 +313,22 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 748, -64 ), Vector2( 748, 32 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("../StatsButton:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 32, -64 ), Vector2( 32, 32 ) ]
+}
+
+[sub_resource type="DynamicFont" id=34]
+size = 38
+font_data = ExtResource( 18 )
 
 [sub_resource type="DynamicFont" id=45]
 size = 42
@@ -845,27 +870,41 @@ anims/Highscore = SubResource( 40 )
 anims/RESET = SubResource( 6 )
 anims/TextAnim = SubResource( 19 )
 
-[node name="Fps" type="Label" parent="Interface/Main"]
+[node name="StatsButton" type="TextureButton" parent="Interface/Main"]
 margin_left = 32.0
 margin_top = -64.0
-margin_right = 232.0
-margin_bottom = -3.99998
-custom_fonts/font = SubResource( 34 )
+margin_right = 160.0
+margin_bottom = 64.0
+rect_scale = Vector2( 0.4, 0.4 )
+texture_normal = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/Fps"]
+[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/StatsButton"]
+root_node = NodePath("../../Fps")
 autoplay = "ShowUI"
 anims/HideUI = SubResource( 36 )
 anims/ShowUI = SubResource( 35 )
+
+[node name="Fps" type="Label" parent="Interface/Main"]
+visible = false
+margin_left = 32.0
+margin_top = -64.0
+margin_right = 249.0
+margin_bottom = -3.99998
+custom_fonts/font = SubResource( 34 )
+text = "Stats"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HighScore" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
 margin_left = 748.0
 margin_top = -64.0
 margin_right = -32.0
-margin_bottom = -3.99998
+margin_bottom = -4.00002
 custom_fonts/font = SubResource( 34 )
 text = "HiScore: 120"
 align = 2
