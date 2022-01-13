@@ -415,36 +415,24 @@ resource_name = "HideUI"
 length = 0.5
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
+tracks/0/path = NodePath("../HighScore:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 32, 32 ), Vector2( 32, -64 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../HighScore:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 748, 32 ), Vector2( 748, -64 ) ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("../StatsButton:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = false
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("../StatsButton:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
@@ -456,36 +444,24 @@ resource_name = "ShowUI"
 length = 0.8
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
+tracks/0/path = NodePath("../HighScore:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.3, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 32, -64 ), Vector2( 32, 32 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../HighScore:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0.3, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 748, -64 ), Vector2( 748, 32 ) ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("../StatsButton:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("../StatsButton:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0.3, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
@@ -926,7 +902,6 @@ margin_top = -64.0
 margin_right = 249.0
 margin_bottom = -3.99998
 custom_fonts/font = SubResource( 34 )
-text = "Stats"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -936,7 +911,7 @@ anchor_right = 1.0
 margin_left = 748.0
 margin_top = -64.0
 margin_right = -32.0
-margin_bottom = -4.00003
+margin_bottom = -4.00004
 custom_fonts/font = SubResource( 34 )
 text = "HiScore: 120"
 align = 2
