@@ -70,8 +70,8 @@ public class Level : Spatial
     {
         String blockPath;
 
-        if (G.perspectiveMode) blockPath = "res://assets/BlockM.tscn";
-        else blockPath = "res://assets/Block.tscn";
+        if (G.perspectiveMode) blockPath = "res://scenes/BlockM.tscn";
+        else blockPath = "res://scenes/Block.tscn";
 
         PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
                 
@@ -191,8 +191,8 @@ public class Level : Spatial
         String platformPath;
 
         if (G.perspectiveMode)
-            platformPath = "res://assets/platformsM/"+type+"M.tscn";
-        else platformPath = "res://assets/platforms/"+type+".tscn";
+            platformPath = "res://scenes/platformsM/"+type+"M.tscn";
+        else platformPath = "res://scenes/platforms/"+type+".tscn";
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
 
