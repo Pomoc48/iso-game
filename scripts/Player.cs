@@ -14,8 +14,7 @@ public class Player : Spatial
     private MeshInstance playerMesh;
     private Camera playerCamera;
 
-    private AnimationPlayer cameraBounce;
-    private AnimationPlayer cameraAnimation;
+    private AnimationPlayer spatialAnim;
 
     private bool canMove = false;
     private bool playerDead = false;
@@ -48,8 +47,7 @@ public class Player : Spatial
         playerMesh = this.GetNode<MeshInstance>("Spatial/Mesh");
         playerCamera = this.GetNode<Camera>("Camera");
 
-        cameraAnimation = playerCamera.GetNode<AnimationPlayer>("CameraPan");
-        cameraBounce = GetNode<AnimationPlayer>("CameraBounce");
+        spatialAnim = GetNode<AnimationPlayer>("SpatialAnim");
 
         G.ResetVars();
         G.playerPosition = this.Translation;
@@ -261,12 +259,6 @@ public class Player : Spatial
     }
 	
     // Reenable controls
-    private void _on_CameraRotation_animation_finished(String anim_name)
-    {
-        EnableControls(true, false);
-        cameraRotating = false;
-    }
-
     private void _on_Tween_tween_all_completed()
     {
         // Update global position at the end of animation
@@ -309,7 +301,7 @@ public class Player : Spatial
         else EnableControls(false, false);
 
         // Animate player rebounce
-        cameraBounce.Play("Bounce" + original_dir.ToString());
+        spatialAnim.Play("bounce" + original_dir.ToString());
     }
 
     private void GameOver()
@@ -323,14 +315,14 @@ public class Player : Spatial
             G.highScore = G.sessionScore;
 
             // Give more time for the new highscore animation
-            cameraAnimation.Play("CameraUpLong");
+            spatialAnim.Play("camera_up_long");
             I.HideUiAnimations(true);
         }
 
         else
         {
             // Outro animations
-            cameraAnimation.Play("CameraUp");
+            spatialAnim.Play("camera_up");
             I.HideUiAnimations(false);
         }
 
@@ -391,14 +383,16 @@ public class Player : Spatial
         playerMesh.SetSurfaceMaterial(0, G.emissionBlue);
     }
         
-    private void _on_CameraPan_animation_finished(String anim_name)
+    private void SpatialAnimationFinished(String anim_name)
     {
-        if (anim_name == "CameraUp" || anim_name == "CameraUpLong")
+        if (anim_name == "camera_up" ||
+            anim_name == "camera_up_long")
         {
             GetTree().ReloadCurrentScene();
             return;
         }
             
         EnableControls(true, false);
+        cameraRotating = false;
     }
 }
