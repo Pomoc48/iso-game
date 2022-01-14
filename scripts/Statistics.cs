@@ -4,8 +4,8 @@ using System;
 public class Statistics : TextureButton
 {
     private Globals G;
+    private Interface I;
 
-    private AnimationPlayer statsAnimation;
     private Label statsText;
 
     private Texture openTexture;
@@ -21,11 +21,9 @@ public class Statistics : TextureButton
     public override void _Ready()
     {
         G = GetNode<Globals>("/root/Globals");
+        I = GetNode<Interface>("/root/Level/Interface");
 
-        String path = "/root/Level/Interface/Main/Stats/BlindAnim";
         String path2 = "/root/Level/Interface/Main/Stats/Stats";
-
-        statsAnimation = GetNode<AnimationPlayer>(path);
         statsText = GetNode<Label>(path2);
 
         openTexture = (Texture)GD.Load("res://assets/textures/Stats.png");
@@ -75,14 +73,14 @@ public class Statistics : TextureButton
     {
         if (statsOpened)
         {
-            statsAnimation.Play("Hide");
+            I.ShowStatistics(false);
             this.TextureNormal = openTexture;
 
             statsOpened = false;
             return;
         }
 
-        statsAnimation.Play("Show");
+        I.ShowStatistics(true);
         this.TextureNormal = closeTexture;
 
         statsOpened = true;

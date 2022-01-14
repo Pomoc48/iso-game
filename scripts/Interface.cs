@@ -91,11 +91,9 @@ public class Interface : Control
     // Gameover call
     public void HideUiAnimations(bool highscore)
     {
-        interfaceAnim.Play("movement_buttons_hide");
-
         // Omit only when new highscore
-	    if (highscore) interfaceAnim.Play("score_highscore");
-        else interfaceAnim.Play("ui_text_hide");
+	    if (highscore) interfaceAnim.Play("ui_hide_highscore");
+        else interfaceAnim.Play("ui_hide");
     }
 
     public void ColorHealthbarRed(bool red)
@@ -122,6 +120,12 @@ public class Interface : Control
             return;
         }
         interfaceAnim.Play("blind_orthogonal");
+    }
+
+    public void ShowStatistics(bool show)
+    {
+        if (show) interfaceAnim.Play("stats_view_show");
+        else interfaceAnim.Play("stats_view_hide");
     }
 
     // Connect UI buttons

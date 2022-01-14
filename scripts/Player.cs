@@ -5,10 +5,11 @@ public class Player : Spatial
 {
     private Globals G;
     private Statistics S;
-    private Level Level;
+    private Level L;
+    private Interface I;
+
     private Random rnd = new Random();
 
-    private Interface interfaceMain;
     private Tween playerTween;
     private MeshInstance playerMesh;
     private Camera playerCamera;
@@ -40,9 +41,8 @@ public class Player : Spatial
     {
         G = GetNode<Globals>("/root/Globals");
         S = GetNode<Statistics>("/root/Level/Interface/Main/StatsButton");
-
-        Level = GetNode<Level>("/root/Level");
-        interfaceMain = GetNode<Interface>("/root/Level/Interface");
+        L = GetNode<Level>("/root/Level");
+        I = GetNode<Interface>("/root/Level/Interface");
 
         playerTween = GetNode<Tween>("Tween");
         playerMesh = this.GetNode<MeshInstance>("Spatial/Mesh");
@@ -114,7 +114,7 @@ public class Player : Spatial
         if (cameraRotating) G.playerHealth -= lifeLossRate / 4;
         else G.playerHealth -= lifeLossRate / 2;
 
-        interfaceMain.CalculateHealthBar();
+        I.CalculateHealthBar();
     }
 
     private void FramesCalculation()
@@ -123,7 +123,7 @@ public class Player : Spatial
         if (frames >= 120)
         {
             frames = 0;
-            Level.CreateDecorations();
+            L.CreateDecorations();
         }
 
         // Disable after 5s
@@ -133,7 +133,7 @@ public class Player : Spatial
 
         if ((framesMode % 2) == 0)
         {
-            interfaceMain.CalculatePerspectiveBar(framesMode);
+            I.CalculatePerspectiveBar(framesMode);
         }
 
         if (framesMode >= 600)
@@ -154,13 +154,13 @@ public class Player : Spatial
         PlayTweenAnim("translation", oldPos, newPos, animSpeed);
         
         G.sessionScore += addScoreBy;
-        interfaceMain.AddScore();
+        I.AddScore();
         
         // Don't active it twice by a small chance
         if (!G.perspectiveMode) RollPerspectiveMode();
 
         // Progress the game
-        Level.GeneratePlatform();
+        L.GeneratePlatform();
         GiveHealth(lifeGainRate);
         DifficultyIncrease();
     }
@@ -324,14 +324,14 @@ public class Player : Spatial
 
             // Give more time for the new highscore animation
             cameraAnimation.Play("CameraUpLong");
-            interfaceMain.HideUiAnimations(true);
+            I.HideUiAnimations(true);
         }
 
         else
         {
             // Outro animations
             cameraAnimation.Play("CameraUp");
-            interfaceMain.HideUiAnimations(false);
+            I.HideUiAnimations(false);
         }
 
         S.UploadStatistics();
@@ -356,16 +356,16 @@ public class Player : Spatial
     private void EnablePerspectiveMode(bool perspective)
     {
         G.perspectiveMode = perspective;
-        interfaceMain.PlayBlindAnim(perspective);
+        I.PlayBlindAnim(perspective);
 
         if (perspective)
         {
             // Replenish full health
             GiveHealth(G.fullHealth);
-            interfaceMain.CalculateHealthBar();
+            I.CalculateHealthBar();
 
             ChangePlayerColor(true);
-            interfaceMain.ColorHealthbarRed(true);
+            I.ColorHealthbarRed(true);
 
             // Double score when in perspective mode
             addScoreBy = 2;
@@ -375,7 +375,7 @@ public class Player : Spatial
         addScoreBy = 1;
 
         ChangePlayerColor(false);
-        interfaceMain.ColorHealthbarRed(false);
+        I.ColorHealthbarRed(false);
     }
 
     private void ChangePlayerColor(bool red)
