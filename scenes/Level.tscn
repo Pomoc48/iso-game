@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -9,265 +9,25 @@
 [ext_resource path="res://assets/textures/squareBlue.png" type="Texture" id=7]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://assets/textures/Stats.png" type="Texture" id=9]
-[ext_resource path="res://scenes/Statistics.cs" type="Script" id=10]
+[ext_resource path="res://scripts/Statistics.cs" type="Script" id=10]
+[ext_resource path="res://animations/interface/ui_text_hide.tres" type="Animation" id=11]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
+[ext_resource path="res://animations/interface/score_bump.tres" type="Animation" id=13]
 [ext_resource path="res://assets/platforms/Start.tscn" type="PackedScene" id=14]
+[ext_resource path="res://animations/interface/movement_buttons_show.tres" type="Animation" id=15]
+[ext_resource path="res://animations/interface/blind_orthogonal.tres" type="Animation" id=16]
+[ext_resource path="res://animations/interface/score_highscore.tres" type="Animation" id=17]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Bold.ttf" type="DynamicFontData" id=18]
+[ext_resource path="res://animations/interface/blind_perspective.tres" type="Animation" id=19]
 [ext_resource path="res://assets/textures/Arrow2.png" type="Texture" id=20]
-
-[sub_resource type="Animation" id=42]
-resource_name = "Orthogonal"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0.0431373, 0.0431373, 0.0431373, 1 ), Color( 0, 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../../../Player/Camera:projection")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
-
-[sub_resource type="Animation" id=41]
-resource_name = "Perspective"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0.0431373, 0.0431373, 0.0431373, 1 ), Color( 0, 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../../../Player/Camera:projection")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-
-[sub_resource type="Animation" id=9]
-resource_name = "Hide"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 36.0, 90.0 ]
-}
-
-[sub_resource type="Animation" id=17]
-resource_name = "Show"
-length = 0.9
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 90.0, 90.0, 36.0 ]
-}
-
-[sub_resource type="Animation" id=16]
-resource_name = "Hide"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("../Right:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -36.0, -90.0 ]
-}
-
-[sub_resource type="Animation" id=8]
-resource_name = "Show"
-length = 0.9
-tracks/0/type = "value"
-tracks/0/path = NodePath("../Right:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ -90.0, -90.0, -36.0 ]
-}
-
-[sub_resource type="Animation" id=20]
-resource_name = "HealthDown"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("..:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, -16 ), Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../../StatsButton:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("../../StatsButton:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 32, 32 ), Vector2( 32, -64 ) ]
-}
-
-[sub_resource type="Animation" id=21]
-resource_name = "HealthUp"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("..:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -16 ) ]
-}
+[ext_resource path="res://animations/interface/score_hide.tres" type="Animation" id=21]
+[ext_resource path="res://animations/interface/ui_text_show.tres" type="Animation" id=22]
+[ext_resource path="res://animations/interface/movement_buttons_hide.tres" type="Animation" id=23]
+[ext_resource path="res://animations/interface/healthbar_show.tres" type="Animation" id=24]
 
 [sub_resource type="DynamicFont" id=5]
 size = 80
 font_data = ExtResource( 18 )
-
-[sub_resource type="Animation" id=10]
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -180 ) ]
-}
-
-[sub_resource type="Animation" id=40]
-resource_name = "Highscore"
-length = 2.2
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.8, 1.1, 1.9, 2.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -180 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -180 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:text")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.8 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ "New Highscore!" ]
-}
-
-[sub_resource type="Animation" id=6]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:custom_fonts/font:size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 80 ]
-}
-
-[sub_resource type="Animation" id=19]
-resource_name = "TextAnim"
-length = 0.1
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:custom_fonts/font:size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.04, 0.07, 0.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 90, 90, 85, 80 ]
-}
 
 [sub_resource type="DynamicFont" id=34]
 size = 38
@@ -408,64 +168,6 @@ tracks/4/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=36]
-resource_name = "HideUI"
-length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("../HighScore:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 748, 32 ), Vector2( 748, -64 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../StatsButton:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 32, 32 ), Vector2( 32, -64 ) ]
-}
-
-[sub_resource type="Animation" id=35]
-resource_name = "ShowUI"
-length = 0.8
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("../HighScore:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.3, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 748, -64 ), Vector2( 748, 32 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../StatsButton:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.3, 0.8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 32, -64 ), Vector2( 32, 32 ) ]
 }
 
 [sub_resource type="SphereMesh" id=37]
@@ -739,6 +441,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="InterfaceAnim" type="AnimationPlayer" parent="Interface"]
+autoplay = "ui_text_show"
+anims/blind_orthogonal = ExtResource( 16 )
+anims/blind_perspective = ExtResource( 19 )
+anims/healthbar_show = ExtResource( 24 )
+anims/movement_buttons_hide = ExtResource( 23 )
+anims/movement_buttons_show = ExtResource( 15 )
+anims/score_bump = ExtResource( 13 )
+anims/score_hide = ExtResource( 21 )
+anims/score_highscore = ExtResource( 17 )
+anims/ui_text_hide = ExtResource( 11 )
+anims/ui_text_show = ExtResource( 22 )
+
 [node name="Main" type="NinePatchRect" parent="Interface"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -749,14 +464,10 @@ __meta__ = {
 [node name="Blind" type="ColorRect" parent="Interface/Main"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0 )
+color = Color( 0.0431373, 0.0431373, 0.0431373, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="BlindAnim" type="AnimationPlayer" parent="Interface/Main/Blind"]
-anims/Orthogonal = SubResource( 42 )
-anims/Perspective = SubResource( 41 )
 
 [node name="Left" type="NinePatchRect" parent="Interface/Main"]
 anchor_top = 1.0
@@ -798,11 +509,6 @@ texture_pressed = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/Left"]
-autoplay = "Show"
-anims/Hide = SubResource( 9 )
-anims/Show = SubResource( 17 )
 
 [node name="Right" type="NinePatchRect" parent="Interface/Main"]
 anchor_left = 1.0
@@ -847,12 +553,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/Right"]
-root_node = NodePath("../../Left")
-autoplay = "Show"
-anims/Hide = SubResource( 16 )
-anims/Show = SubResource( 8 )
-
 [node name="Health" type="Control" parent="Interface/Main"]
 anchor_right = 1.0
 margin_top = -16.0
@@ -872,11 +572,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HealthAnim" type="AnimationPlayer" parent="Interface/Main/Health"]
-root_node = NodePath("../Bar")
-anims/HealthDown = SubResource( 20 )
-anims/HealthUp = SubResource( 21 )
-
 [node name="Score" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
 anchor_bottom = 0.178
@@ -888,12 +583,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Bump" type="AnimationPlayer" parent="Interface/Main/Score"]
-anims/Hide = SubResource( 10 )
-anims/Highscore = SubResource( 40 )
-anims/RESET = SubResource( 6 )
-anims/TextAnim = SubResource( 19 )
 
 [node name="Fps" type="Label" parent="Interface/Main"]
 visible = false
@@ -974,12 +663,6 @@ script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ShowHide" type="AnimationPlayer" parent="Interface/Main/StatsButton"]
-root_node = NodePath("../../Fps")
-autoplay = "ShowUI"
-anims/HideUI = SubResource( 36 )
-anims/ShowUI = SubResource( 35 )
 
 [node name="Platforms" type="Spatial" parent="."]
 

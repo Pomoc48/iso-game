@@ -14,12 +14,7 @@ public class Interface : Control
     private Label scoreText;
     private Label highScoreText;
 
-    private AnimationPlayer healthAnimation;
-    private AnimationPlayer buttonsAnimLeft;
-    private AnimationPlayer buttonsAnimRight;
-    private AnimationPlayer textAnim;
-    private AnimationPlayer textUI;
-    private AnimationPlayer blindAnim;
+    private AnimationPlayer interfaceAnim;
 
     private bool screenSizeCalculated;
     private bool healthBarShow = true;
@@ -30,18 +25,13 @@ public class Interface : Control
     // Init function
     public override void _Ready()
     {
+        interfaceAnim = GetNode<AnimationPlayer>("InterfaceAnim");
+
         healthBar = GetNode<Control>("Main/Health");
         healthBarTR = GetNode<TextureRect>("Main/Health/Bar");
-        healthAnimation = GetNode<AnimationPlayer>("Main/Health/HealthAnim");
-        buttonsAnimLeft = GetNode<AnimationPlayer>("Main/Left/ShowHide");
-        buttonsAnimRight = GetNode<AnimationPlayer>("Main/Right/ShowHide");
-        blindAnim = GetNode<AnimationPlayer>("Main/Blind/BlindAnim");
 
-        // textFps = GetNode<Label>("Main/Fps");
         highScoreText = GetNode<Label>("Main/HighScore");
         scoreText = GetNode<Label>("Main/Score");
-        textAnim = scoreText.GetNode<AnimationPlayer>("Bump");
-        textUI = GetNode<AnimationPlayer>("Main/StatsButton/ShowHide");
 
         G = GetNode<Globals>("/root/Globals");
         Player = GetNode<Player>("/root/Level/Player");
@@ -50,6 +40,10 @@ public class Interface : Control
         redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
 
         if (!screenSizeCalculated) GetScreenSize();
+
+        // Get previous highscore
+        G.highScore = G.Load("HighScore");
+        highScoreText.Text = "HiScore: " + G.highScore;
     }
 
     // One time screen size calculation
@@ -65,7 +59,7 @@ public class Interface : Control
     {
         if (healthBarShow)
         {
-            healthAnimation.Play("HealthDown");
+            interfaceAnim.Play("healthbar_show");
 		    healthBarShow = false;
         }
 		
@@ -91,29 +85,17 @@ public class Interface : Control
     public void AddScore()
     {
         scoreText.Text = G.sessionScore.ToString();
-	    textAnim.Play("TextAnim");
+        interfaceAnim.Play("score_bump");
     }
 
     // Gameover call
     public void HideUiAnimations(bool highscore)
     {
-        buttonsAnimRight.Play("Hide");
-	    buttonsAnimLeft.Play("Hide");
+        interfaceAnim.Play("movement_buttons_hide");
 
         // Omit only when new highscore
-	    if (!highscore) textAnim.Play("Hide");
-
-        textUI.Play("HideUI");
-	    healthAnimation.Play("HealthUp");
-    }
-
-    public void UpdateHighScore(int score, bool start)
-    {
-        highScoreText.Text = "HiScore: " + score;
-        if (start) return;
-
-        // Ignore on start
-        textAnim.Play("Highscore");
+	    if (highscore) interfaceAnim.Play("score_highscore");
+        else interfaceAnim.Play("ui_text_hide");
     }
 
     public void ColorHealthbarRed(bool red)
@@ -136,10 +118,10 @@ public class Interface : Control
         GD.Print(perspective);
         if (perspective)
         {
-            blindAnim.Play("Perspective");
+            interfaceAnim.Play("blind_perspective");
             return;
         }
-        blindAnim.Play("Orthogonal");
+        interfaceAnim.Play("blind_orthogonal");
     }
 
     // Connect UI buttons

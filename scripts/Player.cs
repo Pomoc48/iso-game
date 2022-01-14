@@ -55,10 +55,6 @@ public class Player : Spatial
         G.playerPosition = this.Translation;
 
         nextCycle = G.GetMaxCycle(maxCycle, 4);
-
-        // Get previous highscore
-        G.highScore = G.Load("HighScore");
-        interfaceMain.UpdateHighScore(G.highScore, true);
     }
 
     // Debug for now
@@ -325,7 +321,6 @@ public class Player : Spatial
         if (G.sessionScore > G.highScore)
         {
             G.highScore = G.sessionScore;
-            interfaceMain.UpdateHighScore(G.sessionScore, false);
 
             // Give more time for the new highscore animation
             cameraAnimation.Play("CameraUpLong");
