@@ -7,6 +7,9 @@ public class Statistics : TextureButton
 
     private AnimationPlayer statsAnimation;
     private Label statsText;
+
+    private Texture openTexture;
+    private Texture closeTexture;
     
     private bool statsOpened = false;
 
@@ -24,6 +27,9 @@ public class Statistics : TextureButton
 
         statsAnimation = GetNode<AnimationPlayer>(path);
         statsText = GetNode<Label>(path2);
+
+        openTexture = (Texture)GD.Load("res://assets/textures/Stats.png");
+        closeTexture = (Texture)GD.Load("res://assets/textures/Close.png");
 
         LoadStatistics();
     }
@@ -70,11 +76,15 @@ public class Statistics : TextureButton
         if (statsOpened)
         {
             statsAnimation.Play("Hide");
+            this.TextureNormal = openTexture;
+
             statsOpened = false;
             return;
         }
 
         statsAnimation.Play("Show");
+        this.TextureNormal = closeTexture;
+
         statsOpened = true;
     }
 }
