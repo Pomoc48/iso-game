@@ -33,7 +33,12 @@ public class Player : Spatial
 
     private int addScoreBy = 1;
 
-    String[] keys = {"ui_up", "ui_right", "ui_down", "ui_left"};
+    String[] keys = {
+        "ui_up",
+        "ui_right",
+        "ui_down", 
+        "ui_left",
+    };
 
     // Init function
     public override void _Ready()
@@ -49,7 +54,7 @@ public class Player : Spatial
 
         spatialAnim = GetNode<AnimationPlayer>("SpatialAnim");
 
-        G.ResetVars();
+        G.NewGame();
         G.playerPosition = this.Translation;
 
         nextCycle = G.GetMaxCycle(maxCycle, 4);
@@ -124,17 +129,15 @@ public class Player : Spatial
             L.CreateDecorations();
         }
 
-        // Disable after 5s
+        // Disable PM after 5s
         if (!G.perspectiveMode) return;
 
         framesMode++;
+        if ((framesMode % 2) != 0) return;
 
-        if ((framesMode % 2) == 0)
-        {
-            I.CalculatePerspectiveBar(framesMode);
-        }
+        I.CalculatePerspectiveBar(framesMode);
 
-        if (framesMode >= 600)
+        if (framesMode == 600)
         {
             framesMode = 0;
             EnablePerspectiveMode(false);
@@ -198,9 +201,10 @@ public class Player : Spatial
         speedupCounter = 0;
 
         CheckAndGenerateNewCycle();
-        RotateCameraBy(G.DetermineRotationAmmount());
+        RotateCameraBy(G.RandomRotationAmmount());
     }
 
+    // For camera rotation and diff increase
     private void CheckAndGenerateNewCycle()
     {
         maxCycle--;
@@ -220,7 +224,7 @@ public class Player : Spatial
         // Get random rotation direction
         bool clockwise = G.RandomBool();
 
-        // Camera rotation section
+        // Camera rotation
         if (clockwise) G.camRotIndex += ammount;
         else G.camRotIndex -= ammount;
 
@@ -237,7 +241,7 @@ public class Player : Spatial
     {
         int rotateBy = 90 * rotations;
         // More rotations take longer
-        float time = rotations * animSpeed * 2;
+        float time = rotations * animSpeed * 1.5f;
 
         Vector3 oldRotRad = this.RotationDegrees;
         Vector3 newRot = oldRotRad;
@@ -248,7 +252,7 @@ public class Player : Spatial
         PlayTweenAnim("rotation_degrees", oldRotRad, newRot, time);
     }
 
-    // Player movement and camera rotations
+    // For player movement and camera rotations
     public void PlayTweenAnim(String type, Vector3 oldV, Vector3 newV, float time)
     {
         Tween.TransitionType trans = Tween.TransitionType.Quad;

@@ -39,12 +39,13 @@ public class Level : Spatial
     // Init function
     public override void _Ready()
     {
+        G = GetNode<Globals>("/root/Globals");
+
         platformsSpace = GetNode<Spatial>("Platforms");
 	    decorationsSpace = GetNode<Spatial>("Decorations");
-        G = GetNode<Globals>("/root/Globals");
         
         // Rotate starting platform
-        float rotation = G.GenerateStartingPos();
+        float rotation = G.GenerateStartingPlatformPos();
 
         rotation *= -degreeInRad;
         platformsSpace.GetChild<Spatial>(0).RotateY(rotation);

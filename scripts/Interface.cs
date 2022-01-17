@@ -17,7 +17,7 @@ public class Interface : Control
     private AnimationPlayer interfaceAnim;
 
     private bool screenSizeCalculated;
-    private bool healthBarShow = true;
+    private bool healthBarShowed;
 
     private float screenSize;
     private float updateHealthBy;
@@ -25,6 +25,9 @@ public class Interface : Control
     // Init function
     public override void _Ready()
     {
+        G = GetNode<Globals>("/root/Globals");
+        Player = GetNode<Player>("/root/Level/Player");
+
         interfaceAnim = GetNode<AnimationPlayer>("InterfaceAnim");
 
         healthBar = GetNode<Control>("Main/Health");
@@ -32,9 +35,6 @@ public class Interface : Control
 
         highScoreText = GetNode<Label>("Main/HighScore");
         scoreText = GetNode<Label>("Main/Score");
-
-        G = GetNode<Globals>("/root/Globals");
-        Player = GetNode<Player>("/root/Level/Player");
 
         blueTexture = (Texture)GD.Load("res://assets/textures/squareBlue.png");
         redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
@@ -57,10 +57,10 @@ public class Interface : Control
     // Calculate healthbar pixels
     public void CalculateHealthBar()
     {
-        if (healthBarShow)
+        if (!healthBarShowed)
         {
             interfaceAnim.Play("healthbar_show");
-		    healthBarShow = false;
+		    healthBarShowed = true;
         }
 		
         float health = G.playerHealth * updateHealthBy;

@@ -5,27 +5,26 @@ public class Globals : Node
 {
     private Random rnd = new Random();
     private ConfigFile CF = new ConfigFile();
+
+    public Vector3 playerPosition;
+    public String prevBlock;
+
+    public SpatialMaterial emissionRed;
+    public SpatialMaterial emissionBlue;
     
     public int fullHealth = 24;
     public int fullMove = 20;
 
-    public float playerHealth = 24.0f;
-    public bool firstMove = true;
-    public bool perspectiveMode = false;
+    public float playerHealth;
+    public bool firstMove;
+    public bool perspectiveMode;
 
-    public int camRotIndex = 3;
-    public int sessionScore = 0;
+    public int camRotIndex;
+    public int sessionScore;
     public int animDirection;
     public int highScore;
-
     public int correctMoves;
     public int totalMoves;
-
-    public String prevBlock;
-    public Vector3 playerPosition;
-
-    public SpatialMaterial emissionRed;
-    public SpatialMaterial emissionBlue;
 
     public int[] pMoves;
 
@@ -48,7 +47,7 @@ public class Globals : Node
         emissionBlue = (SpatialMaterial)GD.Load(matPath + ".tres");
     }
 
-    public void ResetVars()
+    public void NewGame()
     {
         playerHealth = fullHealth;
         firstMove = true;
@@ -63,11 +62,13 @@ public class Globals : Node
 
     public void Save(String[] categories, int[] values)
     {
+        // Loop through all the categories
         for (int n = 0; n < categories.Length; n++)
         {
             CF.SetValue("Main", categories[n], values[n]);
         }
         
+        // Write once
         CF.Save("user://config");
     }
 
@@ -85,10 +86,11 @@ public class Globals : Node
 
     public bool RandomBool()
     {
-        // Bigger range for better randomness
 	    var foo = rnd.Next(100);
 
-        if (foo < 50) return false;
+        if (foo < 50)
+            return false;
+
         return true;
     }
 
@@ -121,20 +123,7 @@ public class Globals : Node
 
     public bool IsMoveLegal()
     {
-        if (firstMove)
-        {
-            if (animDirection == startDir)
-            {
-                firstMove = false;
-
-                correctMoves++;
-                totalMoves++;
-
-                return true;
-            }
-
-            return false;
-        }
+        if (firstMove) return FirstMoveCheck();
 
         totalMoves++;
 
@@ -145,6 +134,21 @@ public class Globals : Node
                 correctMoves++;
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    private bool FirstMoveCheck()
+    {
+        if (animDirection == startDir)
+        {
+            firstMove = false;
+
+            correctMoves++;
+            totalMoves++;
+
+            return true;
         }
 
         return false;
@@ -237,13 +241,13 @@ public class Globals : Node
         return temp;
     }
 
-    public int GenerateStartingPos()
+    public int GenerateStartingPlatformPos()
     {
         startDir = rnd.Next(4);
         return startDir;
     }
 
-    public int DetermineRotationAmmount()
+    public int RandomRotationAmmount()
     {
         var foo = rnd.Next(100);
 

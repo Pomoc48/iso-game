@@ -73,6 +73,7 @@ public class Statistics : TextureButton
     {
         if (statsOpened)
         {
+            // Close stats
             I.ShowStatistics(false);
             this.TextureNormal = openTexture;
 
@@ -80,6 +81,7 @@ public class Statistics : TextureButton
             return;
         }
 
+        // Open stats
         I.ShowStatistics(true);
         this.TextureNormal = closeTexture;
 
