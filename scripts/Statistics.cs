@@ -65,7 +65,7 @@ public class Statistics : TextureButton
         Globals.SaveStats(Globals.categoriesArray, values);
     }
 
-    private void _on_StatsButton_button_down()
+    private void _OnStatsButtonDown()
     {
         if (_statsOpened)
         {

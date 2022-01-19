@@ -324,7 +324,7 @@ public class Player : Spatial
     }
 
     // Reenable controls
-    private void _on_Tween_tween_all_completed()
+    private void _OnTweenAnimationFinished()
     {
         // Update global position at the end of animation
         Globals.playerPosition = this.Translation;
@@ -465,7 +465,7 @@ public class Player : Spatial
         }
     }
 
-    private void SpatialAnimationFinished(String animationName)
+    private void _OnSpatialAnimationFinished(String animationName)
     {
         if (animationName == "camera_up" || animationName == "camera_up_long")
         {

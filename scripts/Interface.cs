@@ -130,22 +130,22 @@ public class Interface : Control
     }
 
     // Connect UI buttons
-    private void _on_Left_button_down()
+    private void _OnLeftButtonDown()
     {
         Player.CheckMove(Direction.LeftUp);
     }
 
-    private void _on_Right_button_down()
+    private void _OnRightButtonDown()
     {
         Player.CheckMove(Direction.RightDown);
     }
 
-    private void _on_Up_button_down()
+    private void _OnUpButtonDown()
     {
         Player.CheckMove(Direction.RightUp);
     }
 
-    private void _on_Down_button_down()
+    private void _OnDownButtonDown()
     {
         Player.CheckMove(Direction.LeftDown);
     }
