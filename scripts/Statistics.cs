@@ -3,85 +3,83 @@ using System;
 
 public class Statistics : TextureButton
 {
-    private Globals G;
-    private Interface I;
+    private Globals Globals;
+    private Interface Interface;
 
-    private Label statsText;
+    private Label _statsTextLabel;
 
-    private Texture openTexture;
-    private Texture closeTexture;
+    private Texture _openTexture;
+    private Texture _closeTexture;
     
-    private bool statsOpened = false;
+    private bool _statsOpened = false;
 
     // numberOfGames combinedScore correctMoves totalMoves
-    private int[] stats = new int[4];
+    private int[] _statsArray = new int[4];
 
     public override void _Ready()
     {
-        G = GetNode<Globals>("/root/Globals");
-        I = GetNode<Interface>("/root/Level/Interface");
+        Globals = GetNode<Globals>("/root/Globals");
+        Interface = GetNode<Interface>("/root/Level/Interface");
 
-        String path2 = "/root/Level/Interface/Main/Stats/Stats";
-        statsText = GetNode<Label>(path2);
+        String rootPath = "/root/Level/Interface/Main/Stats/Stats";
+        _statsTextLabel = GetNode<Label>(rootPath);
 
-        openTexture = (Texture)GD.Load("res://assets/textures/Stats.png");
-        closeTexture = (Texture)GD.Load("res://assets/textures/Close.png");
-
-        LoadStatistics();
+        _LoadStatistics();
     }
 
-    private void LoadStatistics()
+    private void _LoadStatistics()
     {
         for (int i = 0; i < 4; i++)
         {
-            stats[i] = G.Load(G.categoriesP[i+1]);
+            _statsArray[i] = Globals.LoadStats(Globals.categoriesArray[i+1]);
         }
 
         float percentageFloat = 0f;
 
-        if (stats[3] != 0)
+        if (_statsArray[3] != 0)
         {
-            percentageFloat = stats[2] / (float)stats[3];
+            percentageFloat = _statsArray[2] / (float)_statsArray[3];
             percentageFloat *= 100; 
         }
 
-        String percentageS = percentageFloat.ToString("F");
+        // Limit float to 2 decimal places
+        String percentageString = percentageFloat.ToString("F");
 
-        String games = "Number of games: " + stats[0] + "\n";
-        String score = "Combined score: " + stats[1] + "\n";
-        String percentage = "Correct move percentage: " + percentageS + "%\n";
-        String moves = "Total moves: " + stats[3] + "\n";
+        String games = "Number of games: " + _statsArray[0] + "\n";
+        String score = "Combined score: " + _statsArray[1] + "\n";
+        String percentage = "Correct move percentage: " + percentageString + "%\n";
+        String moves = "Total moves: " + _statsArray[3] + "\n";
 
-        statsText.Text = games + score + percentage + moves;
+        _statsTextLabel.Text = games + score + percentage + moves;
     }
 
     public void UploadStatistics()
     {
-        int games = stats[0] + 1;
-        int score = stats[1] + G.sessionScore;
-        int cMoves = stats[2] + G.correctMoves;
-        int moves = stats[3] + G.totalMoves;
+        int games = _statsArray[0] + 1;
+        int score = _statsArray[1] + Globals.sessionScore;
+        int correctMoves = _statsArray[2] + Globals.correctMoves;
+        int moves = _statsArray[3] + Globals.totalMoves;
 
-        int[] values = {G.highScore, games, score, cMoves, moves};
+        int[] values = {Globals.highScore, games, score, correctMoves, moves};
 
-        G.Save(G.categoriesP, values);
+        Globals.SaveStats(Globals.categoriesArray, values);
     }
 
     private void _on_StatsButton_button_down()
     {
-        if (statsOpened)
+        if (_statsOpened)
         {
-            I.ShowStatistics(false);
-            this.TextureNormal = openTexture;
+            Interface.ShowStatistics(false);
+            this.TextureNormal = Globals.openTexture;
 
-            statsOpened = false;
+            _statsOpened = false;
         }
         else
         {
-            I.ShowStatistics(true);
-            this.TextureNormal = closeTexture;
+            Interface.ShowStatistics(true);
+            this.TextureNormal = Globals.closeTexture;
 
-            statsOpened = true;
+            _statsOpened = true;
         }
     }
 }

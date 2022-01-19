@@ -3,24 +3,25 @@ using System;
 
 public class Globals : Node
 {
-    private Random rnd = new Random();
-    private ConfigFile CF = new ConfigFile();
-
     public Vector3 playerPosition;
-    public String prevBlock;
 
-    public SpatialMaterial emissionRed;
-    public SpatialMaterial emissionBlue;
+    public SpatialMaterial materialRed;
+    public SpatialMaterial materialBlue;
+
+    public Texture openTexture;
+    public Texture closeTexture;
+    public Texture blueTexture;
+    public Texture redTexture;
 
     public Direction cameraRotation;
     public Direction animationDirection;
 
-    public int fullHealth = 24;
-    public int fullMove = 20;
+    public readonly int FULL_HEALTH = 24;
 
-    public float playerHealth;
     public bool firstMove;
     public bool perspectiveMode;
+
+    public float playerHealth;
 
     public int sessionScore;
     public int highScore;
@@ -29,7 +30,7 @@ public class Globals : Node
 
     public Direction[] possibleMoves;
 
-    public String[] categoriesP = {
+    public String[] categoriesArray = {
         "HighScore",
         "NumberOfGames", 
         "CombinedScore",
@@ -37,21 +38,31 @@ public class Globals : Node
         "TotalMoves"
     };
     
-    private int cyclesCount;
+    private Random _random = new Random();
+    private ConfigFile _configFile = new ConfigFile();
 
     private PlafformDifficulty platformDifficulty;
-    private Direction startDirection;
+    private Direction startingDirection;
+
+    private int cyclesCount;
+    private readonly int _FULL_MOVE = 20;
 
     public override void _Ready()
     {
         String matPath = "res://materials/emission";
-        emissionRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
-        emissionBlue = (SpatialMaterial)GD.Load(matPath + ".tres");
+        materialRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
+        materialBlue = (SpatialMaterial)GD.Load(matPath + ".tres");
+
+        openTexture = (Texture)GD.Load("res://assets/textures/Stats.png");
+        closeTexture = (Texture)GD.Load("res://assets/textures/Close.png");
+
+        blueTexture = (Texture)GD.Load("res://assets/textures/squareBlue.png");
+        redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
     }
 
     public void NewGame()
     {
-        playerHealth = fullHealth;
+        playerHealth = FULL_HEALTH;
         firstMove = true;
         perspectiveMode = false;
         cameraRotation = Direction.LeftUp;
@@ -62,35 +73,35 @@ public class Globals : Node
         totalMoves = 0;
     }
 
-    public void Save(String[] categories, int[] values)
+    public void SaveStats(String[] categories, int[] values)
     {
         // Loop through all the categories
         for (int n = 0; n < categories.Length; n++)
         {
-            CF.SetValue("Main", categories[n], values[n]);
+            _configFile.SetValue("Main", categories[n], values[n]);
         }
         
         // Write once
-        CF.Save("user://config");
+        _configFile.Save("user://config");
     }
 
-    public int Load(String category)
+    public int LoadStats(String category)
     {
-        if (CF.Load("user://config") != Error.Ok)
+        if (_configFile.Load("user://config") != Error.Ok)
         {
             int[] values = {0, 0, 0, 0, 0};
-            Save(categoriesP, values);
+            SaveStats(categoriesArray, values);
         }
 
-        int number = (int) CF.GetValue("Main", category, 0);
+        int number = (int) _configFile.GetValue("Main", category, 0);
         return number;
     }
 
     public bool RandomBool()
     {
-        var foo = rnd.Next(100);
+        int chance = _random.Next(100);
 
-        return foo switch
+        return chance switch
         {
             < 50 => false,
             _ => true
@@ -100,42 +111,42 @@ public class Globals : Node
     // Translate directions to vectors
     public Vector3 DirectionCalc()
     {
-        Vector3 vect = playerPosition;
+        Vector3 position = playerPosition;
 
         switch (animationDirection)
         {
             case Direction.RightDown:
-                vect.z += fullMove;
+                position.z += _FULL_MOVE;
                 break;
 
             case Direction.LeftDown:
-                vect.x += -fullMove;
+                position.x += -_FULL_MOVE;
                 break;
 
             case Direction.LeftUp:
-                vect.z += -fullMove;
+                position.z += -_FULL_MOVE;
                 break;
 
             default: // Direction.RighUp
-                vect.x += fullMove;
+                position.x += _FULL_MOVE;
                 break;
         }
             
-        return vect;
+        return position;
     }
 
     public bool IsMoveLegal()
     {
         if (firstMove)
         {
-            return FirstMoveCheck();
+            return _FirstMoveCheck();
         }
 
         totalMoves++;
 
-        foreach (Direction n in possibleMoves)
+        foreach (Direction direction in possibleMoves)
         {
-            if (animationDirection == n)
+            if (animationDirection == direction)
             {
                 correctMoves++;
                 return true;
@@ -145,9 +156,9 @@ public class Globals : Node
         return false;
     }
 
-    private bool FirstMoveCheck()
+    private bool _FirstMoveCheck()
     {
-        if (animationDirection == startDirection)
+        if (animationDirection == startingDirection)
         {
             firstMove = false;
 
@@ -162,50 +173,50 @@ public class Globals : Node
 
     public PlaftormType GetPlatformType()
     {
-        int[] diffList;
+        int[] difficultyChancesList;
 
         switch (platformDifficulty)
         {
             case PlafformDifficulty.Easy:
             {
                 int[] easyChances = {10, 40, 75};
-                diffList = easyChances;
+                difficultyChancesList = easyChances;
                 break;
             }
             
             case PlafformDifficulty.Medium:
             {
                 int[] mediumChances = {5, 35, 60};
-                diffList = mediumChances;
+                difficultyChancesList = mediumChances;
                 break;
             }
 
             default: // PlafformDifficulty.Hard
             {
                 int[] hardChances = {2, 22, 40};
-                diffList = hardChances;
+                difficultyChancesList = hardChances;
                 break;
             }
         }
 
-        return GetPlatformChances(diffList);
+        return _GetPlatformChances(difficultyChancesList);
     }
 
-    private PlaftormType GetPlatformChances(int[] diffList)
+    private PlaftormType _GetPlatformChances(int[] chances)
     {
-        int chance = rnd.Next(100);
+        int chance = _random.Next(100);
 
-        if (chance < diffList[0])
+        if (chance < chances[0])
         {
             return PlaftormType.Cross;
         }
 
-        if (chance >= diffList[0] && chance < diffList[1])
+        if (chance >= chances[0] && chance < chances[1])
         {
             return PlaftormType.Twoway;
         }
 
-        if (chance >= diffList[1] && chance < diffList[2])
+        if (chance >= chances[1] && chance < chances[2])
         {
             return PlaftormType.Long;
         }
@@ -230,46 +241,49 @@ public class Globals : Node
         return direction;
     }
 
-    public Vector3 DecorationsCalc(Vector3 centerPos)
+    public Vector3 CalculateDecorationPosition(Vector3 centerPosition)
     {
-        int rangeS;
-        int rangeS2;
+        int rangeX;
+        int rangeZ;
+
+        int randomShort = _random.Next(16, 24);
+        int randomWide = _random.Next(24);
 
         if (RandomBool())
         {
-            rangeS = rnd.Next(16, 24);
-            rangeS2 = rnd.Next(24);
+            rangeX = randomShort;
+            rangeZ = randomWide;
         }
         else
         {
-            rangeS2 = rnd.Next(16, 24);
-            rangeS = rnd.Next(24);
-        }
-
-        if (RandomBool())
-        {
-            centerPos.x += rangeS;
-        }
-        else
-        {
-            centerPos.x -= rangeS;
+            rangeX = randomWide;
+            rangeZ = randomShort;
         }
 
         if (RandomBool())
         {
-            centerPos.z += rangeS2;
+            centerPosition.x += rangeX;
         }
         else
         {
-            centerPos.z -= rangeS2;
+            centerPosition.x -= rangeX;
         }
 
-        centerPos.y = 2;
-        return centerPos;
+        if (RandomBool())
+        {
+            centerPosition.z += rangeZ;
+        }
+        else
+        {
+            centerPosition.z -= rangeZ;
+        }
+
+        centerPosition.y = 2;
+        return centerPosition;
     }
 
     // Get new cycle lenght for camera rotation
-    public int GetMaxCycle(int cycle, int range)
+    public int GetNextCycle(int cycle, int range)
     {
         cyclesCount++;
 
@@ -288,11 +302,11 @@ public class Globals : Node
 
         if (RandomBool())
         {
-            temp = cycle + rnd.Next(range);
+            temp = cycle + _random.Next(range);
         }
         else
         {
-            temp = cycle - rnd.Next(range);
+            temp = cycle - _random.Next(range);
         }
 
         return temp;
@@ -300,13 +314,13 @@ public class Globals : Node
 
     public Direction GenerateStartingPlatformPos()
     {
-        startDirection = (Direction)rnd.Next(4);
-        return startDirection;
+        startingDirection = (Direction)_random.Next(4);
+        return startingDirection;
     }
 
-    public int RandomRotationAmmount()
+    public int GetRandomRotationAmmount()
     {
-        var randomChance = rnd.Next(100);
+        var randomChance = _random.Next(100);
 
         return randomChance switch
         {

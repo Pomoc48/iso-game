@@ -3,59 +3,58 @@ using System;
 
 public class Level : Spatial
 {
-    private Globals G;
-    private Values V;
+    private Globals Globals;
+    private Values Values;
 
-    private Spatial platformsSpace;
-    private Spatial decorationsSpace;
+    private Spatial _platformsSpace;
+    private Spatial _decorationsSpace;
 
-    private int history = 4;
-    private int totalDeco = 0;
-    private int totalPlatforms = 1;
+    private int _platformHistory = 4;
+    private int _totalDecorations = 0;
+    private int _totalPlatforms = 1;
 
-    private float degreeInRad = 1.5707963268f;
+    private float _degreeInRadians = 1.5707963268f;
 
     // Init function
     public override void _Ready()
     {
-        G = GetNode<Globals>("/root/Globals");
-        V = GetNode<Values>("/root/Values");
+        Globals = GetNode<Globals>("/root/Globals");
+        Values = GetNode<Values>("/root/Values");
 
-        platformsSpace = GetNode<Spatial>("Platforms");
-        decorationsSpace = GetNode<Spatial>("Decorations");
+        _platformsSpace = GetNode<Spatial>("Platforms");
+        _decorationsSpace = GetNode<Spatial>("Decorations");
         
         // Rotate starting platform
-        float rotation = (int)G.GenerateStartingPlatformPos();
+        float rotation = (int)Globals.GenerateStartingPlatformPos();
 
-        rotation *= -degreeInRad;
-        platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
+        rotation *= -_degreeInRadians;
+        _platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
     }
 
     // Create floating cubes decorations
-    public void CreateDecorations()
+    public void CreateDecoration()
     {
-        Vector3 blockPos = new Vector3();
+        Vector3 blockPosition = new Vector3();
 
-        if (G.firstMove) // Idle animation position fix
+        if (Globals.firstMove) // Idle animation position fix
         {
-            blockPos = G.playerPosition;
+            blockPosition = Globals.playerPosition;
         }
         else // Future move pos
         {
-            blockPos = G.DirectionCalc();
+            blockPosition = Globals.DirectionCalc();
         }
 
         // Random offset
-        blockPos = G.DecorationsCalc(blockPos);
-
-        LoadDecoration(blockPos);
+        blockPosition = Globals.CalculateDecorationPosition(blockPosition);
+        _LoadDecoration(blockPosition);
     }
 
-    private void LoadDecoration(Vector3 blockPos)
+    private void _LoadDecoration(Vector3 blockPosition)
     {
         String blockPath;
 
-        if (G.perspectiveMode)
+        if (Globals.perspectiveMode)
         {
             blockPath = "res://scenes/BlockM.tscn";
         }
@@ -66,141 +65,140 @@ public class Level : Spatial
 
         PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
                 
-        Spatial blockI = (Spatial)block.Instance();
-        blockI.Translation = blockPos;
+        Spatial blockInstance = (Spatial)block.Instance();
+        blockInstance.Translation = blockPosition;
         
-        decorationsSpace.AddChild(blockI);
-        totalDeco++;
+        _decorationsSpace.AddChild(blockInstance);
+        _totalDecorations++;
     }
 
     public void GeneratePlatform()
     {
-        PlaftormType platformType = G.GetPlatformType();
+        PlaftormType platformType = Globals.GetPlatformType();
 
         switch (platformType)
         {
             case PlaftormType.Long:
-                PlatformLong();
+                _PlatformLong();
                 break;
 
             case PlaftormType.Corner:
-                platformCorner();
+                _platformCorner();
                 break;
 
             case PlaftormType.Cross:
-                PlatformCross();
+                _PlatformCross();
                 break;
 
             case PlaftormType.Twoway:
-                PlatformTwoWay();
+                _PlatformTwoWay();
                 break;
         }
 
-        totalPlatforms++;
+        _totalPlatforms++;
 
-        if (totalPlatforms >= history)
+        if (_totalPlatforms >= _platformHistory)
         {
-            RemoveOldPlatforms();
+            _RemoveOldPlatforms();
         }
     }
 
-    private void PlatformLong()
+    private void _PlatformLong()
     {
-        Spatial platformBlockI;
-        platformBlockI = PlacePlatform("Long");
+        Spatial platformBlockInstance;
+        platformBlockInstance = _PlacePlatform("Long");
 
         // Rotate by 90 when animDirection uneven
-        if ((int)G.animationDirection % 2 != 0)
+        if ((int)Globals.animationDirection % 2 != 0)
         {
-            Vector3 rotationL = new Vector3(0, 90, 0);
-            platformBlockI.RotationDegrees =  rotationL;
+            Vector3 rotationVector = new Vector3(0, 90, 0);
+            platformBlockInstance.RotationDegrees =  rotationVector;
         }
 
-        G.possibleMoves = new Direction[1]{G.animationDirection};
+        Globals.possibleMoves = new Direction[1]{Globals.animationDirection};
     }
 
-    private void platformCorner()
+    private void _platformCorner()
     {
-        Spatial platformBlockI;
-        platformBlockI = PlacePlatform("Corner");
+        Spatial platformBlockInstance;
+        platformBlockInstance = _PlacePlatform("Corner");
 
-        bool doReverse = G.RandomBool();
         int reverse = 0;
 
         // Change direction of the corner to the other side
-        if (doReverse)
+        if (Globals.RandomBool())
         {
             reverse++;
         }
 
-        float yRot = ((int)G.animationDirection + reverse) * -90;
+        float rotation = ((int)Globals.animationDirection + reverse) * -90;
 
-        Vector3 rotationV = new Vector3(0, yRot, 0);
-        platformBlockI.RotationDegrees =  rotationV;
+        Vector3 rotationVector = new Vector3(0, rotation, 0);
+        platformBlockInstance.RotationDegrees =  rotationVector;
 
         // Check direction change
-        int doReverseInt = doReverse ? 0 : 1;
-
-        G.possibleMoves = new Direction[1]
+        Globals.possibleMoves = new Direction[1]
         {
-            V.cornerMoves[(int)G.animationDirection, doReverseInt]
+            Values.cornerMoves[(int)Globals.animationDirection, reverse]
         };
     }
 
-    private void PlatformCross()
+    private void _PlatformCross()
     {
-        Spatial platformBlockI;
-        platformBlockI = PlacePlatform("Cross");
+        Spatial platformBlockInstance;
+        platformBlockInstance = _PlacePlatform("Cross");
 
         // Only opposite direction is removed from the array
-        G.possibleMoves = new Direction[3];
+        Globals.possibleMoves = new Direction[3];
 
         for (int i = 0; i < 3; i++)
         {
-            G.possibleMoves[i] = V.crossMoves[(int)G.animationDirection, i];
+            Globals.possibleMoves[i] = Values.crossMoves[
+                (int)Globals.animationDirection, i];
         }
     }
 
-    private void PlatformTwoWay()
+    private void _PlatformTwoWay()
     {
-        Spatial platformBlockI;
-        platformBlockI = PlacePlatform("TwoWay");
+        Spatial platformBlockInstance;
+        platformBlockInstance = _PlacePlatform("TwoWay");
 
         // Get new random orientation of the platform
         Random rnd = new Random();
-        int side = rnd.Next(3);
+        int randomSide = rnd.Next(3);
 
-        float yRotT = (int)G.animationDirection * -90;
+        float rotation = (int)Globals.animationDirection * -90;
 
-        if (side == 1)
+        if (randomSide == 1)
         {
-            yRotT += 90;
+            rotation += 90;
         }
 
-        if (side == 2)
+        if (randomSide == 2)
         {
-            yRotT += -90;
+            rotation += -90;
         }
 
-        Vector3 rotationT = new Vector3(0, yRotT, 0);
-        platformBlockI.RotationDegrees =  rotationT;
+        Vector3 rotationVector = new Vector3(0, rotation, 0);
+        platformBlockInstance.RotationDegrees =  rotationVector;
 
         // Get valid moves based on new rotation
-        G.possibleMoves = new Direction[2];
+        Globals.possibleMoves = new Direction[2];
 
         for (int i = 0; i < 2; i++)
         {
-            G.possibleMoves[i] = V.twowayMoves[(int)G.animationDirection, side, i];
+            Globals.possibleMoves[i] = Values.twowayMoves[
+                (int)Globals.animationDirection, randomSide, i];
         }
     }
 
-    private Spatial PlacePlatform(String type)
+    private Spatial _PlacePlatform(String type)
     {
         PackedScene platformBlock;
-        Spatial platformBlockI;
+        Spatial platformBlockInstance;
         String platformPath;
 
-        if (G.perspectiveMode)
+        if (Globals.perspectiveMode)
         {
             platformPath = "res://scenes/platformsM/"+type+"M.tscn";
         }
@@ -210,27 +208,26 @@ public class Level : Spatial
         }
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
-
-        platformBlockI = (Spatial)platformBlock.Instance();
+        platformBlockInstance = (Spatial)platformBlock.Instance();
 
         // Get platform future pos
-        platformBlockI.Translation = G.DirectionCalc();
+        platformBlockInstance.Translation = Globals.DirectionCalc();
 
         // Starting animation fix
-        Vector3 temp = platformBlockI.Translation;
-        temp.y = -16;
-        platformBlockI.Translation = temp;
+        Vector3 translationVector = platformBlockInstance.Translation;
+        translationVector.y = -16;
+        platformBlockInstance.Translation = translationVector;
 
-        platformsSpace.AddChild(platformBlockI);
-        return platformBlockI;
+        _platformsSpace.AddChild(platformBlockInstance);
+        return platformBlockInstance;
     }
 
-    private void RemoveOldPlatforms()
+    private void _RemoveOldPlatforms()
     {
-        int childIndex = totalPlatforms - history;
-        Spatial child = platformsSpace.GetChild<Spatial>(childIndex);
+        int childIndex = _totalPlatforms - _platformHistory;
+        Spatial child = _platformsSpace.GetChild<Spatial>(childIndex);
 
-        totalPlatforms--;
+        _totalPlatforms--;
         child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Down");
     }
 }

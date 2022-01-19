@@ -3,68 +3,62 @@ using System;
 
 public class Interface : Control
 {
-    private Globals G;
-    private Player P;
+    private Globals Globals;
+    private Player Player;
 
-    private Texture blueTexture;
-    private Texture redTexture;
+    private Control _healthBar;
+    private TextureRect _healthBarTR;
+    private Label _scoreLabel;
+    private Label _highScoreLabel;
 
-    private Control healthBar;
-    private TextureRect healthBarTR;
-    private Label scoreText;
-    private Label highScoreText;
+    private AnimationPlayer _interfaceAnimation;
 
-    private AnimationPlayer interfaceAnim;
+    private bool _healthBarShowed;
 
-    private bool healthBarShowed;
-
-    private float screenSize;
-    private float updateHealthBy;
+    private float _screenSize;
+    private float _updateHealthBy;
 
     // Init function
     public override void _Ready()
     {
-        G = GetNode<Globals>("/root/Globals");
-        P = GetNode<Player>("/root/Level/Player");
+        Globals = GetNode<Globals>("/root/Globals");
+        Player = GetNode<Player>("/root/Level/Player");
 
-        interfaceAnim = GetNode<AnimationPlayer>("InterfaceAnim");
+        _interfaceAnimation = GetNode<AnimationPlayer>("InterfaceAnim");
 
-        healthBar = GetNode<Control>("Main/Health");
-        healthBarTR = GetNode<TextureRect>("Main/Health/Bar");
+        _healthBar = GetNode<Control>("Main/Health");
+        _healthBarTR = GetNode<TextureRect>("Main/Health/Bar");
 
-        highScoreText = GetNode<Label>("Main/HighScore");
-        scoreText = GetNode<Label>("Main/Score");
-
-        blueTexture = (Texture)GD.Load("res://assets/textures/squareBlue.png");
-        redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
+        _highScoreLabel = GetNode<Label>("Main/HighScore");
+        _scoreLabel = GetNode<Label>("Main/Score");
 
         GetScreenSize();
 
         // Get previous highscore
-        G.highScore = G.Load("HighScore");
-        highScoreText.Text = "HiScore: " + G.highScore;
+        Globals.highScore = Globals.LoadStats("HighScore");
+        _highScoreLabel.Text = "HiScore: " + Globals.highScore;
     }
 
     // One time screen size calculation
     private void GetScreenSize()
     {
-        screenSize = GetViewport().Size.x;
-        updateHealthBy = screenSize / G.fullHealth;
+        _screenSize = GetViewport().Size.x;
+        _updateHealthBy = _screenSize / Globals.FULL_HEALTH;
     }
 
     // Calculate healthbar pixels
     public void CalculateHealthBar()
     {
-        if (!healthBarShowed)
+        if (!_healthBarShowed)
         {
-            interfaceAnim.Play("healthbar_show");
-            healthBarShowed = true;
+            _interfaceAnimation.Play("healthbar_show");
+            _healthBarShowed = true;
         }
         
-        float health = G.playerHealth * updateHealthBy;
+        float health = Globals.playerHealth * _updateHealthBy;
 
         Vector2 pos = new Vector2(health, 16);
-        healthBar.SetSize(pos, false);
+        _healthBar.SetSize(pos, false);
     }
 
     public void CalculatePerspectiveBar(float frames)
@@ -73,40 +67,40 @@ public class Interface : Control
         frames /= -600;
         frames += 1;
 
-        float newSize = screenSize * frames;
+        float newSize = _screenSize * frames;
 
         Vector2 pos = new Vector2(newSize, 16);
-        healthBar.SetSize(pos, false);
+        _healthBar.SetSize(pos, false);
     }
 
     // Update text and play animation
     public void AddScore()
     {
-        scoreText.Text = G.sessionScore.ToString();
-        interfaceAnim.Play("score_bump");
+        _scoreLabel.Text = Globals.sessionScore.ToString();
+        _interfaceAnimation.Play("score_bump");
     }
 
     public void HideUiAnimations(bool highscore)
     {
         if (highscore)
         {
-            interfaceAnim.Play("ui_hide_highscore");
+            _interfaceAnimation.Play("ui_hide_highscore");
         }
         else
         {
-            interfaceAnim.Play("ui_hide");
+            _interfaceAnimation.Play("ui_hide");
         }
     }
 
     public void ColorHealthbarRed(bool red)
     {
-        if (red && (healthBarTR.Texture != redTexture))
+        if (red && (_healthBarTR.Texture !=  Globals.redTexture))
         {
-            healthBarTR.Texture = redTexture;
+            _healthBarTR.Texture =  Globals.redTexture;
         }
-        else if (healthBarTR.Texture != blueTexture)
+        else if (_healthBarTR.Texture !=  Globals.blueTexture)
         {
-            healthBarTR.Texture = blueTexture;
+            _healthBarTR.Texture =  Globals.blueTexture;
         }
     }
 
@@ -115,11 +109,11 @@ public class Interface : Control
     {
         if (perspective)
         {
-            interfaceAnim.Play("blind_perspective");
+            _interfaceAnimation.Play("blind_perspective");
         }
         else
         {
-            interfaceAnim.Play("blind_orthogonal");
+            _interfaceAnimation.Play("blind_orthogonal");
         }
     }
 
@@ -127,32 +121,32 @@ public class Interface : Control
     {
         if (show)
         {
-            interfaceAnim.Play("stats_view_show");
+            _interfaceAnimation.Play("stats_view_show");
         }
         else
         {
-            interfaceAnim.Play("stats_view_hide");
+            _interfaceAnimation.Play("stats_view_hide");
         }
     }
 
     // Connect UI buttons
     private void _on_Left_button_down()
     {
-        P.CheckMove(Direction.LeftUp);
+        Player.CheckMove(Direction.LeftUp);
     }
 
     private void _on_Right_button_down()
     {
-        P.CheckMove(Direction.RightDown);
+        Player.CheckMove(Direction.RightDown);
     }
 
     private void _on_Up_button_down()
     {
-        P.CheckMove(Direction.RightUp);
+        Player.CheckMove(Direction.RightUp);
     }
 
     private void _on_Down_button_down()
     {
-        P.CheckMove(Direction.LeftDown);
+        Player.CheckMove(Direction.LeftDown);
     }
 }
