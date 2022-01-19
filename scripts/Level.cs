@@ -9,7 +9,6 @@ public class Level : Spatial
     private Spatial decorationsSpace;
 
     private int history = 4;
-    private int decoHistory = 8;
     private int totalDeco = 0;
     private int totalPlatforms = 1;
 

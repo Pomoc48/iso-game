@@ -377,8 +377,11 @@ public class Player : Spatial
             EnableControls(false, false);
         }
 
-        // Animate player rebounce
-        spatialAnim.Play("bounce" + original_dir.ToString());
+        if (!playerDead)
+        {
+            // Animate player rebounce
+            spatialAnim.Play("bounce" + original_dir.ToString());
+        }
     }
 
     private void GameOver()

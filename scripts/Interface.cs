@@ -4,7 +4,7 @@ using System;
 public class Interface : Control
 {
     private Globals G;
-    private Player Player;
+    private Player P;
 
     private Texture blueTexture;
     private Texture redTexture;
@@ -16,7 +16,6 @@ public class Interface : Control
 
     private AnimationPlayer interfaceAnim;
 
-    private bool screenSizeCalculated;
     private bool healthBarShowed;
 
     private float screenSize;
@@ -26,7 +25,7 @@ public class Interface : Control
     public override void _Ready()
     {
         G = GetNode<Globals>("/root/Globals");
-        Player = GetNode<Player>("/root/Level/Player");
+        P = GetNode<Player>("/root/Level/Player");
 
         interfaceAnim = GetNode<AnimationPlayer>("InterfaceAnim");
 
@@ -51,7 +50,6 @@ public class Interface : Control
     {
         screenSize = GetViewport().Size.x;
 	    updateHealthBy = screenSize / G.fullHealth;
-	    screenSizeCalculated = true;
     }
 
     // Calculate healthbar pixels
@@ -140,21 +138,21 @@ public class Interface : Control
     // Connect UI buttons
     private void _on_Left_button_down()
     {
-        Player.CheckMove(3);
+        P.CheckMove(3);
     }
 
     private void _on_Right_button_down()
     {
-        Player.CheckMove(1);
+        P.CheckMove(1);
     }
 
     private void _on_Up_button_down()
     {
-        Player.CheckMove(0);
+        P.CheckMove(0);
     }
 
     private void _on_Down_button_down()
     {
-        Player.CheckMove(2);
+        P.CheckMove(2);
     }
 }
