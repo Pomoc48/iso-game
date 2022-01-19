@@ -94,23 +94,23 @@ public class Level : Spatial
 
     public void GeneratePlatform()
     {
-        int platformType = G.GetPlatformType();
+        Globals.PlaftormType platformType = G.GetPlatformType();
 
         switch (platformType)
         {
-            case 1:
+            case Globals.PlaftormType.Long:
                 PlatformLong();
                 break;
 
-            case 2:
+            case Globals.PlaftormType.Corner:
                 platformCorner();
                 break;
 
-            case 3:
+            case Globals.PlaftormType.Cross:
                 PlatformCross();
                 break;
 
-            case 4:
+            case Globals.PlaftormType.Twoway:
                 PlatformTwoWay();
                 break;
         }

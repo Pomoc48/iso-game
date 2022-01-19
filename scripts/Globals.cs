@@ -11,6 +11,23 @@ public class Globals : Node
 
     public SpatialMaterial emissionRed;
     public SpatialMaterial emissionBlue;
+
+    private enum PlafformDifficulty
+    {
+        Easy,
+        Medium,
+        Hard,
+    }
+
+    public enum PlaftormType
+    {
+        Long,
+        Corner,
+        Cross,
+        Twoway
+    }
+
+    private PlafformDifficulty platformDifficulty;
     
     public int fullHealth = 24;
     public int fullMove = 20;
@@ -38,7 +55,6 @@ public class Globals : Node
 
     private int startDir;
     private int cyclesCount;
-    private int platformDifficulty;
 
     public override void _Ready()
     {
@@ -158,34 +174,57 @@ public class Globals : Node
         return false;
     }
 
-    public int GetPlatformType()
+    public PlaftormType GetPlatformType()
     {
-        var foo = rnd.Next(100);
+        int[] diffList;
 
-        // cs / tw /  l /  c
         switch (platformDifficulty)
         {
-            case 2:
-                // 2  / 20 / 18 / 60
-                if (foo < 2) return 3;
-                if (foo >= 2 && foo < 22) return 4;
-                if (foo >= 22 && foo < 40) return 1;
-                return 2;
+            case PlafformDifficulty.Easy:
+            {
+                int[] easyChances = {10, 40, 75};
+                diffList = easyChances;
+                break;
+            }
+            
+            case PlafformDifficulty.Medium:
+            {
+                int[] mediumChances = {5, 35, 60};
+                diffList = mediumChances;
+                break;
+            }
 
-            case 1:
-                // 5  / 30 / 25 / 40
-                if (foo < 5) return 3;
-                if (foo >= 5 && foo < 35) return 4;
-                if (foo >= 35 && foo < 60) return 1;
-                return 2;
-
-            default:
-                // 10 / 30 / 35 / 25
-                if (foo < 10) return 3;
-                if (foo >= 10 && foo < 40) return 4;
-                if (foo >= 40 && foo < 75) return 1;
-                return 2;
+            default: // PlafformDifficulty.Hard
+            {
+                int[] hardChances = {2, 22, 40};
+                diffList = hardChances;
+                break;
+            }
         }
+
+        return GetPlatformChances(diffList);
+    }
+
+    private PlaftormType GetPlatformChances(int[] diffList)
+    {
+        int chance = rnd.Next(100);
+
+        if (chance < diffList[0])
+        {
+            return PlaftormType.Cross;
+        }
+
+        if (chance >= diffList[0] && chance < diffList[1])
+        {
+            return PlaftormType.Twoway;
+        }
+
+        if (chance >= diffList[1] && chance < diffList[2])
+        {
+            return PlaftormType.Long;
+        }
+
+        return PlaftormType.Corner;
     }
 
     public int RetranslateDirection(int direction)
@@ -253,7 +292,7 @@ public class Globals : Node
         {
             cyclesCount = 0;
 
-            if (platformDifficulty < 2)
+            if (platformDifficulty < PlafformDifficulty.Hard)
             {
                 platformDifficulty++;
             }
