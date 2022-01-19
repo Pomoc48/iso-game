@@ -51,7 +51,7 @@ public class Player : Spatial
         _playerMesh = this.GetNode<MeshInstance>("Spatial/Mesh");
         _playerCamera = this.GetNode<Camera>("Camera");
 
-        _spatialAnimation = GetNode<AnimationPlayer>("_spatialAnimation");
+        _spatialAnimation = GetNode<AnimationPlayer>("SpatialAnim");
 
         Globals.NewGame();
         Globals.playerPosition = this.Translation;

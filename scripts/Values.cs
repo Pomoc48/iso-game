@@ -28,10 +28,10 @@ public class Values : Node
 {
     public Direction[,] cornerMoves =
     {
-        {Direction.LeftUp, Direction.RightDown},
-        {Direction.RightUp, Direction.LeftDown},
         {Direction.RightDown, Direction.LeftUp},
         {Direction.LeftDown, Direction.RightUp},
+        {Direction.LeftUp, Direction.RightDown},
+        {Direction.RightUp, Direction.LeftDown},
     };
 
     public Direction[,] crossMoves =

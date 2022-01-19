@@ -7,9 +7,6 @@ public class Statistics : TextureButton
     private Interface Interface;
 
     private Label _statsTextLabel;
-
-    private Texture _openTexture;
-    private Texture _closeTexture;
     
     private bool _statsOpened = false;
 
