@@ -4,6 +4,7 @@ using System;
 public class Level : Spatial
 {
     private Globals G;
+    private Values V;
 
     private Spatial platformsSpace;
     private Spatial decorationsSpace;
@@ -14,37 +15,17 @@ public class Level : Spatial
 
     private float degreeInRad = 1.5707963268f;
 
-    int[,] cornerMoves = {
-        {3, 1},
-        {0, 2},
-        {1, 3},
-        {2, 0},
-    };
-
-    int[,] crossMoves = {
-        {3, 0, 1},
-        {1, 0, 2},
-        {3, 1, 2},
-        {3, 0, 2},
-    };
-
-    int[,,] twowayMoves = {
-        {{1, 3}, {0, 1}, {0, 3}},
-        {{0, 2}, {2, 1}, {0, 1}},
-        {{1, 3}, {3, 2}, {1, 2}},
-        {{2, 0}, {0, 3}, {3, 2}},
-    };
-
     // Init function
     public override void _Ready()
     {
         G = GetNode<Globals>("/root/Globals");
+        V = GetNode<Values>("/root/Values");
 
         platformsSpace = GetNode<Spatial>("Platforms");
 	    decorationsSpace = GetNode<Spatial>("Decorations");
         
         // Rotate starting platform
-        float rotation = G.GenerateStartingPlatformPos();
+        float rotation = (int)G.GenerateStartingPlatformPos();
 
         rotation *= -degreeInRad;
         platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
@@ -94,23 +75,23 @@ public class Level : Spatial
 
     public void GeneratePlatform()
     {
-        Globals.PlaftormType platformType = G.GetPlatformType();
+        PlaftormType platformType = G.GetPlatformType();
 
         switch (platformType)
         {
-            case Globals.PlaftormType.Long:
+            case PlaftormType.Long:
                 PlatformLong();
                 break;
 
-            case Globals.PlaftormType.Corner:
+            case PlaftormType.Corner:
                 platformCorner();
                 break;
 
-            case Globals.PlaftormType.Cross:
+            case PlaftormType.Cross:
                 PlatformCross();
                 break;
 
-            case Globals.PlaftormType.Twoway:
+            case PlaftormType.Twoway:
                 PlatformTwoWay();
                 break;
         }
@@ -129,13 +110,13 @@ public class Level : Spatial
         platformBlockI = PlacePlatform("Long");
 
         // Rotate by 90 when animDirection uneven
-        if (G.animDirection % 2 != 0)
+        if ((int)G.animationDirection % 2 != 0)
         {
             Vector3 rotationL = new Vector3(0, 90, 0);
             platformBlockI.RotationDegrees =  rotationL;
         }
 
-        G.pMoves = new int[1]{G.animDirection};
+        G.possibleMoves = new Direction[1]{G.animationDirection};
     }
 
     private void platformCorner()
@@ -152,14 +133,18 @@ public class Level : Spatial
             reverse++;
         }
 
-        float yRot = (G.animDirection + reverse) * -90;
+        float yRot = ((int)G.animationDirection + reverse) * -90;
 
         Vector3 rotationV = new Vector3(0, yRot, 0);
         platformBlockI.RotationDegrees =  rotationV;
 
         // Check direction change
         int doReverseInt = doReverse ? 0 : 1;
-        G.pMoves = new int[1]{cornerMoves[G.animDirection, doReverseInt]};
+
+        G.possibleMoves = new Direction[1]
+        {
+            V.cornerMoves[(int)G.animationDirection, doReverseInt]
+        };
     }
 
     private void PlatformCross()
@@ -168,11 +153,11 @@ public class Level : Spatial
         platformBlockI = PlacePlatform("Cross");
 
         // Only opposite direction is removed from the array
-        G.pMoves = new int[3];
+        G.possibleMoves = new Direction[3];
 
         for (int i = 0; i < 3; i++)
         {
-            G.pMoves[i] = crossMoves[G.animDirection, i];
+            G.possibleMoves[i] = V.crossMoves[(int)G.animationDirection, i];
         }
     }
 
@@ -185,7 +170,7 @@ public class Level : Spatial
         Random rnd = new Random();
         int side = rnd.Next(3);
 
-        float yRotT = G.animDirection * -90;
+        float yRotT = (int)G.animationDirection * -90;
 
         if (side == 1)
         {
@@ -201,11 +186,11 @@ public class Level : Spatial
         platformBlockI.RotationDegrees =  rotationT;
 
         // Get valid moves based on new rotation
-        G.pMoves = new int[2];
+        G.possibleMoves = new Direction[2];
 
         for (int i = 0; i < 2; i++)
         {
-            G.pMoves[i] = twowayMoves[G.animDirection, side, i];
+            G.possibleMoves[i] = V.twowayMoves[(int)G.animationDirection, side, i];
         }
     }
 

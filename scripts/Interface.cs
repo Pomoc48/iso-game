@@ -138,21 +138,21 @@ public class Interface : Control
     // Connect UI buttons
     private void _on_Left_button_down()
     {
-        P.CheckMove(3);
+        P.CheckMove(Direction.LeftUp);
     }
 
     private void _on_Right_button_down()
     {
-        P.CheckMove(1);
+        P.CheckMove(Direction.RightDown);
     }
 
     private void _on_Up_button_down()
     {
-        P.CheckMove(0);
+        P.CheckMove(Direction.RightUp);
     }
 
     private void _on_Down_button_down()
     {
-        P.CheckMove(2);
+        P.CheckMove(Direction.LeftDown);
     }
 }

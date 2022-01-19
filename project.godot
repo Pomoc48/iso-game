@@ -19,6 +19,7 @@ config/icon="res://assets/textures/icon.png"
 [autoload]
 
 Globals="*res://scripts/Globals.cs"
+Values="*res://scripts/Values.cs"
 
 [display]
 

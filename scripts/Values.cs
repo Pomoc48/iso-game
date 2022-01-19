@@ -1,0 +1,45 @@
+using Godot;
+using System;
+
+public class Values : Node
+{
+    public Direction[,] cornerMoves =
+    {
+        {Direction.LeftUp, Direction.RightDown},
+        {Direction.RightUp, Direction.LeftDown},
+        {Direction.RightDown, Direction.LeftUp},
+        {Direction.LeftDown, Direction.RightUp},
+    };
+
+    public Direction[,] crossMoves =
+    {
+        {Direction.LeftUp, Direction.RightUp, Direction.RightDown},
+        {Direction.RightDown, Direction.RightUp, Direction.LeftDown},
+        {Direction.LeftUp, Direction.RightDown, Direction.LeftDown},
+        {Direction.LeftUp, Direction.RightUp, Direction.LeftDown},
+    };
+
+    public Direction[,,] twowayMoves =
+    {
+        {
+            {Direction.RightDown, Direction.LeftUp},
+            {Direction.RightUp, Direction.RightDown},
+            {Direction.RightUp, Direction.LeftUp}
+        },
+        {
+            {Direction.RightUp, Direction.LeftDown},
+            {Direction.LeftDown, Direction.RightDown},
+            {Direction.RightUp, Direction.RightDown}
+        },
+        {
+            {Direction.RightDown, Direction.LeftUp},
+            {Direction.LeftUp, Direction.LeftDown},
+            {Direction.RightDown, Direction.LeftDown}
+        },
+        {
+            {Direction.LeftDown, Direction.RightUp},
+            {Direction.RightUp, Direction.LeftUp},
+            {Direction.LeftUp, Direction.LeftDown}
+        },
+    };
+}

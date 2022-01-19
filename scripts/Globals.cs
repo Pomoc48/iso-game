@@ -1,6 +1,29 @@
 using Godot;
 using System;
 
+enum PlafformDifficulty
+{
+    Easy,
+    Medium,
+    Hard,
+}
+
+public enum PlaftormType
+{
+    Long,
+    Corner,
+    Cross,
+    Twoway
+}
+
+public enum Direction
+{
+    RightUp,
+    RightDown,
+    LeftDown,
+    LeftUp
+}
+
 public class Globals : Node
 {
     private Random rnd = new Random();
@@ -12,23 +35,9 @@ public class Globals : Node
     public SpatialMaterial emissionRed;
     public SpatialMaterial emissionBlue;
 
-    private enum PlafformDifficulty
-    {
-        Easy,
-        Medium,
-        Hard,
-    }
+    public Direction cameraRotation;
+    public Direction animationDirection;
 
-    public enum PlaftormType
-    {
-        Long,
-        Corner,
-        Cross,
-        Twoway
-    }
-
-    private PlafformDifficulty platformDifficulty;
-    
     public int fullHealth = 24;
     public int fullMove = 20;
 
@@ -36,14 +45,12 @@ public class Globals : Node
     public bool firstMove;
     public bool perspectiveMode;
 
-    public int camRotIndex;
     public int sessionScore;
-    public int animDirection;
     public int highScore;
     public int correctMoves;
     public int totalMoves;
 
-    public int[] pMoves;
+    public Direction[] possibleMoves;
 
     public String[] categoriesP = {
         "HighScore",
@@ -52,9 +59,11 @@ public class Globals : Node
         "CorrectMoves",
         "TotalMoves"
     };
-
-    private int startDir;
+    
     private int cyclesCount;
+
+    private PlafformDifficulty platformDifficulty;
+    private Direction startDirection;
 
     public override void _Ready()
     {
@@ -68,7 +77,7 @@ public class Globals : Node
         playerHealth = fullHealth;
         firstMove = true;
         perspectiveMode = false;
-        camRotIndex = 3;
+        cameraRotation = Direction.LeftUp;
         sessionScore = 0;
         platformDifficulty = 0;
         cyclesCount = 0;
@@ -116,21 +125,21 @@ public class Globals : Node
     {
         Vector3 vect = playerPosition;
 
-        switch (animDirection)
+        switch (animationDirection)
         {
-            case 1:
+            case Direction.RightDown:
                 vect.z += fullMove;
                 break;
 
-            case 2:
+            case Direction.LeftDown:
                 vect.x += -fullMove;
                 break;
 
-            case 3:
+            case Direction.LeftUp:
                 vect.z += -fullMove;
                 break;
 
-            default:
+            default: // Direction.RighUp
                 vect.x += fullMove;
                 break;
         }
@@ -147,9 +156,9 @@ public class Globals : Node
 
         totalMoves++;
 
-        foreach (int n in pMoves)
+        foreach (Direction n in possibleMoves)
         {
-            if (animDirection == n)
+            if (animationDirection == n)
             {
                 correctMoves++;
                 return true;
@@ -161,7 +170,7 @@ public class Globals : Node
 
     private bool FirstMoveCheck()
     {
-        if (animDirection == startDir)
+        if (animationDirection == startDirection)
         {
             firstMove = false;
 
@@ -227,12 +236,12 @@ public class Globals : Node
         return PlaftormType.Corner;
     }
 
-    public int RetranslateDirection(int direction)
+    public Direction RetranslateDirection(Direction direction)
     {
         // (Clockwise)
-        if (camRotIndex != 3)
+        if (cameraRotation != Direction.LeftUp)
         {
-            direction -= (camRotIndex + 1);
+            direction -= (cameraRotation + 1);
         }
 
         // Reverse overflow check
@@ -312,10 +321,10 @@ public class Globals : Node
         return temp;
     }
 
-    public int GenerateStartingPlatformPos()
+    public Direction GenerateStartingPlatformPos()
     {
-        startDir = rnd.Next(4);
-        return startDir;
+        startDirection = (Direction)rnd.Next(4);
+        return startDirection;
     }
 
     public int RandomRotationAmmount()

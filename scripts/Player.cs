@@ -66,25 +66,25 @@ public class Player : Spatial
         if (canMove && Input.IsActionPressed(keys[0])
             && Input.IsActionPressed(keys[1]))
         {
-            CheckMove(0);
+            CheckMove(Direction.RightUp);
         }
 
         if (canMove && Input.IsActionPressed(keys[1])
             && Input.IsActionPressed(keys[2]))
         {
-            CheckMove(1);
+            CheckMove(Direction.RightDown);
         }
 
         if (canMove && Input.IsActionPressed(keys[2])
             && Input.IsActionPressed(keys[3]))
         {
-            CheckMove(2);
+            CheckMove(Direction.LeftDown);
         }
 
         if (canMove && Input.IsActionPressed(keys[3])
             && Input.IsActionPressed(keys[0]))
         {
-            CheckMove(3);
+            CheckMove(Direction.LeftUp);
         }
     }
 
@@ -105,7 +105,7 @@ public class Player : Spatial
         }
     }
 
-    public void CheckMove(int dir)
+    public void CheckMove(Direction dir)
     {
         if (!canMove)
         {
@@ -113,7 +113,7 @@ public class Player : Spatial
         }
 
         // Calculation based on camera rotation
-        G.animDirection = G.RetranslateDirection(dir);
+        G.animationDirection = G.RetranslateDirection(dir);
 
         if (G.IsMoveLegal())
         {
@@ -274,22 +274,22 @@ public class Player : Spatial
         // Camera rotation
         if (clockwise)
         {
-            G.camRotIndex += ammount;
+            G.cameraRotation += ammount;
         }
         else
         {
-            G.camRotIndex -= ammount;
+            G.cameraRotation -= ammount;
         }
 
-        // camRotIndex = 3 -> DEFAULT
-        if (G.camRotIndex > 3)
+        // cameraRotation = 3 -> DEFAULT
+        if ((int)G.cameraRotation > 3)
         {
-            G.camRotIndex -= 4;
+            G.cameraRotation -= 4;
         }
 
-        if (G.camRotIndex < 0)
+        if (G.cameraRotation < 0)
         {
-            G.camRotIndex += 4;
+            G.cameraRotation += 4;
         }
 
         // Disable controls for animation duration
@@ -353,7 +353,7 @@ public class Player : Spatial
         }
     }
 
-    private void RebounceCheck(int original_dir)
+    private void RebounceCheck(Direction originalDirection)
     {
         // No penalties during perspective mode
         if (!G.perspectiveMode)
@@ -380,7 +380,8 @@ public class Player : Spatial
         if (!playerDead)
         {
             // Animate player rebounce
-            spatialAnim.Play("bounce" + original_dir.ToString());
+            int originalDirectionInt = (int)originalDirection;
+            spatialAnim.Play("bounce" + originalDirectionInt.ToString());
         }
     }
 
