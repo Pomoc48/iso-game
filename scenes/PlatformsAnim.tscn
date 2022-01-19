@@ -4,5 +4,5 @@
 [ext_resource path="res://animations/platform_show.tres" type="Animation" id=2]
 
 [node name="AnimationPlayer" type="AnimationPlayer"]
-anims/Down = ExtResource( 1 )
-anims/Up = ExtResource( 2 )
+anims/Hide = ExtResource( 1 )
+anims/Show = ExtResource( 2 )

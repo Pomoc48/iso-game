@@ -82,4 +82,4 @@ material/0 = ExtResource( 3 )
 anims/Down = SubResource( 2 )
 anims/Up = SubResource( 3 )
 
-[connection signal="animation_finished" from="Spatial/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="Spatial/AnimationPlayer" to="." method="_OnAnimationPlayerFinished"]

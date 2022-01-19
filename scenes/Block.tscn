@@ -107,4 +107,4 @@ initial_velocity_random = 0.2
 radial_accel = -5.0
 scale_amount_curve = SubResource( 6 )
 
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_OnAnimationPlayerFinished"]

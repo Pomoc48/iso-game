@@ -65,6 +65,6 @@ mesh = SubResource( 1 )
 material/0 = ExtResource( 4 )
 
 [node name="AnimationPlayer" parent="Spatial" instance=ExtResource( 3 )]
-autoplay = "Up"
+autoplay = "Show"
 
-[connection signal="animation_finished" from="Spatial/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="Spatial/AnimationPlayer" to="." method="_OnAnimationPlayerFinished"]

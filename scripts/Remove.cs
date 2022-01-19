@@ -3,16 +3,11 @@ using System;
 
 public class Remove : Spatial
 {
-    String[] anims = {"Hide", "Down", "Show"};
-
-    private void _on_AnimationPlayer_animation_finished(String anim_name)
+    private void _OnAnimationPlayerFinished(String animationName)
     {
-        foreach (String anim in anims)
+        if (animationName == "Hide")
         {
-            if (anim_name == anim)
-            {
-                this.QueueFree();
-            }
+            this.QueueFree();
         }
     }
 }
