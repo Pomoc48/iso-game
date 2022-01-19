@@ -9,7 +9,10 @@ public class Remove : Spatial
     {
         foreach (String anim in anims)
         {
-            if (anim_name == anim) this.QueueFree();
+            if (anim_name == anim)
+            {
+                this.QueueFree();
+            }
         }
     }
 }

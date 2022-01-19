@@ -56,10 +56,14 @@ public class Level : Spatial
     {
         Vector3 blockPos = new Vector3();
 
-        // Idle animation position fix
-        if (G.firstMove) blockPos = G.playerPosition;
-        // Future move pos
-        else blockPos = G.DirectionCalc();
+        if (G.firstMove) // Idle animation position fix
+        {
+            blockPos = G.playerPosition;
+        }
+        else // Future move pos
+        {
+            blockPos = G.DirectionCalc();
+        }
 
         // Random offset
         blockPos = G.DecorationsCalc(blockPos);
@@ -71,8 +75,14 @@ public class Level : Spatial
     {
         String blockPath;
 
-        if (G.perspectiveMode) blockPath = "res://scenes/BlockM.tscn";
-        else blockPath = "res://scenes/Block.tscn";
+        if (G.perspectiveMode)
+        {
+            blockPath = "res://scenes/BlockM.tscn";
+        }
+        else
+        {
+            blockPath = "res://scenes/Block.tscn";
+        }
 
         PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
                 
@@ -100,7 +110,7 @@ public class Level : Spatial
             case 3:
                 PlatformCross();
                 break;
-            
+
             case 4:
                 PlatformTwoWay();
                 break;
@@ -108,8 +118,10 @@ public class Level : Spatial
 
         totalPlatforms++;
 
-        if (totalPlatforms < history) return;
-        RemoveOldPlatforms();
+        if (totalPlatforms >= history)
+        {
+            RemoveOldPlatforms();
+        }
     }
 
     private void PlatformLong()
@@ -136,15 +148,19 @@ public class Level : Spatial
         int reverse = 0;
 
         // Change direction of the corner to the other side
-        if (doReverse) reverse++;
+        if (doReverse)
+        {
+            reverse++;
+        }
+
         float yRot = (G.animDirection + reverse) * -90;
 
         Vector3 rotationV = new Vector3(0, yRot, 0);
         platformBlockI.RotationDegrees =  rotationV;
 
         // Check direction change
-        int foo = doReverse ? 0 : 1;
-        G.pMoves = new int[1]{cornerMoves[G.animDirection, foo]};
+        int doReverseInt = doReverse ? 0 : 1;
+        G.pMoves = new int[1]{cornerMoves[G.animDirection, doReverseInt]};
     }
 
     private void PlatformCross()
@@ -154,6 +170,7 @@ public class Level : Spatial
 
         // Only opposite direction is removed from the array
         G.pMoves = new int[3];
+
         for (int i = 0; i < 3; i++)
         {
             G.pMoves[i] = crossMoves[G.animDirection, i];
@@ -171,14 +188,22 @@ public class Level : Spatial
 
         float yRotT = G.animDirection * -90;
 
-        if (side == 1) yRotT += 90;
-        if (side == 2) yRotT += -90;
+        if (side == 1)
+        {
+            yRotT += 90;
+        }
+
+        if (side == 2)
+        {
+            yRotT += -90;
+        }
 
         Vector3 rotationT = new Vector3(0, yRotT, 0);
         platformBlockI.RotationDegrees =  rotationT;
 
         // Get valid moves based on new rotation
         G.pMoves = new int[2];
+
         for (int i = 0; i < 2; i++)
         {
             G.pMoves[i] = twowayMoves[G.animDirection, side, i];
@@ -192,8 +217,13 @@ public class Level : Spatial
         String platformPath;
 
         if (G.perspectiveMode)
+        {
             platformPath = "res://scenes/platformsM/"+type+"M.tscn";
-        else platformPath = "res://scenes/platforms/"+type+".tscn";
+        }
+        else
+        {
+            platformPath = "res://scenes/platforms/"+type+".tscn";
+        }
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
 

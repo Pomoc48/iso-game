@@ -39,7 +39,7 @@ public class Interface : Control
         blueTexture = (Texture)GD.Load("res://assets/textures/squareBlue.png");
         redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
 
-        if (!screenSizeCalculated) GetScreenSize();
+        GetScreenSize();
 
         // Get previous highscore
         G.highScore = G.Load("HighScore");
@@ -88,44 +88,53 @@ public class Interface : Control
         interfaceAnim.Play("score_bump");
     }
 
-    // Gameover call
     public void HideUiAnimations(bool highscore)
     {
-        // Omit only when new highscore
-	    if (highscore) interfaceAnim.Play("ui_hide_highscore");
-        else interfaceAnim.Play("ui_hide");
+	    if (highscore)
+        {
+            interfaceAnim.Play("ui_hide_highscore");
+        }
+        else
+        {
+            interfaceAnim.Play("ui_hide");
+        }
     }
 
     public void ColorHealthbarRed(bool red)
     {
-        if (red)
+        if (red && (healthBarTR.Texture != redTexture))
         {
-            if (healthBarTR.Texture == redTexture) return;
             healthBarTR.Texture = redTexture;
-
-            return;
         }
-        
-        if (healthBarTR.Texture == blueTexture) return;
-        healthBarTR.Texture = blueTexture;
+        else if (healthBarTR.Texture != blueTexture)
+        {
+            healthBarTR.Texture = blueTexture;
+        }
     }
 
     // Animating transition between projections
     public void PlayBlindAnim(bool perspective)
     {
-        GD.Print(perspective);
         if (perspective)
         {
             interfaceAnim.Play("blind_perspective");
-            return;
         }
-        interfaceAnim.Play("blind_orthogonal");
+        else
+        {
+            interfaceAnim.Play("blind_orthogonal");
+        }
     }
 
     public void ShowStatistics(bool show)
     {
-        if (show) interfaceAnim.Play("stats_view_show");
-        else interfaceAnim.Play("stats_view_hide");
+        if (show)
+        {
+            interfaceAnim.Play("stats_view_show");
+        }
+        else
+        {
+            interfaceAnim.Play("stats_view_hide");
+        }
     }
 
     // Connect UI buttons

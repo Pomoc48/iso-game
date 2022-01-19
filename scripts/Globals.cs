@@ -88,10 +88,11 @@ public class Globals : Node
     {
 	    var foo = rnd.Next(100);
 
-        if (foo < 50)
-            return false;
-
-        return true;
+        return foo switch
+        {
+            < 50 => false,
+            _ => true
+        };
     }
 
     // Translate directions to vectors
@@ -123,7 +124,10 @@ public class Globals : Node
 
     public bool IsMoveLegal()
     {
-        if (firstMove) return FirstMoveCheck();
+        if (firstMove)
+        {
+            return FirstMoveCheck();
+        }
 
         totalMoves++;
 
@@ -187,10 +191,16 @@ public class Globals : Node
     public int RetranslateDirection(int direction)
     {
         // (Clockwise)
-        if (camRotIndex != 3) direction -= (camRotIndex + 1);
+        if (camRotIndex != 3)
+        {
+            direction -= (camRotIndex + 1);
+        }
 
         // Reverse overflow check
-		if (direction < 0) direction += 4;
+		if (direction < 0)
+        {
+            direction += 4;
+        }
 
 	    return direction;
     }
@@ -211,11 +221,23 @@ public class Globals : Node
             rangeS = rnd.Next(24);
         }
 
-        if (RandomBool()) centerPos.x += rangeS;
-        else centerPos.x -= rangeS;
+        if (RandomBool())
+        {
+            centerPos.x += rangeS;
+        }
+        else
+        {
+            centerPos.x -= rangeS;
+        }
 
-        if (RandomBool()) centerPos.z += rangeS2;
-        else centerPos.z -= rangeS2;
+        if (RandomBool())
+        {
+            centerPos.z += rangeS2;
+        }
+        else
+        {
+            centerPos.z -= rangeS2;
+        }
 
         centerPos.y = 2;
         return centerPos;
@@ -230,13 +252,23 @@ public class Globals : Node
         if (cyclesCount > 5)
         {
             cyclesCount = 0;
-            if (platformDifficulty < 2) platformDifficulty++;
+
+            if (platformDifficulty < 2)
+            {
+                platformDifficulty++;
+            }
         }
 
         int temp;
 
-        if (RandomBool()) temp = cycle + rnd.Next(range);
-        else temp = cycle - rnd.Next(range);
+        if (RandomBool())
+        {
+            temp = cycle + rnd.Next(range);
+        }
+        else
+        {
+            temp = cycle - rnd.Next(range);
+        }
 
         return temp;
     }
@@ -249,13 +281,13 @@ public class Globals : Node
 
     public int RandomRotationAmmount()
     {
-        var foo = rnd.Next(100);
+        var randomChance = rnd.Next(100);
 
-        if (foo < 30)
+        return randomChance switch
         {
-            if (foo < 5) return 3;
-            return 2;
-        }
-        return 1;
+            < 5 => 3,
+            >= 5 and < 30 => 2,
+            _ => 1
+        };
     }
 }

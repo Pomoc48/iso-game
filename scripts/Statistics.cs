@@ -13,10 +13,8 @@ public class Statistics : TextureButton
     
     private bool statsOpened = false;
 
-    private int numberOfGamesF;
-    private int combinedScoreF;
-    private int correctMovesF;
-    private int totalMovesF;
+    // numberOfGames combinedScore correctMoves totalMoves
+    private int[] stats = new int[4];
 
     public override void _Ready()
     {
@@ -34,35 +32,35 @@ public class Statistics : TextureButton
 
     private void LoadStatistics()
     {
-        numberOfGamesF = G.Load(G.categoriesP[1]);
-        combinedScoreF = G.Load(G.categoriesP[2]);
-        correctMovesF = G.Load(G.categoriesP[3]);
-        totalMovesF = G.Load(G.categoriesP[4]);
-
-        float percentageF = 0f;
-
-        if (totalMovesF != 0)
+        for (int i = 0; i < 4; i++)
         {
-            percentageF = correctMovesF / (float) totalMovesF;
-            percentageF *= 100; 
+            stats[i] = G.Load(G.categoriesP[i+1]);
         }
 
-        String percentageS = percentageF.ToString("F");
+        float percentageFloat = 0f;
 
-        String games = "Number of games: " + numberOfGamesF + "\n";
-        String score = "Combined score: " + combinedScoreF + "\n";
+        if (stats[3] != 0)
+        {
+            percentageFloat = stats[2] / (float)stats[3];
+            percentageFloat *= 100; 
+        }
+
+        String percentageS = percentageFloat.ToString("F");
+
+        String games = "Number of games: " + stats[0] + "\n";
+        String score = "Combined score: " + stats[1] + "\n";
         String percentage = "Correct move percentage: " + percentageS + "%\n";
-        String moves = "Total moves: " + totalMovesF + "\n";
+        String moves = "Total moves: " + stats[3] + "\n";
 
         statsText.Text = games + score + percentage + moves;
     }
 
     public void UploadStatistics()
     {
-        int games = numberOfGamesF + 1;
-        int score = combinedScoreF + G.sessionScore;
-        int cMoves = correctMovesF + G.correctMoves;
-        int moves = totalMovesF + G.totalMoves;
+        int games = stats[0] + 1;
+        int score = stats[1] + G.sessionScore;
+        int cMoves = stats[2] + G.correctMoves;
+        int moves = stats[3] + G.totalMoves;
 
         int[] values = {G.highScore, games, score, cMoves, moves};
 
@@ -73,18 +71,17 @@ public class Statistics : TextureButton
     {
         if (statsOpened)
         {
-            // Close stats
             I.ShowStatistics(false);
             this.TextureNormal = openTexture;
 
             statsOpened = false;
-            return;
         }
+        else
+        {
+            I.ShowStatistics(true);
+            this.TextureNormal = closeTexture;
 
-        // Open stats
-        I.ShowStatistics(true);
-        this.TextureNormal = closeTexture;
-
-        statsOpened = true;
+            statsOpened = true;
+        }
     }
 }

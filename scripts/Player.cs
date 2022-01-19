@@ -63,21 +63,29 @@ public class Player : Spatial
     // Debug for now
     public override void _Process(float delta)
     {
-        if (Input.IsActionPressed(keys[0]) &&
-                Input.IsActionPressed(keys[1]))
-            if (canMove) CheckMove(0);
+        if (canMove && Input.IsActionPressed(keys[0])
+            && Input.IsActionPressed(keys[1]))
+        {
+            CheckMove(0);
+        }
 
-        if (Input.IsActionPressed(keys[1]) &&
-                Input.IsActionPressed(keys[2]))
-            if (canMove) CheckMove(1);
+        if (canMove && Input.IsActionPressed(keys[1])
+            && Input.IsActionPressed(keys[2]))
+        {
+            CheckMove(1);
+        }
 
-        if (Input.IsActionPressed(keys[2]) &&
-                Input.IsActionPressed(keys[3]))
-            if (canMove) CheckMove(2);
+        if (canMove && Input.IsActionPressed(keys[2])
+            && Input.IsActionPressed(keys[3]))
+        {
+            CheckMove(2);
+        }
 
-        if (Input.IsActionPressed(keys[3]) &&
-                Input.IsActionPressed(keys[0]))
-            if (canMove) CheckMove(3);
+        if (canMove && Input.IsActionPressed(keys[3])
+            && Input.IsActionPressed(keys[0]))
+        {
+            CheckMove(3);
+        }
     }
 
     // Runs every game tick
@@ -85,21 +93,28 @@ public class Player : Spatial
     {
         // No life game_over check
         if ((G.playerHealth <= 0) && !playerDead)
+        {
             GameOver();
+        }
 
         FramesCalculation();
 
         if (!G.perspectiveMode && (framesMode % 2) == 0)
+        {
             LooseHealth();
+        }
     }
 
     public void CheckMove(int dir)
     {
-        if (!canMove) return;
+        if (!canMove)
+        {
+            return;
+        }
 
         // Calculation based on camera rotation
         G.animDirection = G.RetranslateDirection(dir);
-        
+
         if (G.IsMoveLegal())
         {
             CorrectScoreCalculation();
@@ -111,11 +126,20 @@ public class Player : Spatial
 
     private void LooseHealth()
     {
-        if (G.firstMove) return;
+        if (G.firstMove)
+        {
+            return;
+        }
 
         // Take less life when rotating
-        if (cameraRotating) G.playerHealth -= lifeLossRate / 4;
-        else G.playerHealth -= lifeLossRate / 2;
+        if (cameraRotating)
+        {
+            G.playerHealth -= lifeLossRate / 4;
+        }
+        else
+        {
+            G.playerHealth -= lifeLossRate / 2;
+        }
 
         I.CalculateHealthBar();
     }
@@ -130,10 +154,16 @@ public class Player : Spatial
         }
 
         // Disable PM after 5s
-        if (!G.perspectiveMode) return;
+        if (!G.perspectiveMode)
+        {
+            return;
+        }
 
         framesMode++;
-        if ((framesMode % 2) != 0) return;
+        if ((framesMode % 2) != 0)
+        {
+            return;
+        }
 
         I.CalculatePerspectiveBar(framesMode);
 
@@ -158,7 +188,10 @@ public class Player : Spatial
         I.AddScore();
         
         // Don't active it twice by a small chance
-        if (!G.perspectiveMode) RollPerspectiveMode();
+        if (!G.perspectiveMode)
+        {
+            RollPerspectiveMode();
+        }
 
         // Progress the game
         L.GeneratePlatform();
@@ -168,35 +201,48 @@ public class Player : Spatial
 
     private void RollPerspectiveMode()
     {
-        // 1% chance to activate special mode after 20 moves
-        int side = rnd.Next(100);
-        if (side < 1 && faliedPM >= 20)
+        void EnablePM()
         {
             EnablePerspectiveMode(true);
             faliedPM = 0;
-            return;
         }
 
-        faliedPM++;
+        int chance = rnd.Next(100);
 
-        // Quadruple the chances after unlucky 100 moves
-        if (side < 4 && faliedPM >= 100)
+        // 1% chance to activate special mode after 20 moves
+        if (chance < 1 && faliedPM >= 20)
         {
-            EnablePerspectiveMode(true);
-            faliedPM = 0;
+            EnablePM();
+        }
+        else
+        {
+            faliedPM++;
+
+            // Quadruple the chances after unlucky 100 moves
+            if (chance < 4 && faliedPM >= 100)
+            {
+                EnablePM();
+            }
         }
     }
 
     private void DifficultyIncrease()
     {
         speedupCounter++;
-        if (speedupCounter < nextCycle) return;
+
+        if (speedupCounter < nextCycle)
+        {
+            return;
+        }
 
         lifeLossRate += 0.01f;
         lifeGainRate += 0.25f;
 
         // Cap player speed at 0.15f
-        if (animSpeed > 0.15f) animSpeed -= 0.005f;
+        if (animSpeed > 0.15f)
+        {
+            animSpeed -= 0.005f;
+        }
 
         speedupCounter = 0;
 
@@ -213,10 +259,11 @@ public class Player : Spatial
         {
             maxCycle = 5;
             nextCycle = G.GetMaxCycle(maxCycle, 4);
-            return;
         }
-
-        nextCycle = G.GetMaxCycle(maxCycle, 5);
+        else
+        {
+            nextCycle = G.GetMaxCycle(maxCycle, 5);
+        }
     }
 
     private void RotateCameraBy(int ammount)
@@ -225,12 +272,25 @@ public class Player : Spatial
         bool clockwise = G.RandomBool();
 
         // Camera rotation
-        if (clockwise) G.camRotIndex += ammount;
-        else G.camRotIndex -= ammount;
+        if (clockwise)
+        {
+            G.camRotIndex += ammount;
+        }
+        else
+        {
+            G.camRotIndex -= ammount;
+        }
 
         // camRotIndex = 3 -> DEFAULT
-        if (G.camRotIndex > 3) G.camRotIndex -= 4;
-        if (G.camRotIndex < 0) G.camRotIndex += 4;
+        if (G.camRotIndex > 3)
+        {
+            G.camRotIndex -= 4;
+        }
+
+        if (G.camRotIndex < 0)
+        {
+            G.camRotIndex += 4;
+        }
 
         // Disable controls for animation duration
         EnableControls(false, false);
@@ -246,8 +306,14 @@ public class Player : Spatial
         Vector3 oldRotRad = this.RotationDegrees;
         Vector3 newRot = oldRotRad;
 
-        if (clockwise) newRot.y += rotateBy;
-        else newRot.y -= rotateBy;
+        if (clockwise)
+        {
+            newRot.y += rotateBy;
+        }
+        else
+        {
+            newRot.y -= rotateBy;
+        }
 
         PlayTweenAnim("rotation_degrees", oldRotRad, newRot, time);
     }
@@ -268,8 +334,10 @@ public class Player : Spatial
         // Update global position at the end of animation
         G.playerPosition = this.Translation;
 
-        // Small bug fix
-        if (!cameraRotating) EnableControls(true, false);
+        if (!cameraRotating) // Small bug fix
+        {
+            EnableControls(true, false);
+        }
     }
 
     private void GiveHealth(float ammount)
@@ -278,12 +346,13 @@ public class Player : Spatial
         if ((G.playerHealth + ammount) > G.fullHealth)
         {
             G.playerHealth = G.fullHealth;
-            return;
         }
-
-        G.playerHealth += ammount;
+        else
+        {
+            G.playerHealth += ammount;
+        }
     }
-        
+
     private void RebounceCheck(int original_dir)
     {
         // No penalties during perspective mode
@@ -292,17 +361,21 @@ public class Player : Spatial
             EnableControls(false, true);
 
             // Wrong move penalty
-            if (!G.firstMove) G.playerHealth -= 10;
+            if (!G.firstMove)
+            {
+                G.playerHealth -= 10;
+            }
 
             // Instant game over
             if ((G.playerHealth <= 0) && !playerDead)
             {
                 GameOver();
-                return;
             }
         }
-
-        else EnableControls(false, false);
+        else
+        {
+            EnableControls(false, false);
+        }
 
         // Animate player rebounce
         spatialAnim.Play("bounce" + original_dir.ToString());
@@ -339,14 +412,20 @@ public class Player : Spatial
         {
             canMove = true;
 
-            if (G.perspectiveMode) return;
-            ChangePlayerColor(false);
-
-            return;
+            if (!G.perspectiveMode)
+            {
+                ChangePlayerColor(false);
+            }
         }
+        else
+        {
+            canMove = false;
 
-        canMove = false;
-        if (red) ChangePlayerColor(true);
+            if (red)
+            {
+                ChangePlayerColor(true);
+            }
+        }
     }
 
     private void EnablePerspectiveMode(bool perspective)
@@ -365,38 +444,38 @@ public class Player : Spatial
 
             // Double score when in perspective mode
             addScoreBy = 2;
-            return;
         }
+        else
+        {
+            addScoreBy = 1;
 
-        addScoreBy = 1;
-
-        ChangePlayerColor(false);
-        I.ColorHealthbarRed(false);
+            ChangePlayerColor(false);
+            I.ColorHealthbarRed(false);
+        }
     }
 
     private void ChangePlayerColor(bool red)
     {
-        if (red)
+        if (red && (playerMesh.GetSurfaceMaterial(0) == G.emissionRed))
         {
-            if (playerMesh.GetSurfaceMaterial(0) == G.emissionRed) return;
             playerMesh.SetSurfaceMaterial(0, G.emissionRed);
-            return;
         }
-
-        if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue) return;
-        playerMesh.SetSurfaceMaterial(0, G.emissionBlue);
+        else if (playerMesh.GetSurfaceMaterial(0) == G.emissionBlue)
+        {
+            playerMesh.SetSurfaceMaterial(0, G.emissionBlue);
+        }
     }
-        
+
     private void SpatialAnimationFinished(String anim_name)
     {
-        if (anim_name == "camera_up" ||
-            anim_name == "camera_up_long")
+        if (anim_name == "camera_up" || anim_name == "camera_up_long")
         {
             GetTree().ReloadCurrentScene();
-            return;
         }
-            
-        EnableControls(true, false);
-        cameraRotating = false;
+        else
+        {
+            EnableControls(true, false);
+            cameraRotating = false;
+        }
     }
 }
