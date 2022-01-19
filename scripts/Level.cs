@@ -22,7 +22,7 @@ public class Level : Spatial
         V = GetNode<Values>("/root/Values");
 
         platformsSpace = GetNode<Spatial>("Platforms");
-	    decorationsSpace = GetNode<Spatial>("Decorations");
+        decorationsSpace = GetNode<Spatial>("Decorations");
         
         // Rotate starting platform
         float rotation = (int)G.GenerateStartingPlatformPos();

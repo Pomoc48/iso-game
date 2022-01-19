@@ -327,7 +327,7 @@ public class Player : Spatial
         playerTween.InterpolateProperty(this, type, oldV, newV, time, trans, ease);
         playerTween.Start();
     }
-	
+
     // Reenable controls
     private void _on_Tween_tween_all_completed()
     {

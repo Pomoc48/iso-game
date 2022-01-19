@@ -1,29 +1,6 @@
 using Godot;
 using System;
 
-enum PlafformDifficulty
-{
-    Easy,
-    Medium,
-    Hard,
-}
-
-public enum PlaftormType
-{
-    Long,
-    Corner,
-    Cross,
-    Twoway
-}
-
-public enum Direction
-{
-    RightUp,
-    RightDown,
-    LeftDown,
-    LeftUp
-}
-
 public class Globals : Node
 {
     private Random rnd = new Random();
@@ -111,7 +88,7 @@ public class Globals : Node
 
     public bool RandomBool()
     {
-	    var foo = rnd.Next(100);
+        var foo = rnd.Next(100);
 
         return foo switch
         {
@@ -245,15 +222,15 @@ public class Globals : Node
         }
 
         // Reverse overflow check
-		if (direction < 0)
+        if (direction < 0)
         {
             direction += 4;
         }
 
-	    return direction;
+        return direction;
     }
 
-	public Vector3 DecorationsCalc(Vector3 centerPos)
+    public Vector3 DecorationsCalc(Vector3 centerPos)
     {
         int rangeS;
         int rangeS2;

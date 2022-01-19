@@ -1,6 +1,29 @@
 using Godot;
 using System;
 
+enum PlafformDifficulty
+{
+    Easy,
+    Medium,
+    Hard,
+}
+
+public enum PlaftormType
+{
+    Long,
+    Corner,
+    Cross,
+    Twoway
+}
+
+public enum Direction
+{
+    RightUp,
+    RightDown,
+    LeftDown,
+    LeftUp
+}
+
 public class Values : Node
 {
     public Direction[,] cornerMoves =

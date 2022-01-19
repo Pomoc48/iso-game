@@ -49,7 +49,7 @@ public class Interface : Control
     private void GetScreenSize()
     {
         screenSize = GetViewport().Size.x;
-	    updateHealthBy = screenSize / G.fullHealth;
+        updateHealthBy = screenSize / G.fullHealth;
     }
 
     // Calculate healthbar pixels
@@ -58,9 +58,9 @@ public class Interface : Control
         if (!healthBarShowed)
         {
             interfaceAnim.Play("healthbar_show");
-		    healthBarShowed = true;
+            healthBarShowed = true;
         }
-		
+        
         float health = G.playerHealth * updateHealthBy;
 
         Vector2 pos = new Vector2(health, 16);
@@ -88,7 +88,7 @@ public class Interface : Control
 
     public void HideUiAnimations(bool highscore)
     {
-	    if (highscore)
+        if (highscore)
         {
             interfaceAnim.Play("ui_hide_highscore");
         }
