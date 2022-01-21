@@ -164,19 +164,22 @@ public class Level : Spatial
         platformBlockInstance = _PlacePlatform("TwoWay");
 
         // Get new random orientation of the platform
-        Random rnd = new Random();
-        int randomSide = rnd.Next(3);
+        Random random = new Random();
+        int randomSide = random.Next(30); // 66% for T shape
+        int randomSideIndex = 0;
 
         float rotation = (int)Globals.animationDirection * -90;
 
-        if (randomSide == 1)
+        if (randomSide < 5) // 16% for -| shape
         {
             rotation += 90;
+            randomSideIndex = 1;
         }
 
-        if (randomSide == 2)
+        if (randomSide >= 5 && randomSide < 10) // 16% for |- shape
         {
             rotation += -90;
+            randomSideIndex = 2;
         }
 
         Vector3 rotationVector = new Vector3(0, rotation, 0);
@@ -188,7 +191,7 @@ public class Level : Spatial
         for (int i = 0; i < 2; i++)
         {
             Globals.possibleMoves[i] = Values.twowayMoves[
-                (int)Globals.animationDirection, randomSide, i];
+                (int)Globals.animationDirection, randomSideIndex, i];
         }
     }
 
