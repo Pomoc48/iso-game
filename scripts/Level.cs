@@ -115,13 +115,7 @@ public class Level : Spatial
     {
         Spatial platformBlockInstance;
         platformBlockInstance = _PlacePlatform("Long");
-
-        // Rotate by 90 when animDirection uneven
-        if ((int)Globals.animationDirection % 2 != 0)
-        {
-            Vector3 rotationVector = new Vector3(0, 90, 0);
-            platformBlockInstance.RotationDegrees =  rotationVector;
-        }
+        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
 
         Globals.possibleMoves = new Direction[1]{Globals.animationDirection};
     }
@@ -129,20 +123,20 @@ public class Level : Spatial
     private void _platformCorner()
     {
         Spatial platformBlockInstance;
-        platformBlockInstance = _PlacePlatform("Corner");
 
         int reverse = 0;
-
         // Change direction of the corner to the other side
         if (Globals.RandomBool())
         {
             reverse++;
+            platformBlockInstance = _PlacePlatform("CornerL");
+        }
+        else
+        {
+            platformBlockInstance = _PlacePlatform("CornerR");
         }
 
-        float rotation = ((int)Globals.animationDirection + reverse) * -90;
-
-        Vector3 rotationVector = new Vector3(0, rotation, 0);
-        platformBlockInstance.RotationDegrees =  rotationVector;
+        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
 
         // Check direction change
         Globals.possibleMoves = new Direction[1]
@@ -155,6 +149,7 @@ public class Level : Spatial
     {
         Spatial platformBlockInstance;
         platformBlockInstance = _PlacePlatform("Cross");
+        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
 
         // Only opposite direction is removed from the array
         Globals.possibleMoves = new Direction[3];
@@ -207,16 +202,18 @@ public class Level : Spatial
     {
         PackedScene platformBlock;
         Spatial platformBlockInstance;
-        String platformPath;
+        // String platformPath;
 
-        if (Globals.perspectiveMode)
-        {
-            platformPath = "res://scenes/platformsM/"+type+"M.tscn";
-        }
-        else
-        {
-            platformPath = "res://scenes/platforms/"+type+".tscn";
-        }
+        // if (Globals.perspectiveMode)
+        // {
+        //     platformPath = "res://scenes/platformsM/"+type+"M.tscn";
+        // }
+        // else
+        // {
+        //     platformPath = "res://scenes/platforms/"+type+".tscn";
+        // }
+
+        String platformPath = "res://scenes/platformsH/"+type+".tscn";
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         platformBlockInstance = (Spatial)platformBlock.Instance();
@@ -237,6 +234,26 @@ public class Level : Spatial
 
         _platformsSpace.AddChild(platformBlockInstance);
         return platformBlockInstance;
+    }
+
+    private Vector3 _GetPlatformRotation()
+    {
+        Vector3 rotationVector = new Vector3();
+
+        if (Globals.animationDirection == Direction.RightDown)
+        {
+            rotationVector.y = -90;
+        }
+        if (Globals.animationDirection == Direction.LeftDown)
+        {
+            rotationVector.y = 180;
+        }
+        if (Globals.animationDirection == Direction.LeftUp)
+        {
+            rotationVector.y = 90;
+        }
+
+        return rotationVector;
     }
 
     private void _SetEnviromentFogHeight(float level)
