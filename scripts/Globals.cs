@@ -73,7 +73,7 @@ public class Globals : Node
         cyclesCount = 0;
         correctMoves = 0;
         totalMoves = 0;
-        platformHeight = 0;
+        platformHeight = -1f;
     }
 
     public void SaveStats(String[] categories, int[] values)

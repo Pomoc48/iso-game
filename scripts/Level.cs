@@ -51,10 +51,10 @@ public class Level : Spatial
             blockPosition = Globals.DirectionCalc();
         }
 
-        blockPosition.y += Globals.platformHeight;
-
         // Random offset
         blockPosition = Globals.CalculateDecorationPosition(blockPosition);
+        
+        blockPosition.y += Globals.platformHeight;
         _LoadDecoration(blockPosition);
     }
 
@@ -164,29 +164,30 @@ public class Level : Spatial
     private void _PlatformTwoWay()
     {
         Spatial platformBlockInstance;
-        platformBlockInstance = _PlacePlatform("TwoWay");
-
         // Get new random orientation of the platform
         Random random = new Random();
         int randomSide = random.Next(30); // 66% for T shape
+
         int randomSideIndex = 0;
+        String tPlatform = "TwoWay";
 
         float rotation = (int)Globals.animationDirection * -90;
 
         if (randomSide < 5) // 16% for -| shape
         {
-            rotation += 90;
             randomSideIndex = 1;
+            tPlatform = "TwoWayR";
         }
 
         if (randomSide >= 5 && randomSide < 10) // 16% for |- shape
         {
-            rotation += -90;
             randomSideIndex = 2;
+            tPlatform = "TwoWayL";
         }
 
-        Vector3 rotationVector = new Vector3(0, rotation, 0);
-        platformBlockInstance.RotationDegrees =  rotationVector;
+        platformBlockInstance = _PlacePlatform(tPlatform);
+
+        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
 
         // Get valid moves based on new rotation
         Globals.possibleMoves = new Direction[2];
