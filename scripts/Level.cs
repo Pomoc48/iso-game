@@ -9,11 +9,14 @@ public class Level : Spatial
     private Spatial _platformsSpace;
     private Spatial _decorationsSpace;
 
-    private int _platformHistory = 4;
+    private WorldEnvironment _worldEnviroment;
+
+    private int _platformHistory = 24;
     private int _totalDecorations = 0;
     private int _totalPlatforms = 1;
 
     private float _degreeInRadians = 1.5707963268f;
+    private float _fogHeight = 24f;
 
     // Init function
     public override void _Ready()
@@ -23,12 +26,15 @@ public class Level : Spatial
 
         _platformsSpace = GetNode<Spatial>("Platforms");
         _decorationsSpace = GetNode<Spatial>("Decorations");
+        _worldEnviroment = GetNode<WorldEnvironment>("WorldEnvironment");
         
         // Rotate starting platform
         float rotation = (int)Globals.GenerateStartingPlatformPos();
 
         rotation *= -_degreeInRadians;
         _platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
+
+        _SetEnviromentFogHeight(0);
     }
 
     // Create floating cubes decorations
@@ -44,6 +50,8 @@ public class Level : Spatial
         {
             blockPosition = Globals.DirectionCalc();
         }
+
+        blockPosition.y += Globals.platformHeight;
 
         // Random offset
         blockPosition = Globals.CalculateDecorationPosition(blockPosition);
@@ -219,10 +227,22 @@ public class Level : Spatial
         // Starting animation fix
         Vector3 translationVector = platformBlockInstance.Translation;
         translationVector.y = -16;
+
+        // Adjust platform height
+        translationVector.y += Globals.platformHeight;
+        // Adjust world fog height
+        _SetEnviromentFogHeight(Globals.platformHeight);
+
         platformBlockInstance.Translation = translationVector;
 
         _platformsSpace.AddChild(platformBlockInstance);
         return platformBlockInstance;
+    }
+
+    private void _SetEnviromentFogHeight(float level)
+    {
+        _worldEnviroment.Environment.FogHeightMin = level;
+        _worldEnviroment.Environment.FogHeightMax = -_fogHeight + level;
     }
 
     private void _RemoveOldPlatforms()

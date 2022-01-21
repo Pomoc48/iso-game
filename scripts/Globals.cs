@@ -17,11 +17,13 @@ public class Globals : Node
     public Direction animationDirection;
 
     public readonly int FULL_HEALTH = 24;
+    public readonly float INCREASE_HEIGHT_BY = 1f;
 
     public bool firstMove;
     public bool perspectiveMode;
 
     public float playerHealth;
+    public float platformHeight;
 
     public int sessionScore;
     public int highScore;
@@ -71,6 +73,7 @@ public class Globals : Node
         cyclesCount = 0;
         correctMoves = 0;
         totalMoves = 0;
+        platformHeight = 0;
     }
 
     public void SaveStats(String[] categories, int[] values)

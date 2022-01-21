@@ -180,6 +180,10 @@ public class Player : Spatial
         Vector3 oldPos = this.Translation;
         Vector3 newPos = Globals.DirectionCalc();
 
+        // Increaase platform height
+        Globals.platformHeight += Globals.INCREASE_HEIGHT_BY;
+        newPos.y += Globals.INCREASE_HEIGHT_BY;
+
         // Movement animation
         _PlayTweenAnim("translation", oldPos, newPos, _animationSpeed);
         
