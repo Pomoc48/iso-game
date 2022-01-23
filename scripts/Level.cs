@@ -127,27 +127,26 @@ public class Level : Spatial
         }
     }
 
-    public void RepaintExistingPlatforms(bool red)
-    {
-        MeshInstance meshInstance;
-        SpatialMaterial spatialMaterial;
+    // public void RepaintExistingPlatforms(bool red)
+    // {
+    //     MeshInstance meshInstance;
+    //     SpatialMaterial spatialMaterial;
 
-        if (red)
-        {
-            spatialMaterial = Globals.materialRed;
-        }
-        else
-        {
-            spatialMaterial = Globals.materialBlue;
-        }
+    //     if (red)
+    //     {
+    //         spatialMaterial = Globals.materialRed;
+    //     }
+    //     else
+    //     {
+    //         spatialMaterial = Globals.materialBlue;
+    //     }
 
-        foreach (Node _i in _platformsSpace.GetChildren())
-        {
-            GD.Print(spatialMaterial.Emission);
-            meshInstance = _i.GetChild(0).GetNode<MeshInstance>("Border");
-            meshInstance.SetSurfaceMaterial(0, spatialMaterial);
-        }
-    }
+    //     foreach (Node _i in _platformsSpace.GetChildren())
+    //     {
+    //         meshInstance = _i.GetChild(0).GetNode<MeshInstance>("Border");
+    //         meshInstance.SetSurfaceMaterial(0, spatialMaterial);
+    //     }
+    // }
 
     private void _PlatformLong()
     {

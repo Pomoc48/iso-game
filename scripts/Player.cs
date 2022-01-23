@@ -451,7 +451,7 @@ public class Player : Spatial
         Interface.PlayBlindAnim(perspective);
         Interface.ColorHealthbarRed(perspective);
 
-        _ChangePlayerColor(perspective);
+        //_ChangePlayerColor(perspective);
         // Level.RepaintExistingPlatforms(perspective);
 
         if (perspective)
@@ -469,17 +469,17 @@ public class Player : Spatial
         }
     }
 
-    private void _ChangePlayerColor(bool red)
-    {
-        if (red && (_playerMesh.GetSurfaceMaterial(0) != Globals.materialRed))
-        {
-            _playerMesh.SetSurfaceMaterial(0, Globals.materialRed);
-        }
-        else if (_playerMesh.GetSurfaceMaterial(0) != Globals.materialBlue)
-        {
-            _playerMesh.SetSurfaceMaterial(0, Globals.materialBlue);
-        }
-    }
+    // private void _ChangePlayerColor(bool red)
+    // {
+    //     if (red && (_playerMesh.GetSurfaceMaterial(0) != Globals.materialRed))
+    //     {
+    //         _playerMesh.SetSurfaceMaterial(0, Globals.materialRed);
+    //     }
+    //     else if (_playerMesh.GetSurfaceMaterial(0) != Globals.materialBlue)
+    //     {
+    //         _playerMesh.SetSurfaceMaterial(0, Globals.materialBlue);
+    //     }
+    // }
 
     private void _OnSpatialAnimationFinished(String animationName)
     {

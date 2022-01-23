@@ -5,7 +5,7 @@ public class Globals : Node
 {
     public Vector3 playerPosition;
 
-    public SpatialMaterial materialRed;
+    // public SpatialMaterial materialRed;
     public SpatialMaterial materialBlue;
 
     public Texture openTexture;
@@ -55,7 +55,7 @@ public class Globals : Node
     public override void _Ready()
     {
         String matPath = "res://materials/emission";
-        materialRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
+        // materialRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
         materialBlue = (SpatialMaterial)GD.Load(matPath + ".tres");
 
         openTexture = (Texture)GD.Load("res://assets/textures/Stats.png");
