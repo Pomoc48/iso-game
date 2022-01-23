@@ -79,6 +79,7 @@ public class Globals : Node
         correctMoves = 0;
         totalMoves = 0;
         platformHeight = -1f;
+        emissionColor = materialBlue.Emission;
     }
 
     public void SaveStats(String[] categories, int[] values)
