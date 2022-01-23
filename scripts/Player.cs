@@ -10,6 +10,7 @@ public class Player : Spatial
 
     private Random _random = new Random();
 
+    private Spatial _playerSpatial;
     private MeshInstance _playerMesh;
     private Camera _playerCamera;
     private Tween _playerTween;
@@ -48,7 +49,8 @@ public class Player : Spatial
         Interface = GetNode<Interface>("/root/Level/Interface");
 
         _playerTween = GetNode<Tween>("Tween");
-        _playerMesh = this.GetNode<MeshInstance>("Spatial/Mesh");
+        _playerSpatial = this.GetNode<Spatial>("Spatial");
+        _playerMesh = _playerSpatial.GetNode<MeshInstance>("Mesh");
         _playerCamera = this.GetNode<Camera>("Camera");
 
         _spatialAnimation = GetNode<AnimationPlayer>("SpatialAnim");
@@ -213,6 +215,12 @@ public class Player : Spatial
         newHue.Emission = Globals.emissionColor;
         
         _playerMesh.SetSurfaceMaterial(0, newHue);
+
+        CPUParticles bounce = _playerSpatial.GetNode<CPUParticles>("Bounce");
+        CPUParticles gameOver = _playerSpatial.GetNode<CPUParticles>("GameOver");
+
+        bounce.Mesh.SurfaceSetMaterial(0, newHue);
+        gameOver.Mesh.SurfaceSetMaterial(0, newHue);
     }
 
     private void _RollPerspectiveMode()
