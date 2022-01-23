@@ -207,7 +207,7 @@ public class Player : Spatial
         int chance = _random.Next(100);
 
         // 1% chance to activate special mode after 20 moves
-        if (chance < 1 && _faliedCountPM >= 20)
+        if (chance < 1 && _faliedCountPM >= 24)
         {
             _EnablePerspectiveMode(true);
             _faliedCountPM = 0;
@@ -442,28 +442,26 @@ public class Player : Spatial
             GiveHealth(Globals.FULL_HEALTH);
             Interface.CalculateHealthBar();
 
-            _ChangePlayerColor(true);
-            Interface.ColorHealthbarRed(true);
-
             // Double score when in perspective mode
             _increaseScoreBy = 2;
         }
         else
         {
             _increaseScoreBy = 1;
-
-            _ChangePlayerColor(false);
-            Interface.ColorHealthbarRed(false);
         }
+
+        _ChangePlayerColor(perspective);
+        Interface.ColorHealthbarRed(perspective);
+        Level.RepaintExistingPlatforms(perspective);
     }
 
     private void _ChangePlayerColor(bool red)
     {
-        if (red && (_playerMesh.GetSurfaceMaterial(0) == Globals.materialRed))
+        if (red && (_playerMesh.GetSurfaceMaterial(0) != Globals.materialRed))
         {
             _playerMesh.SetSurfaceMaterial(0, Globals.materialRed);
         }
-        else if (_playerMesh.GetSurfaceMaterial(0) == Globals.materialBlue)
+        else if (_playerMesh.GetSurfaceMaterial(0) != Globals.materialBlue)
         {
             _playerMesh.SetSurfaceMaterial(0, Globals.materialBlue);
         }
