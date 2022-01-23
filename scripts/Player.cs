@@ -434,7 +434,12 @@ public class Player : Spatial
     private void _EnablePerspectiveMode(bool perspective)
     {
         Globals.perspectiveMode = perspective;
+        
         Interface.PlayBlindAnim(perspective);
+        Interface.ColorHealthbarRed(perspective);
+
+        _ChangePlayerColor(perspective);
+        Level.RepaintExistingPlatforms(perspective);
 
         if (perspective)
         {
@@ -449,10 +454,6 @@ public class Player : Spatial
         {
             _increaseScoreBy = 1;
         }
-
-        _ChangePlayerColor(perspective);
-        Interface.ColorHealthbarRed(perspective);
-        Level.RepaintExistingPlatforms(perspective);
     }
 
     private void _ChangePlayerColor(bool red)

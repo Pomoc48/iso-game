@@ -80,7 +80,11 @@ public class Interface : Control
     public void AddScore()
     {
         _scoreLabel.Text = Globals.sessionScore.ToString();
-        _interfaceAnimation.Play("score_bump");
+        // Fix PlayBlindAnim() freezing
+        if (!_interfaceAnimation.IsPlaying())
+        {
+            _interfaceAnimation.Play("score_bump");
+        }
     }
 
     public void HideUiAnimations(bool highscore)
