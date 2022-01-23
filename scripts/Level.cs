@@ -287,6 +287,8 @@ public class Level : Spatial
         Spatial child = _platformsSpace.GetChild<Spatial>(childIndex);
 
         _totalPlatforms--;
-        child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
+        // TBD
+        child.QueueFree();
+        //child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
     }
 }

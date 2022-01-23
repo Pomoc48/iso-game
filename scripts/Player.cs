@@ -411,30 +411,22 @@ public class Player : Spatial
 
     private void _EnableControls(bool enable, bool red)
     {
-        if (enable)
-        {
-            _canPlayerMove = true;
+        _canPlayerMove = enable;
 
-            if (!Globals.perspectiveMode)
-            {
-                _ChangePlayerColor(false);
-            }
+        if (enable && !Globals.perspectiveMode)
+        {
+            _ChangePlayerColor(false);
         }
-        else
+        else if (red)
         {
-            _canPlayerMove = false;
-
-            if (red)
-            {
-                _ChangePlayerColor(true);
-            }
+            _ChangePlayerColor(true);
         }
     }
 
     private void _EnablePerspectiveMode(bool perspective)
     {
         Globals.perspectiveMode = perspective;
-        
+
         Interface.PlayBlindAnim(perspective);
         Interface.ColorHealthbarRed(perspective);
 
