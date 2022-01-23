@@ -198,8 +198,21 @@ public class Player : Spatial
 
         // Progress the game
         Level.GeneratePlatform();
+
+        _UpdatePlayerColor();
+
         GiveHealth(_lifeGainRate);
         _DifficultyIncrease();
+    }
+
+    private void _UpdatePlayerColor()
+    {
+        SpatialMaterial newHue = new SpatialMaterial();
+
+        newHue.EmissionEnabled = true;
+        newHue.Emission = Globals.emissionColor;
+        
+        _playerMesh.SetSurfaceMaterial(0, newHue);
     }
 
     private void _RollPerspectiveMode()
@@ -413,14 +426,14 @@ public class Player : Spatial
     {
         _canPlayerMove = enable;
 
-        if (enable && !Globals.perspectiveMode)
-        {
-            _ChangePlayerColor(false);
-        }
-        else if (red)
-        {
-            _ChangePlayerColor(true);
-        }
+        // if (enable && !Globals.perspectiveMode)
+        // {
+        //     _ChangePlayerColor(false);
+        // }
+        // else if (red)
+        // {
+        //     _ChangePlayerColor(true);
+        // }
     }
 
     private void _EnablePerspectiveMode(bool perspective)
@@ -431,7 +444,7 @@ public class Player : Spatial
         Interface.ColorHealthbarRed(perspective);
 
         _ChangePlayerColor(perspective);
-        Level.RepaintExistingPlatforms(perspective);
+        // Level.RepaintExistingPlatforms(perspective);
 
         if (perspective)
         {
