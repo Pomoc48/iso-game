@@ -221,6 +221,7 @@ public class Player : Spatial
 
         bounce.Mesh.SurfaceSetMaterial(0, newHue);
         gameOver.Mesh.SurfaceSetMaterial(0, newHue);
+        Interface.ColorHealthbar();
     }
 
     private void _RollPerspectiveMode()
@@ -449,7 +450,7 @@ public class Player : Spatial
         Globals.perspectiveMode = perspective;
 
         Interface.PlayBlindAnim(perspective);
-        Interface.ColorHealthbarRed(perspective);
+        //Interface.ColorHealthbarRed(perspective);
 
         //_ChangePlayerColor(perspective);
         // Level.RepaintExistingPlatforms(perspective);

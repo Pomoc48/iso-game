@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://scripts/Interface.cs" type="Script" id=4]
 [ext_resource path="res://scripts/Level.cs" type="Script" id=5]
 [ext_resource path="res://materials/emission2.tres" type="Material" id=6]
-[ext_resource path="res://assets/textures/squareBlue.png" type="Texture" id=7]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://assets/textures/Stats.png" type="Texture" id=9]
 [ext_resource path="res://scripts/Statistics.cs" type="Script" id=10]
@@ -194,16 +193,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Bar" type="TextureRect" parent="Interface/Main/Health"]
+[node name="Bar" type="ColorRect" parent="Interface/Main/Health"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
-texture = ExtResource( 7 )
-expand = true
-stretch_mode = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Score" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
