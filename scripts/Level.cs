@@ -111,6 +111,27 @@ public class Level : Spatial
         }
     }
 
+    public void RepaintExistingPlatforms(bool red)
+    {
+        MeshInstance meshInstance;
+        SpatialMaterial spatialMaterial;
+
+        if (red)
+        {
+            spatialMaterial = Globals.materialRed;
+        }
+        else
+        {
+            spatialMaterial = Globals.materialBlue;
+        }
+
+        foreach (Node _i in _platformsSpace.GetChildren())
+        {
+            meshInstance = _i.GetChild(0).GetNode<MeshInstance>("Border");
+            meshInstance.SetSurfaceMaterial(0, spatialMaterial);
+        }
+    }
+
     private void _PlatformLong()
     {
         Spatial platformBlockInstance;
@@ -203,21 +224,18 @@ public class Level : Spatial
     {
         PackedScene platformBlock;
         Spatial platformBlockInstance;
-        // String platformPath;
-
-        // if (Globals.perspectiveMode)
-        // {
-        //     platformPath = "res://scenes/platformsM/"+type+"M.tscn";
-        // }
-        // else
-        // {
-        //     platformPath = "res://scenes/platforms/"+type+".tscn";
-        // }
+        MeshInstance meshInstance;
 
         String platformPath = "res://scenes/platformsH/"+type+".tscn";
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         platformBlockInstance = (Spatial)platformBlock.Instance();
+
+        if (Globals.perspectiveMode)
+        {
+            meshInstance = platformBlockInstance.GetChild(0).GetNode<MeshInstance>("Border");
+            meshInstance.SetSurfaceMaterial(0, Globals.materialRed);
+        }
 
         // Get platform future pos
         platformBlockInstance.Translation = Globals.DirectionCalc();
