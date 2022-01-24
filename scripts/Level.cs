@@ -9,8 +9,7 @@ public class Level : Spatial
     private Spatial _platformsSpace;
     private Spatial _decorationsSpace;
 
-    private int _platformHistory = 24;
-    private int _totalDecorations = 0;
+    private int _platformHistory = 20;
     private int _totalPlatforms = 1;
 
     private float _degreeInRadians = 1.5707963268f;
@@ -78,7 +77,6 @@ public class Level : Spatial
         meshInstance.SetSurfaceMaterial(0, newHue);
         
         _decorationsSpace.AddChild(blockInstance);
-        _totalDecorations++;
     }
 
     public void GeneratePlatform()

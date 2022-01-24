@@ -12,7 +12,6 @@ public class Player : Spatial
 
     private Spatial _playerSpatial;
     private MeshInstance _playerMesh;
-    private Camera _playerCamera;
     private Tween _playerTween;
 
     private AnimationPlayer _spatialAnimation;
@@ -51,7 +50,6 @@ public class Player : Spatial
         _playerTween = GetNode<Tween>("Tween");
         _playerSpatial = this.GetNode<Spatial>("Spatial");
         _playerMesh = _playerSpatial.GetNode<MeshInstance>("Mesh");
-        _playerCamera = this.GetNode<Camera>("Camera");
 
         _spatialAnimation = GetNode<AnimationPlayer>("SpatialAnim");
 
