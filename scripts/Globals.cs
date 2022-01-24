@@ -19,7 +19,7 @@ public class Globals : Node
     public Color emissionColor;
 
     public readonly int FULL_HEALTH = 24;
-    public readonly float INCREASE_HEIGHT_BY = 1f;
+    public readonly float INCREASE_HEIGHT_BY = 0.05f;
 
     public bool firstMove;
     public bool perspectiveMode;
@@ -78,8 +78,9 @@ public class Globals : Node
         cyclesCount = 0;
         correctMoves = 0;
         totalMoves = 0;
-        platformHeight = -1f;
+        platformHeight = 0f;
         emissionColor = materialBlue.Emission;
+
     }
 
     public void SaveStats(String[] categories, int[] values)
