@@ -6,7 +6,6 @@ background_color = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
 background_energy = 0.0
 ambient_light_color = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
 ambient_light_sky_contribution = 0.0
-fog_enabled = true
 fog_color = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
 fog_depth_enabled = false
 fog_height_enabled = true
