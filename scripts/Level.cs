@@ -236,7 +236,7 @@ public class Level : Spatial
         Spatial platformBlockInstance;
         MeshInstance meshInstance;
 
-        String platformPath = "res://scenes/platformsF/"+type+".tscn";
+        String platformPath = "res://scenes/platforms/"+type+".tscn";
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         platformBlockInstance = (Spatial)platformBlock.Instance();
