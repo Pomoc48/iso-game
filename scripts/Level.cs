@@ -278,7 +278,7 @@ public class Level : Spatial
 
         _totalPlatforms--;
         // TBD
-        child.QueueFree();
+        // child.QueueFree();
         child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
     }
 }

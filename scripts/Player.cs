@@ -177,7 +177,7 @@ public class Player : Spatial
 
     private void _CorrectScoreCalculation()
     {
-        _EnableControls(false, false);
+        _EnableControls(false);
 
         Vector3 oldPos = this.Translation;
         Vector3 newPos = Globals.DirectionCalc();
@@ -314,7 +314,7 @@ public class Player : Spatial
         }
 
         // Disable controls for animation duration
-        _EnableControls(false, false);
+        _EnableControls(false);
         _PlayCorrectAnimation(rotateClockwise, rotations);
     }
 
@@ -357,7 +357,7 @@ public class Player : Spatial
 
         if (!_isCameraRotating) // Small bug fix
         {
-            _EnableControls(true, false);
+            _EnableControls(true);
         }
     }
 
@@ -379,7 +379,7 @@ public class Player : Spatial
         // No penalties during perspective mode
         if (!Globals.perspectiveMode)
         {
-            _EnableControls(false, true);
+            _EnableControls(false);
 
             // Wrong move penalty
             if (!Globals.firstMove)
@@ -395,7 +395,7 @@ public class Player : Spatial
         }
         else
         {
-            _EnableControls(false, false);
+            _EnableControls(false);
         }
 
         if (!_isPlayerDead)
@@ -410,7 +410,7 @@ public class Player : Spatial
     {
         // Preventing movement after death
         _isPlayerDead = true;
-        _EnableControls(false, true);
+        _EnableControls(false);
 
         if (Globals.sessionScore > Globals.highScore)
         {
@@ -431,18 +431,9 @@ public class Player : Spatial
         Statistics.UploadStatistics();
     }
 
-    private void _EnableControls(bool enable, bool red)
+    private void _EnableControls(bool enable)
     {
         _canPlayerMove = enable;
-
-        // if (enable && !Globals.perspectiveMode)
-        // {
-        //     _ChangePlayerColor(false);
-        // }
-        // else if (red)
-        // {
-        //     _ChangePlayerColor(true);
-        // }
     }
 
     private void _EnablePerspectiveMode(bool perspective)
@@ -474,7 +465,7 @@ public class Player : Spatial
         }
         else
         {
-            _EnableControls(true, false);
+            _EnableControls(true);
             _isCameraRotating = false;
         }
     }
