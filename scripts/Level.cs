@@ -56,19 +56,35 @@ public class Level : Spatial
     {
         String blockPath;
 
-        if (Globals.perspectiveMode)
-        {
-            blockPath = "res://scenes/BlockM.tscn";
-        }
-        else
-        {
-            blockPath = "res://scenes/Block.tscn";
-        }
+        // if (Globals.perspectiveMode)
+        // {
+        //     blockPath = "res://scenes/BlockM.tscn";
+        // }
+        // else
+        // {
+        //     blockPath = "res://scenes/Block.tscn";
+        // }
+
+        blockPath = "res://scenes/Block.tscn";
 
         PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
                 
         Spatial blockInstance = (Spatial)block.Instance();
         blockInstance.Translation = blockPosition;
+
+
+        SpatialMaterial newHue = new SpatialMaterial();
+
+        newHue.EmissionEnabled = true;
+        newHue.Emission = Globals.emissionColor;
+
+
+        MeshInstance meshInstance = blockInstance.GetNode<MeshInstance>("MeshInstance");
+        CPUParticles cpuParticles = blockInstance.GetNode<CPUParticles>("CPUParticles");
+
+        cpuParticles.Mesh.SurfaceSetMaterial(0, newHue);
+
+        meshInstance.SetSurfaceMaterial(0, newHue);
         
         _decorationsSpace.AddChild(blockInstance);
         _totalDecorations++;
@@ -105,26 +121,26 @@ public class Level : Spatial
         }
     }
 
-    public void RepaintExistingPlatforms(bool red)
-    {
-        MeshInstance meshInstance;
-        SpatialMaterial spatialMaterial;
+    // public void RepaintExistingPlatforms(bool red)
+    // {
+    //     MeshInstance meshInstance;
+    //     SpatialMaterial spatialMaterial;
 
-        if (red)
-        {
-            spatialMaterial = Globals.materialRed;
-        }
-        else
-        {
-            spatialMaterial = Globals.materialBlue;
-        }
+    //     if (red)
+    //     {
+    //         spatialMaterial = Globals.materialRed;
+    //     }
+    //     else
+    //     {
+    //         spatialMaterial = Globals.materialBlue;
+    //     }
 
-        foreach (Node _i in _platformsSpace.GetChildren())
-        {
-            meshInstance = _i.GetChild(0).GetNode<MeshInstance>("Border");
-            meshInstance.SetSurfaceMaterial(0, spatialMaterial);
-        }
-    }
+    //     foreach (Node _i in _platformsSpace.GetChildren())
+    //     {
+    //         meshInstance = _i.GetChild(0).GetNode<MeshInstance>("Border");
+    //         meshInstance.SetSurfaceMaterial(0, spatialMaterial);
+    //     }
+    // }
 
     private void _PlatformLong()
     {
@@ -225,11 +241,14 @@ public class Level : Spatial
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         platformBlockInstance = (Spatial)platformBlock.Instance();
 
-        if (Globals.perspectiveMode)
-        {
-            meshInstance = platformBlockInstance.GetChild(0).GetNode<MeshInstance>("Border");
-            meshInstance.SetSurfaceMaterial(0, Globals.materialRed);
-        }
+        // if (Globals.perspectiveMode)
+        // {
+        //     meshInstance = platformBlockInstance.GetChild(0).GetNode<MeshInstance>("Border");
+        //     meshInstance.SetSurfaceMaterial(0, Globals.materialRed);
+        // }
+
+        meshInstance = platformBlockInstance.GetChild(0).GetNode<MeshInstance>("Border");
+        meshInstance.SetSurfaceMaterial(0, Globals.RotateHue());
 
         // Get platform future pos
         platformBlockInstance.Translation = Globals.DirectionCalc();

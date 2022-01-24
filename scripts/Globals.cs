@@ -5,7 +5,7 @@ public class Globals : Node
 {
     public Vector3 playerPosition;
 
-    public SpatialMaterial materialRed;
+    // public SpatialMaterial materialRed;
     public SpatialMaterial materialBlue;
 
     public Texture openTexture;
@@ -15,6 +15,8 @@ public class Globals : Node
 
     public Direction cameraRotation;
     public Direction animationDirection;
+
+    public Color emissionColor;
 
     public readonly int FULL_HEALTH = 24;
     public readonly float INCREASE_HEIGHT_BY = 0.05f;
@@ -48,11 +50,12 @@ public class Globals : Node
 
     private int cyclesCount;
     private readonly int _FULL_MOVE = 20;
+    private readonly float _CHANGE_HUE_BY = 0.025f;
 
     public override void _Ready()
     {
         String matPath = "res://materials/emission";
-        materialRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
+        // materialRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
         materialBlue = (SpatialMaterial)GD.Load(matPath + ".tres");
 
         openTexture = (Texture)GD.Load("res://assets/textures/Stats.png");
@@ -60,6 +63,8 @@ public class Globals : Node
 
         blueTexture = (Texture)GD.Load("res://assets/textures/squareBlue.png");
         redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
+
+        emissionColor = materialBlue.Emission;
     }
 
     public void NewGame()
@@ -74,6 +79,8 @@ public class Globals : Node
         correctMoves = 0;
         totalMoves = 0;
         platformHeight = 0f;
+        emissionColor = materialBlue.Emission;
+
     }
 
     public void SaveStats(String[] categories, int[] values)
@@ -331,5 +338,26 @@ public class Globals : Node
             >= 5 and < 30 => 2,
             _ => 1
         };
+    }
+
+    public SpatialMaterial RotateHue()
+    {
+        SpatialMaterial newMaterial = new SpatialMaterial();
+        Color _oldEmissionColor = emissionColor;
+
+        emissionColor.h += _CHANGE_HUE_BY;
+
+        if (emissionColor.h > 1)
+        {
+            emissionColor.h = 0;
+        }
+
+        emissionColor.v = 1;
+        
+
+        newMaterial.EmissionEnabled = true;
+        newMaterial.Emission = emissionColor;
+
+        return newMaterial;
     }
 }

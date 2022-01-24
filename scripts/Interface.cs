@@ -7,7 +7,7 @@ public class Interface : Control
     private Player Player;
 
     private Control _healthBar;
-    private TextureRect _healthBarTR;
+    private ColorRect _healthBarTR;
     private Label _scoreLabel;
     private Label _highScoreLabel;
 
@@ -29,7 +29,7 @@ public class Interface : Control
         _interfaceAnimation = GetNode<AnimationPlayer>("InterfaceAnim");
 
         _healthBar = GetNode<Control>("Main/Health");
-        _healthBarTR = GetNode<TextureRect>("Main/Health/Bar");
+        _healthBarTR = GetNode<ColorRect>("Main/Health/Bar");
 
         _highScoreLabel = GetNode<Label>("Main/HighScore");
         _scoreLabel = GetNode<Label>("Main/Score");
@@ -99,16 +99,21 @@ public class Interface : Control
         }
     }
 
-    public void ColorHealthbarRed(bool red)
+    // public void ColorHealthbarRed(bool red)
+    // {
+    //     if (red && (_healthBarTR.Texture !=  Globals.redTexture))
+    //     {
+    //         _healthBarTR.Texture =  Globals.redTexture;
+    //     }
+    //     else if (_healthBarTR.Texture !=  Globals.blueTexture)
+    //     {
+    //         _healthBarTR.Texture =  Globals.blueTexture;
+    //     }
+    // }
+
+    public void ColorHealthbar()
     {
-        if (red && (_healthBarTR.Texture !=  Globals.redTexture))
-        {
-            _healthBarTR.Texture =  Globals.redTexture;
-        }
-        else if (_healthBarTR.Texture !=  Globals.blueTexture)
-        {
-            _healthBarTR.Texture =  Globals.blueTexture;
-        }
+        _healthBarTR.Color = Globals.emissionColor;
     }
 
     // Animating transition between projections

@@ -10,6 +10,7 @@ public class Player : Spatial
 
     private Random _random = new Random();
 
+    private Spatial _playerSpatial;
     private MeshInstance _playerMesh;
     private Camera _playerCamera;
     private Tween _playerTween;
@@ -48,7 +49,8 @@ public class Player : Spatial
         Interface = GetNode<Interface>("/root/Level/Interface");
 
         _playerTween = GetNode<Tween>("Tween");
-        _playerMesh = this.GetNode<MeshInstance>("Spatial/Mesh");
+        _playerSpatial = this.GetNode<Spatial>("Spatial");
+        _playerMesh = _playerSpatial.GetNode<MeshInstance>("Mesh");
         _playerCamera = this.GetNode<Camera>("Camera");
 
         _spatialAnimation = GetNode<AnimationPlayer>("SpatialAnim");
@@ -198,8 +200,28 @@ public class Player : Spatial
 
         // Progress the game
         Level.GeneratePlatform();
+
+        _UpdatePlayerColor();
+
         GiveHealth(_lifeGainRate);
         _DifficultyIncrease();
+    }
+
+    private void _UpdatePlayerColor()
+    {
+        SpatialMaterial newHue = new SpatialMaterial();
+
+        newHue.EmissionEnabled = true;
+        newHue.Emission = Globals.emissionColor;
+        
+        _playerMesh.SetSurfaceMaterial(0, newHue);
+
+        CPUParticles bounce = _playerSpatial.GetNode<CPUParticles>("Bounce");
+        CPUParticles gameOver = _playerSpatial.GetNode<CPUParticles>("GameOver");
+
+        bounce.Mesh.SurfaceSetMaterial(0, newHue);
+        gameOver.Mesh.SurfaceSetMaterial(0, newHue);
+        Interface.ColorHealthbar();
     }
 
     private void _RollPerspectiveMode()
@@ -413,14 +435,14 @@ public class Player : Spatial
     {
         _canPlayerMove = enable;
 
-        if (enable && !Globals.perspectiveMode)
-        {
-            _ChangePlayerColor(false);
-        }
-        else if (red)
-        {
-            _ChangePlayerColor(true);
-        }
+        // if (enable && !Globals.perspectiveMode)
+        // {
+        //     _ChangePlayerColor(false);
+        // }
+        // else if (red)
+        // {
+        //     _ChangePlayerColor(true);
+        // }
     }
 
     private void _EnablePerspectiveMode(bool perspective)
@@ -428,10 +450,10 @@ public class Player : Spatial
         Globals.perspectiveMode = perspective;
 
         Interface.PlayBlindAnim(perspective);
-        Interface.ColorHealthbarRed(perspective);
+        //Interface.ColorHealthbarRed(perspective);
 
-        _ChangePlayerColor(perspective);
-        Level.RepaintExistingPlatforms(perspective);
+        //_ChangePlayerColor(perspective);
+        // Level.RepaintExistingPlatforms(perspective);
 
         if (perspective)
         {
@@ -448,17 +470,17 @@ public class Player : Spatial
         }
     }
 
-    private void _ChangePlayerColor(bool red)
-    {
-        if (red && (_playerMesh.GetSurfaceMaterial(0) != Globals.materialRed))
-        {
-            _playerMesh.SetSurfaceMaterial(0, Globals.materialRed);
-        }
-        else if (_playerMesh.GetSurfaceMaterial(0) != Globals.materialBlue)
-        {
-            _playerMesh.SetSurfaceMaterial(0, Globals.materialBlue);
-        }
-    }
+    // private void _ChangePlayerColor(bool red)
+    // {
+    //     if (red && (_playerMesh.GetSurfaceMaterial(0) != Globals.materialRed))
+    //     {
+    //         _playerMesh.SetSurfaceMaterial(0, Globals.materialRed);
+    //     }
+    //     else if (_playerMesh.GetSurfaceMaterial(0) != Globals.materialBlue)
+    //     {
+    //         _playerMesh.SetSurfaceMaterial(0, Globals.materialBlue);
+    //     }
+    // }
 
     private void _OnSpatialAnimationFinished(String animationName)
     {
