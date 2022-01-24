@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -6,13 +6,14 @@
 [ext_resource path="res://scripts/Interface.cs" type="Script" id=4]
 [ext_resource path="res://scripts/Level.cs" type="Script" id=5]
 [ext_resource path="res://materials/emission2.tres" type="Material" id=6]
+[ext_resource path="res://scenes/PlatformsAnim.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://assets/textures/Stats.png" type="Texture" id=9]
 [ext_resource path="res://scripts/Statistics.cs" type="Script" id=10]
 [ext_resource path="res://animations/interface/ui_hide.tres" type="Animation" id=11]
 [ext_resource path="res://assets/textures/Arrow.png" type="Texture" id=12]
 [ext_resource path="res://animations/interface/score_bump.tres" type="Animation" id=13]
-[ext_resource path="res://scenes/platforms/Start.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scripts/Remove.cs" type="Script" id=14]
 [ext_resource path="res://animations/camera_up_long.tres" type="Animation" id=15]
 [ext_resource path="res://animations/interface/blind_orthogonal.tres" type="Animation" id=16]
 [ext_resource path="res://animations/interface/ui_hide_highscore.tres" type="Animation" id=17]
@@ -30,6 +31,7 @@
 [ext_resource path="res://animations/bounces/bounce3.tres" type="Animation" id=29]
 [ext_resource path="res://animations/bounces/bounce1.tres" type="Animation" id=30]
 [ext_resource path="res://animations/bounces/bounce0.tres" type="Animation" id=31]
+[ext_resource path="res://materials/platform.tres" type="Material" id=32]
 
 [sub_resource type="DynamicFont" id=5]
 size = 80
@@ -48,6 +50,43 @@ size = 32
 extra_spacing_top = 11
 font_data = ExtResource( 8 )
 
+[sub_resource type="PlaneMesh" id=4]
+
+[sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "Down"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Up"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.210224, 0 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 16, 0 ) ]
+}
+
 [sub_resource type="SphereMesh" id=37]
 material = ExtResource( 6 )
 radius = 0.1
@@ -58,7 +97,7 @@ rings = 4
 [sub_resource type="Curve" id=38]
 _data = [ Vector2( 0, 1 ), 0.0, -0.0895879, 0, 0, Vector2( 0.365782, 1 ), 0.0, -0.128409, 0, 0, Vector2( 1, 0 ), -4.54568, 0.0, 0, 0 ]
 
-[sub_resource type="SphereMesh" id=2]
+[sub_resource type="SphereMesh" id=47]
 radial_segments = 32
 rings = 16
 
@@ -278,7 +317,45 @@ __meta__ = {
 
 [node name="Platforms" type="Spatial" parent="."]
 
-[node name="Start" parent="Platforms" instance=ExtResource( 14 )]
+[node name="Start" type="Spatial" parent="Platforms"]
+script = ExtResource( 14 )
+
+[node name="Spatial" type="Spatial" parent="Platforms/Start"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Platforms/Start/Spatial"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = ExtResource( 32 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Platforms/Start/Spatial"]
+transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 7.5, 0, -10 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="Platforms/Start/Spatial"]
+transform = Transform( 2.5, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -7.5, 0, -10 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="Platforms/Start/Spatial"]
+transform = Transform( 10, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 10 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="Platforms/Start/Spatial"]
+transform = Transform( -4.37114e-07, 0, 0.1, 0, 0.1, 0, -10, 0, -4.37114e-09, 10, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="MeshInstance6" type="MeshInstance" parent="Platforms/Start/Spatial"]
+transform = Transform( -4.37114e-07, 0, 0.1, 0, 0.1, 0, -10, 0, -4.37114e-09, -10, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="AnimationPlayer" parent="Platforms/Start/Spatial" instance=ExtResource( 7 )]
+anims/Down = SubResource( 2 )
+anims/Up = SubResource( 3 )
 
 [node name="Player" type="Spatial" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0 )
@@ -331,7 +408,7 @@ scale_amount = 2.0
 scale_amount_curve = SubResource( 38 )
 
 [node name="Mesh" type="MeshInstance" parent="Player/Spatial"]
-mesh = SubResource( 2 )
+mesh = SubResource( 47 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
 
@@ -353,5 +430,6 @@ environment = ExtResource( 2 )
 [connection signal="button_down" from="Interface/Main/Right/Down" to="Interface" method="_OnDownButtonDown"]
 [connection signal="button_down" from="Interface/Main/Right/Up" to="Interface" method="_OnUpButtonDown"]
 [connection signal="button_down" from="Interface/Main/StatsButton" to="Interface/Main/StatsButton" method="_OnStatsButtonDown"]
+[connection signal="animation_finished" from="Platforms/Start/Spatial/AnimationPlayer" to="Platforms/Start" method="_OnAnimationPlayerFinished"]
 [connection signal="animation_finished" from="Player/SpatialAnim" to="Player" method="_OnSpatialAnimationFinished"]
 [connection signal="tween_all_completed" from="Player/Tween" to="Player" method="_OnTweenAnimationFinished"]
