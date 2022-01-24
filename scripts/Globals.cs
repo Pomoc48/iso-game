@@ -5,13 +5,10 @@ public class Globals : Node
 {
     public Vector3 playerPosition;
 
-    // public SpatialMaterial materialRed;
     public SpatialMaterial materialBlue;
 
     public Texture openTexture;
     public Texture closeTexture;
-    public Texture blueTexture;
-    public Texture redTexture;
 
     public Direction cameraRotation;
     public Direction animationDirection;
@@ -54,15 +51,11 @@ public class Globals : Node
 
     public override void _Ready()
     {
-        String matPath = "res://materials/emission";
-        // materialRed = (SpatialMaterial)GD.Load(matPath + "2.tres");
-        materialBlue = (SpatialMaterial)GD.Load(matPath + ".tres");
+        String materialPath = "res://materials/emission";
+        materialBlue = (SpatialMaterial)GD.Load(materialPath + ".tres");
 
         openTexture = (Texture)GD.Load("res://assets/textures/Stats.png");
         closeTexture = (Texture)GD.Load("res://assets/textures/Close.png");
-
-        blueTexture = (Texture)GD.Load("res://assets/textures/squareBlue.png");
-        redTexture = (Texture)GD.Load("res://assets/textures/squareRed.png");
 
         emissionColor = materialBlue.Emission;
     }
