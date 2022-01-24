@@ -56,15 +56,6 @@ public class Level : Spatial
     {
         String blockPath;
 
-        // if (Globals.perspectiveMode)
-        // {
-        //     blockPath = "res://scenes/BlockM.tscn";
-        // }
-        // else
-        // {
-        //     blockPath = "res://scenes/Block.tscn";
-        // }
-
         blockPath = "res://scenes/Block.tscn";
 
         PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
@@ -240,12 +231,6 @@ public class Level : Spatial
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         platformBlockInstance = (Spatial)platformBlock.Instance();
-
-        // if (Globals.perspectiveMode)
-        // {
-        //     meshInstance = platformBlockInstance.GetChild(0).GetNode<MeshInstance>("Border");
-        //     meshInstance.SetSurfaceMaterial(0, Globals.materialRed);
-        // }
 
         meshInstance = platformBlockInstance.GetChild(0).GetNode<MeshInstance>("Border");
         meshInstance.SetSurfaceMaterial(0, Globals.RotateHue());

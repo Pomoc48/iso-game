@@ -99,18 +99,6 @@ public class Interface : Control
         }
     }
 
-    // public void ColorHealthbarRed(bool red)
-    // {
-    //     if (red && (_healthBarTR.Texture !=  Globals.redTexture))
-    //     {
-    //         _healthBarTR.Texture =  Globals.redTexture;
-    //     }
-    //     else if (_healthBarTR.Texture !=  Globals.blueTexture)
-    //     {
-    //         _healthBarTR.Texture =  Globals.blueTexture;
-    //     }
-    // }
-
     public void ColorHealthbar()
     {
         _healthBarTR.Color = Globals.emissionColor;
