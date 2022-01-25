@@ -116,7 +116,7 @@ public class Player : Spatial
             return;
         }
 
-        _DisablePlayerControls();
+        _canPlayerMove = false;
 
         // Calculation based on camera rotation
         Globals.animationDirection = Globals.RetranslateDirection(direction);
@@ -310,7 +310,7 @@ public class Player : Spatial
         }
 
         // Disable controls for animation duration
-        _DisablePlayerControls();
+        _canPlayerMove = false;
         _PlayCameraRotationAnimation(rotateClockwise, rotations);
     }
 
@@ -351,7 +351,7 @@ public class Player : Spatial
         // Update global position at the end of animation
         Globals.playerPosition = this.Translation;
 
-        _EnablePlayerControls();
+        _canPlayerMove = true;
     }
 
     private void _GiveHealth(float ammount)
@@ -393,7 +393,7 @@ public class Player : Spatial
     {
         // Preventing movement after death
         _isPlayerDead = true;
-        _DisablePlayerControls();
+        _canPlayerMove = false;
 
         if (Globals.sessionScore > Globals.highScore)
         {
@@ -418,16 +418,6 @@ public class Player : Spatial
     {
         _spatialAnimation.Play("camera_up_long");
         Interface.HideUiAnimationsHighscore();
-    }
-
-    private void _EnablePlayerControls()
-    {
-        _canPlayerMove = true;
-    }
-
-    private void _DisablePlayerControls()
-    {
-        _canPlayerMove = false;
     }
 
     private void _EnablePerspectiveMode()
@@ -461,7 +451,7 @@ public class Player : Spatial
         }
         else
         {
-            _EnablePlayerControls();
+            _canPlayerMove = true;
         }
     }
 }
