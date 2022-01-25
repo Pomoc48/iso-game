@@ -32,7 +32,7 @@ public class Interface : Control
         _highScoreLabel = GetNode<Label>("Main/HighScore");
         _scoreLabel = GetNode<Label>("Main/Score");
 
-        GetScreenSize();
+        _GetScreenSize();
 
         // Get previous highscore
         Globals.highScore = Globals.LoadStats("HighScore");
@@ -40,7 +40,7 @@ public class Interface : Control
     }
 
     // One time screen size calculation
-    private void GetScreenSize()
+    private void _GetScreenSize()
     {
         _screenSize = GetViewport().Size.x;
         _updateHealthBy = _screenSize / Globals.FULL_HEALTH;
@@ -78,7 +78,8 @@ public class Interface : Control
     public void UpdateScore()
     {
         _scoreLabel.Text = Globals.sessionScore.ToString();
-        // Fix PlayBlindAnim() freezing
+
+        // Fix PlayOrthogonalAnimation() freezing
         if (!_interfaceAnimation.IsPlaying())
         {
             _interfaceAnimation.Play("score_bump");
@@ -110,16 +111,14 @@ public class Interface : Control
         _interfaceAnimation.Play("blind_orthogonal");
     }
 
-    public void ShowStatistics(bool show)
+    public void ShowStatistics()
     {
-        if (show)
-        {
-            _interfaceAnimation.Play("stats_view_show");
-        }
-        else
-        {
-            _interfaceAnimation.Play("stats_view_hide");
-        }
+        _interfaceAnimation.Play("stats_view_show");
+    }
+
+    public void HideStatistics()
+    {
+        _interfaceAnimation.Play("stats_view_hide");
     }
 
     // Connect UI buttons

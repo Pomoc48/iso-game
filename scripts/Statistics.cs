@@ -66,17 +66,27 @@ public class Statistics : TextureButton
     {
         if (_statsOpened)
         {
-            Interface.ShowStatistics(false);
-            this.TextureNormal = Globals.openTexture;
-
-            _statsOpened = false;
+            _CloseStats();
         }
         else
         {
-            Interface.ShowStatistics(true);
-            this.TextureNormal = Globals.closeTexture;
-
-            _statsOpened = true;
+            _OpenStats();
         }
+    }
+
+    private void _OpenStats()
+    {
+        Interface.ShowStatistics();
+        this.TextureNormal = Globals.closeTexture;
+
+        _statsOpened = true;
+    }
+
+    private void _CloseStats()
+    {
+        Interface.HideStatistics();
+        this.TextureNormal = Globals.openTexture;
+
+        _statsOpened = false;
     }
 }
