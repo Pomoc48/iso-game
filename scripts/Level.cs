@@ -12,8 +12,6 @@ public class Level : Spatial
     private int _platformHistory = 20;
     private int _totalPlatforms = 1;
 
-    private float _degreeInRadians = 1.5707963268f;
-
     // Init function
     public override void _Ready()
     {
@@ -23,8 +21,13 @@ public class Level : Spatial
         _platformsSpace = GetNode<Spatial>("Platforms");
         _decorationsSpace = GetNode<Spatial>("Decorations");
         
-        // Rotate starting platform
+        _RotateStartingPlatform();
+    }
+
+    private void _RotateStartingPlatform()
+    {
         float rotation = (int)Globals.GenerateStartingPlatformPos();
+        float _degreeInRadians = 1.5707963268f;
 
         rotation *= -_degreeInRadians;
         _platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
@@ -32,6 +35,12 @@ public class Level : Spatial
 
     // Create floating cubes decorations
     public void CreateDecoration()
+    {
+        Vector3 blockPosition = _GetDecorationPosition();
+        _LoadDecoration(blockPosition);
+    }
+
+    private Vector3 _GetDecorationPosition()
     {
         Vector3 blockPosition = new Vector3();
 
@@ -44,39 +53,41 @@ public class Level : Spatial
             blockPosition = Globals.DirectionCalc();
         }
 
-        // Random offset
+        // Add random offset
         blockPosition = Globals.CalculateDecorationPosition(blockPosition);
         
+        // Adjust height
         blockPosition.y += Globals.platformHeight;
-        _LoadDecoration(blockPosition);
+
+        return blockPosition;
     }
 
     private void _LoadDecoration(Vector3 blockPosition)
     {
-        String blockPath;
-
-        blockPath = "res://scenes/Block.tscn";
-
+        String blockPath = "res://scenes/Block.tscn";
         PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
                 
         Spatial blockInstance = (Spatial)block.Instance();
         blockInstance.Translation = blockPosition;
 
+        blockInstance = _RecolorDecoration(blockInstance);
+        _decorationsSpace.AddChild(blockInstance);
+    }
 
+    private Spatial _RecolorDecoration(Spatial blockInstance)
+    {
         SpatialMaterial newHue = new SpatialMaterial();
 
         newHue.EmissionEnabled = true;
         newHue.Emission = Globals.emissionColor;
 
-
         MeshInstance meshInstance = blockInstance.GetNode<MeshInstance>("MeshInstance");
         CPUParticles cpuParticles = blockInstance.GetNode<CPUParticles>("CPUParticles");
 
         cpuParticles.Mesh.SurfaceSetMaterial(0, newHue);
-
         meshInstance.SetSurfaceMaterial(0, newHue);
-        
-        _decorationsSpace.AddChild(blockInstance);
+
+        return blockInstance;
     }
 
     public void GeneratePlatform()
@@ -90,7 +101,7 @@ public class Level : Spatial
                 break;
 
             case PlaftormType.Corner:
-                _platformCorner();
+                _PlatformCorner();
                 break;
 
             case PlaftormType.Cross:
@@ -140,7 +151,7 @@ public class Level : Spatial
         Globals.possibleMoves = new Direction[1]{Globals.animationDirection};
     }
 
-    private void _platformCorner()
+    private void _PlatformCorner()
     {
         Spatial platformBlockInstance;
 
@@ -222,31 +233,43 @@ public class Level : Spatial
     private Spatial _PlacePlatform(String type)
     {
         PackedScene platformBlock;
-        Spatial platformBlockInstance;
-        MeshInstance meshInstance;
+        Spatial blockInstance;
 
         String platformPath = "res://scenes/platforms/"+type+".tscn";
 
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
-        platformBlockInstance = (Spatial)platformBlock.Instance();
+        blockInstance = (Spatial)platformBlock.Instance();
 
-        meshInstance = platformBlockInstance.GetChild(0).GetNode<MeshInstance>("Border");
+        blockInstance = _RecolorPlatform(blockInstance);
+        blockInstance.Translation = _GetPlatformPosition(blockInstance);
+
+        _platformsSpace.AddChild(blockInstance);
+        return blockInstance;
+    }
+
+    private Spatial _RecolorPlatform(Spatial instance)
+    {
+        MeshInstance meshInstance;
+
+        meshInstance = instance.GetChild(0).GetNode<MeshInstance>("Border");
         meshInstance.SetSurfaceMaterial(0, Globals.RotateHue());
 
+        return instance;
+    }
+
+    private Vector3 _GetPlatformPosition(Spatial blockInstance)
+    {
         // Get platform future pos
-        platformBlockInstance.Translation = Globals.DirectionCalc();
+        blockInstance.Translation = Globals.DirectionCalc();
 
         // Starting animation fix
-        Vector3 translationVector = platformBlockInstance.Translation;
+        Vector3 translationVector = blockInstance.Translation;
         translationVector.y = -16;
 
         // Adjust platform height
         translationVector.y += Globals.platformHeight;
 
-        platformBlockInstance.Translation = translationVector;
-
-        _platformsSpace.AddChild(platformBlockInstance);
-        return platformBlockInstance;
+        return translationVector;
     }
 
     private Vector3 _GetPlatformRotation()
@@ -275,7 +298,6 @@ public class Level : Spatial
         Spatial child = _platformsSpace.GetChild<Spatial>(childIndex);
 
         _totalPlatforms--;
-        // TBD
         // child.QueueFree();
         child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
     }
