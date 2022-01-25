@@ -18,7 +18,6 @@ public class Player : Spatial
 
     private bool _canPlayerMove = false;
     private bool _isPlayerDead = false;
-    private bool _isCameraRotating = false;
 
     private float _lifeLossRate = 0.04f;
     private float _lifeGainRate = 2.0f;
@@ -90,18 +89,18 @@ public class Player : Spatial
     // Runs every game tick
     public override void _PhysicsProcess(float delta)
     {
-        // No life game_over check
+        // No life game over check
         if ((Globals.playerHealth <= 0) && !_isPlayerDead)
         {
             _GameOver();
         }
 
-        _CalculateFrames();
-
-        if (!Globals.perspectiveMode && (_frameCountPM % 2) == 0)
+        if (!Globals.perspectiveMode && !Globals.firstMove && (_frameCountPM % 2) == 0)
         {
-            _LooseHealth();
+            _LooseHealthOnTick();
         }
+
+        _CalculateFrames();
     }
 
     public void CheckMove(Direction direction)
@@ -111,35 +110,24 @@ public class Player : Spatial
             return;
         }
 
+        _DisablePlayerControls();
+
         // Calculation based on camera rotation
         Globals.animationDirection = Globals.RetranslateDirection(direction);
 
         if (Globals.IsMoveLegal())
         {
             _CorrectScoreCalculation();
-            return;
-        }
-
-        _RebounceCheck(direction);
-    }
-
-    private void _LooseHealth()
-    {
-        if (Globals.firstMove)
-        {
-            return;
-        }
-
-        // Take less life when rotating
-        if (_isCameraRotating)
-        {
-            Globals.playerHealth -= _lifeLossRate / 4;
         }
         else
         {
-            Globals.playerHealth -= _lifeLossRate / 2;
+            _RebounceCheck(direction);
         }
+    }
 
+    private void _LooseHealthOnTick()
+    {
+        Globals.playerHealth -= _lifeLossRate / 2;
         Interface.CalculateHealthBar();
     }
 
@@ -175,8 +163,6 @@ public class Player : Spatial
 
     private void _CorrectScoreCalculation()
     {
-        _EnableControls(false);
-
         Vector3 oldPos = this.Translation;
         Vector3 newPos = Globals.DirectionCalc();
 
@@ -312,7 +298,7 @@ public class Player : Spatial
         }
 
         // Disable controls for animation duration
-        _EnableControls(false);
+        _DisablePlayerControls();
         _PlayCorrectAnimation(rotateClockwise, rotations);
     }
 
@@ -353,10 +339,7 @@ public class Player : Spatial
         // Update global position at the end of animation
         Globals.playerPosition = this.Translation;
 
-        if (!_isCameraRotating) // Small bug fix
-        {
-            _EnableControls(true);
-        }
+        _EnablePlayerControls();
     }
 
     private void GiveHealth(float ammount)
@@ -377,8 +360,6 @@ public class Player : Spatial
         // No penalties during perspective mode
         if (!Globals.perspectiveMode)
         {
-            _EnableControls(false);
-
             // Wrong move penalty
             if (!Globals.firstMove)
             {
@@ -390,10 +371,6 @@ public class Player : Spatial
             {
                 _GameOver();
             }
-        }
-        else
-        {
-            _EnableControls(false);
         }
 
         if (!_isPlayerDead)
@@ -408,7 +385,7 @@ public class Player : Spatial
     {
         // Preventing movement after death
         _isPlayerDead = true;
-        _EnableControls(false);
+        _DisablePlayerControls();
 
         if (Globals.sessionScore > Globals.highScore)
         {
@@ -429,9 +406,14 @@ public class Player : Spatial
         Statistics.UploadStatistics();
     }
 
-    private void _EnableControls(bool enable)
+    private void _EnablePlayerControls()
     {
-        _canPlayerMove = enable;
+        _canPlayerMove = true;
+    }
+
+    private void _DisablePlayerControls()
+    {
+        _canPlayerMove = false;
     }
 
     private void _EnablePerspectiveMode(bool perspective)
@@ -463,8 +445,7 @@ public class Player : Spatial
         }
         else
         {
-            _EnableControls(true);
-            _isCameraRotating = false;
+            _EnablePlayerControls();
         }
     }
 }
