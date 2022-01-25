@@ -78,13 +78,11 @@ public class Globals : Node
 
     public void SaveStats(String[] categories, int[] values)
     {
-        // Loop through all the categories
         for (int n = 0; n < categories.Length; n++)
         {
             _configFile.SetValue("Main", categories[n], values[n]);
         }
         
-        // Write once
         _configFile.Save("user://config");
     }
 
@@ -100,7 +98,7 @@ public class Globals : Node
         return number;
     }
 
-    public bool RandomBool()
+    public bool GetRandomBool()
     {
         int chance = _random.Next(100);
 
@@ -111,8 +109,7 @@ public class Globals : Node
         };
     }
 
-    // Translate directions to vectors
-    public Vector3 DirectionCalc()
+    public Vector3 GetFuturePosition()
     {
         Vector3 position = playerPosition;
 
@@ -138,7 +135,7 @@ public class Globals : Node
         return position;
     }
 
-    public bool IsMoveLegal()
+    public bool IsMoveValid()
     {
         if (firstMove)
         {
@@ -192,13 +189,11 @@ public class Globals : Node
 
     public Direction RetranslateDirection(Direction direction)
     {
-        // (Clockwise)
         if (cameraRotation != Direction.LeftUp)
         {
             direction -= (cameraRotation + 1);
         }
 
-        // Reverse overflow check
         if (direction < 0)
         {
             direction += 4;
@@ -215,7 +210,7 @@ public class Globals : Node
         int randomShort = _random.Next(16, 24);
         int randomWide = _random.Next(24);
 
-        if (RandomBool())
+        if (GetRandomBool())
         {
             rangeX = randomShort;
             rangeZ = randomWide;
@@ -226,7 +221,7 @@ public class Globals : Node
             rangeZ = randomShort;
         }
 
-        if (RandomBool())
+        if (GetRandomBool())
         {
             centerPosition.x += rangeX;
         }
@@ -235,7 +230,7 @@ public class Globals : Node
             centerPosition.x -= rangeX;
         }
 
-        if (RandomBool())
+        if (GetRandomBool())
         {
             centerPosition.z += rangeZ;
         }
@@ -244,17 +239,14 @@ public class Globals : Node
             centerPosition.z -= rangeZ;
         }
 
-        centerPosition.y = 2;
+        centerPosition.y = 2 + platformHeight;
+
         return centerPosition;
     }
 
-    // Get new cycle lenght for camera rotation
-    public int GetNextCycle(int cycle, int range)
+    public int GetNextCycle(int cycle)
     {
-        cyclesCount++;
-
-        // Increase platform difficulty every ~100 points 
-        if (cyclesCount > 5)
+        if ((cyclesCount += 1) > 5)
         {
             cyclesCount = 0;
 
@@ -264,18 +256,7 @@ public class Globals : Node
             }
         }
 
-        int temp;
-
-        if (RandomBool())
-        {
-            temp = cycle + _random.Next(range);
-        }
-        else
-        {
-            temp = cycle - _random.Next(range);
-        }
-
-        return temp;
+        return cycle + _random.Next(5);
     }
 
     public Direction GenerateStartingPlatformPos()
@@ -301,15 +282,12 @@ public class Globals : Node
         SpatialMaterial newMaterial = new();
         Color _oldEmissionColor = emissionColor;
 
-        emissionColor.h += _CHANGE_HUE_BY;
-
-        if (emissionColor.h > 1)
+        if ((emissionColor.h += _CHANGE_HUE_BY) > 1)
         {
             emissionColor.h = 0;
         }
 
         emissionColor.v = 1;
-        
 
         newMaterial.EmissionEnabled = true;
         newMaterial.Emission = emissionColor;

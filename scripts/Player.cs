@@ -27,8 +27,8 @@ public class Player : Spatial
     private float _animationSpeed = 0.25f;
 
     private int _speedupCounter = 0;
-    private int _nextCycle = 0;
-    private int _maxCycle = 20;
+    private int _difficultyCycle = 0;
+    private int _maxDifficultyCycle = 20;
     private int _increaseScoreBy = 1;
     private int _frameCount = 0;
     private int _frameCountPM = 0;
@@ -41,7 +41,6 @@ public class Player : Spatial
         "ui_left",
     };
 
-    // Init function
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
@@ -61,10 +60,9 @@ public class Player : Spatial
         Globals.NewGame();
         Globals.playerPosition = this.Translation;
 
-        _nextCycle = Globals.GetNextCycle(_maxCycle, 4);
+        _difficultyCycle = Globals.GetNextCycle(_maxDifficultyCycle);
     }
 
-    // Debug for now
     public override void _Process(float delta)
     {
         if (_canPlayerMove && Input.IsActionPressed(_inputMap[0])
@@ -92,10 +90,8 @@ public class Player : Spatial
         }
     }
 
-    // Runs every game tick
     public override void _PhysicsProcess(float delta)
     {
-        // No life game over check
         if ((Globals.playerHealth <= 0) && !_isPlayerDead)
         {
             _GameOver();
@@ -121,7 +117,7 @@ public class Player : Spatial
         // Calculation based on camera rotation
         Globals.animationDirection = Globals.RetranslateDirection(direction);
 
-        if (Globals.IsMoveLegal())
+        if (Globals.IsMoveValid())
         {
             _CorrectMove();
         }
@@ -146,7 +142,6 @@ public class Player : Spatial
             Level.CreateDecoration();
         }
 
-        // Disable PM after 5s
         if (Globals.perspectiveMode)
         {
             _CalculatePerspectiveFrames();
@@ -180,26 +175,23 @@ public class Player : Spatial
         
         _RollPerspectiveMode();
 
-        // Progress the game
         Level.GeneratePlatform();
 
         _UpdatePlayerColor();
         Interface.UpdateHealthbarColor();
 
-        _GiveHealth(_lifeGainRate);
+        _GivePlayerHealth();
         _DifficultyIncrease();
     }
 
     private void _AnimatePlayerMovement()
     {
         Vector3 oldPosition = this.Translation;
-        Vector3 newPosition = Globals.DirectionCalc();
+        Vector3 newPosition = Globals.GetFuturePosition();
 
-        // Increase platform height
         Globals.platformHeight += Globals.INCREASE_HEIGHT_BY;
         newPosition.y += Globals.INCREASE_HEIGHT_BY;
 
-        // Movement animation
         _PlayTweenAnim("translation", oldPosition, newPosition, _animationSpeed);
     }
 
@@ -217,7 +209,6 @@ public class Player : Spatial
 
     private void _RollPerspectiveMode()
     {
-        // Don't active it twice by a small chance
         if (!Globals.perspectiveMode)
         {
             int chance = _random.Next(100);
@@ -247,48 +238,40 @@ public class Player : Spatial
     {
         _speedupCounter++;
 
-        if (_speedupCounter < _nextCycle)
+        if (_speedupCounter < _difficultyCycle)
         {
             return;
         }
 
+        _speedupCounter = 0;
+
         _lifeLossRate += 0.01f;
         _lifeGainRate += 0.25f;
 
-        // Cap player speed at 0.15f
+        // Cap player speed
         if (_animationSpeed > 0.15f)
         {
             _animationSpeed -= 0.005f;
         }
 
-        _speedupCounter = 0;
-
-        _GenerateNewCycle();
+        _GenerateNewDifficultyCycle();
         _RotateCameraBy(Globals.GetRandomRotationAmmount());
     }
 
-    // For camera rotation and diff increase
-    private void _GenerateNewCycle()
+    private void _GenerateNewDifficultyCycle()
     {
-        _maxCycle--;
+        if ((_maxDifficultyCycle -= 1) < 5)
+        {
+            _maxDifficultyCycle = 5;
+        }
 
-        if (_maxCycle < 5)
-        {
-            _maxCycle = 5;
-            _nextCycle = Globals.GetNextCycle(_maxCycle, 4);
-        }
-        else
-        {
-            _nextCycle = Globals.GetNextCycle(_maxCycle, 5);
-        }
+        _difficultyCycle = Globals.GetNextCycle(_maxDifficultyCycle);
     }
 
     private void _RotateCameraBy(int rotations)
     {
-        // Get random rotation direction
-        bool rotateClockwise = Globals.RandomBool();
+        bool rotateClockwise = Globals.GetRandomBool();
 
-        // Camera rotation
         if (rotateClockwise)
         {
             Globals.cameraRotation += rotations;
@@ -309,7 +292,6 @@ public class Player : Spatial
             Globals.cameraRotation += 4;
         }
 
-        // Disable controls for animation duration
         _canPlayerMove = false;
         _PlayCameraRotationAnimation(rotateClockwise, rotations);
     }
@@ -335,7 +317,6 @@ public class Player : Spatial
         _PlayTweenAnim("rotation_degrees", oldRotRad, newRot, time);
     }
 
-    // For player movement and camera rotations
     private void _PlayTweenAnim(String type, Vector3 oldVector, Vector3 newVector, float time)
     {
         Tween.TransitionType trans = Tween.TransitionType.Quad;
@@ -354,44 +335,47 @@ public class Player : Spatial
         _canPlayerMove = true;
     }
 
-    private void _GiveHealth(float ammount)
+    private void _GivePlayerHealth()
     {
-        // Health cap check
-        if ((Globals.playerHealth += ammount) > Globals.FULL_HEALTH)
+        if ((Globals.playerHealth += _lifeGainRate) > Globals.FULL_HEALTH)
         {
             Globals.playerHealth = Globals.FULL_HEALTH;
         }
     }
 
-    private void _WrongMove(Direction originalDirection)
+    private void _RestorePlayerHealth()
     {
-        // No penalties during perspective mode
+        Globals.playerHealth = Globals.FULL_HEALTH;
+    }
+
+    private void _WrongMove(Direction direction)
+    {
         if (!Globals.perspectiveMode)
         {
-            // Wrong move penalty
-            if (!Globals.firstMove)
-            {
-                Globals.playerHealth -= 10;
-            }
-
-            // Instant game over
-            if ((Globals.playerHealth <= 0) && !_isPlayerDead)
-            {
-                _GameOver();
-            }
+            _TakePlayerHealth();
         }
 
         if (!_isPlayerDead)
         {
-            // Animate player rebounce
-            int originalDirectionInt = (int)originalDirection;
-            _spatialAnimation.Play("bounce" + originalDirectionInt.ToString());
+            _spatialAnimation.Play("bounce" + ((int)direction).ToString());
+        }
+    }
+
+    private void _TakePlayerHealth()
+    {
+        if (!Globals.firstMove)
+        {
+            Globals.playerHealth -= 10;
+        }
+
+        if ((Globals.playerHealth <= 0) && !_isPlayerDead)
+        {
+            _GameOver();
         }
     }
 
     private void _GameOver()
     {
-        // Preventing movement after death
         _isPlayerDead = true;
         _canPlayerMove = false;
 
@@ -427,11 +411,9 @@ public class Player : Spatial
         Globals.perspectiveMode = true;
         Interface.PlayPerspectiveAnimation();
 
-        // Replenish full health
-        _GiveHealth(Globals.FULL_HEALTH);
+        _RestorePlayerHealth();
         Interface.CalculateHealthBar();
 
-        // Double score when in perspective mode
         _increaseScoreBy = 2;
     }
 

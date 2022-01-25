@@ -18,7 +18,6 @@ public class Interface : Control
     private float _screenSize;
     private float _updateHealthBy;
 
-    // Init function
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
@@ -33,13 +32,9 @@ public class Interface : Control
         _scoreLabel = GetNode<Label>("Main/Score");
 
         _GetScreenSize();
-
-        // Get previous highscore
-        Globals.highScore = Globals.LoadStats("HighScore");
-        _highScoreLabel.Text = "HiScore: " + Globals.highScore;
+        _GetPreviousHighscore();
     }
 
-    // Calculate healthbar pixels
     public void CalculateHealthBar()
     {
         if (!_healthBarShowed)
@@ -114,14 +109,18 @@ public class Interface : Control
         _interfaceAnimation.Play("stats_view_hide");
     }
 
-    // One time screen size calculation
     private void _GetScreenSize()
     {
         _screenSize = GetViewport().Size.x;
         _updateHealthBy = _screenSize / Globals.FULL_HEALTH;
     }
 
-    // Connect UI buttons
+    private void _GetPreviousHighscore()
+    {
+        Globals.highScore = Globals.LoadStats("HighScore");
+        _highScoreLabel.Text = "HiScore: " + Globals.highScore;
+    }
+
     private void _OnLeftButtonDown()
     {
         Player.CheckMove(Direction.LeftUp);

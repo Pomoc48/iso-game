@@ -12,7 +12,6 @@ public class Level : Spatial
     private int _platformHistory = 20;
     private int _totalPlatforms = 1;
 
-    // Init function
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
@@ -24,7 +23,6 @@ public class Level : Spatial
         _RotateStartingPlatform();
     }
 
-    // Create floating cubes decorations
     public void CreateDecoration()
     {
         Vector3 blockPosition = _GetDecorationPosition();
@@ -79,16 +77,13 @@ public class Level : Spatial
         {
             blockPosition = Globals.playerPosition;
         }
-        else // Future move pos
+        else
         {
-            blockPosition = Globals.DirectionCalc();
+            blockPosition = Globals.GetFuturePosition();
         }
 
         // Add random offset
         blockPosition = Globals.CalculateDecorationPosition(blockPosition);
-        
-        // Adjust height
-        blockPosition.y += Globals.platformHeight;
 
         return blockPosition;
     }
@@ -157,7 +152,7 @@ public class Level : Spatial
 
         int reverse = 0;
         // Change direction of the corner to the other side
-        if (Globals.RandomBool())
+        if (Globals.GetRandomBool())
         {
             reverse++;
             platformBlockInstance = _PlacePlatform("CornerL");
@@ -259,15 +254,11 @@ public class Level : Spatial
 
     private Vector3 _GetPlatformPosition(Spatial blockInstance)
     {
-        // Get platform future pos
-        blockInstance.Translation = Globals.DirectionCalc();
-
-        // Starting animation fix
+        blockInstance.Translation = Globals.GetFuturePosition();
         Vector3 translationVector = blockInstance.Translation;
-        translationVector.y = -16;
 
-        // Adjust platform height
-        translationVector.y += Globals.platformHeight;
+        float height = Globals.platformHeight - 16;
+        translationVector.y = height;
 
         return translationVector;
     }
