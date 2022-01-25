@@ -25,6 +25,7 @@ public class Globals : Node
 
     public float playerHealth;
     public float platformHeight;
+    public float animationSpeed;
 
     public int sessionScore;
     public int highScore;
@@ -70,6 +71,7 @@ public class Globals : Node
         platformDifficulty = 0;
         cyclesCount = 0;
         correctMoves = 0;
+        animationSpeed = 0.25f;
         totalMoves = 0;
         platformHeight = 0f;
         emissionColor = materialBlue.Emission;

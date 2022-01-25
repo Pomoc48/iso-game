@@ -4,7 +4,7 @@ using System;
 public class Interface : Control
 {
     private Globals Globals;
-    private Player Player;
+    private Level Level;
 
     private Control _healthBar;
     private ColorRect _healthBarTR;
@@ -21,7 +21,7 @@ public class Interface : Control
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
-        Player = GetNode<Player>("/root/Level/Player");
+        Level = GetNode<Level>("/root/Level");
 
         _interfaceAnimation = GetNode<AnimationPlayer>("InterfaceAnim");
 
@@ -123,21 +123,21 @@ public class Interface : Control
 
     private void _OnLeftButtonDown()
     {
-        Player.CheckMove(Direction.LeftUp);
+        Level.CheckMove(Direction.LeftUp);
     }
 
     private void _OnRightButtonDown()
     {
-        Player.CheckMove(Direction.RightDown);
+        Level.CheckMove(Direction.RightDown);
     }
 
     private void _OnUpButtonDown()
     {
-        Player.CheckMove(Direction.RightUp);
+        Level.CheckMove(Direction.RightUp);
     }
 
     private void _OnDownButtonDown()
     {
-        Player.CheckMove(Direction.LeftDown);
+        Level.CheckMove(Direction.LeftDown);
     }
 }
