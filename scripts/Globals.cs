@@ -202,48 +202,6 @@ public class Globals : Node
         return direction;
     }
 
-    public Vector3 CalculateDecorationPosition(Vector3 centerPosition)
-    {
-        int rangeX;
-        int rangeZ;
-
-        int randomShort = _random.Next(16, 24);
-        int randomWide = _random.Next(24);
-
-        if (GetRandomBool())
-        {
-            rangeX = randomShort;
-            rangeZ = randomWide;
-        }
-        else
-        {
-            rangeX = randomWide;
-            rangeZ = randomShort;
-        }
-
-        if (GetRandomBool())
-        {
-            centerPosition.x += rangeX;
-        }
-        else
-        {
-            centerPosition.x -= rangeX;
-        }
-
-        if (GetRandomBool())
-        {
-            centerPosition.z += rangeZ;
-        }
-        else
-        {
-            centerPosition.z -= rangeZ;
-        }
-
-        centerPosition.y = 2 + platformHeight;
-
-        return centerPosition;
-    }
-
     public int GetNextCycle(int cycle)
     {
         if ((cyclesCount += 1) > 5)

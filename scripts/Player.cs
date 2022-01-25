@@ -7,6 +7,7 @@ public class Player : Spatial
     private Statistics Statistics;
     private Level Level;
     private Interface Interface;
+    private Decorations Decorations;
 
     private Random _random = new();
 
@@ -47,6 +48,7 @@ public class Player : Spatial
         Statistics = GetNode<Statistics>("/root/Level/Interface/Main/StatsButton");
         Level = GetNode<Level>("/root/Level");
         Interface = GetNode<Interface>("/root/Level/Interface");
+        Decorations = GetNode<Decorations>("/root/Level/Decorations");
 
         _playerTween = GetNode<Tween>("Tween");
         _playerSpatial = this.GetNode<Spatial>("Spatial");
@@ -139,7 +141,7 @@ public class Player : Spatial
         if (_frameCount >= 120)
         {
             _frameCount = 0;
-            Level.CreateDecoration();
+            Decorations.Create();
         }
 
         if (Globals.perspectiveMode)

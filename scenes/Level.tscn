@@ -1,10 +1,11 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
 [ext_resource path="res://materials/emission.tres" type="Material" id=3]
 [ext_resource path="res://scripts/Interface.cs" type="Script" id=4]
 [ext_resource path="res://scripts/Level.cs" type="Script" id=5]
+[ext_resource path="res://scripts/Decorations.cs" type="Script" id=6]
 [ext_resource path="res://assets/fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://assets/textures/Stats.png" type="Texture" id=9]
 [ext_resource path="res://scripts/Statistics.cs" type="Script" id=10]
@@ -346,6 +347,7 @@ far = 646.3
 environment = ExtResource( 2 )
 
 [node name="Decorations" type="Spatial" parent="."]
+script = ExtResource( 6 )
 
 [connection signal="button_down" from="Interface/Main/Left/Left" to="Interface" method="_OnLeftButtonDown"]
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Interface" method="_OnRightButtonDown"]

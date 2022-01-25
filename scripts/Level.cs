@@ -7,7 +7,6 @@ public class Level : Spatial
     private Values Values;
 
     private Spatial _platformsSpace;
-    private Spatial _decorationsSpace;
 
     private int _platformHistory = 20;
     private int _totalPlatforms = 1;
@@ -18,15 +17,8 @@ public class Level : Spatial
         Values = GetNode<Values>("/root/Values");
 
         _platformsSpace = GetNode<Spatial>("Platforms");
-        _decorationsSpace = GetNode<Spatial>("Decorations");
         
         _RotateStartingPlatform();
-    }
-
-    public void CreateDecoration()
-    {
-        Vector3 blockPosition = _GetDecorationPosition();
-        _LoadDecoration(blockPosition);
     }
 
     public void GeneratePlatform()
@@ -67,53 +59,6 @@ public class Level : Spatial
 
         rotation *= -_degreeInRadians;
         _platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
-    }
-
-    private Vector3 _GetDecorationPosition()
-    {
-        Vector3 blockPosition = new();
-
-        if (Globals.firstMove) // Idle animation position fix
-        {
-            blockPosition = Globals.playerPosition;
-        }
-        else
-        {
-            blockPosition = Globals.GetFuturePosition();
-        }
-
-        // Add random offset
-        blockPosition = Globals.CalculateDecorationPosition(blockPosition);
-
-        return blockPosition;
-    }
-
-    private void _LoadDecoration(Vector3 blockPosition)
-    {
-        String blockPath = "res://scenes/Block.tscn";
-        PackedScene block = (PackedScene)ResourceLoader.Load(blockPath);
-                
-        Spatial blockInstance = (Spatial)block.Instance();
-        blockInstance.Translation = blockPosition;
-
-        blockInstance = _RecolorDecoration(blockInstance);
-        _decorationsSpace.AddChild(blockInstance);
-    }
-
-    private Spatial _RecolorDecoration(Spatial blockInstance)
-    {
-        SpatialMaterial newHue = new();
-
-        newHue.EmissionEnabled = true;
-        newHue.Emission = Globals.emissionColor;
-
-        MeshInstance meshInstance = blockInstance.GetNode<MeshInstance>("MeshInstance");
-        CPUParticles cpuParticles = blockInstance.GetNode<CPUParticles>("CPUParticles");
-
-        cpuParticles.Mesh.SurfaceSetMaterial(0, newHue);
-        meshInstance.SetSurfaceMaterial(0, newHue);
-
-        return blockInstance;
     }
 
     // public void RepaintExistingPlatforms(bool red)
