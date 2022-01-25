@@ -8,7 +8,7 @@ public class Player : Spatial
     private Level Level;
     private Interface Interface;
 
-    private Random _random = new Random();
+    private Random _random = new();
 
     private Spatial _playerSpatial;
     private MeshInstance _playerMesh;

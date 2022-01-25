@@ -24,6 +24,44 @@ public class Level : Spatial
         _RotateStartingPlatform();
     }
 
+    // Create floating cubes decorations
+    public void CreateDecoration()
+    {
+        Vector3 blockPosition = _GetDecorationPosition();
+        _LoadDecoration(blockPosition);
+    }
+
+    public void GeneratePlatform()
+    {
+        PlaftormType platformType = Globals.GetPlatformType();
+
+        switch (platformType)
+        {
+            case PlaftormType.Long:
+                _PlatformLong();
+                break;
+
+            case PlaftormType.Corner:
+                _PlatformCorner();
+                break;
+
+            case PlaftormType.Cross:
+                _PlatformCross();
+                break;
+
+            case PlaftormType.Twoway:
+                _PlatformTwoWay();
+                break;
+        }
+
+        _totalPlatforms++;
+
+        if (_totalPlatforms >= _platformHistory)
+        {
+            _RemoveOldPlatforms();
+        }
+    }
+
     private void _RotateStartingPlatform()
     {
         float rotation = (int)Globals.GenerateStartingPlatformPos();
@@ -33,16 +71,9 @@ public class Level : Spatial
         _platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
     }
 
-    // Create floating cubes decorations
-    public void CreateDecoration()
-    {
-        Vector3 blockPosition = _GetDecorationPosition();
-        _LoadDecoration(blockPosition);
-    }
-
     private Vector3 _GetDecorationPosition()
     {
-        Vector3 blockPosition = new Vector3();
+        Vector3 blockPosition = new();
 
         if (Globals.firstMove) // Idle animation position fix
         {
@@ -76,7 +107,7 @@ public class Level : Spatial
 
     private Spatial _RecolorDecoration(Spatial blockInstance)
     {
-        SpatialMaterial newHue = new SpatialMaterial();
+        SpatialMaterial newHue = new();
 
         newHue.EmissionEnabled = true;
         newHue.Emission = Globals.emissionColor;
@@ -88,37 +119,6 @@ public class Level : Spatial
         meshInstance.SetSurfaceMaterial(0, newHue);
 
         return blockInstance;
-    }
-
-    public void GeneratePlatform()
-    {
-        PlaftormType platformType = Globals.GetPlatformType();
-
-        switch (platformType)
-        {
-            case PlaftormType.Long:
-                _PlatformLong();
-                break;
-
-            case PlaftormType.Corner:
-                _PlatformCorner();
-                break;
-
-            case PlaftormType.Cross:
-                _PlatformCross();
-                break;
-
-            case PlaftormType.Twoway:
-                _PlatformTwoWay();
-                break;
-        }
-
-        _totalPlatforms++;
-
-        if (_totalPlatforms >= _platformHistory)
-        {
-            _RemoveOldPlatforms();
-        }
     }
 
     // public void RepaintExistingPlatforms(bool red)
@@ -196,7 +196,7 @@ public class Level : Spatial
     {
         Spatial platformBlockInstance;
         // Get new random orientation of the platform
-        Random random = new Random();
+        Random random = new();
         int randomSide = random.Next(30); // 66% for T shape
 
         int randomSideIndex = 0;
@@ -274,7 +274,7 @@ public class Level : Spatial
 
     private Vector3 _GetPlatformRotation()
     {
-        Vector3 rotationVector = new Vector3();
+        Vector3 rotationVector = new();
 
         if (Globals.animationDirection == Direction.RightDown)
         {

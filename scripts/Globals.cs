@@ -12,6 +12,7 @@ public class Globals : Node
 
     public Direction cameraRotation;
     public Direction animationDirection;
+    public Direction[] possibleMoves;
 
     public Color emissionColor;
 
@@ -30,8 +31,6 @@ public class Globals : Node
     public int correctMoves;
     public int totalMoves;
 
-    public Direction[] possibleMoves;
-
     public String[] categoriesArray = {
         "HighScore",
         "NumberOfGames", 
@@ -40,8 +39,8 @@ public class Globals : Node
         "TotalMoves"
     };
     
-    private Random _random = new Random();
-    private ConfigFile _configFile = new ConfigFile();
+    private Random _random = new();
+    private ConfigFile _configFile = new();
 
     private PlafformDifficulty platformDifficulty;
     private Direction startingDirection;
@@ -160,21 +159,6 @@ public class Globals : Node
         return false;
     }
 
-    private bool _FirstMoveCheck()
-    {
-        if (animationDirection == startingDirection)
-        {
-            firstMove = false;
-
-            correctMoves++;
-            totalMoves++;
-
-            return true;
-        }
-
-        return false;
-    }
-
     public PlaftormType GetPlatformType()
     {
         int[] difficultyChancesList;
@@ -204,28 +188,6 @@ public class Globals : Node
         }
 
         return _GetPlatformChances(difficultyChancesList);
-    }
-
-    private PlaftormType _GetPlatformChances(int[] chances)
-    {
-        int chance = _random.Next(100);
-
-        if (chance < chances[0])
-        {
-            return PlaftormType.Cross;
-        }
-
-        if (chance >= chances[0] && chance < chances[1])
-        {
-            return PlaftormType.Twoway;
-        }
-
-        if (chance >= chances[1] && chance < chances[2])
-        {
-            return PlaftormType.Long;
-        }
-
-        return PlaftormType.Corner;
     }
 
     public Direction RetranslateDirection(Direction direction)
@@ -336,7 +298,7 @@ public class Globals : Node
 
     public SpatialMaterial RotateHue()
     {
-        SpatialMaterial newMaterial = new SpatialMaterial();
+        SpatialMaterial newMaterial = new();
         Color _oldEmissionColor = emissionColor;
 
         emissionColor.h += _CHANGE_HUE_BY;
@@ -353,5 +315,42 @@ public class Globals : Node
         newMaterial.Emission = emissionColor;
 
         return newMaterial;
+    }
+
+    private bool _FirstMoveCheck()
+    {
+        if (animationDirection == startingDirection)
+        {
+            firstMove = false;
+
+            correctMoves++;
+            totalMoves++;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private PlaftormType _GetPlatformChances(int[] chances)
+    {
+        int chance = _random.Next(100);
+
+        if (chance < chances[0])
+        {
+            return PlaftormType.Cross;
+        }
+
+        if (chance >= chances[0] && chance < chances[1])
+        {
+            return PlaftormType.Twoway;
+        }
+
+        if (chance >= chances[1] && chance < chances[2])
+        {
+            return PlaftormType.Long;
+        }
+
+        return PlaftormType.Corner;
     }
 }

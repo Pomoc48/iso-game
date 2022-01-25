@@ -24,6 +24,18 @@ public class Statistics : TextureButton
         _LoadStatistics();
     }
 
+    public void UploadStatistics()
+    {
+        int games = _statsArray[0] + 1;
+        int score = _statsArray[1] + Globals.sessionScore;
+        int correctMoves = _statsArray[2] + Globals.correctMoves;
+        int moves = _statsArray[3] + Globals.totalMoves;
+
+        int[] values = {Globals.highScore, games, score, correctMoves, moves};
+
+        Globals.SaveStats(Globals.categoriesArray, values);
+    }
+
     private void _LoadStatistics()
     {
         for (int i = 0; i < 4; i++)
@@ -48,18 +60,6 @@ public class Statistics : TextureButton
         //String moves = "Total moves: " + _statsArray[3] + "\n";
 
         _statsTextLabel.Text = games + score + percentage;
-    }
-
-    public void UploadStatistics()
-    {
-        int games = _statsArray[0] + 1;
-        int score = _statsArray[1] + Globals.sessionScore;
-        int correctMoves = _statsArray[2] + Globals.correctMoves;
-        int moves = _statsArray[3] + Globals.totalMoves;
-
-        int[] values = {Globals.highScore, games, score, correctMoves, moves};
-
-        Globals.SaveStats(Globals.categoriesArray, values);
     }
 
     private void _OnStatsButtonDown()

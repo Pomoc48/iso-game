@@ -39,13 +39,6 @@ public class Interface : Control
         _highScoreLabel.Text = "HiScore: " + Globals.highScore;
     }
 
-    // One time screen size calculation
-    private void _GetScreenSize()
-    {
-        _screenSize = GetViewport().Size.x;
-        _updateHealthBy = _screenSize / Globals.FULL_HEALTH;
-    }
-
     // Calculate healthbar pixels
     public void CalculateHealthBar()
     {
@@ -57,7 +50,7 @@ public class Interface : Control
         
         float health = Globals.playerHealth * _updateHealthBy;
 
-        Vector2 pos = new Vector2(health, 16);
+        Vector2 pos = new(health, 16);
         _healthBar.SetSize(pos, false);
     }
 
@@ -70,7 +63,7 @@ public class Interface : Control
 
         float newSize = _screenSize * frames;
 
-        Vector2 pos = new Vector2(newSize, 16);
+        Vector2 pos = new(newSize, 16);
         _healthBar.SetSize(pos, false);
     }
 
@@ -119,6 +112,13 @@ public class Interface : Control
     public void HideStatistics()
     {
         _interfaceAnimation.Play("stats_view_hide");
+    }
+
+    // One time screen size calculation
+    private void _GetScreenSize()
+    {
+        _screenSize = GetViewport().Size.x;
+        _updateHealthBy = _screenSize / Globals.FULL_HEALTH;
     }
 
     // Connect UI buttons
