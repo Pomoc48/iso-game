@@ -19,7 +19,7 @@ public class Platforms : Spatial
 
     public void Generate()
     {
-        PlaftormType platformType = Globals.GetPlatformType();
+        PlaftormType platformType = _GetPlatformType();
 
         switch (platformType)
         {
@@ -44,6 +44,59 @@ public class Platforms : Spatial
         {
             _RemoveOld();
         }
+    }
+
+    private PlaftormType _GetPlatformType()
+    {
+        int[] difficultyChancesList;
+
+        switch (Globals.platformDifficulty)
+        {
+            case PlafformDifficulty.Easy:
+            {
+                int[] easyChances = {10, 40, 75};
+                difficultyChancesList = easyChances;
+                break;
+            }
+            
+            case PlafformDifficulty.Medium:
+            {
+                int[] mediumChances = {5, 35, 60};
+                difficultyChancesList = mediumChances;
+                break;
+            }
+
+            default: // PlafformDifficulty.Hard
+            {
+                int[] hardChances = {2, 22, 40};
+                difficultyChancesList = hardChances;
+                break;
+            }
+        }
+
+        return _GetPlatformChances(difficultyChancesList);
+    }
+
+    private PlaftormType _GetPlatformChances(int[] chances)
+    {
+        int chance = Globals.GetRandomNumber(100);
+
+        if (chance < chances[0])
+        {
+            return PlaftormType.Cross;
+        }
+
+        if (chance >= chances[0] && chance < chances[1])
+        {
+            return PlaftormType.Twoway;
+        }
+
+        if (chance >= chances[1] && chance < chances[2])
+        {
+            return PlaftormType.Long;
+        }
+
+        return PlaftormType.Corner;
     }
 
     private void _RotateStartingPlatform()

@@ -10,8 +10,6 @@ public class Level : Spatial
     private Decorations Decorations;
     private Player Player;
 
-    private Random _random = new();
-
     private bool _canPlayerMove = false;
     private bool _isPlayerDead = false;
 
@@ -101,9 +99,9 @@ public class Level : Spatial
         _canPlayerMove = false;
 
         // Calculation based on camera rotation
-        Globals.animationDirection = Globals.RetranslateDirection(direction);
+        Globals.animationDirection = _TranslateDirection(direction);
 
-        if (Globals.IsMoveValid())
+        if (_IsMoveValid())
         {
             _CorrectMove();
         }
@@ -116,6 +114,58 @@ public class Level : Spatial
     public void TogglePlayerControls(bool enable)
     {
         _canPlayerMove = enable;
+    }
+
+
+    public bool _IsMoveValid()
+    {
+        if (Globals.firstMove)
+        {
+            return _FirstMoveCheck();
+        }
+
+        Globals.totalMoves++;
+
+        foreach (Direction direction in Globals.possibleMoves)
+        {
+            if (Globals.animationDirection == direction)
+            {
+                Globals.correctMoves++;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool _FirstMoveCheck()
+    {
+        if (Globals.animationDirection == Globals.startingDirection)
+        {
+            Globals.firstMove = false;
+
+            Globals.correctMoves++;
+            Globals.totalMoves++;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private Direction _TranslateDirection(Direction direction)
+    {
+        if (Globals.cameraRotation != Direction.LeftUp)
+        {
+            direction -= (Globals.cameraRotation + 1);
+        }
+
+        if (direction < 0)
+        {
+            direction += 4;
+        }
+
+        return direction;
     }
 
     private void _LooseHealthOnTick()
@@ -179,7 +229,7 @@ public class Level : Spatial
     {
         if (!Globals.perspectiveMode)
         {
-            int chance = _random.Next(100);
+            int chance = Globals.GetRandomNumber(100);
             _CheckPerspectiveModeChances(chance);
         }
     }
@@ -205,7 +255,7 @@ public class Level : Spatial
         }
 
         _GenerateNewDifficultyCycle();
-        Player.RotateCameraBy(Globals.GetRandomRotationAmmount());
+        Player.RotateCameraBy(_GetRandomRotationAmmount());
     }
 
     private void _GenerateNewDifficultyCycle()
@@ -216,6 +266,18 @@ public class Level : Spatial
         }
 
         _difficultyCycle = Globals.GetNextCycle(_maxDifficultyCycle);
+    }
+
+    public int _GetRandomRotationAmmount()
+    {
+        var randomChance = Globals.GetRandomNumber(100);
+
+        return randomChance switch
+        {
+            < 5 => 3,
+            >= 5 and < 30 => 2,
+            _ => 1
+        };
     }
 
     private void _GivePlayerHealth()

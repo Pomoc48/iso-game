@@ -4,7 +4,6 @@ using System;
 public class Decorations : Spatial
 {
     private Globals Globals;
-    private Random _random = new();
 
     public override void _Ready()
     {
@@ -69,8 +68,8 @@ public class Decorations : Spatial
         int rangeX;
         int rangeZ;
 
-        int randomShort = _random.Next(16, 24);
-        int randomWide = _random.Next(24);
+        int randomShort = Globals.GetRandomNumber(16, 24);
+        int randomWide = Globals.GetRandomNumber(24);
 
         if (Globals.GetRandomBool())
         {

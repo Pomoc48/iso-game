@@ -12,7 +12,10 @@ public class Globals : Node
 
     public Direction cameraRotation;
     public Direction animationDirection;
+    public Direction startingDirection;
     public Direction[] possibleMoves;
+
+    public PlafformDifficulty platformDifficulty;
 
     public Color emissionColor;
 
@@ -43,9 +46,6 @@ public class Globals : Node
     private Random _random = new();
     private ConfigFile _configFile = new();
 
-    private PlafformDifficulty platformDifficulty;
-    private Direction startingDirection;
-
     private int cyclesCount;
     private readonly int _FULL_MOVE = 20;
     private readonly float _CHANGE_HUE_BY = 0.025f;
@@ -68,7 +68,7 @@ public class Globals : Node
         perspectiveMode = false;
         cameraRotation = Direction.LeftUp;
         sessionScore = 0;
-        platformDifficulty = 0;
+        platformDifficulty = PlafformDifficulty.Easy;
         cyclesCount = 0;
         correctMoves = 0;
         animationSpeed = 0.25f;
@@ -111,6 +111,16 @@ public class Globals : Node
         };
     }
 
+    public int GetRandomNumber(int range)
+    {
+        return _random.Next(range);
+    }
+
+    public int GetRandomNumber(int min, int max)
+    {
+        return _random.Next(min, max);
+    }
+
     public Vector3 GetFuturePosition()
     {
         Vector3 position = playerPosition;
@@ -137,73 +147,6 @@ public class Globals : Node
         return position;
     }
 
-    public bool IsMoveValid()
-    {
-        if (firstMove)
-        {
-            return _FirstMoveCheck();
-        }
-
-        totalMoves++;
-
-        foreach (Direction direction in possibleMoves)
-        {
-            if (animationDirection == direction)
-            {
-                correctMoves++;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public PlaftormType GetPlatformType()
-    {
-        int[] difficultyChancesList;
-
-        switch (platformDifficulty)
-        {
-            case PlafformDifficulty.Easy:
-            {
-                int[] easyChances = {10, 40, 75};
-                difficultyChancesList = easyChances;
-                break;
-            }
-            
-            case PlafformDifficulty.Medium:
-            {
-                int[] mediumChances = {5, 35, 60};
-                difficultyChancesList = mediumChances;
-                break;
-            }
-
-            default: // PlafformDifficulty.Hard
-            {
-                int[] hardChances = {2, 22, 40};
-                difficultyChancesList = hardChances;
-                break;
-            }
-        }
-
-        return _GetPlatformChances(difficultyChancesList);
-    }
-
-    public Direction RetranslateDirection(Direction direction)
-    {
-        if (cameraRotation != Direction.LeftUp)
-        {
-            direction -= (cameraRotation + 1);
-        }
-
-        if (direction < 0)
-        {
-            direction += 4;
-        }
-
-        return direction;
-    }
-
     public int GetNextCycle(int cycle)
     {
         if ((cyclesCount += 1) > 5)
@@ -225,18 +168,6 @@ public class Globals : Node
         return startingDirection;
     }
 
-    public int GetRandomRotationAmmount()
-    {
-        var randomChance = _random.Next(100);
-
-        return randomChance switch
-        {
-            < 5 => 3,
-            >= 5 and < 30 => 2,
-            _ => 1
-        };
-    }
-
     public SpatialMaterial RotateHue()
     {
         SpatialMaterial newMaterial = new();
@@ -253,42 +184,5 @@ public class Globals : Node
         newMaterial.Emission = emissionColor;
 
         return newMaterial;
-    }
-
-    private bool _FirstMoveCheck()
-    {
-        if (animationDirection == startingDirection)
-        {
-            firstMove = false;
-
-            correctMoves++;
-            totalMoves++;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private PlaftormType _GetPlatformChances(int[] chances)
-    {
-        int chance = _random.Next(100);
-
-        if (chance < chances[0])
-        {
-            return PlaftormType.Cross;
-        }
-
-        if (chance >= chances[0] && chance < chances[1])
-        {
-            return PlaftormType.Twoway;
-        }
-
-        if (chance >= chances[1] && chance < chances[2])
-        {
-            return PlaftormType.Long;
-        }
-
-        return PlaftormType.Corner;
     }
 }

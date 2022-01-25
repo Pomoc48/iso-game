@@ -62,7 +62,6 @@ public class Interface : Control
         _healthBar.SetSize(pos, false);
     }
 
-    // Update text and play animation
     public void UpdateScore()
     {
         _scoreLabel.Text = Globals.sessionScore.ToString();

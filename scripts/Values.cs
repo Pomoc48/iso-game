@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-enum PlafformDifficulty
+public enum PlafformDifficulty
 {
     Easy,
     Medium,
