@@ -75,7 +75,7 @@ public class Interface : Control
     }
 
     // Update text and play animation
-    public void AddScore()
+    public void UpdateScore()
     {
         _scoreLabel.Text = Globals.sessionScore.ToString();
         // Fix PlayBlindAnim() freezing
@@ -85,34 +85,29 @@ public class Interface : Control
         }
     }
 
-    public void HideUiAnimations(bool highscore)
+    public void HideUiAnimations()
     {
-        if (highscore)
-        {
-            _interfaceAnimation.Play("ui_hide_highscore");
-        }
-        else
-        {
-            _interfaceAnimation.Play("ui_hide");
-        }
+        _interfaceAnimation.Play("ui_hide");
     }
 
-    public void ColorHealthbar()
+    public void HideUiAnimationsHighscore()
+    {
+        _interfaceAnimation.Play("ui_hide_highscore");
+    }
+
+    public void UpdateHealthbarColor()
     {
         _healthBarTR.Color = Globals.emissionColor;
     }
 
-    // Animating transition between projections
-    public void PlayBlindAnim(bool perspective)
+    public void PlayPerspectiveAnimation()
     {
-        if (perspective)
-        {
-            _interfaceAnimation.Play("blind_perspective");
-        }
-        else
-        {
-            _interfaceAnimation.Play("blind_orthogonal");
-        }
+        _interfaceAnimation.Play("blind_perspective");
+    }
+
+    public void PlayOrthogonalAnimation()
+    {
+        _interfaceAnimation.Play("blind_orthogonal");
     }
 
     public void ShowStatistics(bool show)

@@ -14,6 +14,9 @@ public class Player : Spatial
     private MeshInstance _playerMesh;
     private Tween _playerTween;
 
+    private CPUParticles _bounceParticles;
+    private CPUParticles _gameOverParticles;
+
     private AnimationPlayer _spatialAnimation;
 
     private bool _canPlayerMove = false;
@@ -51,6 +54,9 @@ public class Player : Spatial
         _playerMesh = _playerSpatial.GetNode<MeshInstance>("Mesh");
 
         _spatialAnimation = GetNode<AnimationPlayer>("SpatialAnim");
+
+        _bounceParticles = _playerSpatial.GetNode<CPUParticles>("Bounce");
+        _gameOverParticles = _playerSpatial.GetNode<CPUParticles>("GameOver");
 
         Globals.NewGame();
         Globals.playerPosition = this.Translation;
@@ -117,11 +123,11 @@ public class Player : Spatial
 
         if (Globals.IsMoveLegal())
         {
-            _CorrectScoreCalculation();
+            _CorrectMove();
         }
         else
         {
-            _RebounceCheck(direction);
+            _WrongMove(direction);
         }
     }
 
@@ -150,7 +156,7 @@ public class Player : Spatial
     private void _CalculatePerspectiveFrames()
     {
         _frameCountPM++;
-        
+
         if ((_frameCountPM % 2) != 0)
         {
             return;
@@ -161,38 +167,40 @@ public class Player : Spatial
         if (_frameCountPM == Globals.FIVE_SEC_IN_FRAMES)
         {
             _frameCountPM = 0;
-            _EnablePerspectiveMode(false);
+            _DisablePerspectiveMode();
         }
     }
 
-    private void _CorrectScoreCalculation()
+    private void _CorrectMove()
     {
-        Vector3 oldPos = this.Translation;
-        Vector3 newPos = Globals.DirectionCalc();
-
-        // Increaase platform height
-        Globals.platformHeight += Globals.INCREASE_HEIGHT_BY;
-        newPos.y += Globals.INCREASE_HEIGHT_BY;
-
-        // Movement animation
-        _PlayTweenAnim("translation", oldPos, newPos, _animationSpeed);
+        _AnimatePlayerMovement();
         
         Globals.sessionScore += _increaseScoreBy;
-        Interface.AddScore();
+        Interface.UpdateScore();
         
-        // Don't active it twice by a small chance
-        if (!Globals.perspectiveMode)
-        {
-            _RollPerspectiveMode();
-        }
+        _RollPerspectiveMode();
 
         // Progress the game
         Level.GeneratePlatform();
 
         _UpdatePlayerColor();
+        Interface.UpdateHealthbarColor();
 
-        GiveHealth(_lifeGainRate);
+        _GiveHealth(_lifeGainRate);
         _DifficultyIncrease();
+    }
+
+    private void _AnimatePlayerMovement()
+    {
+        Vector3 oldPosition = this.Translation;
+        Vector3 newPosition = Globals.DirectionCalc();
+
+        // Increase platform height
+        Globals.platformHeight += Globals.INCREASE_HEIGHT_BY;
+        newPosition.y += Globals.INCREASE_HEIGHT_BY;
+
+        // Movement animation
+        _PlayTweenAnim("translation", oldPosition, newPosition, _animationSpeed);
     }
 
     private void _UpdatePlayerColor()
@@ -203,35 +211,35 @@ public class Player : Spatial
         newHue.Emission = Globals.emissionColor;
         
         _playerMesh.SetSurfaceMaterial(0, newHue);
-
-        CPUParticles bounce = _playerSpatial.GetNode<CPUParticles>("Bounce");
-        CPUParticles gameOver = _playerSpatial.GetNode<CPUParticles>("GameOver");
-
-        bounce.Mesh.SurfaceSetMaterial(0, newHue);
-        gameOver.Mesh.SurfaceSetMaterial(0, newHue);
-        Interface.ColorHealthbar();
+        _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue);
+        _gameOverParticles.Mesh.SurfaceSetMaterial(0, newHue);
     }
 
     private void _RollPerspectiveMode()
     {
-        int chance = _random.Next(100);
-
-        // 1% chance to activate special mode after 20 moves
-        if (chance < 1 && _faliedCountPM >= 24)
+        // Don't active it twice by a small chance
+        if (!Globals.perspectiveMode)
         {
-            _EnablePerspectiveMode(true);
-            _faliedCountPM = 0;
+            int chance = _random.Next(100);
+            _CheckPerspectiveModeChances(chance);
         }
-        else
-        {
-            _faliedCountPM++;
+    }
 
-            // Quadruple the chances after unlucky 100 moves
-            if (chance < 4 && _faliedCountPM >= 100)
-            {
-                _EnablePerspectiveMode(true);
-                _faliedCountPM = 0;
-            }
+    private void _CheckPerspectiveModeChances(int chance)
+    {
+        // 1% chance to activate special mode after 20 moves
+        if (chance < 1 && _faliedCountPM >= 20)
+        {
+            _EnablePerspectiveMode();
+            return;
+        }
+
+        _faliedCountPM++;
+
+        // Quadruple the chances after unlucky 100 moves
+        if (chance < 4 && _faliedCountPM >= 100)
+        {
+            _EnablePerspectiveMode();
         }
     }
 
@@ -255,12 +263,12 @@ public class Player : Spatial
 
         _speedupCounter = 0;
 
-        _CheckAndGenerateNewCycle();
+        _GenerateNewCycle();
         _RotateCameraBy(Globals.GetRandomRotationAmmount());
     }
 
     // For camera rotation and diff increase
-    private void _CheckAndGenerateNewCycle()
+    private void _GenerateNewCycle()
     {
         _maxCycle--;
 
@@ -303,10 +311,10 @@ public class Player : Spatial
 
         // Disable controls for animation duration
         _DisablePlayerControls();
-        _PlayCorrectAnimation(rotateClockwise, rotations);
+        _PlayCameraRotationAnimation(rotateClockwise, rotations);
     }
 
-    private void _PlayCorrectAnimation(bool clockwise, int rotations)
+    private void _PlayCameraRotationAnimation(bool clockwise, int rotations)
     {
         int rotateBy = 90 * rotations;
         // More rotations take longer
@@ -346,20 +354,16 @@ public class Player : Spatial
         _EnablePlayerControls();
     }
 
-    private void GiveHealth(float ammount)
+    private void _GiveHealth(float ammount)
     {
         // Health cap check
-        if ((Globals.playerHealth + ammount) > Globals.FULL_HEALTH)
+        if ((Globals.playerHealth += ammount) > Globals.FULL_HEALTH)
         {
             Globals.playerHealth = Globals.FULL_HEALTH;
         }
-        else
-        {
-            Globals.playerHealth += ammount;
-        }
     }
 
-    private void _RebounceCheck(Direction originalDirection)
+    private void _WrongMove(Direction originalDirection)
     {
         // No penalties during perspective mode
         if (!Globals.perspectiveMode)
@@ -394,20 +398,26 @@ public class Player : Spatial
         if (Globals.sessionScore > Globals.highScore)
         {
             Globals.highScore = Globals.sessionScore;
-
-            // Give more time for the new highscore animation
-            _spatialAnimation.Play("camera_up_long");
-            Interface.HideUiAnimations(true);
+            _PlayOutroAnimationsHighscore();
         }
-
         else
         {
-            // Outro animations
-            _spatialAnimation.Play("camera_up");
-            Interface.HideUiAnimations(false);
+            _PlayOutroAnimations();
         }
 
         Statistics.UploadStatistics();
+    }
+
+    private void _PlayOutroAnimations()
+    {
+        _spatialAnimation.Play("camera_up");
+        Interface.HideUiAnimations();
+    }
+
+    private void _PlayOutroAnimationsHighscore()
+    {
+        _spatialAnimation.Play("camera_up_long");
+        Interface.HideUiAnimationsHighscore();
     }
 
     private void _EnablePlayerControls()
@@ -420,25 +430,27 @@ public class Player : Spatial
         _canPlayerMove = false;
     }
 
-    private void _EnablePerspectiveMode(bool perspective)
+    private void _EnablePerspectiveMode()
     {
-        Globals.perspectiveMode = perspective;
+        _faliedCountPM = 0;
 
-        Interface.PlayBlindAnim(perspective);
+        Globals.perspectiveMode = true;
+        Interface.PlayPerspectiveAnimation();
 
-        if (perspective)
-        {
-            // Replenish full health
-            GiveHealth(Globals.FULL_HEALTH);
-            Interface.CalculateHealthBar();
+        // Replenish full health
+        _GiveHealth(Globals.FULL_HEALTH);
+        Interface.CalculateHealthBar();
 
-            // Double score when in perspective mode
-            _increaseScoreBy = 2;
-        }
-        else
-        {
-            _increaseScoreBy = 1;
-        }
+        // Double score when in perspective mode
+        _increaseScoreBy = 2;
+    }
+
+    private void _DisablePerspectiveMode()
+    {
+        Interface.PlayOrthogonalAnimation();
+
+        Globals.perspectiveMode = false;
+        _increaseScoreBy = 1;
     }
 
     private void _OnSpatialAnimationFinished(String animationName)
