@@ -1,6 +1,29 @@
 using Godot;
 using System;
 
+public enum PlafformDifficulty
+{
+    Easy,
+    Medium,
+    Hard,
+}
+
+public enum PlaftormType
+{
+    Long,
+    Corner,
+    Cross,
+    Twoway
+}
+
+public enum Direction
+{
+    RightUp,
+    RightDown,
+    LeftDown,
+    LeftUp
+}
+
 public class Globals : Node
 {
     public Vector3 playerPosition;

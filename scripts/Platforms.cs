@@ -4,7 +4,6 @@ using System;
 public class Platforms : Spatial
 {
     private Globals Globals;
-    private Values Values;
 
     private int _history = 20;
     private int _total = 1;
@@ -12,33 +11,12 @@ public class Platforms : Spatial
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
-        Values = GetNode<Values>("/root/Values");
-        
         _RotateStartingPlatform();
     }
 
     public void Generate()
     {
-        PlaftormType platformType = _GetPlatformType();
-
-        switch (platformType)
-        {
-            case PlaftormType.Long:
-                _Long();
-                break;
-
-            case PlaftormType.Corner:
-                _Corner();
-                break;
-
-            case PlaftormType.Cross:
-                _Cross();
-                break;
-
-            case PlaftormType.Twoway:
-                _TwoWay();
-                break;
-        }
+        _PlaceCorrectPlatformType();
 
         if ((_total += 1) >= _history)
         {
@@ -46,7 +24,7 @@ public class Platforms : Spatial
         }
     }
 
-    private PlaftormType _GetPlatformType()
+    private void _PlaceCorrectPlatformType()
     {
         int[] difficultyChancesList;
 
@@ -74,29 +52,32 @@ public class Platforms : Spatial
             }
         }
 
-        return _GetPlatformChances(difficultyChancesList);
+        _GetPlatformFromChances(difficultyChancesList);
     }
 
-    private PlaftormType _GetPlatformChances(int[] chances)
+    private void _GetPlatformFromChances(int[] chances)
     {
         int chance = Globals.GetRandomNumber(100);
 
         if (chance < chances[0])
         {
-            return PlaftormType.Cross;
+            _Cross();
         }
 
         if (chance >= chances[0] && chance < chances[1])
         {
-            return PlaftormType.Twoway;
+            _TwoWay();
         }
 
         if (chance >= chances[1] && chance < chances[2])
         {
-            return PlaftormType.Long;
+            _Long();
         }
 
-        return PlaftormType.Corner;
+        if (chance >= chances[2])
+        {
+            _Corner();
+        }
     }
 
     private void _RotateStartingPlatform()
@@ -133,88 +114,40 @@ public class Platforms : Spatial
     {
         Spatial platformBlockInstance;
         platformBlockInstance = _Place("Long");
-        platformBlockInstance.RotationDegrees = _GetRotation();
 
-        Globals.possibleMoves = new Direction[1]{Globals.animationDirection};
+        Long Long = (Long)platformBlockInstance;
+        Long.Rotate();
+        Long.UpdatePossibleMoves();
     }
 
     private void _Corner()
     {
         Spatial platformBlockInstance;
+        platformBlockInstance = _Place("Corner");
 
-        int reverse = 0;
-        // Change direction of the corner to the other side
-        if (Globals.GetRandomBool())
-        {
-            reverse++;
-            platformBlockInstance = _Place("CornerL");
-        }
-        else
-        {
-            platformBlockInstance = _Place("CornerR");
-        }
-
-        platformBlockInstance.RotationDegrees = _GetRotation();
-
-        // Check direction change
-        Globals.possibleMoves = new Direction[1]
-        {
-            Values.cornerMoves[(int)Globals.animationDirection, reverse]
-        };
+        Corner Corner = (Corner)platformBlockInstance;
+        Corner.Rotate();
+        Corner.UpdatePossibleMoves();
     }
 
     private void _Cross()
     {
         Spatial platformBlockInstance;
         platformBlockInstance = _Place("Cross");
-        platformBlockInstance.RotationDegrees = _GetRotation();
 
-        // Only opposite direction is removed from the array
-        Globals.possibleMoves = new Direction[3];
-
-        for (int i = 0; i < 3; i++)
-        {
-            Globals.possibleMoves[i] = Values.crossMoves[
-                (int)Globals.animationDirection, i];
-        }
+        Cross Cross = (Cross)platformBlockInstance;
+        Cross.Rotate();
+        Cross.UpdatePossibleMoves();
     }
 
     private void _TwoWay()
     {
         Spatial platformBlockInstance;
-        // Get new random orientation of the platform
-        Random random = new();
-        int randomSide = random.Next(30); // 66% for T shape
+        platformBlockInstance = _Place("TwoWay");
 
-        int randomSideIndex = 0;
-        String tPlatform = "TwoWay";
-
-        float rotation = (int)Globals.animationDirection * -90;
-
-        if (randomSide < 5) // 16% for -| shape
-        {
-            randomSideIndex = 1;
-            tPlatform = "TwoWayR";
-        }
-
-        if (randomSide >= 5 && randomSide < 10) // 16% for |- shape
-        {
-            randomSideIndex = 2;
-            tPlatform = "TwoWayL";
-        }
-
-        platformBlockInstance = _Place(tPlatform);
-
-        platformBlockInstance.RotationDegrees = _GetRotation();
-
-        // Get valid moves based on new rotation
-        Globals.possibleMoves = new Direction[2];
-
-        for (int i = 0; i < 2; i++)
-        {
-            Globals.possibleMoves[i] = Values.twowayMoves[
-                (int)Globals.animationDirection, randomSideIndex, i];
-        }
+        Twoway Twoway = (Twoway)platformBlockInstance;
+        Twoway.Rotate();
+        Twoway.UpdatePossibleMoves();
     }
 
     private Spatial _Place(String type)
