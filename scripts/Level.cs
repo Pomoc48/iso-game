@@ -113,7 +113,7 @@ public class Level : Spatial
         }
     }
 
-    public void TogglePlayerMove(bool enable)
+    public void TogglePlayerControls(bool enable)
     {
         _canPlayerMove = enable;
     }
@@ -159,7 +159,7 @@ public class Level : Spatial
 
     private void _CorrectMove()
     {
-        Player.AnimatePlayerMovement();
+        Player.AnimateMovement();
         
         Globals.sessionScore += _increaseScoreBy;
         Interface.UpdateScore();
@@ -168,7 +168,7 @@ public class Level : Spatial
 
         Platforms.Generate();
 
-        Player.UpdatePlayerColor();
+        Player.UpdateColor();
         Interface.UpdateHealthbarColor();
 
         _GivePlayerHealth();

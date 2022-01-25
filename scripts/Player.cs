@@ -5,7 +5,6 @@ public class Player : Spatial
 {
     private Level Level;
     private Globals Globals;
-    private Interface Interface;
 
     private Spatial _playerSpatial;
     private MeshInstance _playerMesh;
@@ -20,7 +19,6 @@ public class Player : Spatial
     {
         Level = GetNode<Level>("/root/Level");
         Globals = GetNode<Globals>("/root/Globals");
-        Interface = GetNode<Interface>("/root/Level/Interface");
 
         _playerTween = GetNode<Tween>("Tween");
         _playerSpatial = this.GetNode<Spatial>("Spatial");
@@ -32,7 +30,7 @@ public class Player : Spatial
         _gameOverParticles = _playerSpatial.GetNode<CPUParticles>("GameOver");
     }
 
-    public void AnimatePlayerMovement()
+    public void AnimateMovement()
     {
         Vector3 oldPosition = this.Translation;
         Vector3 newPosition = Globals.GetFuturePosition();
@@ -43,7 +41,7 @@ public class Player : Spatial
         _PlayTweenAnim("translation", oldPosition, newPosition, Globals.animationSpeed);
     }
 
-    public void UpdatePlayerColor()
+    public void UpdateColor()
     {
         SpatialMaterial newHue = new SpatialMaterial();
 
@@ -79,7 +77,7 @@ public class Player : Spatial
             Globals.cameraRotation += 4;
         }
 
-        Level.TogglePlayerMove(false);
+        Level.TogglePlayerControls(false);
         _PlayCameraRotationAnimation(rotateClockwise, rotations);
     }
 
@@ -119,12 +117,15 @@ public class Player : Spatial
         // Update global position at the end of animation
         Globals.playerPosition = this.Translation;
 
-        Level.TogglePlayerMove(true);
+        Level.TogglePlayerControls(true);
     }
 
     public void PlaySpatialAnimation(String animation)
     {
-        _spatialAnimation.Play(animation);
+        if (!_spatialAnimation.IsPlaying())
+        {
+            _spatialAnimation.Play(animation);
+        }
     }
 
     private void _OnSpatialAnimationFinished(String animationName)
@@ -135,7 +136,7 @@ public class Player : Spatial
         }
         else
         {
-            Level.TogglePlayerMove(true);
+            Level.TogglePlayerControls(true);
         }
     }
 }
