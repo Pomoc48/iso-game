@@ -35,13 +35,6 @@ public class Player : Spatial
     private int _frameCountPM = 0;
     private int _faliedCountPM = 0;
 
-    private String[] _inputMap = {
-        "ui_up",
-        "ui_right",
-        "ui_down", 
-        "ui_left",
-    };
-
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
@@ -63,33 +56,6 @@ public class Player : Spatial
         Globals.playerPosition = this.Translation;
 
         _difficultyCycle = Globals.GetNextCycle(_maxDifficultyCycle);
-    }
-
-    public override void _Process(float delta)
-    {
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[0])
-            && Input.IsActionPressed(_inputMap[1]))
-        {
-            CheckMove(Direction.RightUp);
-        }
-
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[1])
-            && Input.IsActionPressed(_inputMap[2]))
-        {
-            CheckMove(Direction.RightDown);
-        }
-
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[2])
-            && Input.IsActionPressed(_inputMap[3]))
-        {
-            CheckMove(Direction.LeftDown);
-        }
-
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[3])
-            && Input.IsActionPressed(_inputMap[0]))
-        {
-            CheckMove(Direction.LeftUp);
-        }
     }
 
     public override void _PhysicsProcess(float delta)

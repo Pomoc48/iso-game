@@ -31,7 +31,7 @@ public class Decorations : Spatial
         }
 
         // Add random offset
-        blockPosition = CalculatePosition(blockPosition);
+        blockPosition = _CalculatePosition(blockPosition);
 
         return blockPosition;
     }
@@ -64,7 +64,7 @@ public class Decorations : Spatial
         return blockInstance;
     }
 
-    private Vector3 CalculatePosition(Vector3 centerPosition)
+    private Vector3 _CalculatePosition(Vector3 centerPosition)
     {
         int rangeX;
         int rangeZ;
