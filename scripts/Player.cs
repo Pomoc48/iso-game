@@ -141,12 +141,16 @@ public class Player : Spatial
         }
 
         // Disable PM after 5s
-        if (!Globals.perspectiveMode)
+        if (Globals.perspectiveMode)
         {
-            return;
+            _CalculatePerspectiveFrames();
         }
+    }
 
+    private void _CalculatePerspectiveFrames()
+    {
         _frameCountPM++;
+        
         if ((_frameCountPM % 2) != 0)
         {
             return;
@@ -154,7 +158,7 @@ public class Player : Spatial
 
         Interface.CalculatePerspectiveBar(_frameCountPM);
 
-        if (_frameCountPM == 600)
+        if (_frameCountPM == Globals.FIVE_SEC_IN_FRAMES)
         {
             _frameCountPM = 0;
             _EnablePerspectiveMode(false);

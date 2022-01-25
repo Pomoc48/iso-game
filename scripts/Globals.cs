@@ -16,6 +16,7 @@ public class Globals : Node
     public Color emissionColor;
 
     public readonly int FULL_HEALTH = 24;
+    public readonly int FIVE_SEC_IN_FRAMES = 600;
     public readonly float INCREASE_HEIGHT_BY = 0.05f;
 
     public bool firstMove;

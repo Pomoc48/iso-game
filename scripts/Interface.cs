@@ -18,8 +18,6 @@ public class Interface : Control
     private float _screenSize;
     private float _updateHealthBy;
 
-    private const int FIVE_SEC_IN_FRAMES = 600;
-
     // Init function
     public override void _Ready()
     {
@@ -66,7 +64,7 @@ public class Interface : Control
     public void CalculatePerspectiveBar(float frames)
     {
         // Game physics runs 120f/s, 5s is 600f
-        frames /= -FIVE_SEC_IN_FRAMES;
+        frames /= -Globals.FIVE_SEC_IN_FRAMES;
         // Reverse percentage
         frames += 1;
 
