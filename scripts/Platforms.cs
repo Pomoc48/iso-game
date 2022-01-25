@@ -1,54 +1,48 @@
 using Godot;
 using System;
 
-public class Level : Spatial
+public class Platforms : Spatial
 {
     private Globals Globals;
     private Values Values;
 
-    private Spatial _platformsSpace;
-
-    private int _platformHistory = 20;
-    private int _totalPlatforms = 1;
+    private int _history = 20;
+    private int _total = 1;
 
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
         Values = GetNode<Values>("/root/Values");
-
-        _platformsSpace = GetNode<Spatial>("Platforms");
         
         _RotateStartingPlatform();
     }
 
-    public void GeneratePlatform()
+    public void Generate()
     {
         PlaftormType platformType = Globals.GetPlatformType();
 
         switch (platformType)
         {
             case PlaftormType.Long:
-                _PlatformLong();
+                _Long();
                 break;
 
             case PlaftormType.Corner:
-                _PlatformCorner();
+                _Corner();
                 break;
 
             case PlaftormType.Cross:
-                _PlatformCross();
+                _Cross();
                 break;
 
             case PlaftormType.Twoway:
-                _PlatformTwoWay();
+                _TwoWay();
                 break;
         }
 
-        _totalPlatforms++;
-
-        if (_totalPlatforms >= _platformHistory)
+        if ((_total += 1) >= _history)
         {
-            _RemoveOldPlatforms();
+            _RemoveOld();
         }
     }
 
@@ -58,7 +52,7 @@ public class Level : Spatial
         float _degreeInRadians = 1.5707963268f;
 
         rotation *= -_degreeInRadians;
-        _platformsSpace.GetChild<Spatial>(0).RotateY(rotation);
+        this.GetChild<Spatial>(0).RotateY(rotation);
     }
 
     // public void RepaintExistingPlatforms(bool red)
@@ -82,16 +76,16 @@ public class Level : Spatial
     //     }
     // }
 
-    private void _PlatformLong()
+    private void _Long()
     {
         Spatial platformBlockInstance;
-        platformBlockInstance = _PlacePlatform("Long");
-        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
+        platformBlockInstance = _Place("Long");
+        platformBlockInstance.RotationDegrees = _GetRotation();
 
         Globals.possibleMoves = new Direction[1]{Globals.animationDirection};
     }
 
-    private void _PlatformCorner()
+    private void _Corner()
     {
         Spatial platformBlockInstance;
 
@@ -100,14 +94,14 @@ public class Level : Spatial
         if (Globals.GetRandomBool())
         {
             reverse++;
-            platformBlockInstance = _PlacePlatform("CornerL");
+            platformBlockInstance = _Place("CornerL");
         }
         else
         {
-            platformBlockInstance = _PlacePlatform("CornerR");
+            platformBlockInstance = _Place("CornerR");
         }
 
-        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
+        platformBlockInstance.RotationDegrees = _GetRotation();
 
         // Check direction change
         Globals.possibleMoves = new Direction[1]
@@ -116,11 +110,11 @@ public class Level : Spatial
         };
     }
 
-    private void _PlatformCross()
+    private void _Cross()
     {
         Spatial platformBlockInstance;
-        platformBlockInstance = _PlacePlatform("Cross");
-        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
+        platformBlockInstance = _Place("Cross");
+        platformBlockInstance.RotationDegrees = _GetRotation();
 
         // Only opposite direction is removed from the array
         Globals.possibleMoves = new Direction[3];
@@ -132,7 +126,7 @@ public class Level : Spatial
         }
     }
 
-    private void _PlatformTwoWay()
+    private void _TwoWay()
     {
         Spatial platformBlockInstance;
         // Get new random orientation of the platform
@@ -156,9 +150,9 @@ public class Level : Spatial
             tPlatform = "TwoWayL";
         }
 
-        platformBlockInstance = _PlacePlatform(tPlatform);
+        platformBlockInstance = _Place(tPlatform);
 
-        platformBlockInstance.RotationDegrees = _GetPlatformRotation();
+        platformBlockInstance.RotationDegrees = _GetRotation();
 
         // Get valid moves based on new rotation
         Globals.possibleMoves = new Direction[2];
@@ -170,7 +164,7 @@ public class Level : Spatial
         }
     }
 
-    private Spatial _PlacePlatform(String type)
+    private Spatial _Place(String type)
     {
         PackedScene platformBlock;
         Spatial blockInstance;
@@ -180,14 +174,14 @@ public class Level : Spatial
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         blockInstance = (Spatial)platformBlock.Instance();
 
-        blockInstance = _RecolorPlatform(blockInstance);
-        blockInstance.Translation = _GetPlatformPosition(blockInstance);
+        blockInstance = _Recolor(blockInstance);
+        blockInstance.Translation = _GetPosition(blockInstance);
 
-        _platformsSpace.AddChild(blockInstance);
+        this.AddChild(blockInstance);
         return blockInstance;
     }
 
-    private Spatial _RecolorPlatform(Spatial instance)
+    private Spatial _Recolor(Spatial instance)
     {
         MeshInstance meshInstance;
 
@@ -197,7 +191,7 @@ public class Level : Spatial
         return instance;
     }
 
-    private Vector3 _GetPlatformPosition(Spatial blockInstance)
+    private Vector3 _GetPosition(Spatial blockInstance)
     {
         blockInstance.Translation = Globals.GetFuturePosition();
         Vector3 translationVector = blockInstance.Translation;
@@ -208,7 +202,7 @@ public class Level : Spatial
         return translationVector;
     }
 
-    private Vector3 _GetPlatformRotation()
+    private Vector3 _GetRotation()
     {
         Vector3 rotationVector = new();
 
@@ -228,12 +222,12 @@ public class Level : Spatial
         return rotationVector;
     }
 
-    private void _RemoveOldPlatforms()
+    private void _RemoveOld()
     {
-        int childIndex = _totalPlatforms - _platformHistory;
-        Spatial child = _platformsSpace.GetChild<Spatial>(childIndex);
+        int childIndex = _total - _history;
+        Spatial child = this.GetChild<Spatial>(childIndex);
 
-        _totalPlatforms--;
+        _total--;
         // child.QueueFree();
         child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
     }
