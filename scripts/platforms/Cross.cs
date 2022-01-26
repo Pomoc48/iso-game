@@ -16,14 +16,11 @@ public class Cross : Spatial
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
+
+        _UpdatePossibleMoves();
     }
 
-    public void Rotate()
-    {
-        // No need for rotaion
-    }
-
-    public void UpdatePossibleMoves()
+    private void _UpdatePossibleMoves()
     {
         Globals.possibleMoves = new Direction[3];
         int d = (int)Globals.animationDirection;

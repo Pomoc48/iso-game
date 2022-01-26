@@ -57,26 +57,28 @@ public class Platforms : Spatial
 
     private void _GetPlatformFromChances(int[] chances)
     {
+        Spatial platformBlockInstance;
+
         int chance = Globals.GetRandomNumber(100);
 
         if (chance < chances[0])
         {
-            _Cross();
+            platformBlockInstance = _Place("Cross");
         }
 
         if (chance >= chances[0] && chance < chances[1])
         {
-            _TwoWay();
+            platformBlockInstance = _Place("TwoWay");
         }
 
         if (chance >= chances[1] && chance < chances[2])
         {
-            _Long();
+            platformBlockInstance = _Place("Long");
         }
 
         if (chance >= chances[2])
         {
-            _Corner();
+            platformBlockInstance = _Place("Corner");
         }
     }
 
@@ -109,46 +111,6 @@ public class Platforms : Spatial
     //         meshInstance.SetSurfaceMaterial(0, spatialMaterial);
     //     }
     // }
-
-    private void _Long()
-    {
-        Spatial platformBlockInstance;
-        platformBlockInstance = _Place("Long");
-
-        Long Long = (Long)platformBlockInstance;
-        Long.Rotate();
-        Long.UpdatePossibleMoves();
-    }
-
-    private void _Corner()
-    {
-        Spatial platformBlockInstance;
-        platformBlockInstance = _Place("Corner");
-
-        Corner Corner = (Corner)platformBlockInstance;
-        Corner.Rotate();
-        Corner.UpdatePossibleMoves();
-    }
-
-    private void _Cross()
-    {
-        Spatial platformBlockInstance;
-        platformBlockInstance = _Place("Cross");
-
-        Cross Cross = (Cross)platformBlockInstance;
-        Cross.Rotate();
-        Cross.UpdatePossibleMoves();
-    }
-
-    private void _TwoWay()
-    {
-        Spatial platformBlockInstance;
-        platformBlockInstance = _Place("TwoWay");
-
-        Twoway Twoway = (Twoway)platformBlockInstance;
-        Twoway.Rotate();
-        Twoway.UpdatePossibleMoves();
-    }
 
     private Spatial _Place(String type)
     {
@@ -186,26 +148,6 @@ public class Platforms : Spatial
         translationVector.y = height;
 
         return translationVector;
-    }
-
-    private Vector3 _GetRotation()
-    {
-        Vector3 rotationVector = new();
-
-        if (Globals.animationDirection == Direction.RightDown)
-        {
-            rotationVector.y = -90;
-        }
-        if (Globals.animationDirection == Direction.LeftDown)
-        {
-            rotationVector.y = 180;
-        }
-        if (Globals.animationDirection == Direction.LeftUp)
-        {
-            rotationVector.y = 90;
-        }
-
-        return rotationVector;
     }
 
     private void _RemoveOld()

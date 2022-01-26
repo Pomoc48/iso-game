@@ -47,14 +47,17 @@ public class Twoway : Spatial
         {
             _randomSideIndex = 2;
         }
+
+        _Rotate();
+        _UpdatePossibleMoves();
     }
 
-    public void Rotate()
+    private void _Rotate()
     {
         this.RotationDegrees = _GetRotation();
     }
 
-    public void UpdatePossibleMoves()
+    private void _UpdatePossibleMoves()
     {
         Globals.possibleMoves = new Direction[2];
         int d = (int)Globals.animationDirection;

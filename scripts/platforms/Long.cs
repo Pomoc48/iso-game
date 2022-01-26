@@ -8,9 +8,12 @@ public class Long : Spatial
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
+
+        _Rotate();
+        _UpdatePossibleMoves();
     }
 
-    public void Rotate()
+    private void _Rotate()
     {
         if (((int)Globals.animationDirection % 2) != 0)
         {
@@ -20,7 +23,7 @@ public class Long : Spatial
         }
     }
 
-    public void UpdatePossibleMoves()
+    private void _UpdatePossibleMoves()
     {
         Globals.possibleMoves = new Direction[1]
         {

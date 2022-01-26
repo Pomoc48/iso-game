@@ -18,14 +18,17 @@ public class Corner : Spatial
     {
         Globals = GetNode<Globals>("/root/Globals");
         _reverse = Globals.GetRandomBool();
+
+        _Rotate();
+        _UpdatePossibleMoves();
     }
 
-    public void Rotate()
+    private void _Rotate()
     {
         this.RotationDegrees = _GetRotation();
     }
 
-    public void UpdatePossibleMoves()
+    private void _UpdatePossibleMoves()
     {
         Globals.possibleMoves = new Direction[1]
         {
