@@ -43,10 +43,7 @@ public class Player : Spatial
 
     public void UpdateColor()
     {
-        SpatialMaterial newHue = new SpatialMaterial();
-
-        newHue.EmissionEnabled = true;
-        newHue.Emission = Globals.emissionColor;
+        SpatialMaterial newHue = Globals.GetEmissionMaterial();
         
         _playerMesh.SetSurfaceMaterial(0, newHue);
         _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue);

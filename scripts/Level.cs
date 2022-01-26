@@ -201,6 +201,7 @@ public class Level : Spatial
         
         _RollPerspectiveMode();
 
+        Globals.UpdateEmissionMaterial();
         Platforms.Generate();
 
         Player.UpdateColor();

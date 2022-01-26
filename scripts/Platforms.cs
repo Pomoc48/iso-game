@@ -8,6 +8,8 @@ public class Platforms : Spatial
     private int _history = 20;
     private int _total = 1;
 
+    private float _valueSubtract = 0.05f;
+
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
@@ -20,6 +22,30 @@ public class Platforms : Spatial
         if ((_total += 1) >= _history)
         {
             _RemoveOld();
+        }
+
+        _AdjustExistingPlatformsValue();
+    }
+
+    private void _AdjustExistingPlatformsValue()
+    {
+        MeshInstance meshInstance;
+        
+
+        for (int i = _total; i > 0; i--)
+        {
+            meshInstance = this.GetChild(i-1).GetNode<MeshInstance>("Spatial/Border");
+
+            SpatialMaterial materialOld = (SpatialMaterial)meshInstance.GetSurfaceMaterial(0);
+            Color emission = materialOld.Emission;
+
+            emission.v -= _valueSubtract;
+
+            SpatialMaterial material = new();
+            material.EmissionEnabled = true;
+            material.Emission = emission;
+            
+            meshInstance.SetSurfaceMaterial(0, material);
         }
     }
 
@@ -81,27 +107,6 @@ public class Platforms : Spatial
         }
     }
 
-    // public void RepaintExistingPlatforms(bool red)
-    // {
-    //     MeshInstance meshInstance;
-    //     SpatialMaterial spatialMaterial;
-
-    //     if (red)
-    //     {
-    //         spatialMaterial = Globals.materialRed;
-    //     }
-    //     else
-    //     {
-    //         spatialMaterial = Globals.materialBlue;
-    //     }
-
-    //     foreach (Node _i in _platformsSpace.GetChildren())
-    //     {
-    //         meshInstance = _i.GetChild(0).GetNode<MeshInstance>("Border");
-    //         meshInstance.SetSurfaceMaterial(0, spatialMaterial);
-    //     }
-    // }
-
     private Spatial _Place(String type)
     {
         PackedScene platformBlock;
@@ -124,7 +129,7 @@ public class Platforms : Spatial
         MeshInstance meshInstance;
 
         meshInstance = instance.GetChild(0).GetNode<MeshInstance>("Border");
-        meshInstance.SetSurfaceMaterial(0, Globals.RotateHue());
+        meshInstance.SetSurfaceMaterial(0, Globals.GetEmissionMaterial());
 
         return instance;
     }

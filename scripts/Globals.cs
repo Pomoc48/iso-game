@@ -184,21 +184,23 @@ public class Globals : Node
         return cycle + _random.Next(5);
     }
 
-    public SpatialMaterial RotateHue()
+    public SpatialMaterial GetEmissionMaterial()
     {
-        SpatialMaterial newMaterial = new();
-        Color _oldEmissionColor = emissionColor;
+        SpatialMaterial newHue = new SpatialMaterial();
 
+        newHue.EmissionEnabled = true;
+        newHue.Emission = emissionColor;
+
+        return newHue;
+    }
+
+    public void UpdateEmissionMaterial()
+    {
         if ((emissionColor.h += _CHANGE_HUE_BY) > 1)
         {
             emissionColor.h = 0;
         }
 
         emissionColor.v = 1;
-
-        newMaterial.EmissionEnabled = true;
-        newMaterial.Emission = emissionColor;
-
-        return newMaterial;
     }
 }
