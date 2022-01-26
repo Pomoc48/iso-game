@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Long : Spatial
+public class Start : Spatial
 {
     private Globals Globals;
 
@@ -15,18 +15,24 @@ public class Long : Spatial
 
     private void _Rotate()
     {
-        if (((int)Globals.animationDirection % 2) != 0)
-        {
-            Vector3 rotation = new(0, 90, 0);
-            this.RotationDegrees = rotation;
-        }
+        int rotationY = (int)_GenerateStartingPos();
+        rotationY *= - 90;
+
+        Vector3 rotation = new(0, rotationY, 0);
+        this.RotationDegrees = rotation;
+    }
+
+    private Direction _GenerateStartingPos()
+    {
+        Globals.startingDirection = (Direction)Globals.GetRandomNumber(4);
+        return Globals.startingDirection;
     }
 
     private void _UpdatePossibleMoves()
     {
         Globals.possibleMoves = new Direction[1]
         {
-            Globals.animationDirection
+            Globals.startingDirection
         };
     }
 

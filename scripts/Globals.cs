@@ -98,7 +98,6 @@ public class Globals : Node
         totalMoves = 0;
         platformHeight = 0f;
         emissionColor = materialBlue.Emission;
-
     }
 
     public void SaveStats(String[] categories, int[] values)
@@ -183,12 +182,6 @@ public class Globals : Node
         }
 
         return cycle + _random.Next(5);
-    }
-
-    public Direction GenerateStartingPlatformPos()
-    {
-        startingDirection = (Direction)_random.Next(4);
-        return startingDirection;
     }
 
     public SpatialMaterial RotateHue()

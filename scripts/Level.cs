@@ -116,14 +116,8 @@ public class Level : Spatial
         _canPlayerMove = enable;
     }
 
-
     public bool _IsMoveValid()
     {
-        if (Globals.firstMove)
-        {
-            return _FirstMoveCheck();
-        }
-
         Globals.totalMoves++;
 
         foreach (Direction direction in Globals.possibleMoves)
@@ -131,23 +125,14 @@ public class Level : Spatial
             if (Globals.animationDirection == direction)
             {
                 Globals.correctMoves++;
+
+                if (Globals.firstMove)
+                {
+                    Globals.firstMove = false;
+                }
+
                 return true;
             }
-        }
-
-        return false;
-    }
-
-    private bool _FirstMoveCheck()
-    {
-        if (Globals.animationDirection == Globals.startingDirection)
-        {
-            Globals.firstMove = false;
-
-            Globals.correctMoves++;
-            Globals.totalMoves++;
-
-            return true;
         }
 
         return false;

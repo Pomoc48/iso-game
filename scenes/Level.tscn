@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://animations/bounces/bounce3.tres" type="Animation" id=29]
 [ext_resource path="res://animations/bounces/bounce1.tres" type="Animation" id=30]
 [ext_resource path="res://animations/bounces/bounce0.tres" type="Animation" id=31]
+[ext_resource path="res://scripts/platforms/Start.cs" type="Script" id=32]
 
 [sub_resource type="DynamicFont" id=5]
 size = 80
@@ -281,6 +282,7 @@ __meta__ = {
 script = ExtResource( 5 )
 
 [node name="Start" parent="Platforms" instance=ExtResource( 14 )]
+script = ExtResource( 32 )
 
 [node name="Player" type="Spatial" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0 )

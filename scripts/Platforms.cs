@@ -11,12 +11,11 @@ public class Platforms : Spatial
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
-        _RotateStartingPlatform();
     }
 
     public void Generate()
     {
-        _PlaceCorrectPlatformType();
+        _PlaceCorrectType();
 
         if ((_total += 1) >= _history)
         {
@@ -24,7 +23,7 @@ public class Platforms : Spatial
         }
     }
 
-    private void _PlaceCorrectPlatformType()
+    private void _PlaceCorrectType()
     {
         int[] difficultyChancesList;
 
@@ -80,15 +79,6 @@ public class Platforms : Spatial
         {
             platformBlockInstance = _Place("Corner");
         }
-    }
-
-    private void _RotateStartingPlatform()
-    {
-        float rotation = (int)Globals.GenerateStartingPlatformPos();
-        float _degreeInRadians = 1.5707963268f;
-
-        rotation *= -_degreeInRadians;
-        this.GetChild<Spatial>(0).RotateY(rotation);
     }
 
     // public void RepaintExistingPlatforms(bool red)

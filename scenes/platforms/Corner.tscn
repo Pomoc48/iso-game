@@ -40,7 +40,7 @@ script = ExtResource( 3 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="Plane001" type="MeshInstance" parent="Spatial"]
-transform = Transform( 1, 0, -2.13163e-14, 0, 1, 0, 2.13163e-14, 0, 1, 0, 0, 0 )
+transform = Transform( 1, 0, -2.089e-14, 0, 1, 0, 2.13163e-14, 0, 0.98, 0, 0, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")
 material/0 = ExtResource( 2 )
