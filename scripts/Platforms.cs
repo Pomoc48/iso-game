@@ -129,7 +129,7 @@ public class Platforms : Spatial
         MeshInstance meshInstance;
 
         meshInstance = instance.GetChild(0).GetNode<MeshInstance>("Border");
-        meshInstance.SetSurfaceMaterial(0, Globals.GetEmissionMaterial());
+        meshInstance.SetSurfaceMaterial(0, Globals.GetEmissionMaterial(0));
 
         return instance;
     }

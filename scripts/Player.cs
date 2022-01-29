@@ -45,12 +45,11 @@ public class Player : Spatial
 
     public void UpdateColor()
     {
-        SpatialMaterial newHue = Globals.GetEmissionMaterial();
-        
+        SpatialMaterial newHue = Globals.GetEmissionMaterial(0);
         _playerMesh.SetSurfaceMaterial(0, newHue);
-        _bodyParticles.Mesh.SurfaceSetMaterial(0, newHue);
-        _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue);
-        _gameOverParticles.Mesh.SurfaceSetMaterial(0, newHue);
+
+        SpatialMaterial newHuePlus = Globals.GetEmissionMaterial(0.04f);
+        _bodyParticles.Mesh.SurfaceSetMaterial(0, newHuePlus);
     }
 
     public void RotateCameraBy(int rotations)

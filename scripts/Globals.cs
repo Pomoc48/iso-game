@@ -188,14 +188,35 @@ public class Globals : Node
         return cycle + _random.Next(5);
     }
 
-    public SpatialMaterial GetEmissionMaterial()
+    public SpatialMaterial GetEmissionMaterial(float offset)
     {
         SpatialMaterial newHue = new SpatialMaterial();
 
         newHue.EmissionEnabled = true;
         newHue.Emission = emissionColor;
 
+        Color hueOffset = newHue.Emission;
+
+        hueOffset.h += offset;
+        hueOffset.h = _CheckCap(hueOffset.h);
+
+        newHue.Emission = hueOffset;
         return newHue;
+    }
+
+    private float _CheckCap(float value)
+    {
+        if (value > 1)
+        {
+            value = 0;
+        }
+
+        if (value < 0)
+        {
+            value = 1;
+        }
+
+        return value;
     }
 
     public void UpdateEmissionMaterial()

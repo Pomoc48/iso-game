@@ -20,7 +20,7 @@ public class Decorations : Spatial
     {
         Vector3 blockPosition = new();
 
-        if (Globals.firstMove) // Idle animation position fix
+        if (Globals.firstMove)
         {
             blockPosition = Globals.playerPosition;
         }
@@ -29,7 +29,6 @@ public class Decorations : Spatial
             blockPosition = Globals.GetFuturePosition();
         }
 
-        // Add random offset
         blockPosition = _CalculatePosition(blockPosition);
 
         return blockPosition;
@@ -49,10 +48,7 @@ public class Decorations : Spatial
 
     private Spatial _Recolor(Spatial blockInstance)
     {
-        SpatialMaterial newHue = new();
-
-        newHue.EmissionEnabled = true;
-        newHue.Emission = Globals.emissionColor;
+        SpatialMaterial newHue = Globals.GetEmissionMaterial(-0.04f);
 
         MeshInstance meshInstance = blockInstance.GetNode<MeshInstance>("MeshInstance");
         CPUParticles cpuParticles = blockInstance.GetNode<CPUParticles>("CPUParticles");
