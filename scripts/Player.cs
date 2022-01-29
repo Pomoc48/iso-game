@@ -124,6 +124,8 @@ public class Player : Spatial
             if (animation == "camera_up" || animation == "camera_up_long")
             {
                 _spatialAnimation.Stop(true);
+                // Fix particles rarely emitting non stop after game over
+                _bounceParticles.Emitting = false;
                 _spatialAnimation.Play(animation);
             }
         }
