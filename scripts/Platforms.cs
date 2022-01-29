@@ -5,10 +5,10 @@ public class Platforms : Spatial
 {
     private Globals Globals;
 
-    private int _history = 12;
+    private int _history = 6;
     private int _total = 1;
 
-    private float _valueSubtract = 0.08f;
+    private float _valueSubtract = 0.16f;
 
     public override void _Ready()
     {
