@@ -366,7 +366,7 @@ scale_amount = 2.0
 scale_amount_curve = ExtResource( 32 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )
+transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8 )
 projection = 1
 current = true
 size = 36.0
