@@ -151,7 +151,6 @@ public class Platforms : Spatial
         Spatial child = this.GetChild<Spatial>(childIndex);
 
         _total--;
-        child.QueueFree();
-        //child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
+        child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
     }
 }
