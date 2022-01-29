@@ -42,6 +42,8 @@ public class Level : Spatial
         Player = GetNode<Player>("/root/Level/Player");
 
         Globals.NewGame();
+        
+        Player.UpdateColor();
         Globals.playerPosition = Player.Translation;
 
         _difficultyCycle = Globals.GetNextCycle(_maxDifficultyCycle);

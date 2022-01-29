@@ -86,17 +86,21 @@ public class Globals : Node
 
     public void NewGame()
     {
-        playerHealth = FULL_HEALTH;
         firstMove = true;
         perspectiveMode = false;
-        cameraRotation = Direction.LeftUp;
+        
+        playerHealth = FULL_HEALTH;
         sessionScore = 0;
-        platformDifficulty = PlafformDifficulty.Easy;
         cyclesCount = 0;
         correctMoves = 0;
-        animationSpeed = 0.25f;
         totalMoves = 0;
+
         platformHeight = 0f;
+        animationSpeed = 0.25f;
+
+        cameraRotation = Direction.LeftUp;
+        platformDifficulty = PlafformDifficulty.Easy;
+
         emissionColor = materialBlue.Emission;
     }
 
