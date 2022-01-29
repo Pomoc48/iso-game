@@ -31,6 +31,9 @@
 [ext_resource path="res://animations/bounces/bounce3.tres" type="Animation" id=29]
 [ext_resource path="res://animations/bounces/bounce1.tres" type="Animation" id=30]
 [ext_resource path="res://animations/bounces/bounce0.tres" type="Animation" id=31]
+[ext_resource path="res://curves/scale.tres" type="Curve" id=32]
+[ext_resource path="res://meshes/particle.tres" type="SphereMesh" id=33]
+[ext_resource path="res://meshes/player.tres" type="SphereMesh" id=34]
 
 [sub_resource type="DynamicFont" id=5]
 size = 80
@@ -48,20 +51,6 @@ font_data = ExtResource( 18 )
 size = 32
 extra_spacing_top = 11
 font_data = ExtResource( 8 )
-
-[sub_resource type="SphereMesh" id=37]
-material = ExtResource( 3 )
-radius = 0.1
-height = 0.2
-radial_segments = 8
-rings = 4
-
-[sub_resource type="Curve" id=38]
-_data = [ Vector2( 0, 1 ), 0.0, -0.0895879, 0, 0, Vector2( 0.365782, 1 ), 0.0, -0.128409, 0, 0, Vector2( 1, 0 ), -4.54568, 0.0, 0, 0 ]
-
-[sub_resource type="SphereMesh" id=47]
-radial_segments = 32
-rings = 16
 
 [node name="Level" type="Spatial"]
 script = ExtResource( 7 )
@@ -307,7 +296,7 @@ amount = 20
 lifetime = 0.4
 explosiveness = 1.0
 local_coords = false
-mesh = SubResource( 37 )
+mesh = ExtResource( 33 )
 direction = Vector3( 0, 0, 0 )
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
@@ -315,14 +304,14 @@ initial_velocity = 20.0
 initial_velocity_random = 0.2
 radial_accel = -5.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 38 )
+scale_amount_curve = ExtResource( 32 )
 
 [node name="GameOver" type="CPUParticles" parent="Player/Spatial"]
 emitting = false
 amount = 80
 explosiveness = 1.0
 local_coords = false
-mesh = SubResource( 37 )
+mesh = ExtResource( 33 )
 direction = Vector3( 0, 0, 0 )
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
@@ -330,12 +319,28 @@ initial_velocity = 20.0
 initial_velocity_random = 0.2
 radial_accel = -5.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 38 )
+scale_amount_curve = ExtResource( 32 )
 
 [node name="Mesh" type="MeshInstance" parent="Player/Spatial"]
-mesh = SubResource( 47 )
+mesh = ExtResource( 34 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
+
+[node name="BodyP" type="CPUParticles" parent="Player/Spatial"]
+amount = 16
+lifetime = 0.5
+fract_delta = false
+local_coords = false
+mesh = ExtResource( 33 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 9.8, 0 )
+initial_velocity = 10.0
+radial_accel = -100.0
+scale_amount = 2.0
+scale_amount_curve = ExtResource( 32 )
 
 [node name="Camera" type="Camera" parent="Player"]
 transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 40, 8 )

@@ -12,6 +12,7 @@ public class Player : Spatial
 
     private CPUParticles _bounceParticles;
     private CPUParticles _gameOverParticles;
+    private CPUParticles _bodyParticles;
 
     private AnimationPlayer _spatialAnimation;
 
@@ -28,6 +29,7 @@ public class Player : Spatial
 
         _bounceParticles = _playerSpatial.GetNode<CPUParticles>("Bounce");
         _gameOverParticles = _playerSpatial.GetNode<CPUParticles>("GameOver");
+        _bodyParticles = _playerSpatial.GetNode<CPUParticles>("BodyP");
     }
 
     public void AnimateMovement()
@@ -46,6 +48,7 @@ public class Player : Spatial
         SpatialMaterial newHue = Globals.GetEmissionMaterial();
         
         _playerMesh.SetSurfaceMaterial(0, newHue);
+        _bodyParticles.Mesh.SurfaceSetMaterial(0, newHue);
         _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue);
         _gameOverParticles.Mesh.SurfaceSetMaterial(0, newHue);
     }
