@@ -71,7 +71,7 @@ public class Globals : Node
 
     private int cyclesCount;
     private readonly int _FULL_MOVE = 20;
-    private readonly float _CHANGE_HUE_BY = 0.025f;
+    private readonly float _CHANGE_HUE_BY = 0.02f;
 
     public override void _Ready()
     {

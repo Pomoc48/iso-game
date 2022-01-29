@@ -119,7 +119,15 @@ public class Player : Spatial
 
     public void PlaySpatialAnimation(String animation)
     {
-        if (!_spatialAnimation.IsPlaying())
+        if (_spatialAnimation.IsPlaying())
+        {
+            if (animation == "camera_up" || animation == "camera_up_long")
+            {
+                _spatialAnimation.Stop(true);
+                _spatialAnimation.Play(animation);
+            }
+        }
+        else
         {
             _spatialAnimation.Play(animation);
         }
