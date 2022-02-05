@@ -106,10 +106,9 @@ public class Player : Spatial
 
     private void _PlayTweenAnim(String type, Vector3 newVector, float time)
     {
-        Tween.TransitionType trans = Tween.TransitionType.Quad;
-        Tween.EaseType ease = Tween.EaseType.InOut;
+        Tween.TransitionType trans = Tween.TransitionType.Sine;
 
-        _playerTween.InterpolateProperty(this, type, null, newVector, time, trans, ease);
+        _playerTween.InterpolateProperty(this, type, null, newVector, time, trans);
         _playerTween.Start();
     }
 
