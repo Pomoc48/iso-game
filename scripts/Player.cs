@@ -30,6 +30,8 @@ public class Player : Spatial
         _gameOverParticles = _playerSpatial.GetNode<CPUParticles>("GameOver");
         _bodyParticles = _playerSpatial.GetNode<CPUParticles>("BodyP");
         _bodyParticles2 = _playerSpatial.GetNode<CPUParticles>("BodyCenterP");
+
+        _playerTween.PlaybackProcessMode = Tween.TweenProcessMode.Idle;
     }
 
     public void AnimateMovement()
