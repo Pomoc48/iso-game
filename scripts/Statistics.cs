@@ -56,10 +56,10 @@ public class Statistics : TextureButton
 
         String games = "Number of games: " + _statsArray[0] + "\n";
         String score = "Combined score: " + _statsArray[1] + "\n";
-        String percentage = "Correct move %: " + percentageString + "%\n";
+        String percentage = "Correct move percentage: " + percentageString + "%\n";
         //String moves = "Total moves: " + _statsArray[3] + "\n";
 
-        _statsTextLabel.Text = games + score + percentage;
+        _statsTextLabel.Text = percentage + games + score;
     }
 
     private void _OnStatsButtonDown()
