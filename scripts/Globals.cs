@@ -198,6 +198,12 @@ public class Globals : Node
         Color hueOffset = newHue.Emission;
 
         hueOffset.h += offset;
+        
+        if (perspectiveMode)
+        {
+            hueOffset.h += 0.5f;
+        }
+        
         hueOffset.h = _CheckCap(hueOffset.h);
 
         newHue.Emission = hueOffset;
@@ -208,12 +214,12 @@ public class Globals : Node
     {
         if (value > 1)
         {
-            value = 0;
+            value -= 1;
         }
 
         if (value < 0)
         {
-            value = 1;
+            value += 1;
         }
 
         return value;
