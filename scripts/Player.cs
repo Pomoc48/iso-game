@@ -34,13 +34,12 @@ public class Player : Spatial
 
     public void AnimateMovement()
     {
-        Vector3 oldPosition = this.Translation;
         Vector3 newPosition = Globals.GetFuturePosition();
 
         Globals.platformHeight += Globals.INCREASE_HEIGHT_BY;
         newPosition.y += Globals.INCREASE_HEIGHT_BY;
 
-        _PlayTweenAnim("translation", oldPosition, newPosition, Globals.animationSpeed);
+        _PlayTweenAnim("translation", newPosition, Globals.animationSpeed);
     }
 
     public void UpdateColor()
@@ -89,27 +88,26 @@ public class Player : Spatial
         // More rotations take longer
         float time = rotations * Globals.animationSpeed * 1.5f;
 
-        Vector3 oldRotRad = this.RotationDegrees;
-        Vector3 newRot = oldRotRad;
+        Vector3 newRotation = this.RotationDegrees;
 
         if (clockwise)
         {
-            newRot.y += rotateBy;
+            newRotation.y += rotateBy;
         }
         else
         {
-            newRot.y -= rotateBy;
+            newRotation.y -= rotateBy;
         }
 
-        _PlayTweenAnim("rotation_degrees", oldRotRad, newRot, time);
+        _PlayTweenAnim("rotation_degrees", newRotation, time);
     }
 
-    private void _PlayTweenAnim(String type, Vector3 oldVector, Vector3 newVector, float time)
+    private void _PlayTweenAnim(String type, Vector3 newVector, float time)
     {
         Tween.TransitionType trans = Tween.TransitionType.Quad;
         Tween.EaseType ease = Tween.EaseType.InOut;
 
-        _playerTween.InterpolateProperty(this, type, oldVector, newVector, time, trans, ease);
+        _playerTween.InterpolateProperty(this, type, null, newVector, time, trans, ease);
         _playerTween.Start();
     }
 
