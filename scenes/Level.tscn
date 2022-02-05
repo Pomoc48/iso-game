@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -65,10 +65,19 @@ radial_segments = 8
 rings = 4
 
 [sub_resource type="SphereMesh" id=51]
+radius = 0.4
+height = 0.8
 radial_segments = 32
 rings = 16
 
 [sub_resource type="SphereMesh" id=50]
+material = ExtResource( 3 )
+radius = 0.1
+height = 0.2
+radial_segments = 8
+rings = 4
+
+[sub_resource type="SphereMesh" id=53]
 material = ExtResource( 3 )
 radius = 0.1
 height = 0.2
@@ -344,18 +353,35 @@ scale_amount = 2.0
 scale_amount_curve = ExtResource( 32 )
 
 [node name="Mesh" type="MeshInstance" parent="Player/Spatial"]
+visible = false
 mesh = SubResource( 51 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 3 )
 
 [node name="BodyP" type="CPUParticles" parent="Player/Spatial"]
-amount = 16
+amount = 24
 lifetime = 0.5
 fract_delta = false
 local_coords = false
 mesh = SubResource( 50 )
 emission_shape = 1
-emission_sphere_radius = 1.0
+emission_sphere_radius = 0.41
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 9.8, 0 )
+initial_velocity = 10.0
+radial_accel = -100.0
+scale_amount = 2.0
+scale_amount_curve = ExtResource( 32 )
+
+[node name="BodyP2" type="CPUParticles" parent="Player/Spatial"]
+amount = 6
+lifetime = 0.5
+fract_delta = false
+local_coords = false
+mesh = SubResource( 53 )
+emission_shape = 1
+emission_sphere_radius = 0.25
 direction = Vector3( 0, 1, 0 )
 spread = 180.0
 gravity = Vector3( 0, 9.8, 0 )

@@ -13,6 +13,7 @@ public class Player : Spatial
     private CPUParticles _bounceParticles;
     private CPUParticles _gameOverParticles;
     private CPUParticles _bodyParticles;
+    private CPUParticles _bodyParticles2;
 
     private AnimationPlayer _spatialAnimation;
 
@@ -30,6 +31,7 @@ public class Player : Spatial
         _bounceParticles = _playerSpatial.GetNode<CPUParticles>("Bounce");
         _gameOverParticles = _playerSpatial.GetNode<CPUParticles>("GameOver");
         _bodyParticles = _playerSpatial.GetNode<CPUParticles>("BodyP");
+        _bodyParticles2 = _playerSpatial.GetNode<CPUParticles>("BodyP2");
     }
 
     public void AnimateMovement()
@@ -54,6 +56,7 @@ public class Player : Spatial
         _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue3);
 
         _bodyParticles.Mesh.SurfaceSetMaterial(0, newHue2);
+        _bodyParticles2.Mesh.SurfaceSetMaterial(0, newHue3);
     }
 
     public void RotateCameraBy(int rotations)
