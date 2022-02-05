@@ -7,7 +7,6 @@ public class Player : Spatial
     private Globals Globals;
 
     private Spatial _playerSpatial;
-    private MeshInstance _playerMesh;
     private Tween _playerTween;
 
     private CPUParticles _bounceParticles;
@@ -24,7 +23,6 @@ public class Player : Spatial
 
         _playerTween = GetNode<Tween>("Tween");
         _playerSpatial = this.GetNode<Spatial>("Spatial");
-        _playerMesh = _playerSpatial.GetNode<MeshInstance>("Mesh");
 
         _spatialAnimation = GetNode<AnimationPlayer>("SpatialAnim");
 
@@ -51,7 +49,6 @@ public class Player : Spatial
         SpatialMaterial newHue2 = Globals.GetEmissionMaterial(0.025f);
         SpatialMaterial newHue3 = Globals.GetEmissionMaterial(0.25f);
 
-        _playerMesh.SetSurfaceMaterial(0, newHue);
         _gameOverParticles.Mesh.SurfaceSetMaterial(0, newHue3);
         _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue3);
 
