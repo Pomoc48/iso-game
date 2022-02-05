@@ -51,7 +51,7 @@ tracks/3/keys = {
 "values": [ Color( 0.0431373, 0.0431373, 0.0431373, 0 ), Color( 0.0431373, 0.0431373, 0.0431373, 1 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Spatial/BodyP2:emitting")
+tracks/4/path = NodePath("Spatial/BodyCenterP:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false

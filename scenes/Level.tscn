@@ -367,7 +367,7 @@ radial_accel = -100.0
 scale_amount = 2.0
 scale_amount_curve = ExtResource( 32 )
 
-[node name="BodyP2" type="CPUParticles" parent="Player/Spatial"]
+[node name="BodyCenterP" type="CPUParticles" parent="Player/Spatial"]
 amount = 6
 lifetime = 0.5
 fract_delta = false
