@@ -369,7 +369,8 @@ scale_amount_curve = ExtResource( 32 )
 transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8 )
 projection = 1
 current = true
-size = 36.0
+fov = 65.0
+size = 32.0
 near = 0.01
 far = 646.3
 
