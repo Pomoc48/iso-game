@@ -29,7 +29,7 @@ public class Player : Spatial
         _bounceParticles = _playerSpatial.GetNode<CPUParticles>("Bounce");
         _gameOverParticles = _playerSpatial.GetNode<CPUParticles>("GameOver");
         _bodyParticles = _playerSpatial.GetNode<CPUParticles>("BodyP");
-        _bodyParticles2 = _playerSpatial.GetNode<CPUParticles>("BodyP2");
+        _bodyParticles2 = _playerSpatial.GetNode<CPUParticles>("BodyCenterP");
     }
 
     public void AnimateMovement()
@@ -45,15 +45,14 @@ public class Player : Spatial
 
     public void UpdateColor()
     {
-        SpatialMaterial newHue = Globals.GetEmissionMaterial(0);
-        SpatialMaterial newHue2 = Globals.GetEmissionMaterial(0.025f);
-        SpatialMaterial newHue3 = Globals.GetEmissionMaterial(0.25f);
+        SpatialMaterial hueSmall = Globals.GetEmissionMaterial(0.025f);
+        SpatialMaterial hueBig = Globals.GetEmissionMaterial(0.25f);
 
-        _gameOverParticles.Mesh.SurfaceSetMaterial(0, newHue3);
-        _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue3);
+        _bodyParticles.Mesh.SurfaceSetMaterial(0, hueSmall);
 
-        _bodyParticles.Mesh.SurfaceSetMaterial(0, newHue2);
-        _bodyParticles2.Mesh.SurfaceSetMaterial(0, newHue3);
+        _gameOverParticles.Mesh.SurfaceSetMaterial(0, hueBig);
+        _bounceParticles.Mesh.SurfaceSetMaterial(0, hueBig);
+        _bodyParticles2.Mesh.SurfaceSetMaterial(0, hueBig);
     }
 
     public void RotateCameraBy(int rotations)
