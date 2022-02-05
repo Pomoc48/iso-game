@@ -48,13 +48,13 @@ public class Decorations : Spatial
 
     private Spatial _Recolor(Spatial blockInstance)
     {
-        SpatialMaterial newHue = Globals.GetEmissionMaterial(0.05f);
+        SpatialMaterial hueVerySmall = Globals.GetEmissionMaterial(0.05f);
 
         MeshInstance meshInstance = blockInstance.GetNode<MeshInstance>("MeshInstance");
         CPUParticles cpuParticles = blockInstance.GetNode<CPUParticles>("CPUParticles");
 
-        cpuParticles.Mesh.SurfaceSetMaterial(0, newHue);
-        meshInstance.SetSurfaceMaterial(0, newHue);
+        cpuParticles.Mesh.SurfaceSetMaterial(0, hueVerySmall);
+        meshInstance.SetSurfaceMaterial(0, hueVerySmall);
 
         return blockInstance;
     }

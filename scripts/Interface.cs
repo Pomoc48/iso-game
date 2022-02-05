@@ -85,7 +85,9 @@ public class Interface : Control
 
     public void UpdateHealthbarColor()
     {
-        _healthBarTR.Color = Globals.emissionColor;
+        SpatialMaterial hueBig = Globals.GetEmissionMaterial(0.25f);
+
+        _healthBarTR.Color = hueBig.Emission;
     }
 
     public void PlayPerspectiveAnimation()

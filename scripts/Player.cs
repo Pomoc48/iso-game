@@ -7,12 +7,12 @@ public class Player : Spatial
     private Globals Globals;
 
     private Spatial _playerSpatial;
-    private MeshInstance _playerMesh;
     private Tween _playerTween;
 
     private CPUParticles _bounceParticles;
     private CPUParticles _gameOverParticles;
     private CPUParticles _bodyParticles;
+    private CPUParticles _bodyParticles2;
 
     private AnimationPlayer _spatialAnimation;
 
@@ -23,37 +23,37 @@ public class Player : Spatial
 
         _playerTween = GetNode<Tween>("Tween");
         _playerSpatial = this.GetNode<Spatial>("Spatial");
-        _playerMesh = _playerSpatial.GetNode<MeshInstance>("Mesh");
 
         _spatialAnimation = GetNode<AnimationPlayer>("SpatialAnim");
 
         _bounceParticles = _playerSpatial.GetNode<CPUParticles>("Bounce");
         _gameOverParticles = _playerSpatial.GetNode<CPUParticles>("GameOver");
         _bodyParticles = _playerSpatial.GetNode<CPUParticles>("BodyP");
+        _bodyParticles2 = _playerSpatial.GetNode<CPUParticles>("BodyCenterP");
+
+        _playerTween.PlaybackProcessMode = Tween.TweenProcessMode.Idle;
     }
 
     public void AnimateMovement()
     {
-        Vector3 oldPosition = this.Translation;
         Vector3 newPosition = Globals.GetFuturePosition();
 
         Globals.platformHeight += Globals.INCREASE_HEIGHT_BY;
         newPosition.y += Globals.INCREASE_HEIGHT_BY;
 
-        _PlayTweenAnim("translation", oldPosition, newPosition, Globals.animationSpeed);
+        _PlayTweenAnim("translation", newPosition, Globals.animationSpeed);
     }
 
     public void UpdateColor()
     {
-        SpatialMaterial newHue = Globals.GetEmissionMaterial(0);
-        SpatialMaterial newHue2 = Globals.GetEmissionMaterial(0.025f);
-        SpatialMaterial newHue3 = Globals.GetEmissionMaterial(0.25f);
+        SpatialMaterial hueSmall = Globals.GetEmissionMaterial(0.025f);
+        SpatialMaterial hueBig = Globals.GetEmissionMaterial(0.25f);
 
-        _playerMesh.SetSurfaceMaterial(0, newHue);
-        _gameOverParticles.Mesh.SurfaceSetMaterial(0, newHue3);
-        _bounceParticles.Mesh.SurfaceSetMaterial(0, newHue3);
+        _bodyParticles.Mesh.SurfaceSetMaterial(0, hueSmall);
 
-        _bodyParticles.Mesh.SurfaceSetMaterial(0, newHue2);
+        _gameOverParticles.Mesh.SurfaceSetMaterial(0, hueBig);
+        _bounceParticles.Mesh.SurfaceSetMaterial(0, hueBig);
+        _bodyParticles2.Mesh.SurfaceSetMaterial(0, hueBig);
     }
 
     public void RotateCameraBy(int rotations)
@@ -90,27 +90,25 @@ public class Player : Spatial
         // More rotations take longer
         float time = rotations * Globals.animationSpeed * 1.5f;
 
-        Vector3 oldRotRad = this.RotationDegrees;
-        Vector3 newRot = oldRotRad;
+        Vector3 newRotation = this.RotationDegrees;
 
         if (clockwise)
         {
-            newRot.y += rotateBy;
+            newRotation.y += rotateBy;
         }
         else
         {
-            newRot.y -= rotateBy;
+            newRotation.y -= rotateBy;
         }
 
-        _PlayTweenAnim("rotation_degrees", oldRotRad, newRot, time);
+        _PlayTweenAnim("rotation_degrees", newRotation, time);
     }
 
-    private void _PlayTweenAnim(String type, Vector3 oldVector, Vector3 newVector, float time)
+    private void _PlayTweenAnim(String type, Vector3 newVector, float time)
     {
-        Tween.TransitionType trans = Tween.TransitionType.Quad;
-        Tween.EaseType ease = Tween.EaseType.InOut;
+        Tween.TransitionType trans = Tween.TransitionType.Sine;
 
-        _playerTween.InterpolateProperty(this, type, oldVector, newVector, time, trans, ease);
+        _playerTween.InterpolateProperty(this, type, null, newVector, time, trans);
         _playerTween.Start();
     }
 

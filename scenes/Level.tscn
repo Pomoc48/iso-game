@@ -64,11 +64,14 @@ height = 0.2
 radial_segments = 8
 rings = 4
 
-[sub_resource type="SphereMesh" id=51]
-radial_segments = 32
-rings = 16
-
 [sub_resource type="SphereMesh" id=50]
+material = ExtResource( 3 )
+radius = 0.1
+height = 0.2
+radial_segments = 8
+rings = 4
+
+[sub_resource type="SphereMesh" id=53]
 material = ExtResource( 3 )
 radius = 0.1
 height = 0.2
@@ -200,7 +203,8 @@ __meta__ = {
 
 [node name="Health" type="Control" parent="Interface/Main"]
 anchor_right = 1.0
-margin_top = -16.0
+margin_top = -8.0
+margin_bottom = 8.0
 rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -209,7 +213,11 @@ __meta__ = {
 [node name="Bar" type="ColorRect" parent="Interface/Main/Health"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = -8.0
 rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Score" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
@@ -343,19 +351,30 @@ radial_accel = -5.0
 scale_amount = 2.0
 scale_amount_curve = ExtResource( 32 )
 
-[node name="Mesh" type="MeshInstance" parent="Player/Spatial"]
-mesh = SubResource( 51 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 3 )
-
 [node name="BodyP" type="CPUParticles" parent="Player/Spatial"]
-amount = 16
+amount = 24
 lifetime = 0.5
 fract_delta = false
 local_coords = false
 mesh = SubResource( 50 )
 emission_shape = 1
-emission_sphere_radius = 1.0
+emission_sphere_radius = 0.41
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 9.8, 0 )
+initial_velocity = 10.0
+radial_accel = -100.0
+scale_amount = 2.0
+scale_amount_curve = ExtResource( 32 )
+
+[node name="BodyCenterP" type="CPUParticles" parent="Player/Spatial"]
+amount = 6
+lifetime = 0.5
+fract_delta = false
+local_coords = false
+mesh = SubResource( 53 )
+emission_shape = 1
+emission_sphere_radius = 0.25
 direction = Vector3( 0, 1, 0 )
 spread = 180.0
 gravity = Vector3( 0, 9.8, 0 )
