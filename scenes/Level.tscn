@@ -203,7 +203,8 @@ __meta__ = {
 
 [node name="Health" type="Control" parent="Interface/Main"]
 anchor_right = 1.0
-margin_top = -16.0
+margin_top = -8.0
+margin_bottom = 8.0
 rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -212,7 +213,11 @@ __meta__ = {
 [node name="Bar" type="ColorRect" parent="Interface/Main/Health"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = -8.0
 rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Score" type="Label" parent="Interface/Main"]
 anchor_right = 1.0
