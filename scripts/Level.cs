@@ -83,7 +83,7 @@ public class Level : Spatial
             _GameOver();
         }
 
-        if (!Globals.perspectiveMode && !Globals.firstMove && (_frameCountPM % 2) == 0)
+        if (!Globals.perspectiveMode && !Globals.firstMove)
         {
             _LooseHealthOnTick();
         }
@@ -157,14 +157,14 @@ public class Level : Spatial
 
     private void _LooseHealthOnTick()
     {
-        Globals.playerHealth -= _lifeLossRate / 2;
+        Globals.playerHealth -= _lifeLossRate;
         Interface.CalculateHealthBar();
     }
 
     private void _CalculateFrames()
     {
         _frameCount++;
-        if (_frameCount >= 120)
+        if (_frameCount >= 60)
         {
             _frameCount = 0;
             Decorations.Create();
@@ -179,11 +179,6 @@ public class Level : Spatial
     private void _CalculatePerspectiveFrames()
     {
         _frameCountPM++;
-
-        if ((_frameCountPM % 2) != 0)
-        {
-            return;
-        }
 
         Interface.CalculatePerspectiveBar(_frameCountPM);
 

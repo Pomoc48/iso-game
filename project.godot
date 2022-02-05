@@ -67,7 +67,6 @@ ui_down={
 
 [physics]
 
-common/physics_fps=120
 common/physics_jitter_fix=0.0
 3d/physics_engine="Bullet"
 3d/active_soft_world=false
