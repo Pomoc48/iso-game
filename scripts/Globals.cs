@@ -44,7 +44,7 @@ public class Globals : Node
 
     public readonly int FULL_HEALTH = 24;
     public readonly int FIVE_SEC_IN_FRAMES = 300;
-    public readonly float INCREASE_HEIGHT_BY = 0.05f;
+    public readonly float INCREASE_HEIGHT_BY = 0.01f;
 
     public bool firstMove;
     public bool perspectiveMode;
