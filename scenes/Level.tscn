@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
@@ -77,6 +77,10 @@ radius = 0.1
 height = 0.2
 radial_segments = 8
 rings = 4
+
+[sub_resource type="Curve" id=54]
+max_value = 1.5
+_data = [ Vector2( 0, 1.5 ), 0.0, -0.0895879, 0, 0, Vector2( 0.250737, 1.5 ), 0.0, -0.128409, 0, 0, Vector2( 1, 0 ), -4.54568, 0.0, 0, 0 ]
 
 [node name="Level" type="Spatial"]
 script = ExtResource( 7 )
@@ -358,7 +362,7 @@ fract_delta = false
 local_coords = false
 mesh = SubResource( 50 )
 emission_shape = 1
-emission_sphere_radius = 0.41
+emission_sphere_radius = 0.1
 direction = Vector3( 0, 1, 0 )
 spread = 180.0
 gravity = Vector3( 0, 9.8, 0 )
@@ -368,20 +372,19 @@ scale_amount = 2.0
 scale_amount_curve = ExtResource( 32 )
 
 [node name="BodyCenterP" type="CPUParticles" parent="Player/Spatial"]
-amount = 6
 lifetime = 0.5
 fract_delta = false
 local_coords = false
 mesh = SubResource( 53 )
 emission_shape = 1
-emission_sphere_radius = 0.25
+emission_sphere_radius = 0.1
 direction = Vector3( 0, 1, 0 )
 spread = 180.0
 gravity = Vector3( 0, 9.8, 0 )
 initial_velocity = 10.0
 radial_accel = -100.0
 scale_amount = 2.0
-scale_amount_curve = ExtResource( 32 )
+scale_amount_curve = SubResource( 54 )
 
 [node name="Camera" type="Camera" parent="Player"]
 transform = Transform( 0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8 )
