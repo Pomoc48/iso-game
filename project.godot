@@ -15,6 +15,7 @@ run/main_scene="res://scenes/Level.tscn"
 run/delta_smoothing=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://assets/textures/icon.png"
+config/windows_native_icon="res://assets/textures/icon.ico"
 
 [autoload]
 
