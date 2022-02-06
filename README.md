@@ -21,14 +21,14 @@ Since the game uses diagonal directions to move, two buttons on the keyboard mus
 For gamepad controls just point the left stick in the diagonal directions.
 
 ## Screenshots
-<img src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game4.png">
+<img src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen2.png">
 <div style="display: flex;">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game6.png">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game2.png">
+  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen4.png">
+  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen5.png">
 </div>
 <div style="display: flex;">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game3.png">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/game5.png">
+  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen7.png">
+  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen8.png">
 </div>
 
 
