@@ -1,22 +1,17 @@
 # Game project using the Godot Engine
-Simple mobile game with orthogonal camera projection written in C#<br>
-*(Name yet to be decided)*
+Simple mobile game with orthogonal camera projection written in C#
 
 ## Gameplay
-Each move generates a platform with one or more valid moves. (backtracking moves count as wrong moves)
-Once the game has been started, white bar at the top will slowly start to deplete.
+Each move generates a platform with one or more valid moves.
+Once the game has been started, the bar at the top will slowly start to deplete.
 Every wrong move lowers the health by a significant amount. Correct moves restore little bit of health.
-Every once in a while the in-game camera rotates 90°, 180° or 270° just to confuse the player.
 
-Each correct move has a 1% chance to enter a special mode in which the camera changes it's projection type,
-life fully recovers and stops depleting, the game colors turn red and points are counted by 2.
+Full depletion of the health bar results in a game over.
 
 As the game goes on the difficulty will increase:
-* Health will deplete faster
-* Camera rotations will be more common
-* Newly generated platforms with have less exits
-
-**Full depletion of the health bar results in a game over**
+* Faster depleting health
+* More common camera rotations
+* Less valid exits on newly generated platforms
 
 ## Controls
 Player has four possible moves accessible as buttons visible on the screen.
