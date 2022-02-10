@@ -8,6 +8,8 @@ public class Platforms : Spatial
     private int _history = 8;
     private int _total = 1;
 
+    private float _oneEight = 0.125f;
+
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
@@ -33,15 +35,17 @@ public class Platforms : Spatial
         for (int i = _total; i > 0; i--)
         {
             meshInstance = this.GetChild(i-1).GetNode<MeshInstance>("Spatial/Border");
-
             SpatialMaterial materialOld = (SpatialMaterial)meshInstance.GetSurfaceMaterial(0);
+
+            float emissionEnergy = materialOld.EmissionEnergy;
             Color emission = materialOld.Emission;
 
-            emission.s -= 0.16f;
-            emission.v -= 0.12f;
+            emission.s -= _oneEight;
 
             SpatialMaterial material = new();
             material.EmissionEnabled = true;
+
+            material.EmissionEnergy = emissionEnergy -= _oneEight;
             material.Emission = emission;
             
             meshInstance.SetSurfaceMaterial(0, material);
