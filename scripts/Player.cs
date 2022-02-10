@@ -125,16 +125,21 @@ public class Player : Spatial
     {
         if (_spatialAnimation.IsPlaying())
         {
-            if (animation == "camera_up" || animation == "camera_up_long")
-            {
-                _spatialAnimation.Stop(true);
-                // Fix particles rarely emitting non stop after game over
-                _bounceParticles.Emitting = false;
-                _spatialAnimation.Play(animation);
-            }
+            _CheckGameOverAnimation(animation);
         }
         else
         {
+            _spatialAnimation.Play(animation);
+        }
+    }
+
+    private void _CheckGameOverAnimation(String animation)
+    {
+        if (animation == "camera_up" || animation == "camera_up_long")
+        {
+            _spatialAnimation.Stop(true);
+            // Fix particles rarely emitting non stop after game over
+            _bounceParticles.Emitting = false;
             _spatialAnimation.Play(animation);
         }
     }

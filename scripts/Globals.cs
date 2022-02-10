@@ -165,7 +165,7 @@ public class Globals : Node
                 position.z += -_FULL_MOVE;
                 break;
 
-            default: // Direction.RighUp
+            case Direction.RightUp:
                 position.x += _FULL_MOVE;
                 break;
         }

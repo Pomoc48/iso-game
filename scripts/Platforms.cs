@@ -31,7 +31,6 @@ public class Platforms : Spatial
     {
         MeshInstance meshInstance;
         
-
         for (int i = _total; i > 0; i--)
         {
             meshInstance = this.GetChild(i-1).GetNode<MeshInstance>("Spatial/Border");
@@ -54,7 +53,7 @@ public class Platforms : Spatial
 
     private void _PlaceCorrectType()
     {
-        int[] difficultyChancesList;
+        int[] difficultyChancesList = {};
 
         switch (Globals.platformDifficulty)
         {
@@ -72,7 +71,7 @@ public class Platforms : Spatial
                 break;
             }
 
-            default: // PlafformDifficulty.Hard
+            case PlafformDifficulty.Hard:
             {
                 int[] hardChances = {2, 22, 40};
                 difficultyChancesList = hardChances;
