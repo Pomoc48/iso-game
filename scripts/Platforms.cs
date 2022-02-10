@@ -5,10 +5,8 @@ public class Platforms : Spatial
 {
     private Globals Globals;
 
-    private int _history = 6;
+    private int _history = 8;
     private int _total = 1;
-
-    private float _valueSubtract = 0.16f;
 
     public override void _Ready()
     {
@@ -39,7 +37,8 @@ public class Platforms : Spatial
             SpatialMaterial materialOld = (SpatialMaterial)meshInstance.GetSurfaceMaterial(0);
             Color emission = materialOld.Emission;
 
-            emission.v -= _valueSubtract;
+            emission.s -= 0.16f;
+            emission.v -= 0.12f;
 
             SpatialMaterial material = new();
             material.EmissionEnabled = true;
