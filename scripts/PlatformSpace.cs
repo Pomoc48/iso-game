@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Platforms : Spatial
+public class PlatformSpace : Spatial
 {
     private Globals Globals;
 
