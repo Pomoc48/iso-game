@@ -37,6 +37,7 @@ public class Player : Spatial
     public void AnimateMovement()
     {
         Vector3 newPosition = Globals.GetFuturePosition();
+        newPosition.y = 2;
         _PlayTweenAnim("translation", newPosition, Globals.animationSpeed);
     }
 

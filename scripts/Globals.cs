@@ -146,6 +146,8 @@ public class Globals : Node
     {
         Vector3 position = playerPosition;
 
+        position.y = 0;
+
         switch (animationDirection)
         {
             case Direction.RightDown:
