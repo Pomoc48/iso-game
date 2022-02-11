@@ -100,8 +100,6 @@ public class Globals : Node
 
         cameraRotation = Direction.LeftUp;
         platformDifficulty = PlafformDifficulty.Easy;
-
-        emissionColor = materialBlue.Emission;
     }
 
     public void SaveStats(String[] categories, int[] values)

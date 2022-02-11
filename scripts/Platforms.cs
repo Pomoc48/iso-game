@@ -119,21 +119,10 @@ public class Platforms : Spatial
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         blockInstance = (Spatial)platformBlock.Instance();
 
-        // blockInstance = _Recolor(blockInstance);
         blockInstance.Translation = _GetPosition(blockInstance);
 
         this.AddChild(blockInstance);
         return blockInstance;
-    }
-
-    private Spatial _Recolor(Spatial instance)
-    {
-        MeshInstance meshInstance;
-
-        meshInstance = instance.GetChild(0).GetNode<MeshInstance>("Border");
-        meshInstance.SetSurfaceMaterial(0, Globals.GetEmissionMaterial(0));
-
-        return instance;
     }
 
     private Vector3 _GetPosition(Spatial blockInstance)
