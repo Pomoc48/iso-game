@@ -8,8 +8,6 @@ public class PlatformSpace : Spatial
     private int _history = 4;
     private int _total = 1;
 
-    private float _oneEight = 0.125f;
-
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
@@ -22,32 +20,6 @@ public class PlatformSpace : Spatial
         if ((_total += 1) >= _history)
         {
             _RemoveOld();
-        }
-
-        //_AdjustExistingPlatformsValue();
-    }
-
-    private void _AdjustExistingPlatformsValue()
-    {
-        MeshInstance meshInstance;
-        
-        for (int i = _total; i > 0; i--)
-        {
-            meshInstance = this.GetChild(i-1).GetNode<MeshInstance>("Spatial/Border");
-            SpatialMaterial materialOld = (SpatialMaterial)meshInstance.GetSurfaceMaterial(0);
-
-            float emissionEnergy = materialOld.EmissionEnergy;
-            Color emission = materialOld.Emission;
-
-            emission.s -= _oneEight;
-
-            SpatialMaterial material = new();
-            material.EmissionEnabled = true;
-
-            material.EmissionEnergy = emissionEnergy -= _oneEight;
-            material.Emission = emission;
-            
-            meshInstance.SetSurfaceMaterial(0, material);
         }
     }
 
@@ -84,32 +56,30 @@ public class PlatformSpace : Spatial
 
     private void _GetPlatformFromChances(int[] chances)
     {
-        Spatial platformBlockInstance;
-
         int chance = Globals.GetRandomNumber(100);
 
         if (chance < chances[0])
         {
-            platformBlockInstance = _Place("Cross");
+            _Place("Cross");
         }
 
         if (chance >= chances[0] && chance < chances[1])
         {
-            platformBlockInstance = _Place("TwoWay");
+            _Place("TwoWay");
         }
 
         if (chance >= chances[1] && chance < chances[2])
         {
-            platformBlockInstance = _Place("Long");
+            _Place("Long");
         }
 
         if (chance >= chances[2])
         {
-            platformBlockInstance = _Place("Corner");
+            _Place("Corner");
         }
     }
 
-    private Spatial _Place(String type)
+    private void _Place(String type)
     {
         PackedScene platformBlock;
         Spatial blockInstance;
@@ -122,7 +92,6 @@ public class PlatformSpace : Spatial
         blockInstance.Translation = _GetPosition(blockInstance);
 
         this.AddChild(blockInstance);
-        return blockInstance;
     }
 
     private Vector3 _GetPosition(Spatial blockInstance)
@@ -137,6 +106,6 @@ public class PlatformSpace : Spatial
         Spatial child = this.GetChild<Spatial>(childIndex);
 
         _total--;
-        child.GetNode<Platform>("Spatial").PlayEndingAnimation();
+        child.GetNode<Platform>("Spatial").PlayFadeOutAnimation();
     }
 }
