@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/platforms/Cross.cs" type="Script" id=1]
 [ext_resource path="res://materials/emission.tres" type="Material" id=2]
-[ext_resource path="res://scenes/PlatformsAnim.tscn" type="PackedScene" id=3]
 [ext_resource path="res://materials/platform.tres" type="Material" id=4]
 [ext_resource path="res://scripts/Platform.cs" type="Script" id=5]
 
@@ -50,10 +49,6 @@ mesh = SubResource( 2 )
 skeleton = NodePath("")
 material/0 = ExtResource( 2 )
 
-[node name="AnimationPlayer" parent="Spatial" instance=ExtResource( 3 )]
-autoplay = "Show"
-
 [node name="Tween" type="Tween" parent="Spatial"]
 
-[connection signal="animation_finished" from="Spatial/AnimationPlayer" to="." method="_OnAnimationPlayerFinished"]
 [connection signal="tween_all_completed" from="Spatial/Tween" to="Spatial" method="_OnTweenCompleted"]
