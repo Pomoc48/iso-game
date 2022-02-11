@@ -5,12 +5,9 @@ public class Long : Spatial
 {
     private Globals Globals;
 
-    private Platform Platform;
-
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
-        Platform = GetNode<Platform>("Spatial");
 
         _Rotate();
         _UpdatePossibleMoves();
