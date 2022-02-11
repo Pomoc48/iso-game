@@ -24,7 +24,7 @@ public class Platforms : Spatial
             _RemoveOld();
         }
 
-        _AdjustExistingPlatformsValue();
+        //_AdjustExistingPlatformsValue();
     }
 
     private void _AdjustExistingPlatformsValue()
@@ -119,7 +119,7 @@ public class Platforms : Spatial
         platformBlock = (PackedScene)ResourceLoader.Load(platformPath);
         blockInstance = (Spatial)platformBlock.Instance();
 
-        blockInstance = _Recolor(blockInstance);
+        // blockInstance = _Recolor(blockInstance);
         blockInstance.Translation = _GetPosition(blockInstance);
 
         this.AddChild(blockInstance);
