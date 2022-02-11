@@ -48,7 +48,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0.7, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 0.0431373, 0.0431373, 0.0431373, 0 ), Color( 0.0431373, 0.0431373, 0.0431373, 1 ) ]
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Spatial/BodyCenterP:emitting")
