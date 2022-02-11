@@ -22,10 +22,11 @@ public class Platform : Spatial
 
     public void PlayFadeOutAnimation()
     {
-        SpatialMaterial material = (SpatialMaterial)_border.GetSurfaceMaterial(0);
-        _PlayTweenAnimation(material, 1, 0);
-
         _end = true;
+        SpatialMaterial material = (SpatialMaterial)_border.GetSurfaceMaterial(0);
+
+        _tween.StopAll();
+        _PlayTweenAnimation(material, 1, 0);
     }
 
     private void _PlayFadeInAnimation(SpatialMaterial material)
@@ -44,7 +45,10 @@ public class Platform : Spatial
 
     private void _PlayTweenAnimation(SpatialMaterial material, float start, float end)
     {
-        _tween.InterpolateProperty(material, "emission_energy", start, end, 0.25f, _trans);
+        float speed = Globals.animationSpeed;
+        speed -= 0.05f;
+
+        _tween.InterpolateProperty(material, "emission_energy", start, end, speed, _trans);
         _tween.Start();
     }
 

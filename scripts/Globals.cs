@@ -49,7 +49,7 @@ public class Globals : Node
     public bool perspectiveMode;
 
     public float playerHealth;
-    public float animationSpeed;
+    public float animationSpeed = 0.25f;
 
     public int sessionScore;
     public int highScore;
