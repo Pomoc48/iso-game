@@ -128,12 +128,7 @@ public class PlatformSpace : Spatial
     private Vector3 _GetPosition(Spatial blockInstance)
     {
         blockInstance.Translation = Globals.GetFuturePosition();
-        Vector3 translationVector = blockInstance.Translation;
-
-        float height = Globals.platformHeight - 16;
-        translationVector.y = height;
-
-        return translationVector;
+        return blockInstance.Translation;
     }
 
     private void _RemoveOld()

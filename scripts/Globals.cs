@@ -44,13 +44,11 @@ public class Globals : Node
 
     public readonly int FULL_HEALTH = 24;
     public readonly int FIVE_SEC_IN_FRAMES = 300;
-    public readonly float INCREASE_HEIGHT_BY = 0.01f;
 
     public bool firstMove;
     public bool perspectiveMode;
 
     public float playerHealth;
-    public float platformHeight;
     public float animationSpeed;
 
     public int sessionScore;
@@ -95,7 +93,6 @@ public class Globals : Node
         correctMoves = 0;
         totalMoves = 0;
 
-        platformHeight = 0f;
         animationSpeed = 0.25f;
 
         cameraRotation = Direction.LeftUp;

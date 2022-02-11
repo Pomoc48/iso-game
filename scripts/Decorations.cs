@@ -96,7 +96,7 @@ public class Decorations : Spatial
             centerPosition.z -= rangeZ;
         }
 
-        centerPosition.y = 4 + Globals.platformHeight;
+        centerPosition.y = 4;
 
         return centerPosition;
     }
