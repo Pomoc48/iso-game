@@ -1,21 +1,33 @@
 using Godot;
-using System;
 
 public class Platform : Spatial
 {
     private Globals Globals;
     private Tween _tween;
 
+    private MeshInstance _border;
+
+    Tween.TransitionType _trans = Tween.TransitionType.Sine;
+
     private bool _start = true;
 
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
-
         _tween = GetNode<Tween>("Tween");
+        _border = GetNode<MeshInstance>("Border");
+
         _tween.PlaybackProcessMode = Tween.TweenProcessMode.Physics;
 
         _Recolor();
+    }
+
+    public void PlayEndingAnimation()
+    {
+        SpatialMaterial material = (SpatialMaterial)_border.GetSurfaceMaterial(0);
+
+        _tween.InterpolateProperty(material, "emission_energy", 1, 0, 0.25f, _trans);
+        _tween.Start();
     }
 
     private void _Recolor()
@@ -23,16 +35,14 @@ public class Platform : Spatial
         SpatialMaterial material = Globals.GetEmissionMaterial(0);
         material.EmissionEnergy = 0;
 
-        this.GetNode<MeshInstance>("Border").SetSurfaceMaterial(0, material);
+        _border.SetSurfaceMaterial(0, material);
 
         _PlayAnimation(material);
     }
 
     private void _PlayAnimation(SpatialMaterial material)
     {
-        Tween.TransitionType trans = Tween.TransitionType.Sine;
-
-        _tween.InterpolateProperty(material, "emission_energy", 0, 1, 0.25f, trans);
+        _tween.InterpolateProperty(material, "emission_energy", 0, 1, 0.25f, _trans);
         _tween.Start();
     }
 
@@ -42,7 +52,7 @@ public class Platform : Spatial
         {
             this.GetParent().QueueFree();
         }
-        
+
         _start = false;
     }
 }

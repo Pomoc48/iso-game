@@ -5,7 +5,7 @@ public class PlatformSpace : Spatial
 {
     private Globals Globals;
 
-    private int _history = 8;
+    private int _history = 4;
     private int _total = 1;
 
     private float _oneEight = 0.125f;
@@ -142,6 +142,6 @@ public class PlatformSpace : Spatial
         Spatial child = this.GetChild<Spatial>(childIndex);
 
         _total--;
-        child.GetNode<AnimationPlayer>("Spatial/AnimationPlayer").Play("Hide");
+        child.GetNode<Platform>("Spatial").PlayEndingAnimation();
     }
 }
