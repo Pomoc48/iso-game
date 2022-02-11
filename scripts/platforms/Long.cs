@@ -29,12 +29,4 @@ public class Long : Spatial
             Globals.animationDirection
         };
     }
-
-    private void _OnAnimationPlayerFinished(String animationName)
-    {
-        if (animationName == "Hide")
-        {
-            this.QueueFree();
-        }
-    }
 }

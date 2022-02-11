@@ -5,7 +5,7 @@ public class Level : Spatial
 {
     private Globals Globals;
     private Statistics Statistics;
-    private Platforms Platforms;
+    private PlatformSpace PlatformSpace;
     private Interface Interface;
     private Decorations Decorations;
     private Player Player;
@@ -36,7 +36,7 @@ public class Level : Spatial
     {
         Globals = GetNode<Globals>("/root/Globals");
         Statistics = GetNode<Statistics>("/root/Level/Interface/Main/StatsButton");
-        Platforms = GetNode<Platforms>("/root/Level/Platforms");
+        PlatformSpace = GetNode<PlatformSpace>("/root/Level/Platforms");
         Interface = GetNode<Interface>("/root/Level/Interface");
         Decorations = GetNode<Decorations>("/root/Level/Decorations");
         Player = GetNode<Player>("/root/Level/Player");
@@ -199,7 +199,7 @@ public class Level : Spatial
         _RollPerspectiveMode();
 
         Globals.UpdateEmissionMaterial();
-        Platforms.Generate();
+        PlatformSpace.Generate();
 
         Player.UpdateColor();
         Interface.UpdateHealthbarColor();

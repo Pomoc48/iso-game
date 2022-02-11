@@ -60,12 +60,4 @@ public class Corner : Spatial
 
         return rotationVector;
     }
-
-    private void _OnAnimationPlayerFinished(String animationName)
-    {
-        if (animationName == "Hide")
-        {
-            this.QueueFree();
-        }
-    }
 }

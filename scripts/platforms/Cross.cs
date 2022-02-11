@@ -30,12 +30,4 @@ public class Cross : Spatial
             Globals.possibleMoves[i] = crossMoves[d, i];
         }
     }
-
-    private void _OnAnimationPlayerFinished(String animationName)
-    {
-        if (animationName == "Hide")
-        {
-            this.QueueFree();
-        }
-    }
 }

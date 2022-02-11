@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=2]
-
-[ext_resource path="res://animations/platform_hide.tres" type="Animation" id=1]
-[ext_resource path="res://animations/platform_show.tres" type="Animation" id=2]
-
-[node name="AnimationPlayer" type="AnimationPlayer"]
-anims/Hide = ExtResource( 1 )
-anims/Show = ExtResource( 2 )

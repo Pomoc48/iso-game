@@ -3,7 +3,7 @@
 [ext_resource path="res://materials/emission.tres" type="Material" id=1]
 [ext_resource path="res://materials/platform.tres" type="Material" id=2]
 [ext_resource path="res://scripts/platforms/Corner.cs" type="Script" id=3]
-[ext_resource path="res://scenes/PlatformsAnim.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/Platform.cs" type="Script" id=5]
 
 [sub_resource type="ArrayMesh" id=3]
 resource_name = "corner_Plane008"
@@ -38,6 +38,7 @@ script = ExtResource( 3 )
 
 [node name="Spatial" type="Spatial" parent="."]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+script = ExtResource( 5 )
 
 [node name="Plane" type="MeshInstance" parent="Spatial"]
 mesh = SubResource( 3 )
@@ -49,7 +50,6 @@ mesh = SubResource( 4 )
 skeleton = NodePath("")
 material/0 = ExtResource( 1 )
 
-[node name="AnimationPlayer" parent="Spatial" instance=ExtResource( 4 )]
-autoplay = "Show"
+[node name="Tween" type="Tween" parent="Spatial"]
 
-[connection signal="animation_finished" from="Spatial/AnimationPlayer" to="." method="_OnAnimationPlayerFinished"]
+[connection signal="tween_all_completed" from="Spatial/Tween" to="Spatial" method="_OnTweenCompleted"]
