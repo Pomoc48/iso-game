@@ -35,12 +35,4 @@ public class Start : Spatial
             Globals.startingDirection
         };
     }
-
-    private void _OnAnimationPlayerFinished(String animationName)
-    {
-        if (animationName == "Hide")
-        {
-            this.QueueFree();
-        }
-    }
 }

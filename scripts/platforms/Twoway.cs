@@ -99,12 +99,4 @@ public class Twoway : Spatial
             _ => 0
         };
     }
-
-    private void _OnAnimationPlayerFinished(String animationName)
-    {
-        if (animationName == "Hide")
-        {
-            this.QueueFree();
-        }
-    }
 }
