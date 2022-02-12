@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://materials/emission.tres" type="Material" id=1]
-[ext_resource path="res://scripts/Remove.cs" type="Script" id=2]
+[ext_resource path="res://scripts/Remove.gd" type="Script" id=2]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 1, 1, 1 )
@@ -106,4 +106,4 @@ initial_velocity_random = 0.2
 radial_accel = -5.0
 scale_amount_curve = SubResource( 6 )
 
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_OnAnimationPlayerFinished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
