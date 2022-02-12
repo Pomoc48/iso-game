@@ -20,17 +20,5 @@ Alternatively, the arrow keys on the keyboard and the gamepad are supported for 
 Since the game uses diagonal directions to move, two buttons on the keyboard must be pressed simultaneously to indicate the diagonal direction.
 For gamepad controls just point the left stick in the diagonal directions.
 
-## Screenshots
-<img src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen2.png">
-<div style="display: flex;">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen4.png">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen5.png">
-</div>
-<div style="display: flex;">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen7.png">
-  <img width="49%" src="https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screen8.png">
-</div>
-
-
 ## Licence
 This work is licensed under [Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/legalcode). Please see [the licence file](LICENCE.md) for more information.
