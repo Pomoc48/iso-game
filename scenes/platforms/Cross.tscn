@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/platforms/Cross.gd" type="Script" id=1]
 [ext_resource path="res://materials/emission.tres" type="Material" id=2]
 [ext_resource path="res://materials/platform.tres" type="Material" id=4]
-[ext_resource path="res://scripts/Platform.cs" type="Script" id=5]
+[ext_resource path="res://scripts/Platform.gd" type="Script" id=5]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "cross_Plane012"
@@ -51,4 +51,4 @@ material/0 = ExtResource( 2 )
 
 [node name="Tween" type="Tween" parent="Spatial"]
 
-[connection signal="tween_all_completed" from="Spatial/Tween" to="Spatial" method="_OnTweenCompleted"]
+[connection signal="tween_all_completed" from="Spatial/Tween" to="Spatial" method="_on_tween_completed"]

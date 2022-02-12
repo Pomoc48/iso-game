@@ -106,6 +106,6 @@ public class PlatformSpace : Spatial
         Spatial child = this.GetChild<Spatial>(childIndex);
 
         _total--;
-        child.GetNode<Platform>("Spatial").PlayFadeOutAnimation();
+        child.GetNode("Spatial").Call("play_fade_out_animation");
     }
 }
