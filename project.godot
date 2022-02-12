@@ -21,6 +21,10 @@ config/windows_native_icon="res://assets/textures/icon.ico"
 
 Globals="*res://scripts/Globals.cs"
 
+[debug]
+
+gdscript/warnings/function_may_yield=false
+
 [display]
 
 window/size/width=1280
