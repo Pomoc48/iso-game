@@ -4,7 +4,7 @@ using System;
 public class Statistics : TextureButton
 {
     private Globals Globals;
-    private Interface Interface;
+    private Node Interface;
 
     private Label _statsTextLabel;
     
@@ -16,7 +16,7 @@ public class Statistics : TextureButton
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
-        Interface = GetNode<Interface>("/root/Level/Interface");
+        Interface = GetNode("/root/Level/Interface");
 
         String rootPath = "/root/Level/Interface/Main/Stats/Stats";
         _statsTextLabel = GetNode<Label>(rootPath);
@@ -75,7 +75,7 @@ public class Statistics : TextureButton
 
     private void _OpenStats()
     {
-        Interface.ShowStatistics();
+        Interface.Call("play_interface_animation", "stats_view_show");
         this.TextureNormal = Globals.closeTexture;
 
         _statsOpened = true;
@@ -83,7 +83,7 @@ public class Statistics : TextureButton
 
     private void _CloseStats()
     {
-        Interface.HideStatistics();
+        Interface.Call("play_interface_animation", "stats_view_hide");
         this.TextureNormal = Globals.openTexture;
 
         _statsOpened = false;

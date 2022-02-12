@@ -6,7 +6,7 @@ public class Level : Spatial
     private Globals Globals;
     private Statistics Statistics;
     private PlatformSpace PlatformSpace;
-    private Interface Interface;
+    private Node Interface;
     private Node Decorations;
     private Player Player;
 
@@ -37,7 +37,7 @@ public class Level : Spatial
         Globals = GetNode<Globals>("/root/Globals");
         Statistics = GetNode<Statistics>("/root/Level/Interface/Main/StatsButton");
         PlatformSpace = GetNode<PlatformSpace>("/root/Level/Platforms");
-        Interface = GetNode<Interface>("/root/Level/Interface");
+        Interface = GetNode("/root/Level/Interface");
         Decorations = GetNode("/root/Level/Decorations");
         Player = GetNode<Player>("/root/Level/Player");
 
@@ -158,7 +158,7 @@ public class Level : Spatial
     private void _LooseHealthOnTick()
     {
         Globals.playerHealth -= _lifeLossRate;
-        Interface.CalculateHealthBar();
+        Interface.Call("calculate_healthbar");
     }
 
     private void _CalculateFrames()
@@ -180,7 +180,7 @@ public class Level : Spatial
     {
         _frameCountPM++;
 
-        Interface.CalculatePerspectiveBar(_frameCountPM);
+        Interface.Call("calculate_perspective_bar", _frameCountPM);
 
         if (_frameCountPM == Globals.FIVE_SEC_IN_FRAMES)
         {
@@ -194,7 +194,7 @@ public class Level : Spatial
         Player.AnimateMovement();
         
         Globals.sessionScore += _increaseScoreBy;
-        Interface.UpdateScore();
+        Interface.Call("update_score");
         
         _RollPerspectiveMode();
 
@@ -202,7 +202,7 @@ public class Level : Spatial
         PlatformSpace.Generate();
 
         Player.UpdateColor();
-        Interface.UpdateHealthbarColor();
+        Interface.Call("update_healthbar_color");
 
         _GivePlayerHealth();
         _DifficultyIncrease();
@@ -324,13 +324,13 @@ public class Level : Spatial
     private void _PlayOutroAnimations()
     {
         Player.PlaySpatialAnimation("camera_up");
-        Interface.HideUiAnimations();
+        Interface.Call("play_interface_animation", "ui_hide");
     }
 
     private void _PlayOutroAnimationsHighscore()
     {
         Player.PlaySpatialAnimation("camera_up_long");
-        Interface.HideUiAnimationsHighscore();
+        Interface.Call("play_interface_animation", "ui_hide_highscore");
     }
 
     private void _GameOver()
@@ -356,19 +356,39 @@ public class Level : Spatial
         _faliedCountPM = 0;
 
         Globals.perspectiveMode = true;
-        Interface.PlayPerspectiveAnimation();
+        Interface.Call("play_interface_animation", "blind_perspective");
 
         _RestorePlayerHealth();
-        Interface.CalculateHealthBar();
+        Interface.Call("calculate_healthbar");
 
         _increaseScoreBy = 2;
     }
 
     private void _DisablePerspectiveMode()
     {
-        Interface.PlayOrthogonalAnimation();
+        Interface.Call("play_interface_animation", "blind_orthogonal");
 
         Globals.perspectiveMode = false;
         _increaseScoreBy = 1;
+    }
+
+    private void _OnLeftButtonDown()
+    {
+        CheckMove(Direction.LeftUp);
+    }
+
+    private void _OnRightButtonDown()
+    {
+        CheckMove(Direction.RightDown);
+    }
+
+    private void _OnUpButtonDown()
+    {
+        CheckMove(Direction.RightUp);
+    }
+
+    private void _OnDownButtonDown()
+    {
+        CheckMove(Direction.LeftDown);
     }
 }
