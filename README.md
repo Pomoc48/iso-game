@@ -1,5 +1,5 @@
 # Game project using the Godot Engine
-Simple mobile game with orthogonal camera projection written in C#
+Simple mobile game with orthogonal camera projection.
 
 ## Gameplay
 Each move generates a platform with one or more valid moves.
