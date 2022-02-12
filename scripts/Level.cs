@@ -7,7 +7,7 @@ public class Level : Spatial
     private Statistics Statistics;
     private PlatformSpace PlatformSpace;
     private Interface Interface;
-    private Decorations Decorations;
+    private Node Decorations;
     private Player Player;
 
     private bool _canPlayerMove = false;
@@ -38,7 +38,7 @@ public class Level : Spatial
         Statistics = GetNode<Statistics>("/root/Level/Interface/Main/StatsButton");
         PlatformSpace = GetNode<PlatformSpace>("/root/Level/Platforms");
         Interface = GetNode<Interface>("/root/Level/Interface");
-        Decorations = GetNode<Decorations>("/root/Level/Decorations");
+        Decorations = GetNode("/root/Level/Decorations");
         Player = GetNode<Player>("/root/Level/Player");
 
         Globals.NewGame();
@@ -167,7 +167,7 @@ public class Level : Spatial
         if (_frameCount >= 60)
         {
             _frameCount = 0;
-            Decorations.Create();
+            Decorations.Call("create");
         }
 
         if (Globals.perspectiveMode)
