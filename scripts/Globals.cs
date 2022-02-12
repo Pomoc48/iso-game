@@ -36,7 +36,7 @@ public class Globals : Node
     public Direction cameraRotation;
     public Direction animationDirection;
     public Direction startingDirection;
-    public Direction[] possibleMoves;
+    public int[] possibleMoves;
 
     public PlafformDifficulty platformDifficulty;
 

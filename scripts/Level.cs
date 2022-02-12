@@ -122,9 +122,9 @@ public class Level : Spatial
     {
         Globals.totalMoves++;
 
-        foreach (Direction direction in Globals.possibleMoves)
+        foreach (int direction in Globals.possibleMoves)
         {
-            if (Globals.animationDirection == direction)
+            if ((int)Globals.animationDirection == direction)
             {
                 Globals.correctMoves++;
 
