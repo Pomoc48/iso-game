@@ -4,7 +4,7 @@ using System;
 public class Level : Spatial
 {
     private Globals Globals;
-    private Statistics Statistics;
+    private Node Statistics;
     private PlatformSpace PlatformSpace;
     private Node Interface;
     private Node Decorations;
@@ -35,7 +35,7 @@ public class Level : Spatial
     public override void _Ready()
     {
         Globals = GetNode<Globals>("/root/Globals");
-        Statistics = GetNode<Statistics>("/root/Level/Interface/Main/StatsButton");
+        Statistics = GetNode("/root/Level/Interface/Main/StatsButton");
         PlatformSpace = GetNode<PlatformSpace>("/root/Level/Platforms");
         Interface = GetNode("/root/Level/Interface");
         Decorations = GetNode("/root/Level/Decorations");
@@ -348,7 +348,7 @@ public class Level : Spatial
             _PlayOutroAnimations();
         }
 
-        Statistics.UploadStatistics();
+        Statistics.Call("_upload");
     }
 
     private void _EnablePerspectiveMode()
