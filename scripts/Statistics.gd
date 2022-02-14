@@ -29,10 +29,10 @@ func _upload():
 func _load():
 	for i in 4:
 		_stats_array.append(Globals.LoadStats(Globals.categoriesArray[i+1]))
-	_update()
+	_update_label()
 
 
-func _update():
+func _update_label():
 	var percentage_float = 0
 
 	if _stats_array[3] != 0:
