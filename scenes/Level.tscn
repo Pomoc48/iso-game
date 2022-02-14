@@ -1,6 +1,6 @@
 [gd_scene load_steps=42 format=2]
 
-[ext_resource path="res://scripts/Player.cs" type="Script" id=1]
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://enviroments/defaultEnviroment.tres" type="Environment" id=2]
 [ext_resource path="res://materials/emission.tres" type="Material" id=3]
 [ext_resource path="res://scripts/Interface.gd" type="Script" id=4]
@@ -320,7 +320,6 @@ anims/camera_up = ExtResource( 27 )
 anims/camera_up_long = ExtResource( 15 )
 
 [node name="Tween" type="Tween" parent="Player"]
-playback_process_mode = 0
 
 [node name="Spatial" type="Spatial" parent="Player"]
 
@@ -406,5 +405,5 @@ script = ExtResource( 6 )
 [connection signal="button_down" from="Interface/Main/Right/Down" to="." method="_OnDownButtonDown"]
 [connection signal="button_down" from="Interface/Main/Right/Up" to="." method="_OnUpButtonDown"]
 [connection signal="button_down" from="Interface/Main/StatsButton" to="Interface/Main/StatsButton" method="_on_stats_button_down"]
-[connection signal="animation_finished" from="Player/SpatialAnim" to="Player" method="_OnSpatialAnimationFinished"]
-[connection signal="tween_all_completed" from="Player/Tween" to="Player" method="_OnTweenAnimationFinished"]
+[connection signal="animation_finished" from="Player/SpatialAnim" to="Player" method="_on_spatial_animation_finished"]
+[connection signal="tween_all_completed" from="Player/Tween" to="Player" method="_on_tween_animation_finished"]

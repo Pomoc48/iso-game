@@ -47,6 +47,7 @@ public class Globals : Node
 
     public bool firstMove;
     public bool perspectiveMode;
+    public bool canPlayerMove;
 
     public float playerHealth;
     public float animationSpeed = 0.25f;

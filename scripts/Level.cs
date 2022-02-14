@@ -8,9 +8,8 @@ public class Level : Spatial
     private Node PlatformSpace;
     private Node Interface;
     private Node Decorations;
-    private Player Player;
+    private Node Player;
 
-    private bool _canPlayerMove = false;
     private bool _isPlayerDead = false;
 
     private int _frameCount = 0;
@@ -39,37 +38,37 @@ public class Level : Spatial
         PlatformSpace = GetNode("/root/Level/Platforms");
         Interface = GetNode("/root/Level/Interface");
         Decorations = GetNode("/root/Level/Decorations");
-        Player = GetNode<Player>("/root/Level/Player");
+        Player = GetNode("/root/Level/Player");
 
         Globals.NewGame();
         
-        Player.UpdateColor();
-        Globals.playerPosition = Player.Translation;
+        Player.Call("update_color");
+        Globals.playerPosition = new();
 
         _difficultyCycle = Globals.GetNextCycle(_maxDifficultyCycle);
     }
 
     public override void _Process(float delta)
     {
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[0])
+        if (Globals.canPlayerMove && Input.IsActionPressed(_inputMap[0])
             && Input.IsActionPressed(_inputMap[1]))
         {
             CheckMove(Direction.RightUp);
         }
 
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[1])
+        if (Globals.canPlayerMove && Input.IsActionPressed(_inputMap[1])
             && Input.IsActionPressed(_inputMap[2]))
         {
             CheckMove(Direction.RightDown);
         }
 
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[2])
+        if (Globals.canPlayerMove && Input.IsActionPressed(_inputMap[2])
             && Input.IsActionPressed(_inputMap[3]))
         {
             CheckMove(Direction.LeftDown);
         }
 
-        if (_canPlayerMove && Input.IsActionPressed(_inputMap[3])
+        if (Globals.canPlayerMove && Input.IsActionPressed(_inputMap[3])
             && Input.IsActionPressed(_inputMap[0]))
         {
             CheckMove(Direction.LeftUp);
@@ -93,12 +92,12 @@ public class Level : Spatial
 
     public void CheckMove(Direction direction)
     {
-        if (!_canPlayerMove)
+        if (!Globals.canPlayerMove)
         {
             return;
         }
 
-        _canPlayerMove = false;
+        Globals.canPlayerMove = false;
 
         // Calculation based on camera rotation
         Globals.animationDirection = _TranslateDirection(direction);
@@ -111,11 +110,6 @@ public class Level : Spatial
         {
             _WrongMove(direction);
         }
-    }
-
-    public void TogglePlayerControls(bool enable)
-    {
-        _canPlayerMove = enable;
     }
 
     public bool _IsMoveValid()
@@ -191,7 +185,7 @@ public class Level : Spatial
 
     private void _CorrectMove()
     {
-        Player.AnimateMovement();
+        Player.Call("animate_movement");
         
         Globals.sessionScore += _increaseScoreBy;
         Interface.Call("update_score");
@@ -201,7 +195,7 @@ public class Level : Spatial
         Globals.UpdateEmissionMaterial();
         PlatformSpace.Call("generate");
 
-        Player.UpdateColor();
+        Player.Call("update_color");
         Interface.Call("update_healthbar_color");
 
         _GivePlayerHealth();
@@ -238,7 +232,7 @@ public class Level : Spatial
         }
 
         _GenerateNewDifficultyCycle();
-        Player.RotateCameraBy(_GetRandomRotationAmmount());
+        Player.Call("rotate_camera_by", _GetRandomRotationAmmount());
     }
 
     private void _GenerateNewDifficultyCycle()
@@ -286,7 +280,7 @@ public class Level : Spatial
         if (!_isPlayerDead)
         {
             String animationName = "bounce" + ((int)direction).ToString();
-            Player.PlaySpatialAnimation(animationName);
+            Player.Call("play_spatial_animation", animationName);
         }
     }
 
@@ -323,20 +317,20 @@ public class Level : Spatial
 
     private void _PlayOutroAnimations()
     {
-        Player.PlaySpatialAnimation("camera_up");
+        Player.Call("play_spatial_animation", "camera_up");
         Interface.Call("play_interface_animation", "ui_hide");
     }
 
     private void _PlayOutroAnimationsHighscore()
     {
-        Player.PlaySpatialAnimation("camera_up_long");
+        Player.Call("play_spatial_animation", "camera_up_long");
         Interface.Call("play_interface_animation", "ui_hide_highscore");
     }
 
     private void _GameOver()
     {
         _isPlayerDead = true;
-        _canPlayerMove = false;
+        Globals.canPlayerMove = false;
 
         if (Globals.sessionScore > Globals.highScore)
         {
