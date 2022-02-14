@@ -16,7 +16,7 @@ func _ready():
 	_load()
 
 
-func _upload():
+func upload():
 	var games = _stats_array[0] + 1;
 	var score = _stats_array[1] + Globals.sessionScore;
 	var correct_moves = _stats_array[2] + Globals.correctMoves;

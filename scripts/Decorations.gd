@@ -1,6 +1,17 @@
 extends Spatial
 
 
+var _frame_count = 0
+
+
+func _physics_process(_delta):
+	_frame_count += 1
+
+	if _frame_count >= 60:
+		_frame_count = 0
+		create()
+
+
 func create():
 	_load(_get_position())
 

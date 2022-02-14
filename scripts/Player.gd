@@ -1,6 +1,8 @@
 extends Spatial
 
 
+var _level
+
 var _tween: Tween
 var _animation: AnimationPlayer
 
@@ -13,6 +15,8 @@ var _result: bool
 
 
 func _ready():
+	_level = get_node("/root/Level")
+
 	_tween = get_node("Tween")
 	_animation = get_node("SpatialAnim")
 
@@ -63,7 +67,7 @@ func rotate_camera_by(rotations):
 	if Globals.cameraRotation < 0:
 		Globals.cameraRotation += 4
 
-	Globals.canPlayerMove = false
+	_level.toggle_controls(false)
 	_play_camera_rotation_animation(clockwise, rotations)
 
 
@@ -103,11 +107,11 @@ func _is_game_over_animation(animation) -> bool:
 func _on_tween_animation_finished():
 	# Update global position at the end of animation
 	Globals.playerPosition = self.translation
-	Globals.canPlayerMove = true
+	_level.toggle_controls(true)
 
 
 func _on_spatial_animation_finished(animation):
 	if _is_game_over_animation(animation):
 		_result = get_tree().reload_current_scene()
 	else:
-		Globals.canPlayerMove = true
+		_level.toggle_controls(true)

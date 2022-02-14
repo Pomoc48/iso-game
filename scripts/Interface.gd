@@ -1,6 +1,7 @@
 extends Control
 
 
+var _level
 var _interface_animation: AnimationPlayer
 
 var _score_label: Label
@@ -13,6 +14,8 @@ var _health_bar_showed: bool
 
 
 func _ready():
+	_level = get_node("/root/Level")
+
 	var high_score_label = get_node("Main/HighScore") as Label
 	high_score_label.text = _get_previous_highsore()
 
@@ -71,3 +74,18 @@ func _get_screen_size():
 func _get_previous_highsore() -> String:
 	Globals.highScore = Globals.LoadStats("HighScore")
 	return "HiScore: " + str(Globals.highScore)
+
+func _on_up_button_down():
+	_level.check_move(0)
+
+
+func _on_right_button_down():
+	_level.check_move(1)
+
+
+func _on_down_button_down():
+	_level.check_move(2)
+
+
+func _on_left_button_down():
+	_level.check_move(3)
