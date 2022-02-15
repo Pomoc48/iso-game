@@ -14,14 +14,6 @@ enum PlafformDifficulty {
 	HARD,
 }
 
-enum PlaftormType {
-	LONG,
-	CORNER,
-	CROSS,
-	TWOWAY,
-}
-
-
 var emission_color: Color
 
 var open_texture: Texture
