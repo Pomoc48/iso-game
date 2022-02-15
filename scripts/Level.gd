@@ -199,6 +199,7 @@ func _loose_health_on_tick():
 
 func _calculate_perspective_frames():
 	_frame_count += 1
+	_interface.calculate_perspective_bar(_frame_count)
 
 	if _frame_count >= Globals.FIVE_SEC_IN_FRAMES:
 		_frame_count = 0
@@ -246,5 +247,5 @@ func _play_outro_animation():
 
 
 func _play_outro_animation_highscore():
-	_interface.play_interface_animation("ui_hui_hide_highscoreide")
+	_interface.play_interface_animation("ui_hide_highscore")
 	_player.play_spatial_animation("camera_up_long")

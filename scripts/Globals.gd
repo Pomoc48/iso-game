@@ -152,7 +152,6 @@ func get_emission_material(offset) -> SpatialMaterial:
 
 	# Check cap
 	hue.emission.h = fposmod(hue.emission.h, 1)
-	print(hue.emission.h)
 
 	return hue
 
