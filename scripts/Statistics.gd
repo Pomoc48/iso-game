@@ -18,17 +18,17 @@ func _ready():
 
 func upload():
 	var games = _stats_array[0] + 1;
-	var score = _stats_array[1] + Globals.sessionScore;
-	var correct_moves = _stats_array[2] + Globals.correctMoves;
-	var moves = _stats_array[3] + Globals.totalMoves;
+	var score = _stats_array[1] + Globals.session_score;
+	var correct_moves = _stats_array[2] + Globals.correct_moves;
+	var moves = _stats_array[3] + Globals.total_moves;
 
-	var values = [Globals.highScore, games, score, correct_moves, moves]
-	Globals.SaveStats(Globals.categoriesArray, values)
+	var values = [Globals.high_score, games, score, correct_moves, moves]
+	Globals.save_stats(Globals.categories_array, values)
 
 
 func _load():
 	for i in 4:
-		_stats_array.append(Globals.LoadStats(Globals.categoriesArray[i+1]))
+		_stats_array.append(Globals.load_stats(Globals.categories_array[i+1]))
 	_update_label()
 
 
@@ -58,11 +58,11 @@ func _on_stats_button_down():
 
 func _open():
 	_interface.play_interface_animation("stats_view_show")
-	self.texture_normal = Globals.closeTexture
+	self.texture_normal = Globals.close_texture
 	_stats_opened = true
 
 
 func _close():
 	_interface.play_interface_animation("stats_view_hide")
-	self.texture_normal = Globals.openTexture
+	self.texture_normal = Globals.open_texture
 	_stats_opened = false

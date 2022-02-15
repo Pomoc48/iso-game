@@ -20,8 +20,8 @@ func generate():
 
 
 func _get_type() -> String:
-	var difficulty = Globals.platformDifficulty
-	var random = Globals.GetRandomNumber(100)
+	var difficulty = Globals.platform_diff
+	var random = randi() % 100
 	var types = ["Cross", "TwoWay", "Long", "Corner"]
 
 	for i in 3:
@@ -37,7 +37,7 @@ func _place(type):
 	var platform_block = load(platform_path) as PackedScene
 	var block_instance = platform_block.instance() as Spatial
 
-	block_instance.translation = Globals.GetFuturePosition()
+	block_instance.translation = Globals.get_future_position()
 	add_child(block_instance)
 
 

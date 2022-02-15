@@ -15,9 +15,9 @@ func _rotate():
 
 
 func _generate_starting_pos() -> int:
-	Globals.startingDirection = Globals.GetRandomNumber(4)
-	return Globals.startingDirection
+	Globals.starting_direction = randi() % 4
+	return Globals.starting_direction
 
 
 func _update_possible_moves():
-	Globals.possibleMoves = [Globals.startingDirection]
+	Globals.possible_moves = [Globals.starting_direction]

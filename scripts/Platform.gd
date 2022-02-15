@@ -24,7 +24,7 @@ func play_fade_out_animation():
 
 
 func _recolor():
-	var material: SpatialMaterial = Globals.GetEmissionMaterial(0)
+	var material: SpatialMaterial = Globals.get_emission_material(0)
 	material.emission_energy = 0
 
 	_border.set_surface_material(0, material)
@@ -32,7 +32,7 @@ func _recolor():
 
 
 func _play_tween_animation(material, startValue, endValue):
-	var speed = Globals.animationSpeed
+	var speed = Globals.animation_speed
 	speed -= 0.05
 
 	_result = _tween.interpolate_property(material, "emission_energy",

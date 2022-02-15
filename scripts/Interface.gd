@@ -32,7 +32,7 @@ func calculate_healthbar():
 		_interface_animation.play("healthbar_show")
 		_health_bar_showed = true
 
-	var health = Globals.playerHealth * _update_health_by
+	var health = Globals.player_health * _update_health_by
 	var position = Vector2(health, 16)
 
 	_health_bar.set_size(position, false)
@@ -50,7 +50,7 @@ func calculate_perspective_bar(frames: float):
 
 
 func update_score():
-	_score_label.text = str(Globals.sessionScore)
+	_score_label.text = str(Globals.session_score)
 
 	# Fix camera animation freezing
 	if not _interface_animation.is_playing():
@@ -58,7 +58,7 @@ func update_score():
 
 
 func update_healthbar_color():
-	var hue = Globals.GetEmissionMaterial(0.25)
+	var hue = Globals.get_emission_material(0.25)
 	_health_bar_cr.color = hue.emission
 
 
@@ -72,8 +72,9 @@ func _get_screen_size():
 
 
 func _get_previous_highsore() -> String:
-	Globals.highScore = Globals.LoadStats("HighScore")
-	return "HiScore: " + str(Globals.highScore)
+	Globals.high_score = Globals.load_stats("HighScore")
+	return "HiScore: " + str(Globals.high_score)
+
 
 func _on_up_button_down():
 	_level.check_move(0)

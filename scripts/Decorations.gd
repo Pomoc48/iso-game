@@ -26,7 +26,7 @@ func _load(position):
 
 
 func _recolor(instance):
-	var hue = Globals.GetEmissionMaterial(0.05)
+	var hue = Globals.get_emission_material(0.05)
 
 	var mesh_body = instance.get_node("MeshInstance") as MeshInstance
 	var particles = instance.get_node("CPUParticles") as CPUParticles
@@ -38,10 +38,10 @@ func _recolor(instance):
 func _get_position() -> Vector3:
 	var block_position = Vector3()
 
-	if Globals.firstMove:
-		block_position = Globals.playerPosition
+	if Globals.first_move:
+		block_position = Globals.player_position
 	else:
-		block_position = Globals.GetFuturePosition()
+		block_position = Globals.get_future_position()
 
 	return _calculate_position(block_position)
 
@@ -52,22 +52,22 @@ func _calculate_position(center_position) -> Vector3:
 
 	center_position.y = 4
 
-	var random_short = Globals.GetRandomNumber(16, 24)
-	var random_wide = Globals.GetRandomNumber(24)
+	var random_short = randi() % 8 + 16
+	var random_wide = randi() % 24
 
-	if Globals.GetRandomBool():
+	if Globals.get_random_bool():
 		range_x = random_short
 		range_z = random_wide
 	else:
 		range_x = random_wide
 		range_z = random_short
 
-	if Globals.GetRandomBool():
+	if Globals.get_random_bool():
 		center_position.x += range_x
 	else:
 		center_position.x -= range_x
 
-	if Globals.GetRandomBool():
+	if Globals.get_random_bool():
 		center_position.z += range_z
 	else:
 		center_position.z -= range_z

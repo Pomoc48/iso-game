@@ -13,12 +13,12 @@ var _moves = [
 
 
 func _ready():
-	_randomSide = Globals.GetRandomNumber(30)
+	_randomSide = randi() % 30
 
 	if _randomSide < 5:
 		_randomSideIndex = 1
 
-	if _randomSide >= 5 and _randomSide < 10:
+	elif _randomSide < 10:
 		_randomSideIndex = 2
 
 	_rotate()
@@ -31,23 +31,23 @@ func _rotate():
 
 func _update_possible_moves():
 	var valid = []
-	var direction = Globals.animationDirection
+	var direction = Globals.animation_direction
 
 	for i in 2:
 		valid.append(_moves[direction][_randomSideIndex][i])
-		Globals.possibleMoves = valid
+		Globals.possible_moves = valid
 	
 
 func _get_rotation() -> Vector3:
 	var rotationVector = Vector3()
 
-	if Globals.animationDirection == 1:
+	if Globals.animation_direction == 1:
 		rotationVector.y = -90
 	
-	if Globals.animationDirection == 2:
+	if Globals.animation_direction == 2:
 		rotationVector.y = 180
 
-	if Globals.animationDirection == 3:
+	if Globals.animation_direction == 3:
 		rotationVector.y = 90
 
 	rotationVector.y += _get_override_rotation()

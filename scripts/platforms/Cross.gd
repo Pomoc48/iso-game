@@ -15,8 +15,8 @@ func _ready():
 
 func _update_possible_moves():
 	var valid = []
-	var direction = Globals.animationDirection
+	var direction = Globals.animation_direction
 
 	for i in 3:
 		valid.append(_moves[direction][i])
-		Globals.possibleMoves = valid
+		Globals.possible_moves = valid

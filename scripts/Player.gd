@@ -27,16 +27,16 @@ func _ready():
 
 
 func animate_movement():
-	var position = Globals.GetFuturePosition()
+	var position = Globals.get_future_position()
 	position.y = 2
 
-	var speed = Globals.animationSpeed
+	var speed = Globals.animation_speed
 	_play_tween_animation("translation", position, speed)
 
 
 func update_color():
-	var hue_small = Globals.GetEmissionMaterial(0.025)
-	var hue_big = Globals.GetEmissionMaterial(0.25)
+	var hue_small = Globals.get_emission_material(0.025)
+	var hue_big = Globals.get_emission_material(0.25)
 
 	_body_particles.mesh.surface_set_material(0, hue_small)
 
@@ -54,18 +54,21 @@ func play_spatial_animation(animation):
 
 
 func rotate_camera_by(rotations):
-	var clockwise = Globals.GetRandomBool()
+	var clockwise = Globals.get_random_bool()
 
 	if clockwise:
-		Globals.cameraRotation += rotations
+		Globals.camera_rotation += rotations
 	else:
-		Globals.cameraRotation -= rotations
+		Globals.camera_rotation -= rotations
 
-	if Globals.cameraRotation > 3:
-		Globals.cameraRotation -= 4
+	# Globals.camera_rotation = posmod(Globals.camera_rotation, 3)
+	# Can improve
 
-	if Globals.cameraRotation < 0:
-		Globals.cameraRotation += 4
+	if Globals.camera_rotation > 3:
+		Globals.camera_rotation -= 4
+
+	if Globals.camera_rotation < 0:
+		Globals.camera_rotation += 4
 
 	_level.toggle_controls(false)
 	_play_camera_rotation_animation(clockwise, rotations)
@@ -81,7 +84,7 @@ func _play_game_over_animation(animation):
 func _play_camera_rotation_animation(clockwise, rotations):
 	var rotate_by = 90 * rotations
 	# More rotations take longer
-	var time = rotations * Globals.animationSpeed * 1.5
+	var time = rotations * Globals.animation_speed * 1.5
 
 	var new_rotation = self.rotation_degrees
 
@@ -106,7 +109,7 @@ func _is_game_over_animation(animation) -> bool:
 # Reenable controls
 func _on_tween_animation_finished():
 	# Update global position at the end of animation
-	Globals.playerPosition = self.translation
+	Globals.player_position = self.translation
 	_level.toggle_controls(true)
 
 

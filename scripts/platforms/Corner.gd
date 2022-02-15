@@ -6,7 +6,7 @@ var _moves = [[1, 3], [2, 0], [3, 1], [0, 2]]
 
 
 func _ready():
-	_reverse = Globals.GetRandomBool()
+	_reverse = Globals.get_random_bool()
 
 	_rotate()
 	_update_possible_moves()
@@ -17,20 +17,20 @@ func _rotate():
 
 
 func _update_possible_moves():
-	var valid = _moves[Globals.animationDirection][_reverse as int]
-	Globals.possibleMoves = [valid]
+	var valid = _moves[Globals.animation_direction][_reverse as int]
+	Globals.possible_moves = [valid]
 
 
 func _get_rotation() -> Vector3:
 	var rotationVector = Vector3()
 
-	if Globals.animationDirection == 1:
+	if Globals.animation_direction == 1:
 		rotationVector.y = -90
 	
-	if Globals.animationDirection == 2:
+	if Globals.animation_direction == 2:
 		rotationVector.y = 180
 
-	if Globals.animationDirection == 3:
+	if Globals.animation_direction == 3:
 		rotationVector.y = 90
 
 	if _reverse:
