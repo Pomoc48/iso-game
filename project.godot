@@ -19,7 +19,7 @@ config/windows_native_icon="res://assets/textures/icon.ico"
 
 [autoload]
 
-Globals="*res://scripts/Globals.cs"
+Globals="*res://scripts/Globals.gd"
 
 [debug]
 
