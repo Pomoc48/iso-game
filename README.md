@@ -1,6 +1,8 @@
 # Game project using the Godot Engine
 Simple mobile game with orthogonal camera projection.
 
+![Alt Game screenshot](https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screenshot.jpg)
+
 ## Gameplay
 Each move generates a platform with one or more valid moves.
 Once the game has been started, the bar at the top will slowly start to deplete.
