@@ -33,10 +33,14 @@ window/vsync/use_vsync=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_height"
 
+[filesystem]
+
+import/fbx/use_fbx=false
+
 [global]
 
 etc=false
-c#=true
+c#=false
 vsync=false
 
 [input]
