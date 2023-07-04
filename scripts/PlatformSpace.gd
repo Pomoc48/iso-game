@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 
 var _history = 4
@@ -35,15 +35,15 @@ func _place(type):
 	var platform_path = "res://scenes/platforms/"+type+".tscn"
 
 	var platform_block = load(platform_path) as PackedScene
-	var block_instance = platform_block.instance() as Spatial
+	var block_instance = platform_block.instantiate() as Node3D
 
-	block_instance.translation = Globals.get_future_position()
+	block_instance.position = Globals.get_future_position()
 	add_child(block_instance)
 
 
 func _remove_old():
 	var child_index = _total - _history
-	var child = self.get_child(child_index) as Spatial
+	var child = self.get_child(child_index) as Node3D
 
 	_total -= 1
-	child.get_node("Spatial").play_fade_out_animation()
+	child.get_node("Node3D").play_fade_out_animation()

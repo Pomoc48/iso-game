@@ -1,8 +1,8 @@
-extends Spatial
+extends Node3D
 
 
 var _tween: Tween
-var _border: MeshInstance
+var _border: MeshInstance3D
 
 var _end: bool
 var _result: bool
@@ -17,17 +17,17 @@ func _ready():
 
 func play_fade_out_animation():
 	_end = true
-	var material = _border.get_surface_material(0) as SpatialMaterial
+	var material = _border.get_surface_override_material(0) as StandardMaterial3D
 
 	_result = _tween.stop_all()
 	_play_tween_animation(material, 1, 0)
 
 
 func _recolor():
-	var material: SpatialMaterial = Globals.get_emission_material(0)
+	var material: StandardMaterial3D = Globals.get_emission_material(0)
 	material.emission_energy = 0
 
-	_border.set_surface_material(0, material)
+	_border.set_surface_override_material(0, material)
 	_play_tween_animation(material, 0, 1)
 
 

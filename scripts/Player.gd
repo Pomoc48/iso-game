@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 
 var _level
@@ -6,10 +6,10 @@ var _level
 var _tween: Tween
 var _animation: AnimationPlayer
 
-var _bounce_particles: CPUParticles
-var _game_over_particles: CPUParticles
-var _body_particles: CPUParticles
-var _body_particles2: CPUParticles
+var _bounce_particles: CPUParticles3D
+var _game_over_particles: CPUParticles3D
+var _body_particles: CPUParticles3D
+var _body_particles2: CPUParticles3D
 
 var _result: bool
 
@@ -20,10 +20,10 @@ func _ready():
 	_tween = get_node("Tween")
 	_animation = get_node("SpatialAnim")
 
-	_bounce_particles = get_node("Spatial/Bounce")
-	_game_over_particles = get_node("Spatial/GameOver")
-	_body_particles = get_node("Spatial/BodyP")
-	_body_particles2 = get_node("Spatial/BodyCenterP")
+	_bounce_particles = get_node("Node3D/Bounce")
+	_game_over_particles = get_node("Node3D/GameOver")
+	_body_particles = get_node("Node3D/BodyP")
+	_body_particles2 = get_node("Node3D/BodyCenterP")
 
 
 func animate_movement():
@@ -31,7 +31,7 @@ func animate_movement():
 	position.y = 2
 
 	var speed = Globals.animation_speed
-	_play_tween_animation("translation", position, speed)
+	_play_tween_animation("position", position, speed)
 
 
 func update_color():
@@ -109,7 +109,7 @@ func _is_game_over_animation(animation) -> bool:
 # Reenable controls
 func _on_tween_animation_finished():
 	# Update global position at the end of animation
-	Globals.player_position = self.translation
+	Globals.player_position = self.position
 	_level.toggle_controls(true)
 
 

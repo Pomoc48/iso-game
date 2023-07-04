@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 
 var _frame_count = 0
@@ -18,9 +18,9 @@ func create():
 
 func _load(position):
 	var block = load("res://scenes/Block.tscn") as PackedScene
-	var block_instance = block.instance() as Spatial
+	var block_instance = block.instantiate() as Node3D
 	
-	block_instance.translation = position
+	block_instance.position = position
 	_recolor(block_instance)
 	add_child(block_instance)
 
@@ -28,11 +28,11 @@ func _load(position):
 func _recolor(instance):
 	var hue = Globals.get_emission_material(0.05)
 
-	var mesh_body = instance.get_node("MeshInstance") as MeshInstance
-	var particles = instance.get_node("CPUParticles") as CPUParticles
+	var mesh_body = instance.get_node("MeshInstance3D") as MeshInstance3D
+	var particles = instance.get_node("CPUParticles3D") as CPUParticles3D
 
 	particles.mesh.surface_set_material(0, hue)
-	mesh_body.set_surface_material(0, hue)
+	mesh_body.set_surface_override_material(0, hue)
 
 
 func _get_position() -> Vector3:

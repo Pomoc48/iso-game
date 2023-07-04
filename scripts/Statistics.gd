@@ -40,7 +40,7 @@ func _update_label():
 		percentage_float *= 100
 
 	# Limit float to 2 decimal places
-	var percentage_string = stepify(percentage_float, 0.01) as String
+	var percentage_string = snapped(percentage_float, 0.01) as String
 
 	var games = "Number of games: " + str(_stats_array[0]) + "\n"
 	var score = "Combined score: " + str(_stats_array[1]) + "\n"

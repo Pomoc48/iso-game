@@ -16,8 +16,8 @@ enum PlafformDifficulty {
 
 var emission_color: Color
 
-var open_texture: Texture
-var close_texture: Texture
+var open_texture: Texture2D
+var close_texture: Texture2D
 
 var animation_direction: int
 var camera_rotation: int
@@ -61,7 +61,7 @@ var _CHANGE_HUE_BY = 0.0016;
 
 func _ready():
 	var material_path = "res://materials/emission.tres"
-	var material_blue = load(material_path) as SpatialMaterial
+	var material_blue = load(material_path) as StandardMaterial3D
 
 	open_texture = load("res://assets/textures/Stats.png")
 	close_texture = load("res://assets/textures/Close.png")
@@ -132,8 +132,8 @@ func get_next_cycle(cycle) -> int:
 	return cycle + randi() % 5
 
 
-func get_emission_material(offset) -> SpatialMaterial:
-	var hue = SpatialMaterial.new()
+func get_emission_material(offset) -> StandardMaterial3D:
+	var hue = StandardMaterial3D.new()
 	hue.emission_enabled = true
 	hue.emission = emission_color
 
