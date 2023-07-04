@@ -17,7 +17,7 @@ var _result: bool
 func _ready():
 	_level = get_node("/root/Level")
 
-	_tween = get_node("Tween")
+	_tween = self.create_tween()
 	_animation = get_node("SpatialAnim")
 
 	_bounce_particles = get_node("Node3D/Bounce")

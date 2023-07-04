@@ -9,7 +9,7 @@ var _result: bool
 
 
 func _ready():
-	_tween = get_node("Tween")
+	_tween = self.create_tween()
 	_border = get_node("Border")
 
 	_recolor()

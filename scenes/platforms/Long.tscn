@@ -1,56 +1,50 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://4k2hi7i0t1lg"]
 
-[ext_resource path="res://scripts/platforms/Long.gd" type="Script" id=1]
-[ext_resource path="res://materials/emission.tres" type="Material" id=2]
-[ext_resource path="res://materials/platform.tres" type="Material" id=4]
-[ext_resource path="res://scripts/Platform.gd" type="Script" id=6]
+[ext_resource type="Script" path="res://scripts/platforms/Long.gd" id="1"]
+[ext_resource type="Material" path="res://materials/emission.tres" id="2"]
+[ext_resource type="Material" uid="uid://2auaqxfmyhao" path="res://materials/platform.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/Platform.gd" id="6"]
 
-[sub_resource type="ArrayMesh" id=1]
+[sub_resource type="ArrayMesh" id="1"]
 resource_name = "long_Plane006"
-surfaces/0 = {
-"aabb": AABB( -4.8, 0, -10, 9.6, 1e-05, 20 ),
-"array_data": PackedByteArray( 154, 153, 153, 192, 0, 0, 0, 0, 0, 0, 32, 65, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 63, 154, 153, 153, 64, 0, 0, 0, 0, 0, 0, 32, 65, 0, 127, 127, 63, 0, 0, 128, 63, 0, 0, 128, 63, 154, 153, 153, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 0, 0, 154, 153, 153, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 127, 127, 63, 0, 0, 128, 63, 0, 0, 0, 0 ),
-"array_index_data": PackedByteArray( 0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0 ),
-"blend_shape_data": [  ],
-"format": 2186519,
+_surfaces = [{
+"aabb": AABB(-4.8, 0, -10, 9.6, 1e-05, 20),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 4119,
 "index_count": 6,
-"primitive": 4,
-"skeleton_aabb": [  ],
-"vertex_count": 4
-}
+"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0),
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(154, 153, 153, 192, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191, 154, 153, 153, 64, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191, 154, 153, 153, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191, 154, 153, 153, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191)
+}]
 
-[sub_resource type="ArrayMesh" id=2]
+[sub_resource type="ArrayMesh" id="2"]
 resource_name = "long_Plane007"
-surfaces/0 = {
-"aabb": AABB( -5, 0, -10, 10, 1e-05, 20 ),
-"array_data": PackedByteArray( 0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 32, 65, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 63, 52, 51, 147, 192, 0, 0, 0, 0, 0, 0, 32, 65, 0, 127, 127, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 0, 0, 52, 51, 147, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 127, 127, 63, 0, 0, 128, 63, 0, 0, 0, 0, 52, 51, 147, 64, 0, 0, 0, 0, 0, 0, 32, 65, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 32, 65, 0, 127, 127, 63, 0, 0, 128, 63, 0, 0, 128, 63, 52, 51, 147, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 127, 127, 63, 0, 0, 128, 63, 0, 0, 0, 0 ),
-"array_index_data": PackedByteArray( 0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0, 4, 0, 7, 0, 5, 0, 4, 0, 6, 0, 7, 0 ),
-"blend_shape_data": [  ],
-"format": 2186519,
+_surfaces = [{
+"aabb": AABB(-5, 0, -10, 10, 1e-05, 20),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 4119,
 "index_count": 12,
-"primitive": 4,
-"skeleton_aabb": [  ],
-"vertex_count": 8
-}
+"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0, 4, 0, 7, 0, 5, 0, 4, 0, 6, 0, 7, 0),
+"primitive": 3,
+"vertex_count": 8,
+"vertex_data": PackedByteArray(0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191, 52, 51, 147, 192, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191, 52, 51, 147, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191, 52, 51, 147, 64, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191, 52, 51, 147, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191)
+}]
 
 [node name="Long0" type="Node3D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="Node3D" type="Node3D" parent="."]
-script = ExtResource( 6 )
+script = ExtResource("6")
 
 [node name="Plane" type="MeshInstance3D" parent="Node3D"]
-transform = Transform3D( -1.02814e-07, 0, -1, 0, 1, 0, 0.958333, 0, -1.07284e-07, 0, 0, 0 )
-mesh = SubResource( 1 )
+transform = Transform3D(-1.02814e-07, 0, -1, 0, 1, 0, 0.958333, 0, -1.07284e-07, 0, 0, 0)
+mesh = SubResource("1")
 skeleton = NodePath("")
-material/0 = ExtResource( 4 )
+surface_material_override/0 = ExtResource("4")
 
 [node name="Border" type="MeshInstance3D" parent="Node3D"]
-transform = Transform3D( -1.07284e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284e-07, 0, 0, 0 )
-mesh = SubResource( 2 )
+transform = Transform3D(-1.07284e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284e-07, 0, 0, 0)
+mesh = SubResource("2")
 skeleton = NodePath("")
-material/0 = ExtResource( 2 )
-
-[node name="Tween" type="Tween" parent="Node3D"]
-
-[connection signal="tween_all_completed" from="Node3D/Tween" to="Node3D" method="_on_tween_completed"]
+surface_material_override/0 = ExtResource("2")

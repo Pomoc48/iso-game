@@ -12,3 +12,11 @@ res://scripts/PlatformSpace.gd
 res://scripts/Player.gd
 res://scripts/Remove.gd
 res://scripts/Statistics.gd
+res://scenes/Level.tscn
+res://scenes/platforms/Start.tscn
+res://materials/platform.tres
+res://scenes/platforms/Corner.tscn
+res://scenes/platforms/Cross.tscn
+res://scenes/platforms/Long.tscn
+res://scenes/platforms/TwoWay.tscn
+res://scenes/Block.tscn
