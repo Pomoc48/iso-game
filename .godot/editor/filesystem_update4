@@ -1,2 +1,14 @@
 res://scripts/Interface.gd
 res://scripts/Level.gd
+res://scripts/Globals.gd
+res://scripts/Platform.gd
+res://scripts/platforms/Corner.gd
+res://scripts/platforms/Cross.gd
+res://scripts/platforms/Long.gd
+res://scripts/platforms/Start.gd
+res://scripts/platforms/Twoway.gd
+res://scripts/Decorations.gd
+res://scripts/PlatformSpace.gd
+res://scripts/Player.gd
+res://scripts/Remove.gd
+res://scripts/Statistics.gd

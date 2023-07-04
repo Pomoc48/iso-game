@@ -27,11 +27,11 @@ func _ready():
 
 
 func animate_movement():
-	var position = Globals.get_future_position()
-	position.y = 2
+	var my_position = Globals.get_future_position()
+	my_position.y = 2
 
 	var speed = Globals.animation_speed
-	_play_tween_animation("position", position, speed)
+	_play_tween_animation("position", my_position, speed)
 
 
 func update_color():

@@ -33,9 +33,9 @@ func calculate_healthbar():
 		_health_bar_showed = true
 
 	var health = Globals.player_health * _update_health_by
-	var position = Vector2(health, 16)
+	var new_position = Vector2(health, 16)
 
-	_health_bar.set_size(position, false)
+	_health_bar.set_size(new_position, false)
 
 
 func calculate_perspective_bar(frames: float):
@@ -44,9 +44,9 @@ func calculate_perspective_bar(frames: float):
 	frames += 1
 
 	var new_size: float = _screen_size * frames
-	var position = Vector2(new_size, 16)
+	var new_position = Vector2(new_size, 16)
 
-	_health_bar.set_size(position, false)
+	_health_bar.set_size(new_position, false)
 
 
 func update_score():

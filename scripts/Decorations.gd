@@ -16,11 +16,11 @@ func create():
 	_load(_get_position())
 
 
-func _load(position):
+func _load(my_position):
 	var block = load("res://scenes/Block.tscn") as PackedScene
 	var block_instance = block.instantiate() as Node3D
 	
-	block_instance.position = position
+	block_instance.position = my_position
 	_recolor(block_instance)
 	add_child(block_instance)
 
