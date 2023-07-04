@@ -20,3 +20,10 @@ res://scenes/platforms/Cross.tscn
 res://scenes/platforms/Long.tscn
 res://scenes/platforms/TwoWay.tscn
 res://scenes/Block.tscn
+res://animations/interface/ui_show.tres
+res://animations/interface/healthbar_show.tres
+res://animations/interface/stats_view_show.tres
+res://animations/interface/stats_view_hide.tres
+res://animations/camera_up_long.tres
+res://animations/camera_up.tres
+res://animations/camera_down.tres

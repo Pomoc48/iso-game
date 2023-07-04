@@ -18,7 +18,6 @@ func _ready():
 	_level = get_node("/root/Level")
 
 	_tween = self.create_tween()
-	_animation = get_node("SpatialAnim")
 
 	_bounce_particles = get_node("Node3D/Bounce")
 	_game_over_particles = get_node("Node3D/GameOver")
@@ -106,15 +105,15 @@ func _is_game_over_animation(animation) -> bool:
 	return animation == "camera_up" or animation == "camera_up_long"
 
 
-# Reenable controls
-func _on_tween_animation_finished():
-	# Update global position at the end of animation
-	Globals.player_position = self.position
-	_level.toggle_controls(true)
+# # Reenable controls
+# func _on_tween_animation_finished():
+# 	# Update global position at the end of animation
+# 	Globals.player_position = self.position
+# 	_level.toggle_controls(true)
 
 
-func _on_spatial_animation_finished(animation):
-	if _is_game_over_animation(animation):
-		_result = get_tree().reload_current_scene()
-	else:
-		_level.toggle_controls(true)
+# func _on_spatial_animation_finished(animation):
+# 	if _is_game_over_animation(animation):
+# 		_result = get_tree().reload_current_scene()
+# 	else:
+# 		_level.toggle_controls(true)

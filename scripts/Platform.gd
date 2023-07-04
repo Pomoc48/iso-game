@@ -35,11 +35,6 @@ func _play_tween_animation(material, startValue, endValue):
 	var speed = Globals.animation_speed
 	speed -= 0.05
 
-	_result = _tween.interpolate_property(material, "emission_energy",
+	_result = _tween.interpolate_value(material, "emission_energy",
 			startValue, endValue, speed, Tween.TRANS_SINE)
 	_result = _tween.start()
-
-
-func _on_tween_completed():
-	if _end:
-		self.get_parent().queue_free()

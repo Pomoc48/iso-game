@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://cbnf5yg64ekl1"]
+[gd_scene load_steps=20 format=3 uid="uid://cbnf5yg64ekl1"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Environment" path="res://enviroments/defaultEnviroment.tres" id="2"]
@@ -7,45 +7,11 @@
 [ext_resource type="Script" path="res://scripts/PlatformSpace.gd" id="5"]
 [ext_resource type="Script" path="res://scripts/Decorations.gd" id="6"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="7"]
-[ext_resource type="FontFile" uid="uid://dl0wthswr1ohi" path="res://assets/fonts/montreal/Montreal-Regular.ttf" id="8"]
-[ext_resource type="Texture2D" uid="uid://djqk4fg32jlfe" path="res://assets/textures/Stats.png" id="9"]
-[ext_resource type="Script" path="res://scripts/Statistics.gd" id="10"]
-[ext_resource type="Animation" path="res://animations/interface/ui_hide.tres" id="11"]
 [ext_resource type="Texture2D" uid="uid://dv6d3trcs2jx5" path="res://assets/textures/Arrow.png" id="12"]
-[ext_resource type="Animation" path="res://animations/interface/score_bump.tres" id="13"]
 [ext_resource type="PackedScene" uid="uid://bhh12kygm4q0h" path="res://scenes/platforms/Start.tscn" id="14"]
-[ext_resource type="Animation" path="res://animations/camera_up_long.tres" id="15"]
-[ext_resource type="Animation" path="res://animations/interface/blind_orthogonal.tres" id="16"]
-[ext_resource type="Animation" path="res://animations/interface/ui_hide_highscore.tres" id="17"]
 [ext_resource type="FontFile" uid="uid://b5y15b7snm3bt" path="res://assets/fonts/montreal/Montreal-Bold.ttf" id="18"]
-[ext_resource type="Animation" path="res://animations/interface/blind_perspective.tres" id="19"]
 [ext_resource type="Texture2D" uid="uid://bsipedq2k44on" path="res://assets/textures/Arrow2.png" id="20"]
-[ext_resource type="Animation" path="res://animations/interface/score_hide.tres" id="21"]
-[ext_resource type="Animation" path="res://animations/interface/ui_show.tres" id="22"]
-[ext_resource type="Animation" path="res://animations/camera_down.tres" id="23"]
-[ext_resource type="Animation" path="res://animations/interface/healthbar_show.tres" id="24"]
-[ext_resource type="Animation" path="res://animations/interface/stats_view_show.tres" id="25"]
-[ext_resource type="Animation" path="res://animations/interface/stats_view_hide.tres" id="26"]
-[ext_resource type="Animation" path="res://animations/camera_up.tres" id="27"]
-[ext_resource type="Animation" path="res://animations/bounces/bounce2.tres" id="28"]
-[ext_resource type="Animation" path="res://animations/bounces/bounce3.tres" id="29"]
-[ext_resource type="Animation" path="res://animations/bounces/bounce1.tres" id="30"]
-[ext_resource type="Animation" path="res://animations/bounces/bounce0.tres" id="31"]
 [ext_resource type="Curve" path="res://curves/scale.tres" id="32"]
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_alsi6"]
-_data = {
-"blind_orthogonal": ExtResource("16"),
-"blind_perspective": ExtResource("19"),
-"healthbar_show": ExtResource("24"),
-"score_bump": ExtResource("13"),
-"score_hide": ExtResource("21"),
-"stats_view_hide": ExtResource("26"),
-"stats_view_show": ExtResource("25"),
-"ui_hide": ExtResource("11"),
-"ui_hide_highscore": ExtResource("17"),
-"ui_show": ExtResource("22")
-}
 
 [sub_resource type="FontFile" id="5"]
 fallbacks = Array[Font]([ExtResource("18")])
@@ -70,41 +36,6 @@ cache/0/16/0/underline_position = 0.0
 cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="45"]
-fallbacks = Array[Font]([ExtResource("18")])
-face_index = null
-embolden = null
-transform = null
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="FontFile" id="46"]
-fallbacks = Array[Font]([ExtResource("8")])
-face_index = null
-embolden = null
-transform = null
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_o0v5f"]
-_data = {
-"bounce0": ExtResource("31"),
-"bounce1": ExtResource("30"),
-"bounce2": ExtResource("28"),
-"bounce3": ExtResource("29"),
-"camera_down": ExtResource("23"),
-"camera_up": ExtResource("27"),
-"camera_up_long": ExtResource("15")
-}
 
 [sub_resource type="SphereMesh" id="48"]
 material = ExtResource("3")
@@ -151,22 +82,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4")
 
-[node name="InterfaceAnim" type="AnimationPlayer" parent="Interface"]
-autoplay = "ui_show"
-libraries = {
-"": SubResource("AnimationLibrary_alsi6")
-}
-
 [node name="Main" type="NinePatchRect" parent="Interface"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-
-[node name="Blind" type="ColorRect" parent="Interface/Main"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0, 0, 0, 0)
 
 [node name="Left" type="NinePatchRect" parent="Interface/Main"]
 layout_mode = 0
@@ -176,7 +95,7 @@ offset_left = 310.0
 offset_top = -630.0
 offset_right = 890.0
 offset_bottom = -380.0
-rotation = 90.0
+rotation = 0.628319
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(-500, 0)
 
@@ -213,7 +132,7 @@ offset_left = -887.0
 offset_top = -626.0
 offset_right = -307.0
 offset_bottom = -376.0
-rotation = -90.0
+rotation = -0.628319
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(1080, 0)
 
@@ -244,7 +163,6 @@ texture_pressed = ExtResource("20")
 clip_contents = true
 anchors_preset = 0
 anchor_right = 1.0
-offset_top = -8.0
 offset_bottom = 8.0
 
 [node name="Bar" type="ColorRect" parent="Interface/Main/Health"]
@@ -252,7 +170,6 @@ clip_contents = true
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -8.0
 
 [node name="Score" type="Label" parent="Interface/Main"]
 layout_mode = 0
@@ -262,6 +179,7 @@ offset_top = -180.0
 offset_right = -10.0
 offset_bottom = -135.12
 theme_override_fonts/font = SubResource("5")
+text = "45"
 
 [node name="HighScore" type="Label" parent="Interface/Main"]
 layout_mode = 0
@@ -273,49 +191,6 @@ offset_bottom = -4.0
 theme_override_fonts/font = SubResource("34")
 text = "HiScore: 120"
 
-[node name="Stats" type="ColorRect" parent="Interface/Main"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color(0.0431373, 0.0431373, 0.0431373, 0)
-
-[node name="Title" type="Label" parent="Interface/Main/Stats"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 180.0
-offset_top = 200.0
-offset_right = -180.0
-offset_bottom = -160.0
-theme_override_colors/font_color = Color(1, 1, 1, 0)
-theme_override_fonts/font = SubResource("45")
-text = "Statistics:"
-
-[node name="Stats" type="Label" parent="Interface/Main/Stats"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 180.0
-offset_top = 300.0
-offset_right = -180.0
-offset_bottom = -160.0
-theme_override_colors/font_color = Color(1, 1, 1, 0)
-theme_override_fonts/font = SubResource("46")
-text = "Number of games: 210
-Combined score: 3276
-Correct move percentage: 82.5%"
-
-[node name="StatsButton" type="TextureButton" parent="Interface/Main"]
-layout_mode = 0
-offset_left = 32.0
-offset_top = -64.0
-offset_right = 160.0
-offset_bottom = 64.0
-scale = Vector2(0.4, 0.4)
-texture_normal = ExtResource("9")
-script = ExtResource("10")
-
 [node name="Platforms" type="Node3D" parent="."]
 script = ExtResource("5")
 
@@ -324,12 +199,6 @@ script = ExtResource("5")
 [node name="Player" type="Node3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0)
 script = ExtResource("1")
-
-[node name="SpatialAnim" type="AnimationPlayer" parent="Player"]
-autoplay = "camera_down"
-libraries = {
-"": SubResource("AnimationLibrary_o0v5f")
-}
 
 [node name="Node3D" type="Node3D" parent="Player"]
 
@@ -396,5 +265,3 @@ script = ExtResource("6")
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Interface" method="_on_right_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Down" to="Interface" method="_on_down_button_down"]
 [connection signal="button_down" from="Interface/Main/Right/Up" to="Interface" method="_on_up_button_down"]
-[connection signal="button_down" from="Interface/Main/StatsButton" to="Interface/Main/StatsButton" method="_on_stats_button_down"]
-[connection signal="animation_finished" from="Player/SpatialAnim" to="Player" method="_on_spatial_animation_finished"]
