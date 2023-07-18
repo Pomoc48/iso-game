@@ -14,8 +14,7 @@ func _ready():
 	_recolor()
 
 
-func play_fade_out_animation():
-	self.queue_free()
+# func play_fade_out_animation():
 	# _end = true
 	# var material = _border.get_surface_override_material(0) as StandardMaterial3D
 

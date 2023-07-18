@@ -43,7 +43,8 @@ func _place(type):
 
 func _remove_old():
 	var child_index = _total - _history
-	var child = self.get_child(child_index) as Node3D
+	var child = self.get_child(child_index + 1) as Node3D
 
 	_total -= 1
-	child.get_node("Node3D").play_fade_out_animation()
+	# child.get_node("Node3D").play_fade_out_animation()
+	child.queue_free()
