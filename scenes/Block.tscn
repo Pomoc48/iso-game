@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://dd0yd7l22divd"]
 
 [ext_resource type="Material" path="res://materials/emission.tres" id="1"]
-[ext_resource type="Script" path="res://scripts/Remove.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/Cleaner.gd" id="1_lnrcv"]
 
 [sub_resource type="BoxMesh" id="1"]
 
@@ -87,7 +87,7 @@ _data = [Vector2(0, 1), 0.0, -0.0895879, 0, 0, Vector2(0.365782, 1), 0.0, -0.128
 point_count = 3
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("2")
+script = ExtResource("1_lnrcv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")

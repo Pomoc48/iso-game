@@ -3,21 +3,16 @@ extends Node3D
 
 var _level
 
-var _tween: Tween
-var _animation: AnimationPlayer
-
 var _bounce_particles: CPUParticles3D
 var _game_over_particles: CPUParticles3D
 var _body_particles: CPUParticles3D
 var _body_particles2: CPUParticles3D
 
-var _result: bool
+# var _result: bool
 
 
 func _ready():
 	_level = get_node("/root/Level")
-
-	_tween = self.create_tween()
 
 	_bounce_particles = get_node("Node3D/Bounce")
 	_game_over_particles = get_node("Node3D/GameOver")
@@ -29,8 +24,8 @@ func animate_movement():
 	var my_position = Globals.get_future_position()
 	my_position.y = 2
 
-	var speed = Globals.animation_speed
-	_play_tween_animation("position", my_position, speed)
+	# var speed = Globals.animation_speed
+	# _play_tween_animation("position", my_position, speed)
 
 
 func update_color():
@@ -44,65 +39,65 @@ func update_color():
 	_body_particles2.mesh.surface_set_material(0, hue_big)
 
 
-func play_spatial_animation(animation):
-	if _animation.is_playing():
-		if _is_game_over_animation(animation):
-			_play_game_over_animation(animation)
-	else:
-		_animation.play(animation)
+# func play_spatial_animation(animation):
+# 	if _animation.is_playing():
+# 		if _is_game_over_animation(animation):
+# 			_play_game_over_animation(animation)
+# 	else:
+# 		_animation.play(animation)
 
 
-func rotate_camera_by(rotations):
-	var clockwise = Globals.get_random_bool()
+# func rotate_camera_by(rotations):
+# 	var clockwise = Globals.get_random_bool()
 
-	if clockwise:
-		Globals.camera_rotation += rotations
-	else:
-		Globals.camera_rotation -= rotations
+# 	if clockwise:
+# 		Globals.camera_rotation += rotations
+# 	else:
+# 		Globals.camera_rotation -= rotations
 
-	# Globals.camera_rotation = posmod(Globals.camera_rotation, 3)
-	# Can improve
+# 	# Globals.camera_rotation = posmod(Globals.camera_rotation, 3)
+# 	# Can improve
 
-	if Globals.camera_rotation > 3:
-		Globals.camera_rotation -= 4
+# 	if Globals.camera_rotation > 3:
+# 		Globals.camera_rotation -= 4
 
-	if Globals.camera_rotation < 0:
-		Globals.camera_rotation += 4
+# 	if Globals.camera_rotation < 0:
+# 		Globals.camera_rotation += 4
 
-	_level.toggle_controls(false)
-	_play_camera_rotation_animation(clockwise, rotations)
-
-
-func _play_game_over_animation(animation):
-	_animation.stop()
-	# Fix particles rarely emitting non stop after game over
-	_bounce_particles.emitting = false
-	_animation.play(animation)
+# 	_level.toggle_controls(false)
+# 	_play_camera_rotation_animation(clockwise, rotations)
 
 
-func _play_camera_rotation_animation(clockwise, rotations):
-	var rotate_by = 90 * rotations
-	# More rotations take longer
-	var time = rotations * Globals.animation_speed * 1.5
-
-	var new_rotation = self.rotation_degrees
-
-	if clockwise:
-		new_rotation.y += rotate_by
-	else:
-		new_rotation.y -= rotate_by
-
-	_play_tween_animation("rotation_degrees", new_rotation, time)
+# func _play_game_over_animation(animation):
+# 	_animation.stop()
+# 	# Fix particles rarely emitting non stop after game over
+# 	_bounce_particles.emitting = false
+# 	_animation.play(animation)
 
 
-func _play_tween_animation(type, new_vector, time):
-	_result = _tween.interpolate_property(self, type, null,
-			new_vector, time, Tween.TRANS_SINE)
-	_result = _tween.start()
+# func _play_camera_rotation_animation(clockwise, rotations):
+# 	var rotate_by = 90 * rotations
+# 	# More rotations take longer
+# 	var time = rotations * Globals.animation_speed * 1.5
+
+# 	var new_rotation = self.rotation_degrees
+
+# 	if clockwise:
+# 		new_rotation.y += rotate_by
+# 	else:
+# 		new_rotation.y -= rotate_by
+
+# 	_play_tween_animation("rotation_degrees", new_rotation, time)
 
 
-func _is_game_over_animation(animation) -> bool:
-	return animation == "camera_up" or animation == "camera_up_long"
+# func _play_tween_animation(type, new_vector, time):
+# 	_result = _tween.interpolate_property(self, type, null,
+# 			new_vector, time, Tween.TRANS_SINE)
+# 	_result = _tween.start()
+
+
+# func _is_game_over_animation(animation) -> bool:
+# 	return animation == "camera_up" or animation == "camera_up_long"
 
 
 # # Reenable controls

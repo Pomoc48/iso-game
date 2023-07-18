@@ -70,7 +70,7 @@ func check_move(direction):
 		return
 
 	toggle_controls(false)
-	Globals.animation_direction = _translate_direction(direction)
+	# Globals.animation_direction = _translate_direction(direction)
 
 	if _is_move_valid():
 		_correct_move()

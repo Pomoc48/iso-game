@@ -1,26 +1,25 @@
 extends Node3D
 
 
-var _tween: Tween
 var _border: MeshInstance3D
 
-var _end: bool
-var _result: bool
+# var _end: bool
+# var _result: bool
 
 
 func _ready():
-	_tween = self.create_tween()
+	# _tween = self.create_tween()
 	_border = get_node("Border")
 
 	_recolor()
 
 
-func play_fade_out_animation():
-	_end = true
-	var material = _border.get_surface_override_material(0) as StandardMaterial3D
+# func play_fade_out_animation():
+# 	_end = true
+# 	var material = _border.get_surface_override_material(0) as StandardMaterial3D
 
-	_result = _tween.stop_all()
-	_play_tween_animation(material, 1, 0)
+# 	_result = _tween.stop_all()
+# 	_play_tween_animation(material, 1, 0)
 
 
 func _recolor():
@@ -28,13 +27,13 @@ func _recolor():
 	material.emission_energy = 0
 
 	_border.set_surface_override_material(0, material)
-	_play_tween_animation(material, 0, 1)
+	# _play_tween_animation(material, 0, 1)
 
 
-func _play_tween_animation(material, startValue, endValue):
-	var speed = Globals.animation_speed
-	speed -= 0.05
+# func _play_tween_animation(material, startValue, endValue):
+# 	var speed = Globals.animation_speed
+# 	speed -= 0.05
 
-	_result = _tween.interpolate_value(material, "emission_energy",
-			startValue, endValue, speed, Tween.TRANS_SINE)
-	_result = _tween.start()
+# 	_result = _tween.interpolate_value(material, "emission_energy",
+# 			startValue, endValue, speed, Tween.TRANS_SINE)
+# 	_result = _tween.start()

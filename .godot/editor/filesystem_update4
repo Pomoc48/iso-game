@@ -1,1 +1,17 @@
 res://scripts/Level.gd
+res://scripts/Platform.gd
+res://scripts/Player.gd
+res://scenes/Level.tscn
+res://materials/platform.tres
+res://scripts/Interface.gd
+res://scripts/Decorations.gd
+res://scripts/Globals.gd
+res://scripts/PlatformSpace.gd
+res://scripts/platforms/Corner.gd
+res://scripts/platforms/Cross.gd
+res://scripts/platforms/Long.gd
+res://scripts/platforms/Start.gd
+res://scripts/platforms/Twoway.gd
+res://scenes/platforms/Start.tscn
+res://scenes/Block.tscn
+res://scripts/Cleaner.gd

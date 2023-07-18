@@ -2,7 +2,6 @@ extends Control
 
 
 var _level
-var _interface_animation: AnimationPlayer
 
 var _score_label: Label
 var _health_bar: Control
@@ -19,7 +18,6 @@ func _ready():
 	var high_score_label = get_node("Main/HighScore") as Label
 	high_score_label.text = _get_previous_highsore()
 
-	_interface_animation = get_node("InterfaceAnim")
 	_score_label = get_node("Main/Score")
 	_health_bar = get_node("Main/Health")
 	_health_bar_cr = get_node("Main/Health/Bar")
@@ -29,7 +27,6 @@ func _ready():
 
 func calculate_healthbar():
 	if not _health_bar_showed:
-		_interface_animation.play("healthbar_show")
 		_health_bar_showed = true
 
 	var health = Globals.player_health * _update_health_by
@@ -52,18 +49,10 @@ func calculate_perspective_bar(frames: float):
 func update_score():
 	_score_label.text = str(Globals.session_score)
 
-	# Fix camera animation freezing
-	if not _interface_animation.is_playing():
-		_interface_animation.play("score_bump")
-
 
 func update_healthbar_color():
 	var hue = Globals.get_emission_material(0.25)
 	_health_bar_cr.color = hue.emission
-
-
-func play_interface_animation(animation: String):
-	_interface_animation.play(animation)
 
 
 func _get_screen_size():
