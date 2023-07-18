@@ -12,11 +12,11 @@ config_version=5
 
 config/name="Iso"
 run/main_scene="res://scenes/Level.tscn"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.1")
+run/delta_smoothing=false
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://assets/textures/icon.png"
 config/windows_native_icon="res://assets/textures/icon.ico"
-run/delta_smoothing=false
 
 [autoload]
 
