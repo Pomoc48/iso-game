@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://cbnf5yg64ekl1"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
-[ext_resource type="Environment" path="res://enviroments/defaultEnviroment.tres" id="2"]
+[ext_resource type="Environment" uid="uid://dgjm5sud0ne78" path="res://enviroments/defaultEnviroment.tres" id="2"]
 [ext_resource type="Material" uid="uid://dfpo4albcak7l" path="res://materials/emission.tres" id="3"]
 [ext_resource type="Script" path="res://scripts/Interface.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/PlatformSpace.gd" id="5"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bhh12kygm4q0h" path="res://scenes/platforms/Start.tscn" id="14"]
 [ext_resource type="FontFile" uid="uid://b5y15b7snm3bt" path="res://assets/fonts/montreal/Montreal-Bold.ttf" id="18"]
 [ext_resource type="Texture2D" uid="uid://bsipedq2k44on" path="res://assets/textures/Arrow2.png" id="20"]
-[ext_resource type="Curve" path="res://curves/scale.tres" id="32"]
+[ext_resource type="Curve" uid="uid://bln8on8w0c1ur" path="res://curves/scale.tres" id="32"]
 
 [sub_resource type="FontFile" id="5"]
 fallbacks = Array[Font]([ExtResource("18")])
@@ -53,15 +53,15 @@ rings = 4
 
 [sub_resource type="SphereMesh" id="50"]
 material = ExtResource("3")
-radius = 0.1
-height = 0.2
+radius = 0.2
+height = 0.4
 radial_segments = 8
 rings = 4
 
 [sub_resource type="SphereMesh" id="53"]
 material = ExtResource("3")
-radius = 0.1
-height = 0.2
+radius = 0.2
+height = 0.4
 radial_segments = 8
 rings = 4
 
@@ -225,8 +225,8 @@ gravity = Vector3(0, 0, 0)
 scale_amount_curve = ExtResource("32")
 
 [node name="BodyP" type="CPUParticles3D" parent="Player/Node3D"]
-amount = 24
-lifetime = 0.5
+amount = 32
+lifetime = 0.75
 fract_delta = false
 mesh = SubResource("50")
 emission_shape = 1
@@ -234,9 +234,15 @@ emission_sphere_radius = 0.1
 direction = Vector3(0, 1, 0)
 spread = 180.0
 gravity = Vector3(0, 9.8, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+radial_accel_min = -60.0
+radial_accel_max = -60.0
+tangential_accel_max = 10.0
 scale_amount_curve = ExtResource("32")
 
 [node name="BodyCenterP" type="CPUParticles3D" parent="Player/Node3D"]
+amount = 12
 lifetime = 0.5
 fract_delta = false
 mesh = SubResource("53")
@@ -245,6 +251,12 @@ emission_sphere_radius = 0.1
 direction = Vector3(0, 1, 0)
 spread = 180.0
 gravity = Vector3(0, 9.8, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+radial_accel_min = -60.0
+radial_accel_max = -60.0
+tangential_accel_min = -10.0
+tangential_accel_max = -10.0
 scale_amount_curve = SubResource("54")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]

@@ -39,6 +39,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 script = ExtResource("5")
 
 [node name="Plane" type="MeshInstance3D" parent="Node3D"]
+visible = false
 mesh = SubResource("3")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("2")

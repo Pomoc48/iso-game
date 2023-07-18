@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cvvuljf3mflm3"]
 
 [ext_resource type="Script" path="res://scripts/platforms/Twoway.gd" id="1"]
-[ext_resource type="Material" path="res://materials/emission.tres" id="2"]
+[ext_resource type="Material" uid="uid://dfpo4albcak7l" path="res://materials/emission.tres" id="2"]
 [ext_resource type="Material" uid="uid://2auaqxfmyhao" path="res://materials/platform.tres" id="4"]
 [ext_resource type="Script" path="res://scripts/Platform.gd" id="5"]
 
@@ -39,6 +39,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 script = ExtResource("5")
 
 [node name="Plane" type="MeshInstance3D" parent="Node3D"]
+visible = false
 mesh = SubResource("1")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("4")

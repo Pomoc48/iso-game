@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bthvlvd6x3y6r"]
 
 [ext_resource type="Script" path="res://scripts/platforms/Cross.gd" id="1"]
-[ext_resource type="Material" path="res://materials/emission.tres" id="2"]
+[ext_resource type="Material" uid="uid://dfpo4albcak7l" path="res://materials/emission.tres" id="2"]
 [ext_resource type="Material" uid="uid://2auaqxfmyhao" path="res://materials/platform.tres" id="4"]
 [ext_resource type="Script" path="res://scripts/Platform.gd" id="5"]
 
@@ -38,6 +38,7 @@ script = ExtResource("1")
 script = ExtResource("5")
 
 [node name="Plane" type="MeshInstance3D" parent="Node3D"]
+visible = false
 mesh = SubResource("1")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("4")

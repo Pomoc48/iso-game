@@ -17,3 +17,8 @@ res://scenes/Block.tscn
 res://scripts/Cleaner.gd
 res://materials/emission.tres
 res://scenes/platforms/Corner.tscn
+res://curves/scale.tres
+res://scenes/platforms/Long.tscn
+res://scenes/platforms/Cross.tscn
+res://scenes/platforms/TwoWay.tscn
+res://enviroments/defaultEnviroment.tres
