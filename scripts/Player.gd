@@ -21,8 +21,11 @@ func _ready():
 
 
 func animate_movement():
+	Globals.player_position = self.position
 	var my_position = Globals.get_future_position()
 	my_position.y = 2
+	
+	self.position = my_position
 
 	# var speed = Globals.animation_speed
 	# _play_tween_animation("position", my_position, speed)

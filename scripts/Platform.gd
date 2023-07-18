@@ -14,12 +14,13 @@ func _ready():
 	_recolor()
 
 
-# func play_fade_out_animation():
-# 	_end = true
-# 	var material = _border.get_surface_override_material(0) as StandardMaterial3D
+func play_fade_out_animation():
+	self.queue_free()
+	# _end = true
+	# var material = _border.get_surface_override_material(0) as StandardMaterial3D
 
-# 	_result = _tween.stop_all()
-# 	_play_tween_animation(material, 1, 0)
+	# _result = _tween.stop_all()
+	# _play_tween_animation(material, 1, 0)
 
 
 func _recolor():

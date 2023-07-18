@@ -13,8 +13,8 @@ var _max_difficulty_cycle = 20
 var _life_loss_rate = 0.04
 var _life_gain_rate = 2.0
 
-var _is_player_dead = false
-var _player_can_move = false
+# var _is_player_dead = false
+# var _player_can_move = true
 
 var _inputs = [
 	"ui_up",
@@ -54,23 +54,25 @@ func _process(_delta):
 
 
 func _physics_process(_delta):
-	if Globals.player_health <= 0 and not _is_player_dead:
-		_game_over()
+	# if Globals.player_health <= 0 and not _is_player_dead:
+	# 	_game_over()
 
 	if not Globals.first_move:
 		_loose_health_on_tick()
 
 
-func toggle_controls(enable):
-	_player_can_move = enable
+# func toggle_controls(enable):
+# 	_player_can_move = enable
 
 
 func check_move(direction):
-	if not _player_can_move:
-		return
+	# if not _player_can_move:
+	# 	return
 
-	toggle_controls(false)
-	# Globals.animation_direction = _translate_direction(direction)
+	# toggle_controls(false)
+	Globals.animation_direction = _translate_direction(direction)
+	
+	print(direction)
 
 	if _is_move_valid():
 		_correct_move()
@@ -87,6 +89,8 @@ func _translate_direction(direction) -> int:
 
 func _is_move_valid() -> bool:
 	Globals.total_moves += 1
+	
+	print(Globals.possible_moves)
 
 	for direction in Globals.possible_moves:
 		if Globals.animation_direction == direction:
@@ -149,21 +153,21 @@ func _get_random_rotation_ammount() -> int:
 		return 1
 
 
-func _wrong_move(direction):
+func _wrong_move(_direction):
 	if not Globals.perspective_mode:
 		_take_player_health()
 
-	if not _is_player_dead:
-		var animation_name = "bounce" + str(direction)
-		_player.play_spatial_animation(animation_name)
+	# if not _is_player_dead:
+	# 	var animation_name = "bounce" + str(direction)
+	# 	_player.play_spatial_animation(animation_name)
 
 
 func _take_player_health():
 	if not Globals.first_move:
 		Globals.player_health -= 10
 
-	if Globals.player_health <= 0 and not _is_player_dead:
-		_game_over()
+	# if Globals.player_health <= 0 and not _is_player_dead:
+	# 	_game_over()
 
 
 func _loose_health_on_tick():
@@ -176,13 +180,13 @@ func _give_player_health(ammount):
 	Globals.player_health = clamp(new_health, 0, Globals.FULL_HEALTH)
 
 
-func _game_over():
-	_is_player_dead = true
-	toggle_controls(false)
+# func _game_over():
+# 	_is_player_dead = true
+# 	# toggle_controls(false)
 	
-	_play_outro_animation()
+# 	_play_outro_animation()
 
 
-func _play_outro_animation():
-	_interface.play_interface_animation("ui_hide")
-	_player.play_spatial_animation("camera_up")
+# func _play_outro_animation():
+# 	_interface.play_interface_animation("ui_hide")
+# 	_player.play_spatial_animation("camera_up")
