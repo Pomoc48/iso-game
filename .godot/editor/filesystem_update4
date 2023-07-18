@@ -15,3 +15,4 @@ res://scripts/platforms/Twoway.gd
 res://scenes/platforms/Start.tscn
 res://scenes/Block.tscn
 res://scripts/Cleaner.gd
+res://materials/emission.tres
