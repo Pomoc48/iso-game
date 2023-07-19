@@ -5,8 +5,12 @@ var _game_over_particles: CPUParticles3D
 var _body_particles: CPUParticles3D
 var _body_particles2: CPUParticles3D
 
+var _bounce_player: AnimationPlayer
+
 
 func _ready():
+	_bounce_player = get_node("BouncePlayer")
+	
 	_bounce_particles = get_node("Node3D/Bounce")
 	_game_over_particles = get_node("Node3D/GameOver")
 	_body_particles = get_node("Node3D/BodyP")
@@ -15,17 +19,16 @@ func _ready():
 
 func animate_movement():
 	Globals.player_position = self.position
+	
 	var my_position = Globals.get_future_position()
 	my_position.y = 2
-	
-	# self.position = my_position
 
 	var speed = Globals.animation_speed
 	
 	var tween = self.create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "position", my_position, speed)
-	# _play_tween_animation("position", my_position, speed)
+	tween.tween_callback(func(): Globals.player_can_move = true)
 
 
 func update_color():
@@ -39,12 +42,8 @@ func update_color():
 	_body_particles2.mesh.surface_set_material(0, hue_big)
 
 
-# func play_spatial_animation(animation):
-# 	if _animation.is_playing():
-# 		if _is_game_over_animation(animation):
-# 			_play_game_over_animation(animation)
-# 	else:
-# 		_animation.play(animation)
+func play_spatial_animation(animation):
+	_bounce_player.play(animation)
 
 
 # func rotate_camera_by(rotations):
@@ -112,3 +111,7 @@ func update_color():
 # 		_result = get_tree().reload_current_scene()
 # 	else:
 # 		_level.toggle_controls(true)
+
+
+func _on_bounce_player_animation_finished(_anim_name):
+	Globals.player_can_move = true

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dd0yd7l22divd"]
 
-[ext_resource type="Material" path="res://materials/emission.tres" id="1"]
+[ext_resource type="Material" uid="uid://dfpo4albcak7l" path="res://materials/emission.tres" id="1"]
 [ext_resource type="Script" path="res://scripts/Cleaner.gd" id="1_lnrcv"]
 
 [sub_resource type="BoxMesh" id="1"]

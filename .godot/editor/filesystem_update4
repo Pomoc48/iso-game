@@ -16,3 +16,8 @@ res://scripts/PlatformSpace.gd
 res://scripts/Platform.gd
 res://scripts/Decorations.gd
 res://scripts/Cleaner.gd
+res://scenes/Block.tscn
+res://animations/bounces/bounce0.res
+res://animations/bounces/bounce1.res
+res://animations/bounces/bounce2.res
+res://animations/bounces/bounce3.res

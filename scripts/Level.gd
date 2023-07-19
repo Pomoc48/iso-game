@@ -8,7 +8,6 @@ var _platforms
 var _difficulty_cycle = 0
 var _speedup_counter = 0
 
-var _increase_score_by = 1
 var _max_difficulty_cycle = 20
 var _life_loss_rate = 0.04
 var _life_gain_rate = 2.0
@@ -59,13 +58,11 @@ func _physics_process(_delta):
 
 
 func check_move(direction):
-	# if not _player_can_move:
-	# 	return
+	if not Globals.player_can_move:
+		return
 
-	# toggle_controls(false)
+	Globals.player_can_move = false;
 	Globals.animation_direction = _translate_direction(direction)
-	
-	print(direction)
 
 	if _is_move_valid():
 		_correct_move()
@@ -91,7 +88,7 @@ func _is_move_valid() -> bool:
 func _correct_move():
 	_player.animate_movement()
 
-	Globals.session_score += _increase_score_by
+	Globals.session_score += 1
 	_interface.update_score()
 
 	Globals.update_emission_material()
@@ -141,13 +138,12 @@ func _get_random_rotation_ammount() -> int:
 		return 1
 
 
-func _wrong_move(_direction):
-	if not Globals.perspective_mode:
-		_take_player_health()
+func _wrong_move(direction):	
+	_take_player_health()
 
 	# if not _is_player_dead:
-	# 	var animation_name = "bounce" + str(direction)
-	# 	_player.play_spatial_animation(animation_name)
+	var animation_name = "bounce" + str(direction)
+	_player.play_spatial_animation(animation_name)
 
 
 func _take_player_health():
