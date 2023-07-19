@@ -21,3 +21,4 @@ res://animations/bounces/bounce0.res
 res://animations/bounces/bounce1.res
 res://animations/bounces/bounce2.res
 res://animations/bounces/bounce3.res
+res://scripts/platforms/Corner.gd
