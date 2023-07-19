@@ -16,9 +16,6 @@ enum PlafformDifficulty {
 
 var emission_color: Color
 
-var open_texture: Texture2D
-var close_texture: Texture2D
-
 var animation_direction: int
 var camera_rotation: int
 var starting_direction: int
@@ -29,17 +26,15 @@ var FULL_HEALTH = 24
 var FIVE_SEC_IN_FRAMES = 300
 
 var player_position: Vector3
+var player_can_move: bool = true
 
 var first_move: bool
-var perspective_mode: bool
 
 var player_health: float
 var animation_speed: float = 0.25
 
 var session_score: int
 var high_score: int
-var correct_moves: int
-var total_moves:int
 
 var categories_array = [
 	"HighScore",
@@ -63,22 +58,16 @@ func _ready():
 	var material_path = "res://materials/emission.tres"
 	var material_blue = load(material_path) as StandardMaterial3D
 
-	open_texture = load("res://assets/textures/Stats.png")
-	close_texture = load("res://assets/textures/Close.png")
-
 	emission_color = material_blue.emission
 	randomize()
 
 
 func new_game():
 	first_move = true
-	perspective_mode = false
 
 	player_health = FULL_HEALTH
 	session_score = 0
 	_cycles_count = 0
-	correct_moves = 0
-	total_moves = 0
 
 	animation_speed = 0.25
 	player_position = Vector3()
@@ -138,9 +127,6 @@ func get_emission_material(offset) -> StandardMaterial3D:
 	hue.emission = emission_color
 
 	hue.emission.h += offset
-
-	if perspective_mode:
-		hue.emission.h += 0.5
 
 	# Check cap
 	hue.emission.h = fposmod(hue.emission.h, 1)

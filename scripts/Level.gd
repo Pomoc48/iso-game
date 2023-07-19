@@ -13,9 +13,6 @@ var _max_difficulty_cycle = 20
 var _life_loss_rate = 0.04
 var _life_gain_rate = 2.0
 
-# var _is_player_dead = false
-# var _player_can_move = true
-
 var _inputs = [
 	"ui_up",
 	"ui_right",
@@ -61,10 +58,6 @@ func _physics_process(_delta):
 		_loose_health_on_tick()
 
 
-# func toggle_controls(enable):
-# 	_player_can_move = enable
-
-
 func check_move(direction):
 	# if not _player_can_move:
 	# 	return
@@ -88,13 +81,8 @@ func _translate_direction(direction) -> int:
 
 
 func _is_move_valid() -> bool:
-	Globals.total_moves += 1
-	
-	print(Globals.possible_moves)
-
 	for direction in Globals.possible_moves:
 		if Globals.animation_direction == direction:
-			Globals.correct_moves += 1
 			return true
 
 	return false

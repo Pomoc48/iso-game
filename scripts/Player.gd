@@ -1,19 +1,12 @@
 extends Node3D
 
-
-var _level
-
 var _bounce_particles: CPUParticles3D
 var _game_over_particles: CPUParticles3D
 var _body_particles: CPUParticles3D
 var _body_particles2: CPUParticles3D
 
-# var _result: bool
-
 
 func _ready():
-	_level = get_node("/root/Level")
-
 	_bounce_particles = get_node("Node3D/Bounce")
 	_game_over_particles = get_node("Node3D/GameOver")
 	_body_particles = get_node("Node3D/BodyP")
@@ -25,9 +18,13 @@ func animate_movement():
 	var my_position = Globals.get_future_position()
 	my_position.y = 2
 	
-	self.position = my_position
+	# self.position = my_position
 
-	# var speed = Globals.animation_speed
+	var speed = Globals.animation_speed
+	
+	var tween = self.create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "position", my_position, speed)
 	# _play_tween_animation("position", my_position, speed)
 
 
