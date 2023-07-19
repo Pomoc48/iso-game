@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cbnf5yg64ekl1"]
+[gd_scene load_steps=29 format=3 uid="uid://cbnf5yg64ekl1"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Environment" uid="uid://dgjm5sud0ne78" path="res://enviroments/defaultEnviroment.tres" id="2"]
@@ -28,6 +28,129 @@ cache/0/16/0/underline_position = 0.0
 cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/28/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/23/0/ascent = 0.0
+cache/0/23/0/descent = 0.0
+cache/0/23/0/underline_position = 0.0
+cache/0/23/0/underline_thickness = 0.0
+cache/0/23/0/scale = 1.0
+cache/0/23/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/23/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/32/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/48/0/ascent = 0.0
+cache/0/48/0/descent = 0.0
+cache/0/48/0/underline_position = 0.0
+cache/0/48/0/underline_thickness = 0.0
+cache/0/48/0/scale = 1.0
+cache/0/48/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/56/0/ascent = 0.0
+cache/0/56/0/descent = 0.0
+cache/0/56/0/underline_position = 0.0
+cache/0/56/0/underline_thickness = 0.0
+cache/0/56/0/scale = 1.0
+cache/0/56/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/56/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/64/0/ascent = 0.0
+cache/0/64/0/descent = 0.0
+cache/0/64/0/underline_position = 0.0
+cache/0/64/0/underline_thickness = 0.0
+cache/0/64/0/scale = 1.0
+cache/0/64/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/86/0/ascent = 0.0
+cache/0/86/0/descent = 0.0
+cache/0/86/0/underline_position = 0.0
+cache/0/86/0/underline_thickness = 0.0
+cache/0/86/0/scale = 1.0
+cache/0/86/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/86/0/kerning_overrides/72/0 = Vector2(0, 0)
+cache/0/72/0/ascent = 0.0
+cache/0/72/0/descent = 0.0
+cache/0/72/0/underline_position = 0.0
+cache/0/72/0/underline_thickness = 0.0
+cache/0/72/0/scale = 1.0
+cache/0/72/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/23/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/56/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/86/0 = Vector2(0, 0)
+cache/0/72/0/kerning_overrides/72/0 = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fpqne"]
+font_size = 72
 
 [sub_resource type="FontFile" id="34"]
 fallbacks = Array[Font]([ExtResource("18")])
@@ -40,6 +163,27 @@ cache/0/16/0/underline_position = 0.0
 cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/24/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/24/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/24/0/kerning_overrides/24/0 = Vector2(0, 0)
+cache/0/24/0/kerning_overrides/28/0 = Vector2(0, 0)
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/28/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/24/0 = Vector2(0, 0)
+cache/0/28/0/kerning_overrides/28/0 = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_h75dv"]
+font_size = 28
 
 [sub_resource type="SphereMesh" id="48"]
 material = ExtResource("3")
@@ -82,6 +226,39 @@ _data = {
 "bounce3": ExtResource("14_a52y5")
 }
 
+[sub_resource type="Animation" id="Animation_17e5o"]
+resource_name = "start"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Interface/Main/Left:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [1.5708, 0.628319]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Interface/Main/Right:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [-1.5708, -0.628319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2aik"]
+_data = {
+"start": SubResource("Animation_17e5o")
+}
+
 [node name="Level" type="Node3D"]
 script = ExtResource("7")
 
@@ -107,7 +284,7 @@ offset_left = 310.0
 offset_top = -630.0
 offset_right = 890.0
 offset_bottom = -380.0
-rotation = 0.628319
+rotation = 1.5708
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(-500, 0)
 
@@ -144,7 +321,7 @@ offset_left = -887.0
 offset_top = -626.0
 offset_right = -307.0
 offset_bottom = -376.0
-rotation = -0.628319
+rotation = -1.5708
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(1080, 0)
 
@@ -175,34 +352,39 @@ texture_pressed = ExtResource("20")
 clip_contents = true
 anchors_preset = 0
 anchor_right = 1.0
-offset_bottom = 8.0
+offset_top = -16.0
 
 [node name="Bar" type="ColorRect" parent="Interface/Main/Health"]
 clip_contents = true
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+color = Color(0, 0.878431, 0.878431, 1)
 
 [node name="Score" type="Label" parent="Interface/Main"]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.178
-offset_top = 20.0
-offset_right = -10.0
-offset_bottom = 64.88
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 32.0
+offset_right = 100.0
+offset_bottom = 132.0
+grow_horizontal = 2
 theme_override_fonts/font = SubResource("5")
-text = "45"
+label_settings = SubResource("LabelSettings_fpqne")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HighScore" type="Label" parent="Interface/Main"]
-layout_mode = 0
-anchor_right = 1.0
-offset_left = 748.0
-offset_top = -64.0
-offset_right = -32.0
-offset_bottom = -4.0
+layout_mode = 1
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 205.0
+offset_bottom = 71.0
 theme_override_fonts/font = SubResource("34")
 text = "HiScore: 120"
+label_settings = SubResource("LabelSettings_h75dv")
 
 [node name="Platforms" type="Node3D" parent="."]
 script = ExtResource("5")
@@ -274,7 +456,7 @@ tangential_accel_max = -10.0
 scale_amount_curve = SubResource("54")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 11, 8)
+transform = Transform3D(0.353553, 0.25, -0.25, 0, 0.353553, 0.353554, 0.353553, -0.25, 0.25, -8, 10.5, 8)
 projection = 1
 current = true
 fov = 65.0
@@ -292,6 +474,12 @@ environment = ExtResource("2")
 
 [node name="Decorations" type="Node3D" parent="."]
 script = ExtResource("6")
+
+[node name="TransitionPlayer" type="AnimationPlayer" parent="."]
+autoplay = "start"
+libraries = {
+"": SubResource("AnimationLibrary_h2aik")
+}
 
 [connection signal="button_down" from="Interface/Main/Left/Left" to="Interface" method="_on_left_button_down"]
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Interface" method="_on_right_button_down"]

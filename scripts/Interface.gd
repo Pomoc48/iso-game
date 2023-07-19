@@ -23,6 +23,7 @@ func _ready():
 	_health_bar_cr = get_node("Main/Health/Bar")
 
 	_get_screen_size()
+	update_healthbar_color()
 
 
 func calculate_healthbar():
@@ -35,24 +36,29 @@ func calculate_healthbar():
 	_health_bar.set_size(new_position, false)
 
 
-func calculate_perspective_bar(frames: float):
-	# Game physics runs 60f/s, 5s is 300f
-	frames /= -Globals.FIVE_SEC_IN_FRAMES
-	frames += 1
-
-	var new_size: float = _screen_size * frames
-	var new_position = Vector2(new_size, 16)
-
-	_health_bar.set_size(new_position, false)
-
-
 func update_score():
+	var tween = self.create_tween()
+	var speed = Globals.animation_speed / 2
+	# tween.set_trans(Tween.TRANS_EXPO)
+	
+	tween.tween_property(_score_label, "label_settings:font_size", 86, speed)
 	_score_label.text = str(Globals.session_score)
+	tween.tween_property(_score_label, "label_settings:font_size", 72, speed)
 
 
 func update_healthbar_color():
 	var hue = Globals.get_emission_material(0.25)
 	_health_bar_cr.color = hue.emission
+
+
+func show_healthbar():
+	var tween = self.create_tween()
+	tween.set_trans(Tween.TRANS_EXPO)
+	tween.tween_property(_health_bar, "position:y", 0, 0.5)
+
+
+func hide_healthbar():
+	_health_bar.position.y = -16
 
 
 func _get_screen_size():

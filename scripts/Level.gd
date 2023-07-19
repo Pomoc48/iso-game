@@ -102,6 +102,7 @@ func _correct_move():
 
 	if Globals.first_move:
 		Globals.first_move = false
+		_interface.show_healthbar()
 
 
 func _difficulty_increase():
