@@ -42,7 +42,7 @@ func clear_playfield():
 
 func _on_timer_timeout(timer):
 	remove_child(timer)
-	_place("Start")
+	_place("Start", true)
 	
 	_history = 4
 	_total = 1
@@ -62,13 +62,20 @@ func _get_type() -> String:
 	return types[3]
 
 
-func _place(type):
+func _place(type, override_position = false):
 	var platform_path = "res://scenes/platforms/"+type+".tscn"
 
 	var platform_block = load(platform_path) as PackedScene
 	var block_instance = platform_block.instantiate() as Node3D
 
-	block_instance.position = Globals.get_future_position()
+	if override_position:
+		var new_position = Globals.player_position
+		new_position.y = 0
+		
+		block_instance.position = new_position
+	else:
+		block_instance.position = Globals.get_future_position()
+		
 	add_child(block_instance)
 
 

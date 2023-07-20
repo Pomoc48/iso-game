@@ -17,9 +17,7 @@ func _ready():
 	_body_particles2 = get_node("Node3D/BodyCenterP")
 
 
-func animate_movement():
-	Globals.player_position = self.position
-	
+func animate_movement():	
 	var my_position = Globals.get_future_position()
 	my_position.y = 2
 
@@ -28,7 +26,12 @@ func animate_movement():
 	var tween = self.create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "position", my_position, speed)
-	tween.tween_callback(func(): Globals.player_can_move = true)
+	tween.tween_callback(_movement_callback)
+	
+	
+func _movement_callback():
+	Globals.player_can_move = true
+	Globals.player_position = position
 
 
 func update_color():
