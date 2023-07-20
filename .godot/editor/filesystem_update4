@@ -11,3 +11,8 @@ res://scripts/platforms/Long.gd
 res://scripts/platforms/Cross.gd
 res://scripts/platforms/Twoway.gd
 res://environments/defaultEnvironment.tres
+res://scripts/Player.gd
+res://scripts/PlatformSpace.gd
+res://scripts/Platform.gd
+res://scripts/Decorations.gd
+res://scripts/Cleaner.gd
