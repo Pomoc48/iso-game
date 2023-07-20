@@ -1,22 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bthvlvd6x3y6r"]
+[gd_scene load_steps=5 format=3 uid="uid://bthvlvd6x3y6r"]
 
 [ext_resource type="Script" path="res://scripts/platforms/Cross.gd" id="1"]
 [ext_resource type="Material" uid="uid://dfpo4albcak7l" path="res://materials/emission.tres" id="2"]
-[ext_resource type="Material" uid="uid://2auaqxfmyhao" path="res://materials/platform.tres" id="4"]
 [ext_resource type="Script" path="res://scripts/Platform.gd" id="5"]
-
-[sub_resource type="ArrayMesh" id="1"]
-resource_name = "cross_Plane012"
-_surfaces = [{
-"aabb": AABB(-10, 0, -10, 20, 1e-05, 20),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63),
-"format": 4119,
-"index_count": 30,
-"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0, 0, 0, 5, 0, 2, 0, 0, 0, 4, 0, 5, 0, 2, 0, 7, 0, 3, 0, 2, 0, 6, 0, 7, 0, 3, 0, 8, 0, 1, 0, 3, 0, 9, 0, 8, 0, 1, 0, 10, 0, 0, 0, 1, 0, 11, 0, 10, 0),
-"primitive": 3,
-"vertex_count": 12,
-"vertex_data": PackedByteArray(51, 51, 147, 192, 0, 0, 0, 0, 51, 51, 147, 64, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 64, 0, 0, 0, 0, 51, 51, 147, 64, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 192, 0, 0, 0, 0, 51, 51, 147, 192, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 64, 0, 0, 0, 0, 51, 51, 147, 192, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 32, 193, 0, 0, 0, 0, 51, 51, 147, 64, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 32, 193, 0, 0, 0, 0, 51, 51, 147, 192, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 32, 65, 0, 0, 0, 0, 51, 51, 147, 64, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 32, 65, 0, 0, 0, 0, 51, 51, 147, 192, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 192, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 64, 0, 0, 0, 0, 0, 0, 32, 65, 0, 0, 255, 127, 255, 255, 126, 191)
-}]
 
 [sub_resource type="ArrayMesh" id="2"]
 resource_name = "cross_Plane013"
@@ -36,12 +22,6 @@ script = ExtResource("1")
 
 [node name="Node3D" type="Node3D" parent="."]
 script = ExtResource("5")
-
-[node name="Plane" type="MeshInstance3D" parent="Node3D"]
-visible = false
-mesh = SubResource("1")
-skeleton = NodePath("")
-surface_material_override/0 = ExtResource("4")
 
 [node name="Border" type="MeshInstance3D" parent="Node3D"]
 mesh = SubResource("2")

@@ -18,3 +18,8 @@ res://scripts/Level.gd
 res://scripts/Globals.gd
 res://animations/bounces/bounce0.res
 res://animations/other/killcam.res
+res://scenes/platforms/TwoWay.tscn
+res://scenes/platforms/Start.tscn
+res://scenes/platforms/Long.tscn
+res://scenes/platforms/Cross.tscn
+res://scenes/platforms/Corner.tscn

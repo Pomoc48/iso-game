@@ -1,22 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cr0d4y3twe3r4"]
+[gd_scene load_steps=5 format=3 uid="uid://cr0d4y3twe3r4"]
 
 [ext_resource type="Material" uid="uid://dfpo4albcak7l" path="res://materials/emission.tres" id="1"]
-[ext_resource type="Material" uid="uid://2auaqxfmyhao" path="res://materials/platform.tres" id="2"]
 [ext_resource type="Script" path="res://scripts/platforms/Corner.gd" id="3"]
 [ext_resource type="Script" path="res://scripts/Platform.gd" id="5"]
-
-[sub_resource type="ArrayMesh" id="3"]
-resource_name = "corner_Plane008"
-_surfaces = [{
-"aabb": AABB(-10, 0, -10, 14.6, 1e-05, 14.6),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
-"format": 4119,
-"index_count": 18,
-"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0, 0, 0, 5, 0, 2, 0, 0, 0, 4, 0, 5, 0, 2, 0, 7, 0, 3, 0, 2, 0, 6, 0, 7, 0),
-"primitive": 3,
-"vertex_count": 8,
-"vertex_data": PackedByteArray(51, 51, 147, 192, 0, 0, 0, 0, 51, 51, 147, 64, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 64, 0, 0, 0, 0, 51, 51, 147, 64, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 192, 0, 0, 0, 0, 51, 51, 147, 192, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 64, 0, 0, 0, 0, 51, 51, 147, 192, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 32, 193, 0, 0, 0, 0, 51, 51, 147, 64, 0, 0, 255, 127, 255, 255, 126, 191, 0, 0, 32, 193, 0, 0, 0, 0, 51, 51, 147, 192, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 192, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191, 51, 51, 147, 64, 0, 0, 0, 0, 0, 0, 32, 193, 0, 0, 255, 127, 255, 255, 126, 191)
-}]
 
 [sub_resource type="ArrayMesh" id="4"]
 resource_name = "corner_Plane009"
@@ -37,12 +23,6 @@ script = ExtResource("3")
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("5")
-
-[node name="Plane" type="MeshInstance3D" parent="Node3D"]
-visible = false
-mesh = SubResource("3")
-skeleton = NodePath("")
-surface_material_override/0 = ExtResource("2")
 
 [node name="Border" type="MeshInstance3D" parent="Node3D"]
 mesh = SubResource("4")
