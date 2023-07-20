@@ -1,30 +1,32 @@
 [remap]
 
 importer="scene"
+importer_version=1
 type="PackedScene"
-path="res://.import/corner.glb-b749cab04434d51e46d1fcf3cd57f629.scn"
+uid="uid://cirja5tlkjydm"
+path="res://.godot/imported/corner.glb-b749cab04434d51e46d1fcf3cd57f629.scn"
 
 [deps]
 
 source_file="res://assets/glb imports/corner.glb"
-dest_files=[ "res://.import/corner.glb-b749cab04434d51e46d1fcf3cd57f629.scn" ]
+dest_files=["res://.godot/imported/corner.glb-b749cab04434d51e46d1fcf3cd57f629.scn"]
 
 [params]
 
-nodes/root_type="Spatial"
+nodes/root_type="Node3D"
 nodes/root_name="Scene Root"
+nodes/apply_root_scale=true
 nodes/root_scale=1.0
-nodes/custom_script=""
-nodes/storage=0
-nodes/use_legacy_names=false
-materials/location=1
-materials/storage=1
-materials/keep_on_reimport=true
-meshes/octahedral_compression=true
-meshes/compress=4286
 meshes/ensure_tangents=true
-meshes/storage=0
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
 meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
 skins/use_named_skins=true
-external_files/store_in_subdir=false
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+import_script/path=""
+_subresources={}
+gltf/embedded_image_handling=1

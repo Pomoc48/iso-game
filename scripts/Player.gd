@@ -1,37 +1,39 @@
-extends Spatial
+extends Node3D
 
+var _bounce_particles: CPUParticles3D
+var _game_over_particles: CPUParticles3D
+var _body_particles: CPUParticles3D
+var _body_particles2: CPUParticles3D
 
-var _level
-
-var _tween: Tween
-var _animation: AnimationPlayer
-
-var _bounce_particles: CPUParticles
-var _game_over_particles: CPUParticles
-var _body_particles: CPUParticles
-var _body_particles2: CPUParticles
-
-var _result: bool
+var _bounce_player: AnimationPlayer
+var _kill_cam_player: AnimationPlayer
 
 
 func _ready():
-	_level = get_node("/root/Level")
-
-	_tween = get_node("Tween")
-	_animation = get_node("SpatialAnim")
-
-	_bounce_particles = get_node("Spatial/Bounce")
-	_game_over_particles = get_node("Spatial/GameOver")
-	_body_particles = get_node("Spatial/BodyP")
-	_body_particles2 = get_node("Spatial/BodyCenterP")
+	_bounce_player = get_node("BouncePlayer")
+	_kill_cam_player = get_node("KillCamPlayer")
+	
+	_bounce_particles = get_node("Node3D/Bounce")
+	_game_over_particles = get_node("Node3D/GameOver")
+	_body_particles = get_node("Node3D/BodyP")
+	_body_particles2 = get_node("Node3D/BodyCenterP")
 
 
-func animate_movement():
-	var position = Globals.get_future_position()
-	position.y = 2
+func animate_movement():	
+	var my_position = Globals.get_future_position()
+	my_position.y = 2
 
 	var speed = Globals.animation_speed
-	_play_tween_animation("translation", position, speed)
+	
+	var tween = self.create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "position", my_position, speed)
+	tween.tween_callback(_movement_callback)
+	
+	
+func _movement_callback():
+	Globals.player_can_move = true
+	Globals.player_position = position
 
 
 func update_color():
@@ -46,11 +48,11 @@ func update_color():
 
 
 func play_spatial_animation(animation):
-	if _animation.is_playing():
-		if _is_game_over_animation(animation):
-			_play_game_over_animation(animation)
-	else:
-		_animation.play(animation)
+	_bounce_player.play(animation)
+	
+
+func play_kill_cam():
+	_kill_cam_player.play("killcam")
 
 
 func rotate_camera_by(rotations):
@@ -61,24 +63,9 @@ func rotate_camera_by(rotations):
 	else:
 		Globals.camera_rotation -= rotations
 
-	# Globals.camera_rotation = posmod(Globals.camera_rotation, 3)
-	# Can improve
+	Globals.camera_rotation = posmod(Globals.camera_rotation, 4)
 
-	if Globals.camera_rotation > 3:
-		Globals.camera_rotation -= 4
-
-	if Globals.camera_rotation < 0:
-		Globals.camera_rotation += 4
-
-	_level.toggle_controls(false)
 	_play_camera_rotation_animation(clockwise, rotations)
-
-
-func _play_game_over_animation(animation):
-	_animation.stop()
-	# Fix particles rarely emitting non stop after game over
-	_bounce_particles.emitting = false
-	_animation.play(animation)
 
 
 func _play_camera_rotation_animation(clockwise, rotations):
@@ -92,29 +79,13 @@ func _play_camera_rotation_animation(clockwise, rotations):
 		new_rotation.y += rotate_by
 	else:
 		new_rotation.y -= rotate_by
-
-	_play_tween_animation("rotation_degrees", new_rotation, time)
-
-
-func _play_tween_animation(type, new_vector, time):
-	_result = _tween.interpolate_property(self, type, null,
-			new_vector, time, Tween.TRANS_SINE)
-	_result = _tween.start()
+		
+	var tween = self.create_tween()
+	
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "rotation_degrees", new_rotation, time)
+	tween.tween_callback(func(): Globals.player_can_move = true)
 
 
-func _is_game_over_animation(animation) -> bool:
-	return animation == "camera_up" or animation == "camera_up_long"
-
-
-# Reenable controls
-func _on_tween_animation_finished():
-	# Update global position at the end of animation
-	Globals.player_position = self.translation
-	_level.toggle_controls(true)
-
-
-func _on_spatial_animation_finished(animation):
-	if _is_game_over_animation(animation):
-		_result = get_tree().reload_current_scene()
-	else:
-		_level.toggle_controls(true)
+func _on_bounce_player_animation_finished(_anim_name):
+	Globals.player_can_move = true

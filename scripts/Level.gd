@@ -1,23 +1,18 @@
-extends Spatial
+extends Node3D
 
 
 var _player
 var _interface
 var _platforms
-var _statistics
 
-var _frame_count = 0
-var _failed_frame_count = 0
 var _difficulty_cycle = 0
 var _speedup_counter = 0
 
-var _increase_score_by = 1
 var _max_difficulty_cycle = 20
 var _life_loss_rate = 0.04
 var _life_gain_rate = 2.0
 
 var _is_player_dead = false
-var _player_can_move = false
 
 var _inputs = [
 	"ui_up",
@@ -30,7 +25,6 @@ var _inputs = [
 func _ready():
 	_player = get_node("Player")
 	_interface = get_node("Interface")
-	_statistics = _interface.get_node("Main/StatsButton")
 	_platforms = get_node("Platforms")
 
 	Globals.new_game()
@@ -60,23 +54,16 @@ func _process(_delta):
 func _physics_process(_delta):
 	if Globals.player_health <= 0 and not _is_player_dead:
 		_game_over()
-
-	if not Globals.perspective_mode and not Globals.first_move:
+		
+	if not Globals.first_move and not _is_player_dead:
 		_loose_health_on_tick()
-
-	if Globals.perspective_mode:
-		_calculate_perspective_frames()
-
-
-func toggle_controls(enable):
-	_player_can_move = enable
 
 
 func check_move(direction):
-	if not _player_can_move:
+	if not Globals.player_can_move:
 		return
 
-	toggle_controls(false)
+	Globals.player_can_move = false;
 	Globals.animation_direction = _translate_direction(direction)
 
 	if _is_move_valid():
@@ -93,11 +80,8 @@ func _translate_direction(direction) -> int:
 
 
 func _is_move_valid() -> bool:
-	Globals.total_moves += 1
-
 	for direction in Globals.possible_moves:
 		if Globals.animation_direction == direction:
-			Globals.correct_moves += 1
 			return true
 
 	return false
@@ -106,10 +90,9 @@ func _is_move_valid() -> bool:
 func _correct_move():
 	_player.animate_movement()
 
-	Globals.session_score += _increase_score_by
+	Globals.session_score += 1
 	_interface.update_score()
 
-	_roll_perspective_mode()
 	Globals.update_emission_material()
 
 	_platforms.generate()
@@ -121,11 +104,7 @@ func _correct_move():
 
 	if Globals.first_move:
 		Globals.first_move = false
-
-
-func _roll_perspective_mode():
-	if not Globals.perspective_mode:
-		_check_perspective_mode_chances(randi() % 100)
+		_interface.show_healthbar()
 
 
 func _difficulty_increase():
@@ -162,22 +141,8 @@ func _get_random_rotation_ammount() -> int:
 		return 1
 
 
-func _check_perspective_mode_chances(chance):
-	# 1% chance to activate special mode after 20 moves
-	if chance < 1 and _failed_frame_count >= 20:
-		_enable_perspective_mode()
-		return
-
-	_failed_frame_count += 1
-
-	# Quadruple the chances after unlucky 100 moves
-	if chance < 4 and _failed_frame_count >= 100:
-		_enable_perspective_mode()
-
-
-func _wrong_move(direction):
-	if not Globals.perspective_mode:
-		_take_player_health()
+func _wrong_move(direction):	
+	_take_player_health()
 
 	if not _is_player_dead:
 		var animation_name = "bounce" + str(direction)
@@ -197,55 +162,32 @@ func _loose_health_on_tick():
 	_interface.calculate_healthbar()
 
 
-func _calculate_perspective_frames():
-	_frame_count += 1
-	_interface.calculate_perspective_bar(_frame_count)
-
-	if _frame_count >= Globals.FIVE_SEC_IN_FRAMES:
-		_frame_count = 0
-		_disable_perspective_mode()
-
-
 func _give_player_health(ammount):
 	var new_health = Globals.player_health + ammount
 	Globals.player_health = clamp(new_health, 0, Globals.FULL_HEALTH)
 
 
-func _enable_perspective_mode():
-	_failed_frame_count = 0
-	Globals.perspective_mode = true
-
-	_interface.play_interface_animation("blind_perspective")
-	_interface.calculate_healthbar()
-
-	_give_player_health(Globals.FULL_HEALTH)
-	_increase_score_by = 2
-
-
-func _disable_perspective_mode():
-	_interface.play_interface_animation("blind_orthogonal")
-	Globals.perspective_mode = false
-	_increase_score_by = 1
-
-
 func _game_over():
-	_is_player_dead = true
-	toggle_controls(false)
-
 	if Globals.session_score > Globals.high_score:
-		Globals.high_score = Globals.session_score
-		_play_outro_animation_highscore()
-	else:
-		_play_outro_animation()
-
-	_statistics.upload()
-
-
-func _play_outro_animation():
-	_interface.play_interface_animation("ui_hide")
-	_player.play_spatial_animation("camera_up")
+		_interface.save_high_score(Globals.session_score)
+		
+	_is_player_dead = true
+	
+	Globals.player_can_move = false
+	_interface.hide_healthbar()
+	
+	_player.play_kill_cam()
+	_platforms.clear_playfield()
 
 
-func _play_outro_animation_highscore():
-	_interface.play_interface_animation("ui_hide_highscore")
-	_player.play_spatial_animation("camera_up_long")
+func new_game():
+	Globals.new_game()
+	
+	_difficulty_cycle = Globals.get_next_cycle(_max_difficulty_cycle);
+	_speedup_counter = 0
+
+	_max_difficulty_cycle = 20
+	_life_loss_rate = 0.04
+	_life_gain_rate = 2.0
+
+	_is_player_dead = false
