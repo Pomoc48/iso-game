@@ -171,7 +171,7 @@ func _game_over():
 	_is_player_dead = true
 	
 	Globals.player_can_move = false
-	_interface.calculate_healthbar()
+	_interface.hide_healthbar()
 	
 	_player.play_kill_cam()
 	_platforms.clear_playfield()
