@@ -6,10 +6,12 @@ var _body_particles: CPUParticles3D
 var _body_particles2: CPUParticles3D
 
 var _bounce_player: AnimationPlayer
+var _kill_cam_player: AnimationPlayer
 
 
 func _ready():
 	_bounce_player = get_node("BouncePlayer")
+	_kill_cam_player = get_node("KillCamPlayer")
 	
 	_bounce_particles = get_node("Node3D/Bounce")
 	_game_over_particles = get_node("Node3D/GameOver")
@@ -47,6 +49,10 @@ func update_color():
 
 func play_spatial_animation(animation):
 	_bounce_player.play(animation)
+	
+
+func play_kill_cam():
+	_kill_cam_player.play("killcam")
 
 
 func rotate_camera_by(rotations):
@@ -60,13 +66,6 @@ func rotate_camera_by(rotations):
 	Globals.camera_rotation = posmod(Globals.camera_rotation, 4)
 
 	_play_camera_rotation_animation(clockwise, rotations)
-
-
-# func _play_game_over_animation(animation):
-# 	_animation.stop()
-# 	# Fix particles rarely emitting non stop after game over
-# 	_bounce_particles.emitting = false
-# 	_animation.play(animation)
 
 
 func _play_camera_rotation_animation(clockwise, rotations):
@@ -86,10 +85,6 @@ func _play_camera_rotation_animation(clockwise, rotations):
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "rotation_degrees", new_rotation, time)
 	tween.tween_callback(func(): Globals.player_can_move = true)
-
-
-# func _is_game_over_animation(animation) -> bool:
-# 	return animation == "camera_up" or animation == "camera_up_long"
 
 
 func _on_bounce_player_animation_finished(_anim_name):

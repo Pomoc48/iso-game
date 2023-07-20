@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cbnf5yg64ekl1"]
+[gd_scene load_steps=28 format=3 uid="uid://cbnf5yg64ekl1"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 [ext_resource type="Environment" uid="uid://dgjm5sud0ne78" path="res://enviroments/defaultEnviroment.tres" id="2"]
@@ -13,6 +13,7 @@
 [ext_resource type="Animation" uid="uid://bo0qaabbglgkm" path="res://animations/bounces/bounce2.res" id="13_ml68a"]
 [ext_resource type="PackedScene" uid="uid://bhh12kygm4q0h" path="res://scenes/platforms/Start.tscn" id="14"]
 [ext_resource type="Animation" uid="uid://bbwppl6j23w1e" path="res://animations/bounces/bounce3.res" id="14_a52y5"]
+[ext_resource type="Animation" uid="uid://clu8tjuykq3mq" path="res://animations/other/killcam.res" id="15_l45jc"]
 [ext_resource type="FontFile" uid="uid://b5y15b7snm3bt" path="res://assets/fonts/montreal/Montreal-Bold.ttf" id="18"]
 [ext_resource type="Texture2D" uid="uid://bsipedq2k44on" path="res://assets/textures/Arrow2.png" id="20"]
 [ext_resource type="Curve" uid="uid://bln8on8w0c1ur" path="res://curves/scale.tres" id="32"]
@@ -187,22 +188,15 @@ font_size = 28
 
 [sub_resource type="SphereMesh" id="48"]
 material = ExtResource("3")
-radius = 0.2
-height = 0.4
-radial_segments = 8
-rings = 4
-
-[sub_resource type="SphereMesh" id="49"]
-material = ExtResource("3")
-radius = 0.1
-height = 0.2
+radius = 0.3
+height = 0.6
 radial_segments = 8
 rings = 4
 
 [sub_resource type="SphereMesh" id="50"]
 material = ExtResource("3")
-radius = 0.2
-height = 0.4
+radius = 0.15
+height = 0.3
 radial_segments = 8
 rings = 4
 
@@ -226,37 +220,9 @@ _data = {
 "bounce3": ExtResource("14_a52y5")
 }
 
-[sub_resource type="Animation" id="Animation_17e5o"]
-resource_name = "start"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Interface/Main/Left:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [1.5708, 0.628319]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Interface/Main/Right:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [-1.5708, -0.628319]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2aik"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l4eng"]
 _data = {
-"start": SubResource("Animation_17e5o")
+"killcam": ExtResource("15_l45jc")
 }
 
 [node name="Level" type="Node3D"]
@@ -284,7 +250,7 @@ offset_left = 310.0
 offset_top = -630.0
 offset_right = 890.0
 offset_bottom = -380.0
-rotation = 1.5708
+rotation = 0.628319
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(-500, 0)
 
@@ -321,7 +287,7 @@ offset_left = -887.0
 offset_top = -626.0
 offset_right = -307.0
 offset_bottom = -376.0
-rotation = -1.5708
+rotation = -0.628319
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(1080, 0)
 
@@ -412,16 +378,18 @@ scale_amount_curve = ExtResource("32")
 
 [node name="GameOver" type="CPUParticles3D" parent="Player/Node3D"]
 emitting = false
-amount = 80
+amount = 64
 explosiveness = 1.0
-mesh = SubResource("49")
+mesh = SubResource("48")
 direction = Vector3(0, 0, 0)
 spread = 180.0
 gravity = Vector3(0, 0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
 scale_amount_curve = ExtResource("32")
 
 [node name="BodyP" type="CPUParticles3D" parent="Player/Node3D"]
-amount = 32
+amount = 48
 lifetime = 0.75
 fract_delta = false
 mesh = SubResource("50")
@@ -469,17 +437,16 @@ libraries = {
 "": SubResource("AnimationLibrary_5ptjb")
 }
 
+[node name="KillCamPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+"": SubResource("AnimationLibrary_l4eng")
+}
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("2")
 
 [node name="Decorations" type="Node3D" parent="."]
 script = ExtResource("6")
-
-[node name="TransitionPlayer" type="AnimationPlayer" parent="."]
-autoplay = "start"
-libraries = {
-"": SubResource("AnimationLibrary_h2aik")
-}
 
 [connection signal="button_down" from="Interface/Main/Left/Left" to="Interface" method="_on_left_button_down"]
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Interface" method="_on_right_button_down"]

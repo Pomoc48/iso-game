@@ -16,3 +16,5 @@ res://scripts/Platform.gd
 res://scripts/PlatformSpace.gd
 res://scripts/Level.gd
 res://scripts/Globals.gd
+res://animations/bounces/bounce0.res
+res://animations/other/killcam.res

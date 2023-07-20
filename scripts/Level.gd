@@ -55,7 +55,7 @@ func _physics_process(_delta):
 	if Globals.player_health <= 0 and not _is_player_dead:
 		_game_over()
 		
-	if not Globals.first_move:
+	if not Globals.first_move and not _is_player_dead:
 		_loose_health_on_tick()
 
 
@@ -144,9 +144,9 @@ func _get_random_rotation_ammount() -> int:
 func _wrong_move(direction):	
 	_take_player_health()
 
-	# if not _is_player_dead:
-	var animation_name = "bounce" + str(direction)
-	_player.play_spatial_animation(animation_name)
+	if not _is_player_dead:
+		var animation_name = "bounce" + str(direction)
+		_player.play_spatial_animation(animation_name)
 
 
 func _take_player_health():
@@ -169,8 +169,11 @@ func _give_player_health(ammount):
 
 func _game_over():
 	_is_player_dead = true
-	Globals.player_can_move = false
 	
+	Globals.player_can_move = false
+	_interface.calculate_healthbar()
+	
+	_player.play_kill_cam()
 	_platforms.clear_playfield()
 
 
