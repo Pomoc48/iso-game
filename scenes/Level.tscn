@@ -1,7 +1,6 @@
 [gd_scene load_steps=28 format=3 uid="uid://cbnf5yg64ekl1"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
-[ext_resource type="Environment" uid="uid://dgjm5sud0ne78" path="res://enviroments/defaultEnviroment.tres" id="2"]
 [ext_resource type="Material" uid="uid://dfpo4albcak7l" path="res://materials/emission.tres" id="3"]
 [ext_resource type="Script" path="res://scripts/Interface.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/PlatformSpace.gd" id="5"]
@@ -14,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bhh12kygm4q0h" path="res://scenes/platforms/Start.tscn" id="14"]
 [ext_resource type="Animation" uid="uid://bbwppl6j23w1e" path="res://animations/bounces/bounce3.res" id="14_a52y5"]
 [ext_resource type="Animation" uid="uid://clu8tjuykq3mq" path="res://animations/other/killcam.res" id="15_l45jc"]
+[ext_resource type="Environment" uid="uid://dgjm5sud0ne78" path="res://environments/defaultEnvironment.tres" id="16_q75gn"]
 [ext_resource type="FontFile" uid="uid://b5y15b7snm3bt" path="res://assets/fonts/montreal/Montreal-Bold.ttf" id="18"]
 [ext_resource type="Texture2D" uid="uid://bsipedq2k44on" path="res://assets/textures/Arrow2.png" id="20"]
 [ext_resource type="Curve" uid="uid://bln8on8w0c1ur" path="res://curves/scale.tres" id="32"]
@@ -351,6 +351,9 @@ offset_bottom = 71.0
 theme_override_fonts/font = SubResource("34")
 label_settings = SubResource("LabelSettings_h75dv")
 
+[node name="Decorations" type="Node3D" parent="."]
+script = ExtResource("6")
+
 [node name="Platforms" type="Node3D" parent="."]
 script = ExtResource("5")
 
@@ -442,10 +445,7 @@ libraries = {
 }
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource("2")
-
-[node name="Decorations" type="Node3D" parent="."]
-script = ExtResource("6")
+environment = ExtResource("16_q75gn")
 
 [connection signal="button_down" from="Interface/Main/Left/Left" to="Interface" method="_on_left_button_down"]
 [connection signal="button_down" from="Interface/Main/Left/Right" to="Interface" method="_on_right_button_down"]
