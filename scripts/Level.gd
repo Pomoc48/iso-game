@@ -168,6 +168,9 @@ func _give_player_health(ammount):
 
 
 func _game_over():
+	if Globals.session_score > Globals.high_score:
+		_interface.save_high_score(Globals.session_score)
+		
 	_is_player_dead = true
 	
 	Globals.player_can_move = false

@@ -46,9 +46,6 @@ var categories_array = [
 
 
 var _cycles_count: int
-var _result: bool
-
-var _config_file = ConfigFile.new()
 
 var _FULL_MOVE = 20;
 var _CHANGE_HUE_BY = 0.0016;
@@ -72,21 +69,6 @@ func new_game():
 
 	animation_speed = 0.25
 	platform_diff = PlafformDifficulty.EASY
-
-
-func save_stats(categories, values):
-	for i in categories.size():
-		_config_file.set_value("Main", categories[i], values[i])
-
-	_result =_config_file.save("user://config")
-
-
-func load_stats(category) -> int:
-	if _config_file.load("user://config") != OK:
-		var values = [0, 0, 0, 0, 0]
-		save_stats(categories_array, values)
-
-	return _config_file.get_value("Main", category, 0)
 
 
 func get_random_bool() -> bool:

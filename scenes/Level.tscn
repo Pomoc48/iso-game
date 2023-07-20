@@ -349,7 +349,6 @@ offset_top = 32.0
 offset_right = 205.0
 offset_bottom = 71.0
 theme_override_fonts/font = SubResource("34")
-text = "HiScore: 120"
 label_settings = SubResource("LabelSettings_h75dv")
 
 [node name="Platforms" type="Node3D" parent="."]
