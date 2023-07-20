@@ -17,7 +17,7 @@ enum PlafformDifficulty {
 var emission_color: Color
 
 var animation_direction: int
-var camera_rotation: int
+var camera_rotation: int = Direction.LEFT_UP
 var starting_direction: int
 var platform_diff: int
 var possible_moves: Array
@@ -64,14 +64,13 @@ func _ready():
 
 func new_game():
 	first_move = true
+	player_can_move = true
 
 	player_health = FULL_HEALTH
 	session_score = 0
 	_cycles_count = 0
 
 	animation_speed = 0.25
-	player_position = Vector3()
-	camera_rotation = Direction.LEFT_UP
 	platform_diff = PlafformDifficulty.EASY
 
 

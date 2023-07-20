@@ -1,6 +1,9 @@
 extends Node3D
 
 
+var _level
+
+
 var _history = 4
 var _total = 1
 
@@ -11,12 +14,40 @@ var _chances = [
 ]
 
 
+func _ready():
+	_level = get_node("../")
+
+
 func generate():
 	_place(_get_type())
 	_total += 1
 
 	if _total >= _history:
 		_remove_old()
+		
+
+func clear_playfield():
+	get_children().map(_play_fade)
+	
+	var timer = Timer.new()
+	
+	timer.wait_time = Globals.animation_speed * 2
+	timer.one_shot = true
+	timer.autostart = true
+	
+	timer.connect("timeout", func(): _on_timer_timeout(timer))
+	
+	add_child(timer)
+	
+
+func _on_timer_timeout(timer):
+	remove_child(timer)
+	_place("Start")
+	
+	_history = 4
+	_total = 1
+	
+	_level.new_game()
 
 
 func _get_type() -> String:
@@ -46,4 +77,8 @@ func _remove_old():
 	var child = self.get_child(child_index) as Node3D
 
 	_total -= 1
-	child.get_node("Node3D").play_fade_out_animation()
+	_play_fade(child)
+
+
+func _play_fade(node):
+	node.get_node("Node3D").play_fade_out_animation()

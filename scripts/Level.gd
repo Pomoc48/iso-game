@@ -12,6 +12,8 @@ var _max_difficulty_cycle = 20
 var _life_loss_rate = 0.04
 var _life_gain_rate = 2.0
 
+var _is_player_dead = false
+
 var _inputs = [
 	"ui_up",
 	"ui_right",
@@ -50,9 +52,9 @@ func _process(_delta):
 
 
 func _physics_process(_delta):
-	# if Globals.player_health <= 0 and not _is_player_dead:
-	# 	_game_over()
-
+	if Globals.player_health <= 0 and not _is_player_dead:
+		_game_over()
+		
 	if not Globals.first_move:
 		_loose_health_on_tick()
 
@@ -151,8 +153,8 @@ func _take_player_health():
 	if not Globals.first_move:
 		Globals.player_health -= 10
 
-	# if Globals.player_health <= 0 and not _is_player_dead:
-	# 	_game_over()
+	if Globals.player_health <= 0 and not _is_player_dead:
+		_game_over()
 
 
 func _loose_health_on_tick():
@@ -165,13 +167,21 @@ func _give_player_health(ammount):
 	Globals.player_health = clamp(new_health, 0, Globals.FULL_HEALTH)
 
 
-# func _game_over():
-# 	_is_player_dead = true
-# 	# toggle_controls(false)
+func _game_over():
+	_is_player_dead = true
+	Globals.player_can_move = false
 	
-# 	_play_outro_animation()
+	_platforms.clear_playfield()
 
 
-# func _play_outro_animation():
-# 	_interface.play_interface_animation("ui_hide")
-# 	_player.play_spatial_animation("camera_up")
+func new_game():
+	Globals.new_game()
+	
+	_difficulty_cycle = Globals.get_next_cycle(_max_difficulty_cycle);
+	_speedup_counter = 0
+
+	_max_difficulty_cycle = 20
+	_life_loss_rate = 0.04
+	_life_gain_rate = 2.0
+
+	_is_player_dead = false
