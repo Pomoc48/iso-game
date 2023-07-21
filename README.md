@@ -4,7 +4,7 @@ Simple mobile game with orthogonal camera projection.
 \
 Made using the [Godot Engine](https://godotengine.org/).
 
-![Alt Game screenshot](https://github.com/Pomoc48/godot/blob/main/assets/screenshots/screenshot.jpg)
+![Game Screenshot](/assets/screenshots/screenshot.jpg)
 
 ## Gameplay
 
