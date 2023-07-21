@@ -87,6 +87,9 @@ common/enable_object_picking=false
 
 [rendering]
 
+renderer/rendering_method="mobile"
+renderer/rendering_method.web="mobile"
+textures/vram_compression/import_etc2_astc=true
 shading/overrides/force_vertex_shading.mobile=false
 shading/overrides/force_lambert_over_burley=true
 quality/driver/driver_name="GLES2"

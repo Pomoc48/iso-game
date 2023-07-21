@@ -1,0 +1,11 @@
+res://curves/scale.tres::1e42704f0b2138b718c41dae9596c57f::1689951604::res://.godot/exported/133200997/export-71312f3729a0957055365001d9c335ae-scale.res
+res://environments/defaultEnvironment.tres::41e106c4b8da4397c26be620c21a947c::1689874999::res://.godot/exported/133200997/export-4518a4f22daf372e27bc0ce65bff5556-defaultEnvironment.res
+res://materials/emission.tres::fa2a51456e784674d0e07fe5bb6a1690::1689951604::res://.godot/exported/133200997/export-e399b25a8595afa9bd21a160d23a1b02-emission.res
+res://materials/platform.tres::bfb5b46a59ee8ee179d66a8d5bf4d544::1689874999::res://.godot/exported/133200997/export-a37cc08e6c86832d9d9542bc4e925b32-platform.res
+res://scenes/platforms/Corner.tscn::e33823b488aa858924ebe290d56abe78::1689874999::res://.godot/exported/133200997/export-ca1a83d6190f9ac33d41d40ab3d8a35d-Corner.scn
+res://scenes/platforms/Cross.tscn::8385fd6a7625ba75a8cb7381a8b8d2cd::1689874999::res://.godot/exported/133200997/export-f5c993acc552d8c2474e29703b2cb524-Cross.scn
+res://scenes/platforms/Long.tscn::b6e769632860e041325a287257c187bf::1689874999::res://.godot/exported/133200997/export-2f5790d9e88e10a3ba6db58e376a1bb8-Long.scn
+res://scenes/platforms/Start.tscn::fcc7bf45ad8a9a22f7be64da288779cb::1689874999::res://.godot/exported/133200997/export-a5079a02672c5da0fb360b1c25d12f39-Start.scn
+res://scenes/platforms/TwoWay.tscn::5ef0ae9e9538d2ab0f3fa54749f2ff49::1689874999::res://.godot/exported/133200997/export-8d6b4d0489f7c22d8f73f4a718396926-TwoWay.scn
+res://scenes/Block.tscn::39cf054282dc14e3ffccf861caf05afc::1689874999::res://.godot/exported/133200997/export-9626f509a61b14a25418cc612a391b48-Block.scn
+res://scenes/Level.tscn::27d51d11b87f746aa33ec7c14a17b1b3::1689951604::res://.godot/exported/133200997/export-efc91dfb3eae5c85fe69be7afcad9576-Level.scn
