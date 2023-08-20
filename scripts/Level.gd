@@ -4,6 +4,7 @@ extends Node3D
 var _player
 var _interface
 var _platforms
+var _loop_player: AudioStreamPlayer
 
 var _difficulty_cycle = 0
 var _speedup_counter = 0
@@ -26,6 +27,7 @@ func _ready():
 	_player = get_node("Player")
 	_interface = get_node("Interface")
 	_platforms = get_node("Platforms")
+	_loop_player = get_node("LoopPlayer")
 
 	Globals.new_game()
 	_difficulty_cycle = Globals.get_next_cycle(_max_difficulty_cycle);
@@ -191,3 +193,12 @@ func new_game():
 	_life_gain_rate = 2.0
 
 	_is_player_dead = false
+
+
+func _on_intro_player_finished():
+	_loop_player.play();
+
+
+func _on_loop_player_finished():
+	pass;
+	# _loop_player.play();

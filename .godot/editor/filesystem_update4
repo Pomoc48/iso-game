@@ -1,3 +1,6 @@
+res://scripts/Player.gd
 res://scenes/Level.tscn
 res://materials/emission.tres
 res://curves/scale.tres
+res://scripts/Level.gd
+res://default_bus_layout.tres
