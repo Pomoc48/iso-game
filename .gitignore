@@ -2,3 +2,7 @@
 
 release.apk
 release.apk.idsig
+
+.godot/shader_cache/
+.godot/editor/filesystem_cache8
+.godot/uid_cache.bin
